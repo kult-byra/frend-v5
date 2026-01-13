@@ -10,7 +10,8 @@ const pluginConfigKeys = [
   {
     key: "hubspotApiSecret",
     title: "API Secret",
-    description: "Delt hemmelighet for autentisering mot API-et. Generer en tilfeldig streng (f.eks. 64 tegn).",
+    description:
+      "Delt hemmelighet for autentisering mot API-et. Generer en tilfeldig streng (f.eks. 64 tegn).",
   },
   {
     key: "hubspotPortalId",
@@ -37,4 +38,3 @@ export const useHubspotSecrets = () => {
 
   return secrets;
 };
-

@@ -20,7 +20,8 @@ export const hubspotFormSchema = defineType({
     defineField({
       name: "formId",
       title: "HubSpot-skjema",
-      description: "Velg et skjema fra HubSpot. Skjemaet vil rendres med Frends design på nettsiden.",
+      description:
+        "Velg et skjema fra HubSpot. Skjemaet vil rendres med Frends design på nettsiden.",
       type: "string",
       components: {
         input: HubspotFormInput,
@@ -41,4 +42,3 @@ export const hubspotFormSchema = defineType({
     },
   },
 });
-

@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
     if (!requestSecret) {
       return NextResponse.json(
         { error: "Missing X-API-Secret header" },
-        { status: 401, headers: CORS_HEADERS }
+        { status: 401, headers: CORS_HEADERS },
       );
     }
 
@@ -66,14 +66,14 @@ export async function GET(request: NextRequest) {
     if (!secrets?.hubspotApiSecret) {
       return NextResponse.json(
         { error: "HubSpot API secret not configured in Sanity" },
-        { status: 500, headers: CORS_HEADERS }
+        { status: 500, headers: CORS_HEADERS },
       );
     }
 
     if (requestSecret !== secrets.hubspotApiSecret) {
       return NextResponse.json(
         { error: "Invalid API secret" },
-        { status: 401, headers: CORS_HEADERS }
+        { status: 401, headers: CORS_HEADERS },
       );
     }
 
@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json(
         { error: errorMessage },
-        { status: response.status, headers: CORS_HEADERS }
+        { status: response.status, headers: CORS_HEADERS },
       );
     }
 
@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
       console.error("Failed to parse HubSpot response:", parseResult.error);
       return NextResponse.json(
         { error: "Invalid response from HubSpot API" },
-        { status: 502, headers: CORS_HEADERS }
+        { status: 502, headers: CORS_HEADERS },
       );
     }
 
@@ -113,13 +113,13 @@ export async function GET(request: NextRequest) {
         results: parseResult.data.results,
         portalId: env.HUBSPOT_PORTAL_ID,
       },
-      { headers: CORS_HEADERS }
+      { headers: CORS_HEADERS },
     );
   } catch (error) {
     console.error("Error fetching HubSpot forms:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500, headers: CORS_HEADERS }
+      { status: 500, headers: CORS_HEADERS },
     );
   }
 }

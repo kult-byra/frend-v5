@@ -227,6 +227,16 @@ export type Person = {
   name: string;
 };
 
+export type HubspotForm = {
+  _id: string;
+  _type: "hubspotForm";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  formId: string;
+};
+
 export type CallToActionBlock = {
   _type: "callToAction.block";
   heading: string;
@@ -608,7 +618,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Person | CallToActionBlock | Figure | AccordionBlock | ImageAndTextBlock | Article | FrontPage | Page | Slug | ArticleArchive | ArticleArchiveReference | ArticleReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Person | HubspotForm | CallToActionBlock | Figure | AccordionBlock | ImageAndTextBlock | Article | FrontPage | Page | Slug | ArticleArchive | ArticleArchiveReference | ArticleReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/app/(site)/image-test/page.tsx
 // Variable: imageOnlyQuery
@@ -638,6 +648,11 @@ export type ImageOnlyQueryResult = {
 // Variable: fathomSecretsQuery
 // Query: *[_id == $id][0].secrets
 export type FathomSecretsQueryResult = null;
+
+// Source: ./src/lib/hubspot/hubspot-secrets.query.ts
+// Variable: hubspotSecretsQuery
+// Query: *[_id == $id][0].secrets
+export type HubspotSecretsQueryResult = null;
 
 // Source: ./src/server/queries/documents/article-archive.query.ts
 // Variable: articleArchiveSettingsQuery
@@ -1635,6 +1650,12 @@ export type SitemapQueryResult = {
   } | {
     _id: string;
     _updatedAt: string;
+    _type: "hubspotForm";
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
     _type: "media.tag";
     slug: null;
     title: null;
@@ -2414,7 +2435,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"article\" && _id == \"b0aaa3a1-5a60-4555-a956-09ec63450c91\"][0] {\n    coverImage{\n        \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n\n    }\n}": ImageOnlyQueryResult;
-    "*[_id == $id][0].secrets": FathomSecretsQueryResult;
+    "*[_id == $id][0].secrets": FathomSecretsQueryResult | HubspotSecretsQueryResult;
     "\n  *[_type == \"articleArchive\"][0] {\n    title,\n    \n  \"metadata\": {\n    \"title\": coalesce(metadata.title, title, name),\n    \"desc\": coalesce(metadata.desc, excerpt),\n    \"image\": select(\n      defined(metadata.image.asset._ref) => metadata.image {\n        \n  \"id\": asset._ref,\n  altText\n\n      },\n      defined(image.asset._ref) => image {\n        \n  \"id\": asset._ref,\n  altText\n\n      },\n      defined(coverImage.asset._ref) => coverImage {\n        \n  \"id\": asset._ref,\n  altText\n\n      },\n      defined(hero.image.asset._ref) => hero.image {\n        \n  \"id\": asset._ref,\n  altText\n\n      }\n    ),\n    \"tags\": metadata.tags,\n    \"noIndex\": metadata.noIndex\n  }\n\n  }\n": ArticleArchiveSettingsQueryResult;
     "{\n  \"articles\": *[_type == \"article\" && publishDate < now()] | order(publishDate desc) [$start...$end] {\n    \n  _id,\n  _type,\n  title,\n  \"slug\": slug.current,\n\n  },\n  \"total\": count(*[_type == \"article\" && publishDate < now()])\n}": ArticleArchivePaginatedQueryResult;
     "\n  *[_type == \"articleArchive\"][0] {\n    title,\n    \"articles\": *[_type == \"article\" && publishDate < now()] | order(publishDate desc) {\n      \n  _id,\n  _type,\n  title,\n  \"slug\": slug.current,\n\n    },\n    \n  \"metadata\": {\n    \"title\": coalesce(metadata.title, title, name),\n    \"desc\": coalesce(metadata.desc, excerpt),\n    \"image\": select(\n      defined(metadata.image.asset._ref) => metadata.image {\n        \n  \"id\": asset._ref,\n  altText\n\n      },\n      defined(image.asset._ref) => image {\n        \n  \"id\": asset._ref,\n  altText\n\n      },\n      defined(coverImage.asset._ref) => coverImage {\n        \n  \"id\": asset._ref,\n  altText\n\n      },\n      defined(hero.image.asset._ref) => hero.image {\n        \n  \"id\": asset._ref,\n  altText\n\n      }\n    ),\n    \"tags\": metadata.tags,\n    \"noIndex\": metadata.noIndex\n  }\n\n  }\n": ArticleArchiveQueryResult;

@@ -36,8 +36,7 @@ export const HubspotDashboard = () => {
               </>
             ) : (
               <Text size={1} muted>
-                HubSpot er ikke konfigurert. Klikk på knappen under for å legge til dine
-                API-nøkler.
+                HubSpot er ikke konfigurert. Klikk på knappen under for å legge til dine API-nøkler.
               </Text>
             )}
 
@@ -54,4 +53,3 @@ export const HubspotDashboard = () => {
     </>
   );
 };
-

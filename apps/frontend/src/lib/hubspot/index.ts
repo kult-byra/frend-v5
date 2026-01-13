@@ -1,6 +1,5 @@
 export { fetchHubspotSecrets } from "./hubspot-secrets.query";
 export {
-  hubspotSecretsNamespace,
   type HubspotSecretsProps,
+  hubspotSecretsNamespace,
 } from "./hubspot-secrets-namespace.util";
-

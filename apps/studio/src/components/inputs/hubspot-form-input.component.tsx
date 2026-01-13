@@ -5,10 +5,7 @@ import { AlertCircle, CheckCircle2, ExternalLink, RefreshCw, Search } from "luci
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { type StringInputProps, set, unset } from "sanity";
 import { env } from "@/env";
-import {
-  HubspotSecrets,
-  useHubspotSecrets,
-} from "@/tools/hubspot/hubspot-secrets.component";
+import { HubspotSecrets, useHubspotSecrets } from "@/tools/hubspot/hubspot-secrets.component";
 
 type HubspotForm = {
   id: string;
@@ -117,7 +114,8 @@ export const HubspotFormInput = (props: StringInputProps) => {
   // Custom render for autocomplete options
   const renderOption = useCallback((option: { value: string; payload: HubspotForm }) => {
     const form = option.payload;
-    const fieldCount = form.fieldGroups?.reduce((acc, group) => acc + (group.fields?.length || 0), 0) || 0;
+    const fieldCount =
+      form.fieldGroups?.reduce((acc, group) => acc + (group.fields?.length || 0), 0) || 0;
 
     return (
       <Card as="button" padding={3} style={{ width: "100%" }}>
@@ -139,18 +137,20 @@ export const HubspotFormInput = (props: StringInputProps) => {
       const form = forms.find((f) => f.id === currentValue);
       return form?.name || currentValue;
     },
-    [forms]
+    [forms],
   );
 
   // Filter function for autocomplete search
-  const filterOption = useCallback((query: string, option: { value: string; payload: HubspotForm }) => {
-    const searchLower = query.toLowerCase();
-    const form = option.payload;
-    return (
-      form.name.toLowerCase().includes(searchLower) ||
-      form.id.toLowerCase().includes(searchLower)
-    );
-  }, []);
+  const filterOption = useCallback(
+    (query: string, option: { value: string; payload: HubspotForm }) => {
+      const searchLower = query.toLowerCase();
+      const form = option.payload;
+      return (
+        form.name.toLowerCase().includes(searchLower) || form.id.toLowerCase().includes(searchLower)
+      );
+    },
+    [],
+  );
 
   // No secrets configured
   if (!secrets?.hubspotApiSecret) {
@@ -169,11 +169,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
             </Stack>
           </Flex>
         </Card>
-        <Button
-          text="Konfigurer HubSpot"
-          tone="primary"
-          onClick={() => setShowSettings(true)}
-        />
+        <Button text="Konfigurer HubSpot" tone="primary" onClick={() => setShowSettings(true)} />
         {showSettings && <HubspotSecrets onClose={() => setShowSettings(false)} />}
       </Stack>
     );
@@ -211,17 +207,8 @@ export const HubspotFormInput = (props: StringInputProps) => {
           </Flex>
         </Card>
         <Flex gap={2}>
-          <Button
-            text="Prøv igjen"
-            icon={RefreshCw}
-            tone="primary"
-            onClick={fetchForms}
-          />
-          <Button
-            text="Endre innstillinger"
-            mode="ghost"
-            onClick={() => setShowSettings(true)}
-          />
+          <Button text="Prøv igjen" icon={RefreshCw} tone="primary" onClick={fetchForms} />
+          <Button text="Endre innstillinger" mode="ghost" onClick={() => setShowSettings(true)} />
         </Flex>
         {showSettings && <HubspotSecrets onClose={() => setShowSettings(false)} />}
       </Stack>
@@ -299,7 +286,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
                           ({field.fieldType})
                         </Text>
                       </Flex>
-                    ))
+                    )),
                   )}
                 </Stack>
               </>

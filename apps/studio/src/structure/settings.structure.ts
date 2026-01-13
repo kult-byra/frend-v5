@@ -28,8 +28,9 @@ export const settingsStructure = (S: StructureBuilder) => {
             .title(hubspotFormSchema.title ?? "HubSpot-skjemaer")
             .icon(hubspotFormSchema.icon)
             .child(
-              S.documentTypeList(hubspotFormSchema.name)
-                .title(hubspotFormSchema.title ?? "HubSpot-skjemaer")
+              S.documentTypeList(hubspotFormSchema.name).title(
+                hubspotFormSchema.title ?? "HubSpot-skjemaer",
+              ),
             ),
         ]),
     );

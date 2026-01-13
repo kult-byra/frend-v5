@@ -8,11 +8,9 @@ pre-commit:
 
     typegen-schemas:
       glob: "**/*.schema.ts"
-      root: "apps/studio/src/schemas/"
       run: pnpm typegen
 
     typegen-queries:
       glob: "**/*.query.ts"
-      root: "apps/frontend/src/server/queries/"
       run: pnpm typegen
 

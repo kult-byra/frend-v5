@@ -227,6 +227,16 @@ export type Person = {
   name: string;
 };
 
+export type HubspotForm = {
+  _id: string;
+  _type: "hubspotForm";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  formId: string;
+};
+
 export type CallToActionBlock = {
   _type: "callToAction.block";
   heading: string;
@@ -608,7 +618,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Person | CallToActionBlock | Figure | AccordionBlock | ImageAndTextBlock | Article | FrontPage | Page | Slug | ArticleArchive | ArticleArchiveReference | ArticleReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Person | HubspotForm | CallToActionBlock | Figure | AccordionBlock | ImageAndTextBlock | Article | FrontPage | Page | Slug | ArticleArchive | ArticleArchiveReference | ArticleReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/app/(site)/image-test/page.tsx
 // Variable: imageOnlyQuery
@@ -638,6 +648,11 @@ export type ImageOnlyQueryResult = {
 // Variable: fathomSecretsQuery
 // Query: *[_id == $id][0].secrets
 export type FathomSecretsQueryResult = null;
+
+// Source: ./src/lib/hubspot/hubspot-secrets.query.ts
+// Variable: hubspotSecretsQuery
+// Query: *[_id == $id][0].secrets
+export type HubspotSecretsQueryResult = null;
 
 // Source: ./src/server/queries/documents/article-archive.query.ts
 // Variable: articleArchiveSettingsQuery
@@ -1630,6 +1645,12 @@ export type SitemapQueryResult = {
     _id: string;
     _updatedAt: string;
     _type: "frontPage";
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "hubspotForm";
     slug: null;
     title: string;
   } | {
