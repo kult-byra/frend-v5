@@ -1,0 +1,18 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.{js,ts,tsx,jsx,json,css}"
+      run: pnpm biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+
+    typegen-schemas:
+      glob: "**/*.schema.ts"
+      root: "apps/studio/src/schemas/"
+      run: pnpm typegen
+
+    typegen-queries:
+      glob: "**/*.query.ts"
+      root: "apps/frontend/src/server/queries/"
+      run: pnpm typegen
+

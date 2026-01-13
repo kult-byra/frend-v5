@@ -1,0 +1,33 @@
+/** biome-ignore-all lint/complexity/noImportantStyles: Need important since Studio is so specific */
+svg.lucide {
+  width: 1em;
+  height: 1em;
+  stroke-width: 2.5;
+}
+
+/* Original tailwind selector: [&_[data-ui='TextInput']>span>span]:!rounded-l-none [&>[data-ui='Stack']]:grow */
+.slug-input-flex [data-ui="TextInput"] > span > span {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.slug-input-flex > [data-ui="Stack"] {
+  flex-grow: 1;
+}
+
+/* Original tailwind: items-center */
+.slug-path-card {
+  display: flex;
+  align-items: center;
+}
+
+/* Original tailwind: !rounded-r-none */
+.dynamic-path {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* Original tailwind: w-full */
+.static-path {
+  width: 100%;
+}

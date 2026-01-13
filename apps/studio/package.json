@@ -1,0 +1,42 @@
+{
+  "name": "studio",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "typecheck": "tsc --noEmit --project ./tsconfig.json"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/assist": "^5.0.3",
+    "@sanity/icons": "^3.7.4",
+    "@sanity/locale-nb-no": "^1.1.29",
+    "@sanity/studio-secrets": "^3.0.3",
+    "@sanity/ui": "^3.1.11",
+    "@sanity/vision": "^5.2.0",
+    "@t3-oss/env-core": "^0.13.10",
+    "@workspace/routing": "workspace:*",
+    "groq": "^5.2.0",
+    "lucide-react": "^0.562.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "rxjs": "^7.8.2",
+    "sanity": "^5.2.0",
+    "sanity-plugin-documents-pane": "^3.0.2",
+    "sanity-plugin-media": "^4.1.1",
+    "styled-components": "^6.3.5",
+    "vite-tsconfig-paths": "^6.0.4",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@sanity/schema": "^5.2.0",
+    "@types/react": "19.2.8"
+  }
+}

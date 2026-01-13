@@ -1,0 +1,77 @@
+{
+  "root": true,
+  "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    },
+    "linter": {
+      "enabled": true
+    },
+    "formatter": {
+      "enabled": true
+    }
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noForEach": "warn"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn"
+      },
+      "correctness": {
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn"
+      },
+      "a11y": {
+        "recommended": true
+      },
+      "performance": {
+        "recommended": true
+      }
+    }
+  },
+
+  "files": {
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/sanity.types.ts",
+      "!**/sanity.fragment-types.ts",
+      "!**/schema.json",
+      "!**/dist",
+      "!**/build",
+      "!**/.next",
+      "!**/.sanity",
+      "!**/.vercel",
+      "!**/coverage",
+      "!**/.git",
+      "!**/*.min.js",
+      "!**/*.config.js",
+      "!**/public",
+      "!**/.cache",
+      "!**/out",
+      "!**/_backup",
+      "!**/generated",
+      "!**/*.generated.*",
+      "!**/package-lock.json",
+      "!**/yarn.lock",
+      "!**/pnpm-lock.yaml",
+      "!**/*.d.ts"
+    ]
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  }
+}

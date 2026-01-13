@@ -1,0 +1,27 @@
+{
+  "extends": "@workspace/typescript-config/next.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/icon-name": ["public/icons/name.d.ts"],
+      "@/sanity-types": ["sanity.types.ts"],
+      "react": ["./node_modules/@types/react"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "scripts/build-icons.mts"
+  ],
+  "exclude": ["node_modules"]
+}
