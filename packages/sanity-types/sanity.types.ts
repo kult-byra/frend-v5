@@ -415,7 +415,7 @@ export type AccordionsBlock = {
         _key: string;
       }>;
       style?: "normal";
-      listItem?: never;
+      listItem?: "bullet" | "number";
       markDefs?: Array<{
         internalLink: InternalLink;
         _type: "internalLinkObject";
@@ -641,6 +641,13 @@ export type Event = {
   };
 };
 
+export type IsometricIllustrationReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "isometricIllustration";
+};
+
 export type Service = {
   _id: string;
   _type: "service";
@@ -675,6 +682,116 @@ export type Service = {
     _type: "block";
     _key: string;
   }>;
+  illustration: IsometricIllustrationReference;
+  service?: ServiceReference;
+  industry?: IndustryReference;
+  technology?: TechnologyReference;
+  subServicesDescription?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3" | "h4";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3" | "h4";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+  } & ImageAndTextBlock | {
+    _key: string;
+  } & AccordionsBlock | {
+    _key: string;
+  } & Figure | {
+    _key: string;
+  } & CallToActionBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & VideoBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock | {
+    _key: string;
+  } & ButtonBlock | {
+    _key: string;
+  } & FormBlock>;
+  info?: string;
+  metadata?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+};
+
+export type IsometricIllustration = {
+  _id: string;
+  _type: "isometricIllustration";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  illustration?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
 };
 
 export type FrontPage = {
@@ -793,6 +910,70 @@ export type Page = {
   _rev: string;
   title: string;
   slug: Slug;
+  pageBuilder?: Array<{
+    _key: string;
+  } & ImageAndTextBlock | {
+    _key: string;
+  } & CallToActionBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock>;
+  metadata?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+};
+
+export type SubService = {
+  _id: string;
+  _type: "subService";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  service: ServiceReference;
+  title: string;
+  slug: Slug;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
   pageBuilder?: Array<{
     _key: string;
   } & ImageAndTextBlock | {
@@ -998,6 +1179,13 @@ export type NewsArticleReference = {
   [internalGroqTypeReferenceTo]?: "newsArticle";
 };
 
+export type SubServiceReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "subService";
+};
+
 export type ServicesArchiveReference = {
   _ref: string;
   _type: "reference";
@@ -1005,7 +1193,7 @@ export type ServicesArchiveReference = {
   [internalGroqTypeReferenceTo]?: "servicesArchive";
 };
 
-export type InternalLink = EventReference | FrontPageReference | NewsAndEventsArchiveReference | NewsArticleReference | PageReference | ServiceReference | ServicesArchiveReference;
+export type InternalLink = EventReference | FrontPageReference | NewsAndEventsArchiveReference | NewsArticleReference | PageReference | SubServiceReference | ServiceReference | ServicesArchiveReference;
 
 export type ExternalLink = string;
 
@@ -1114,7 +1302,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Quote | Logo | HubspotFormReference | FormBlock | ButtonBlock | PersonReference | PeopleBlock | QuoteReference | QuotesBlock | ImageGalleryBlock | VideoBlock | LogoReference | LogoCloudBlock | CallToActionBlock | Figure | AccordionsBlock | ImageAndTextBlock | EventTypeReference | ServiceReference | IndustryReference | TechnologyReference | Event | Service | FrontPage | NewsArticle | Page | ServicesArchive | Slug | Technology | Industry | Person | NewsAndEventsArchive | EventType | HubspotForm | EventReference | NewsAndEventsArchiveReference | NewsArticleReference | ServicesArchiveReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Quote | Logo | HubspotFormReference | FormBlock | ButtonBlock | PersonReference | PeopleBlock | QuoteReference | QuotesBlock | ImageGalleryBlock | VideoBlock | LogoReference | LogoCloudBlock | CallToActionBlock | Figure | AccordionsBlock | ImageAndTextBlock | EventTypeReference | ServiceReference | IndustryReference | TechnologyReference | Event | IsometricIllustrationReference | Service | IsometricIllustration | FrontPage | NewsArticle | Page | SubService | ServicesArchive | Slug | Technology | Industry | Person | NewsAndEventsArchive | EventType | HubspotForm | EventReference | NewsAndEventsArchiveReference | NewsArticleReference | SubServiceReference | ServicesArchiveReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/components/fathom/fathom-secrets.query.ts
 // Variable: fathomSecretsQuery
@@ -1681,6 +1869,12 @@ export type SitemapQueryResult = {
   } | {
     _id: string;
     _updatedAt: string;
+    _type: "isometricIllustration";
+    slug: null;
+    title: string | null;
+  } | {
+    _id: string;
+    _updatedAt: string;
     _type: "logo";
     slug: null;
     title: string;
@@ -1748,6 +1942,12 @@ export type SitemapQueryResult = {
     _id: string;
     _updatedAt: string;
     _type: "service";
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "subService";
     slug: string;
     title: string;
   } | {

@@ -6,6 +6,7 @@ export { newsAndEventsArchiveSchema } from "@/schemas/documents/news-and-events/
 export { newsArticleSchema } from "@/schemas/documents/news-and-events/news-article.schema";
 export { eventSchema } from "@/schemas/documents/news-and-events/event.schema";
 export { serviceSchema } from "@/schemas/documents/services/service.schema";
+export { subServiceSchema } from "@/schemas/documents/services/sub-service.schema";
 export { industrySchema } from "@/schemas/documents/industry.schema";
 export { technologySchema } from "@/schemas/documents/technology.schema";
 export { eventTypeSchema } from "@/schemas/documents/news-and-events/event-type.schema";

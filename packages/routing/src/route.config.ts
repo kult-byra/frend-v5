@@ -13,6 +13,7 @@ export const routeConfig = {
   event: "/arrangementer/:slug",
   servicesArchive: "/tjenester",
   service: "/tjenester/:slug",
+  subService: "/tjenester/:parentSlug/:slug",
 } as const satisfies ValidRouteConfig;
 
 // Helper function to get the route path

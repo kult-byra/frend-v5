@@ -9,6 +9,8 @@ import { quotesBlockSchema } from "./quotes.block.schema";
 import { peopleBlockSchema } from "./people.block.schema";
 import { buttonBlockSchema } from "./button.block.schema";
 import { formBlockSchema } from "./form.block.schema";
+import { cardsBlockSchema } from "./cards.block.schema";
+import { imageWithBannerBlockSchema } from "./image-with-banner.block.schema";
 
 export const allBlockSchemas = {
   imageAndTextBlockSchema,
@@ -22,4 +24,6 @@ export const allBlockSchemas = {
   peopleBlockSchema,
   buttonBlockSchema,
   formBlockSchema,
+  cardsBlockSchema,
+  imageWithBannerBlockSchema,
 };
