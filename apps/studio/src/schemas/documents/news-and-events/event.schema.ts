@@ -60,13 +60,6 @@ export const eventSchema = defineType({
         group: "key",
         validation: (Rule) => Rule.required().error("Signup form is required"),
     }),
-    referenceField({
-        title: "Event type",
-        name: "eventType",
-        to: [{ type: "eventType" }],
-        group: "key",
-        validation: (Rule) => Rule.required().error("Event type is required"),
-    }),
 
     //CONNECTIONS
     ...connectionsFields(),
