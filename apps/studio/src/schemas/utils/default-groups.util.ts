@@ -1,4 +1,4 @@
-import { Key, LayoutList, Search } from "lucide-react";
+import { Key, LayoutList, Link, Search } from "lucide-react";
 
 export const defaultGroups = [
   {
@@ -11,6 +11,11 @@ export const defaultGroups = [
     title: "Innhold",
     name: "content",
     icon: LayoutList,
+  },
+  {
+    title: "Connections",
+    name: "connections",
+    icon: Link,
   },
   {
     title: "SEO",

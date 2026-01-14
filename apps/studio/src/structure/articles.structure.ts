@@ -14,6 +14,7 @@ export const articlesStructure = (S: StructureBuilder) => {
         .title(title)
         .items([
           S.documentTypeListItem("newsArticle").title("News articles"),
+          S.documentTypeListItem("event").title("Events"),
 
           S.divider(),
 
