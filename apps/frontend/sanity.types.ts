@@ -217,14 +217,126 @@ export type MenuSettings = {
   }>;
 };
 
-export type HubspotForm = {
+export type Quote = {
   _id: string;
-  _type: "hubspotForm";
+  _type: "quote";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  quote: string;
+  source?: {
+    name: string;
+    role: string;
+  };
+};
+
+export type Logo = {
+  _id: string;
+  _type: "logo";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title: string;
-  formId: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
+};
+
+export type HubspotFormReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "hubspotForm";
+};
+
+export type FormBlock = {
+  _type: "form.block";
+  form?: HubspotFormReference;
+};
+
+export type ButtonBlock = {
+  _type: "button.block";
+  button?: Array<{
+    internalLink: InternalLink;
+    customTitle?: string;
+    _type: "internalLinkObject";
+    _key: string;
+  } | {
+    href: string;
+    customTitle?: string;
+    _type: "link";
+    _key: string;
+  } | {
+    file: DownloadLinkObjectFile;
+    customTitle?: string;
+    _type: "downloadLinkObject";
+    _key: string;
+  }>;
+};
+
+export type PersonReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "person";
+};
+
+export type PeopleBlock = {
+  _type: "people.block";
+  people?: Array<{
+    _key: string;
+  } & PersonReference>;
+};
+
+export type QuoteReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "quote";
+};
+
+export type QuotesBlock = {
+  _type: "quotes.block";
+  quotes?: Array<{
+    _key: string;
+  } & QuoteReference>;
+};
+
+export type ImageGalleryBlock = {
+  _type: "imageGallery.block";
+  images: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+    _key: string;
+  }>;
+};
+
+export type VideoBlock = {
+  _type: "video.block";
+  url?: string;
+};
+
+export type LogoReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "logo";
+};
+
+export type LogoCloudBlock = {
+  _type: "logoCloud.block";
+  logos?: Array<{
+    _key: string;
+  } & LogoReference>;
 };
 
 export type CallToActionBlock = {
@@ -291,9 +403,39 @@ export type Figure = {
   changed?: boolean;
 };
 
-export type AccordionBlock = {
-  _type: "accordion.block";
-  heading: string;
+export type AccordionsBlock = {
+  _type: "accordions.block";
+  accordions?: Array<{
+    heading: string;
+    content?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        internalLink: InternalLink;
+        _type: "internalLinkObject";
+        _key: string;
+      } | {
+        href: string;
+        _type: "link";
+        _key: string;
+      } | {
+        file: DownloadLinkObjectFile;
+        _type: "downloadLinkObject";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    _type: "accordion";
+    _key: string;
+  }>;
 };
 
 export type ImageAndTextBlock = {
@@ -352,6 +494,34 @@ export type ImageAndTextBlock = {
   options?: Options;
 };
 
+export type EventTypeReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "eventType";
+};
+
+export type ServiceReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "service";
+};
+
+export type IndustryReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "industry";
+};
+
+export type TechnologyReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "technology";
+};
+
 export type Event = {
   _id: string;
   _type: "event";
@@ -368,6 +538,45 @@ export type Event = {
     changed?: boolean;
     _type: "image";
   };
+  timeAndDate?: {
+    startTime: string;
+    endTime?: string;
+  };
+  location: string;
+  price: string;
+  signupForm: HubspotFormReference;
+  eventType: EventTypeReference;
+  service?: ServiceReference;
+  industry?: IndustryReference;
+  technology?: TechnologyReference;
+  layout: "default" | "submersive";
+  color?: "white" | "yellow";
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -397,11 +606,25 @@ export type Event = {
     _key: string;
   } & ImageAndTextBlock | {
     _key: string;
-  } & AccordionBlock | {
+  } & AccordionsBlock | {
     _key: string;
   } & Figure | {
     _key: string;
-  } & CallToActionBlock>;
+  } & CallToActionBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & VideoBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock | {
+    _key: string;
+  } & ButtonBlock | {
+    _key: string;
+  } & FormBlock>;
   metadata?: {
     title?: string;
     desc?: string;
@@ -418,6 +641,42 @@ export type Event = {
   };
 };
 
+export type Service = {
+  _id: string;
+  _type: "service";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
 export type FrontPage = {
   _id: string;
   _type: "frontPage";
@@ -429,14 +688,15 @@ export type FrontPage = {
     _key: string;
   } & ImageAndTextBlock | {
     _key: string;
-  } & CallToActionBlock>;
-};
-
-export type PersonReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "person";
+  } & CallToActionBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock>;
 };
 
 export type NewsArticle = {
@@ -458,6 +718,9 @@ export type NewsArticle = {
     _key: string;
   }>;
   author?: PersonReference;
+  service?: ServiceReference;
+  industry?: IndustryReference;
+  technology?: TechnologyReference;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -487,11 +750,25 @@ export type NewsArticle = {
     _key: string;
   } & ImageAndTextBlock | {
     _key: string;
-  } & AccordionBlock | {
+  } & AccordionsBlock | {
     _key: string;
   } & Figure | {
     _key: string;
-  } & CallToActionBlock>;
+  } & CallToActionBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & VideoBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock | {
+    _key: string;
+  } & ButtonBlock | {
+    _key: string;
+  } & FormBlock>;
   metadata?: {
     title?: string;
     desc?: string;
@@ -520,7 +797,74 @@ export type Page = {
     _key: string;
   } & ImageAndTextBlock | {
     _key: string;
-  } & CallToActionBlock>;
+  } & CallToActionBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock>;
+  metadata?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+};
+
+export type ServicesArchive = {
+  _id: string;
+  _type: "servicesArchive";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug?: Slug;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
+  info?: string;
   metadata?: {
     title?: string;
     desc?: string;
@@ -543,6 +887,24 @@ export type Slug = {
   source?: string;
 };
 
+export type Technology = {
+  _id: string;
+  _type: "technology";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+};
+
+export type Industry = {
+  _id: string;
+  _type: "industry";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+};
+
 export type Person = {
   _id: string;
   _type: "person";
@@ -550,6 +912,17 @@ export type Person = {
   _updatedAt: string;
   _rev: string;
   name: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
+  role: string;
+  externalPerson?: boolean;
+  company?: string;
 };
 
 export type NewsAndEventsArchive = {
@@ -560,6 +933,14 @@ export type NewsAndEventsArchive = {
   _rev: string;
   title: string;
   slug?: Slug;
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
   info?: string;
   metadata?: {
     title?: string;
@@ -575,6 +956,25 @@ export type NewsAndEventsArchive = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+};
+
+export type EventType = {
+  _id: string;
+  _type: "eventType";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+};
+
+export type HubspotForm = {
+  _id: string;
+  _type: "hubspotForm";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  formId: string;
 };
 
 export type EventReference = {
@@ -598,7 +998,14 @@ export type NewsArticleReference = {
   [internalGroqTypeReferenceTo]?: "newsArticle";
 };
 
-export type InternalLink = EventReference | FrontPageReference | NewsAndEventsArchiveReference | NewsArticleReference | PageReference;
+export type ServicesArchiveReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "servicesArchive";
+};
+
+export type InternalLink = EventReference | FrontPageReference | NewsAndEventsArchiveReference | NewsArticleReference | PageReference | ServiceReference | ServicesArchiveReference;
 
 export type ExternalLink = string;
 
@@ -707,7 +1114,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | HubspotForm | CallToActionBlock | Figure | AccordionBlock | ImageAndTextBlock | Event | FrontPage | PersonReference | NewsArticle | Page | Slug | Person | NewsAndEventsArchive | EventReference | NewsAndEventsArchiveReference | NewsArticleReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Quote | Logo | HubspotFormReference | FormBlock | ButtonBlock | PersonReference | PeopleBlock | QuoteReference | QuotesBlock | ImageGalleryBlock | VideoBlock | LogoReference | LogoCloudBlock | CallToActionBlock | Figure | AccordionsBlock | ImageAndTextBlock | EventTypeReference | ServiceReference | IndustryReference | TechnologyReference | Event | Service | FrontPage | NewsArticle | Page | ServicesArchive | Slug | Technology | Industry | Person | NewsAndEventsArchive | EventType | HubspotForm | EventReference | NewsAndEventsArchiveReference | NewsArticleReference | ServicesArchiveReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/components/fathom/fathom-secrets.query.ts
 // Variable: fathomSecretsQuery
@@ -812,10 +1219,6 @@ export type ArticleQueryResult = {
     }> | null;
     level?: number;
     _type: "block";
-  } | {
-    _key: string;
-    _type: "accordion.block";
-    heading: string;
   } | {
     _key: string;
     _type: "callToAction.block";
@@ -936,6 +1339,8 @@ export type ArticleQueryResult = {
     options: {
       imagePosition: "left" | "right" | null;
     } | null;
+  } | {
+    _key: string;
   }> | null;
   metadata: {
     title: string;
@@ -1078,6 +1483,18 @@ export type PageQueryResult = {
     options: {
       imagePosition: "left" | "right" | null;
     } | null;
+  } | {
+    _type: "imageGallery.block";
+    _key: string;
+  } | {
+    _type: "logoCloud.block";
+    _key: string;
+  } | {
+    _type: "people.block";
+    _key: string;
+  } | {
+    _type: "quotes.block";
+    _key: string;
   }> | null;
   metadata: {
     title: string;
@@ -1213,6 +1630,18 @@ export type _pageBuilderTypegenQueryResult = Array<{
   options: {
     imagePosition: "left" | "right" | null;
   } | null;
+} | {
+  _type: "imageGallery.block";
+  _key: string;
+} | {
+  _type: "logoCloud.block";
+  _key: string;
+} | {
+  _type: "people.block";
+  _key: string;
+} | {
+  _type: "quotes.block";
+  _key: string;
 }> | null;
 
 // Source: ./src/server/queries/paths/sitemap.query.ts
@@ -1228,6 +1657,12 @@ export type SitemapQueryResult = {
   } | {
     _id: string;
     _updatedAt: string;
+    _type: "eventType";
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
     _type: "frontPage";
     slug: null;
     title: string;
@@ -1235,6 +1670,18 @@ export type SitemapQueryResult = {
     _id: string;
     _updatedAt: string;
     _type: "hubspotForm";
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "industry";
+    slug: null;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "logo";
     slug: null;
     title: string;
   } | {
@@ -1282,6 +1729,12 @@ export type SitemapQueryResult = {
   } | {
     _id: string;
     _updatedAt: string;
+    _type: "quote";
+    slug: null;
+    title: null;
+  } | {
+    _id: string;
+    _updatedAt: string;
     _type: "sanity.fileAsset";
     slug: null;
     title: string | null;
@@ -1294,9 +1747,27 @@ export type SitemapQueryResult = {
   } | {
     _id: string;
     _updatedAt: string;
+    _type: "service";
+    slug: string;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "servicesArchive";
+    slug: string | null;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
     _type: "siteSettings";
     slug: null;
     title: null;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "technology";
+    slug: null;
+    title: string;
   } | {
     _id: string;
     _updatedAt: string;
@@ -1343,10 +1814,6 @@ export type _fullPortableTextQueryTypeResult = {
     }> | null;
     level?: number;
     _type: "block";
-  } | {
-    _key: string;
-    _type: "accordion.block";
-    heading: string;
   } | {
     _key: string;
     _type: "callToAction.block";
@@ -1467,6 +1934,8 @@ export type _fullPortableTextQueryTypeResult = {
     options: {
       imagePosition: "left" | "right" | null;
     } | null;
+  } | {
+    _key: string;
   }> | null;
 } | null;
 

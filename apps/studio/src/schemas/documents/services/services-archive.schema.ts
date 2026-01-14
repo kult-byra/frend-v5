@@ -1,13 +1,13 @@
 import { Bot, LayoutPanelTop } from "lucide-react";
 import { defineType } from "sanity";
-import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { infoField } from "@/schemas/generator-fields/info.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
+import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 
-export const newsAndEventsArchiveSchema = defineType({
-  name: "newsAndEventsArchive",
-  title: "News and events overview",
+export const servicesArchiveSchema = defineType({
+  name: "servicesArchive",
+  title: "Services overview",
   type: "document",
   icon: LayoutPanelTop,
   groups: defaultGroups,
@@ -16,10 +16,10 @@ export const newsAndEventsArchiveSchema = defineType({
     linkable: true,
   },
   fields: [
-    ...heroFields({ isStatic: true }),
+    ...heroFields({ isStatic: true, includeExcerpt: true }),
     infoField({
       title: "Automatically generated content",
-      description: "All published news and events are displayed automatically.",
+      description: "All published services are displayed automatically.",
       tone: "positive",
       icon: Bot,
       group: ["key", "content"],

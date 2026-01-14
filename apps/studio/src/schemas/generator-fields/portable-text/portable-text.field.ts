@@ -69,7 +69,7 @@ export const portableTextField = (props?: PortableTextFieldProps) => {
   return defineField({
     ...props,
     name: props?.noContent ? props.name : "content",
-    title: props?.title ?? "Innhold",
+    title: props?.title ?? "Content",
     type: "array",
     of: [
       {

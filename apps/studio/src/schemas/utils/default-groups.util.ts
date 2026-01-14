@@ -2,13 +2,13 @@ import { Key, LayoutList, Link, Search } from "lucide-react";
 
 export const defaultGroups = [
   {
-    title: "Nøkkelinfo",
+    title: "Key info",
     name: "key",
     default: true,
     icon: Key,
   },
   {
-    title: "Innhold",
+    title: "Content",
     name: "content",
     icon: LayoutList,
   },

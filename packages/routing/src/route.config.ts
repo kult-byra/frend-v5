@@ -11,6 +11,8 @@ export const routeConfig = {
   page: "/:slug",
   newsArticle: "/nyheter/:slug",
   event: "/arrangementer/:slug",
+  servicesArchive: "/tjenester",
+  service: "/tjenester/:slug",
 } as const satisfies ValidRouteConfig;
 
 // Helper function to get the route path

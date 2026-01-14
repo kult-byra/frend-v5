@@ -11,3 +11,5 @@ export { technologySchema } from "@/schemas/documents/technology.schema";
 export { eventTypeSchema } from "@/schemas/documents/news-and-events/event-type.schema";
 export { logoSchema } from "@/schemas/documents/logo.schema";
 export { quoteSchema } from "@/schemas/documents/quote.schema";
+export { servicesArchiveSchema } from "@/schemas/documents/services/services-archive.schema";
+export { isometricIllustrationSchema } from "@/schemas/documents/isometric-illustration.schema";

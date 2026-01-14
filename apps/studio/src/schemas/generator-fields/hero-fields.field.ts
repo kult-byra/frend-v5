@@ -5,16 +5,22 @@ import { figureField } from "@/schemas/generator-fields/figure.field";
 import { slugField } from "@/schemas/generator-fields/slug.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { referenceField } from "./reference.field";
+import { portableTextField } from "./portable-text/portable-text.field";
 
 export const heroFields = (options?: { 
   includePublishDate?: boolean; 
   multipleCoverImages?: boolean 
   includeAuthor?: boolean
-
+  isStatic?: boolean
+  includeExcerpt?: boolean
+  includeCoverImage?: boolean
 }): FieldDefinition[] => { const { 
     includePublishDate = false, 
     multipleCoverImages = false,
-    includeAuthor = false
+    includeAuthor = false,
+    isStatic = false,
+    includeExcerpt = false,
+    includeCoverImage = true,
   } = options ?? {};
 
   return [
@@ -24,7 +30,13 @@ export const heroFields = (options?: {
       required: true,
       group: "key",
     }),
-    slugField(),
+    slugField({ isStatic }),
+    ...(includeExcerpt ? [portableTextField({
+      title: "Excerpt",
+      name: "excerpt",
+      group: "key",
+      noContent: true,
+    })] : []),
     ...(includePublishDate
       ? [
           datetimeField({
@@ -36,29 +48,31 @@ export const heroFields = (options?: {
           }),
         ]
       : []),
-    ...(multipleCoverImages
-      ? [
-          defineField({
-            title: "Cover image(s)",
-            name: "coverImages",
-            type: "array",
-            of: [
-              figureField({
-                name: "image",
-                title: "Image",
-              }),
-            ],
-            group: "key",
-            validation: (Rule) => Rule.min(1).max(3).error("At least one cover image is required and at most three are allowed"),
-          }),
-        ]
-      : [
-          figureField({
-            name: "coverImage",
-            title: "Cover image",
-            group: "key",
-          }),
-        ]),
+    ...(includeCoverImage
+      ? multipleCoverImages
+        ? [
+            defineField({
+              title: "Cover image(s)",
+              name: "coverImages",
+              type: "array",
+              of: [
+                figureField({
+                  name: "image",
+                  title: "Image",
+                }),
+              ],
+              group: "key",
+              validation: (Rule) => Rule.min(1).max(3).error("At least one cover image is required and at most three are allowed"),
+            }),
+          ]
+        : [
+            figureField({
+              name: "coverImage",
+              title: "Cover image",
+              group: "key",
+            }),
+          ]
+      : []),
     ...(includeAuthor
       ? [
           referenceField({

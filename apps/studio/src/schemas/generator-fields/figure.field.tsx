@@ -20,7 +20,7 @@ export const figureField = (
   return defineField(
     {
       ...props,
-      title: props.title ?? "Bilde",
+      title: props.title ?? "Image",
       type: "image",
       icon: Image,
       options: {

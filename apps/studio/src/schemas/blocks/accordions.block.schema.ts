@@ -25,7 +25,9 @@ export const accordionsBlockSchema = defineBlock({
               title: "Heading",
               required: true,
             }),
-            portableTextField(),
+            portableTextField({
+              includeLists: true,
+            }),
           ],
         }),
       ],

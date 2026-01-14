@@ -1,6 +1,7 @@
 import type { StructureResolver } from "sanity/structure";
 import { articlesStructure } from "@/structure/articles.structure";
 import { settingsStructure } from "@/structure/settings.structure";
+import { servicesStructure } from "@/structure/services.structure";
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -16,4 +17,8 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
 
       articlesStructure(S),
+
+      S.divider(),
+      
+      servicesStructure(S),
     ]);
