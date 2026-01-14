@@ -7,9 +7,9 @@ type ValidRouteConfig = {
 
 export const routeConfig = {
   frontPage: "/",
-  articleArchive: "/artikler",
+  newsAndEventsArchive: "/artikler",
   page: "/:slug",
-  article: "/artikler/:slug",
+  newsArticle: "/artikler/:slug",
 } as const satisfies ValidRouteConfig;
 
 // Helper function to get the route path

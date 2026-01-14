@@ -23,7 +23,7 @@ export const ArticleArchive = async ({ initialPage }: Props) => {
       start,
       end,
     },
-    tags: ["article"],
+    tags: ["newsArticle"],
   });
 
   const { articles, total } = data as NonNullable<ArticleArchivePaginatedQueryResult>;

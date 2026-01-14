@@ -30,7 +30,7 @@ export const fullPortableTextQuery = defineQuery(`
 `);
 
 const _fullPortableTextQueryType = defineQuery(`
-  *[_type == "article"][0]{
+  *[_type == "newsArticle"][0]{
     "_ts": "FullPortableTextQuery",
     ${fullPortableTextQuery}
   }

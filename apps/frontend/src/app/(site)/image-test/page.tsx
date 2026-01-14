@@ -9,7 +9,7 @@ import { imageQuery } from "@/server/queries/utils/image.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 
 const imageOnlyQuery =
-  defineQuery(`*[_type == "article" && _id == "b0aaa3a1-5a60-4555-a956-09ec63450c91"][0] {
+  defineQuery(`*[_type == "newsArticle" && _id == "b0aaa3a1-5a60-4555-a956-09ec63450c91"][0] {
     coverImage{
         ${imageQuery}
     }

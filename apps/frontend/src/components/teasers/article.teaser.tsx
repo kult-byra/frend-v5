@@ -5,7 +5,7 @@ import { LinkResolver } from "../utils/link-resolver.component";
 export const ArticleTeaser = (props: ArticleTeaserProps) => {
   const { title, slug } = props;
   return (
-    <LinkResolver linkType="internal" slug={slug} _type="article">
+    <LinkResolver linkType="internal" slug={slug} _type="newsArticle">
       <H2>{title}</H2>
     </LinkResolver>
   );

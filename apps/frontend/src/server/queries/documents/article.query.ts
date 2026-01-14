@@ -3,7 +3,7 @@ import { fullPortableTextQuery } from "../portable-text/portable-text.query";
 import { metadataQuery } from "../utils/metadata.query";
 
 export const articleQuery = defineQuery(`
-  *[_type == "article" && slug.current == $slug][0] {
+  *[_type == "newsArticle" && slug.current == $slug][0] {
     _id,
     title,
     ${fullPortableTextQuery},
@@ -12,7 +12,7 @@ export const articleQuery = defineQuery(`
 `);
 
 export const articleSlugsQuery = defineQuery(`
-  *[_type == "article"] {
+  *[_type == "newsArticle"] {
     "slug": slug.current
   }
 `);

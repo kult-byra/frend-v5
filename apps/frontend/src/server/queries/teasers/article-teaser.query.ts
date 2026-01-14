@@ -11,7 +11,7 @@ export const articleTeaserQuery = defineQuery(`
 
 // For typegen
 const _articleTeaserTypegenQuery = defineQuery(`
-    *[_type == "article"][0]{
+    *[_type == "newsArticle"][0]{
       ${articleTeaserQuery}
     }
   `);

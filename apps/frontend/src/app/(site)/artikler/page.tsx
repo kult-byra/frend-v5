@@ -24,7 +24,7 @@ type Props = {
 async function getArchiveSettings() {
   const { data } = await sanityFetch({
     query: articleArchiveSettingsQuery,
-    tags: ["articleArchive"],
+    tags: ["newsAndEventsArchive"],
   });
 
   return data as NonNullable<ArticleArchiveSettingsQueryResult>;

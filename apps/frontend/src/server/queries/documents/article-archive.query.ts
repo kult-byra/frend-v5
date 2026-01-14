@@ -4,7 +4,7 @@ import { metadataQuery } from "../utils/metadata.query";
 
 // Query for article archive page settings (title, metadata)
 export const articleArchiveSettingsQuery = defineQuery(`
-  *[_type == "articleArchive"][0] {
+  *[_type == "newsAndEventsArchive"][0] {
     title,
     ${metadataQuery}
   }
@@ -13,17 +13,17 @@ export const articleArchiveSettingsQuery = defineQuery(`
 // Query for paginated articles
 // Pass start and end indices directly (e.g., start=0, end=12 for first page)
 export const articleArchivePaginatedQuery = defineQuery(`{
-  "articles": *[_type == "article" && publishDate < now()] | order(publishDate desc) [$start...$end] {
+  "articles": *[_type == "newsArticle" && publishDate < now()] | order(publishDate desc) [$start...$end] {
     ${articleTeaserQuery}
   },
-  "total": count(*[_type == "article" && publishDate < now()])
+  "total": count(*[_type == "newsArticle" && publishDate < now()])
 }`);
 
 // Legacy query for backwards compatibility
 export const articleArchiveQuery = defineQuery(`
-  *[_type == "articleArchive"][0] {
+  *[_type == "newsAndEventsArchive"][0] {
     title,
-    "articles": *[_type == "article" && publishDate < now()] | order(publishDate desc) {
+    "articles": *[_type == "newsArticle" && publishDate < now()] | order(publishDate desc) {
       ${articleTeaserQuery}
     },
     ${metadataQuery}

@@ -1,9 +1,9 @@
 import { Newspaper } from "lucide-react";
 import type { StructureBuilder } from "sanity/structure";
-import { articleArchiveSchema } from "@/schemas/documents";
 import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
+import { newsAndEventsArchiveSchema } from "@/schemas/documents";
 
-const title = "Artikler";
+const title = "News and events";
 
 export const articlesStructure = (S: StructureBuilder) => {
   return S.listItem()
@@ -13,11 +13,11 @@ export const articlesStructure = (S: StructureBuilder) => {
       S.list()
         .title(title)
         .items([
-          S.documentTypeListItem("article").title(title),
+          S.documentTypeListItem("newsArticle").title("News articles"),
 
           S.divider(),
 
-          singletonListItem(S, articleArchiveSchema),
+          singletonListItem(S, newsAndEventsArchiveSchema),
         ]),
     );
 };

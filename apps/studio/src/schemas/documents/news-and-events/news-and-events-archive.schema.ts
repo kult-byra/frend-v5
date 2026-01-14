@@ -6,9 +6,9 @@ import { slugField } from "@/schemas/generator-fields/slug.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
 
-export const articleArchiveSchema = defineType({
-  name: "articleArchive",
-  title: "Artikkeloversikt",
+export const newsAndEventsArchiveSchema = defineType({
+  name: "newsAndEventsArchive",
+  title: "News and events (archive)",
   type: "document",
   icon: LayoutPanelTop,
   groups: defaultGroups,
@@ -19,14 +19,15 @@ export const articleArchiveSchema = defineType({
   fields: [
     stringField({
       name: "title",
-      title: "Tittel",
+      title: "Title",
       required: true,
       group: "key",
+      description: "Only shown in the studio",
     }),
     slugField({ isStatic: true }),
     infoField({
-      title: "Automatisk generert innhold",
-      description: "Alle publiserte artikler vises automatisk.",
+      title: "Automatically generated content",
+      description: "All published news and events are displayed automatically.",
       tone: "positive",
       icon: Bot,
       group: ["key", "content"],
