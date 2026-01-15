@@ -21,13 +21,13 @@ type LinksFieldProps = Omit<FieldDef<ArrayDefinition>, "of" | "validation"> & {
 
 const customTitleField = defineField({
   name: "customTitle",
-  title: "Egendefinert tittel",
+  title: "Custom title",
   type: "string",
 });
 
 const descriptionField = defineField({
   name: "description",
-  title: "Beskrivelse",
+  title: "Description",
   type: "text",
   rows: 2,
 });

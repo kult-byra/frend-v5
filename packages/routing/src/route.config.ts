@@ -19,6 +19,9 @@ export const routeConfig = {
   seminar: "/seminarer/:slug",
   caseStudy: "/saker/:slug",
   eBook: "/e-bøker/:slug",
+  client: "/kunder/:slug",
+  clientArchive: "/kunder",
+  conversionPage: "/:slug",
 } as const satisfies ValidRouteConfig;
 
 // Helper function to get the route path

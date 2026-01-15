@@ -29,13 +29,6 @@ export const eBookSchema = defineType({
         group: "key",
     }),
     ...connectionsFields(),
-    portableTextField({
-        title: "Summary",
-        name: "summary",
-        group: "content",
-        includeLists: true,
-        noContent: true,
-    }),
     portableTextWithBlocksField({
       group: "content",
       includeLists: true,

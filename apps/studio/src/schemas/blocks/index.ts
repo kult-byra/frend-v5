@@ -10,7 +10,7 @@ import { peopleBlockSchema } from "./people.block.schema";
 import { buttonBlockSchema } from "./button.block.schema";
 import { formBlockSchema } from "./form.block.schema";
 import { cardsBlockSchema } from "./cards.block.schema";
-import { imageWithBannerBlockSchema } from "./image-with-banner.block.schema";
+import { imagesWithBannerBlockSchema } from "./images-with-banner.block.schema";
 import { imageCarouselBlockSchema } from "./image-carousel.block.schema";
 import { jobOpeningsBlockSchema } from "./job-openings.block.schema";
 import { contentBlockSchema } from "./content.block.schema";
@@ -28,7 +28,7 @@ export const allBlockSchemas = {
   buttonBlockSchema,
   formBlockSchema,
   cardsBlockSchema,
-  imageWithBannerBlockSchema,
+  imagesWithBannerBlockSchema,
   imageCarouselBlockSchema,
   jobOpeningsBlockSchema,
   contentBlockSchema,

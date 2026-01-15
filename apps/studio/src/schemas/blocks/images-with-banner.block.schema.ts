@@ -5,10 +5,11 @@ import { stringField } from "../generator-fields/string.field";
 import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
 import { linksField } from "../generator-fields/links.field";
 import { referenceField } from "../generator-fields/reference.field";
+import { defineField } from "sanity";
 
-export const imageWithBannerBlockSchema = defineBlock({
-    name: "imageWithBanner",
-    title: "Image with banner",
+export const imagesWithBannerBlockSchema = defineBlock({
+    name: "imagesWithBanner",
+    title: "Images with banner",
     icon: ImagePlus,
     scope: ["portableText", "pageBuilder"],
     fields: [
@@ -50,16 +51,23 @@ export const imageWithBannerBlockSchema = defineBlock({
             to: [{ type: "hubspotForm" }],
             hidden: ({ parent }) => parent?.ctaType !== "form",
         }),
-        figureField({
-            name: "image",
-            title: "Image",
-            required: true,
+        defineField({
+            title: "Images",
+            name: "images",
+            type: "array",
+            of: [
+                figureField({
+                    name: "image",
+                    title: "Image",
+                }),
+            ],
+            validation: (Rule) => Rule.required().min(1).max(2).error("At least one image is required and at most two are allowed"),
         }),
     ],
     preview: {
         prepare() {
             return {
-                title: "Image with banner",
+                title: "Images with banner",
             };
         },
     },

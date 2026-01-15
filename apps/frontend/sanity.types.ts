@@ -26,15 +26,20 @@ export type DownloadLinkObjectFile = {
   _type: "file";
 };
 
-export type Options = {
-  imagePosition?: "left" | "right";
-};
-
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type CallToActionImage = {
+  asset?: SanityImageAssetReference;
+  media?: ImageMedia;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  changed?: boolean;
+  _type: "image";
 };
 
 export type TypegenSettings = {
@@ -217,6 +222,15 @@ export type MenuSettings = {
   }>;
 };
 
+export type Technology = {
+  _id: string;
+  _type: "technology";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+};
+
 export type Quote = {
   _id: string;
   _type: "quote";
@@ -230,6 +244,50 @@ export type Quote = {
   };
 };
 
+export type ServiceReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "service";
+};
+
+export type TechnologyReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "technology";
+};
+
+export type JobOpening = {
+  _id: string;
+  _type: "jobOpening";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  link?: Array<{
+    href: string;
+    customTitle?: string;
+    _type: "link";
+    _key: string;
+  }>;
+  services?: Array<{
+    _key: string;
+  } & ServiceReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
+};
+
+export type Industry = {
+  _id: string;
+  _type: "industry";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+};
+
 export type EventType = {
   _id: string;
   _type: "eventType";
@@ -237,6 +295,92 @@ export type EventType = {
   _updatedAt: string;
   _rev: string;
   title: string;
+};
+
+export type ContentBlock = {
+  _type: "content.block";
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3" | "h4";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+  } & AccordionsBlock | {
+    _key: string;
+  } & Figure | {
+    _key: string;
+  } & CallToActionBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & VideoBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock | {
+    _key: string;
+  } & ButtonBlock | {
+    _key: string;
+  } & FormBlock | {
+    _key: string;
+  } & ImageWithBannerBlock | {
+    _key: string;
+  } & ImageCarouselBlock>;
+};
+
+export type JobOpeningsBlock = {
+  _type: "jobOpenings.block";
+  heading?: string;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  info?: string;
 };
 
 export type ImageCarouselBlock = {
@@ -250,6 +394,13 @@ export type ImageCarouselBlock = {
     _type: "image";
     _key: string;
   }>;
+};
+
+export type HubspotFormReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "hubspotForm";
 };
 
 export type ImageWithBannerBlock = {
@@ -281,6 +432,7 @@ export type ImageWithBannerBlock = {
     _type: "block";
     _key: string;
   }>;
+  ctaType?: "link" | "form";
   link?: Array<{
     internalLink: InternalLink;
     customTitle?: string;
@@ -297,6 +449,7 @@ export type ImageWithBannerBlock = {
     _type: "downloadLinkObject";
     _key: string;
   }>;
+  form?: HubspotFormReference;
   image?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -307,20 +460,6 @@ export type ImageWithBannerBlock = {
   };
 };
 
-export type NewsArticleReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "newsArticle";
-};
-
-export type ServiceReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "service";
-};
-
 export type SubServiceReference = {
   _ref: string;
   _type: "reference";
@@ -328,16 +467,80 @@ export type SubServiceReference = {
   [internalGroqTypeReferenceTo]?: "subService";
 };
 
-export type CardsBlock = {
-  _type: "cards.block";
-  cards?: Array<NewsArticleReference | ServiceReference | SubServiceReference>;
-};
-
-export type HubspotFormReference = {
+export type NewsArticleReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "hubspotForm";
+  [internalGroqTypeReferenceTo]?: "newsArticle";
+};
+
+export type CaseStudyReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "caseStudy";
+};
+
+export type EventReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "event";
+};
+
+export type ClientReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "client";
+};
+
+export type CardsBlock = {
+  _type: "cards.block";
+  heading?: string;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  contentType: "services" | "newsArticle" | "caseStudy" | "event" | "client";
+  manualSelection?: boolean;
+  automaticInfo?: string;
+  manualInfo?: string;
+  manualServiceDocuments?: Array<ServiceReference | SubServiceReference>;
+  manualNewsArticleDocuments?: Array<{
+    _key: string;
+  } & NewsArticleReference>;
+  manualCaseStudyDocuments?: Array<{
+    _key: string;
+  } & CaseStudyReference>;
+  manualEventDocuments?: Array<{
+    _key: string;
+  } & EventReference>;
+  manualClientDocuments?: Array<{
+    _key: string;
+  } & ClientReference>;
 };
 
 export type FormBlock = {
@@ -427,55 +630,52 @@ export type LogoCloudBlock = {
 
 export type CallToActionBlock = {
   _type: "callToAction.block";
-  heading: string;
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    changed?: boolean;
-    _type: "image";
-  };
-  content?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
+  callToActions?: Array<{
+    heading: string;
+    image?: CallToActionImage;
+    content?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal";
+      listItem?: never;
+      markDefs?: Array<{
+        internalLink: InternalLink;
+        _type: "internalLinkObject";
+        _key: string;
+      } | {
+        href: string;
+        _type: "link";
+        _key: string;
+      } | {
+        file: DownloadLinkObjectFile;
+        _type: "downloadLinkObject";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
       _key: string;
     }>;
-    style?: "normal";
-    listItem?: never;
-    markDefs?: Array<{
+    links?: Array<{
       internalLink: InternalLink;
+      customTitle?: string;
       _type: "internalLinkObject";
       _key: string;
     } | {
       href: string;
+      customTitle?: string;
       _type: "link";
       _key: string;
     } | {
       file: DownloadLinkObjectFile;
+      customTitle?: string;
       _type: "downloadLinkObject";
       _key: string;
     }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  links?: Array<{
-    internalLink: InternalLink;
-    customTitle?: string;
-    _type: "internalLinkObject";
-    _key: string;
-  } | {
-    href: string;
-    customTitle?: string;
-    _type: "link";
-    _key: string;
-  } | {
-    file: DownloadLinkObjectFile;
-    customTitle?: string;
-    _type: "downloadLinkObject";
+    _type: "callToAction";
     _key: string;
   }>;
 };
@@ -524,9 +724,9 @@ export type AccordionsBlock = {
   }>;
 };
 
-export type ImageAndTextBlock = {
-  _type: "imageAndText.block";
-  heading: string;
+export type ImagesAndTextBlock = {
+  _type: "imagesAndText.block";
+  heading?: string;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -569,22 +769,15 @@ export type ImageAndTextBlock = {
     _type: "downloadLinkObject";
     _key: string;
   }>;
-  image?: {
+  images: Array<{
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     changed?: boolean;
     _type: "image";
-  };
-  options?: Options;
-};
-
-export type ClientReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "client";
+    _key: string;
+  }>;
 };
 
 export type IndustryReference = {
@@ -592,13 +785,6 @@ export type IndustryReference = {
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "industry";
-};
-
-export type TechnologyReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "technology";
 };
 
 export type CaseStudy = {
@@ -609,7 +795,6 @@ export type CaseStudy = {
   _rev: string;
   title: string;
   slug: Slug;
-  publishDate: string;
   coverImage?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -618,12 +803,17 @@ export type CaseStudy = {
     changed?: boolean;
     _type: "image";
   };
-  author?: PersonReference;
   client?: ClientReference;
   color?: "white" | "navy" | "orange";
-  service?: ServiceReference;
-  industry?: IndustryReference;
-  technology?: TechnologyReference;
+  services?: Array<{
+    _key: string;
+  } & ServiceReference>;
+  industries?: Array<{
+    _key: string;
+  } & IndustryReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
   summary?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -653,9 +843,7 @@ export type CaseStudy = {
   keyResults?: Array<string>;
   pageBuilder?: Array<{
     _key: string;
-  } & ImageAndTextBlock | {
-    _key: string;
-  } & CallToActionBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & LogoCloudBlock | {
     _key: string;
@@ -669,7 +857,11 @@ export type CaseStudy = {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
-  } & ImageCarouselBlock>;
+  } & ImageCarouselBlock | {
+    _key: string;
+  } & JobOpeningsBlock | {
+    _key: string;
+  } & ContentBlock>;
   metadata?: {
     title?: string;
     desc?: string;
@@ -686,22 +878,15 @@ export type CaseStudy = {
   };
 };
 
-export type IsometricIllustrationReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "isometricIllustration";
-};
-
-export type Service = {
+export type Client = {
   _id: string;
-  _type: "service";
+  _type: "client";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
-  slug: Slug;
-  excerpt?: Array<{
+  name: string;
+  logo?: LogoReference;
+  description?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -727,132 +912,26 @@ export type Service = {
     _type: "block";
     _key: string;
   }>;
-  illustration: IsometricIllustrationReference;
-  industry?: IndustryReference;
-  technology?: TechnologyReference;
-  subServicesDescription?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h2" | "h3" | "h4";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      internalLink: InternalLink;
-      _type: "internalLinkObject";
-      _key: string;
-    } | {
-      href: string;
-      _type: "link";
-      _key: string;
-    } | {
-      file: DownloadLinkObjectFile;
-      _type: "downloadLinkObject";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
+  services?: Array<{
     _key: string;
-  }>;
-  content?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h2" | "h3" | "h4";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      internalLink: InternalLink;
-      _type: "internalLinkObject";
-      _key: string;
-    } | {
-      href: string;
-      _type: "link";
-      _key: string;
-    } | {
-      file: DownloadLinkObjectFile;
-      _type: "downloadLinkObject";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
+  } & ServiceReference>;
+  industries?: Array<{
     _key: string;
-  } | {
+  } & IndustryReference>;
+  technologies?: Array<{
     _key: string;
-  } & ImageAndTextBlock | {
-    _key: string;
-  } & AccordionsBlock | {
-    _key: string;
-  } & Figure | {
-    _key: string;
-  } & CallToActionBlock | {
-    _key: string;
-  } & LogoCloudBlock | {
-    _key: string;
-  } & VideoBlock | {
-    _key: string;
-  } & ImageGalleryBlock | {
-    _key: string;
-  } & QuotesBlock | {
-    _key: string;
-  } & PeopleBlock | {
-    _key: string;
-  } & ButtonBlock | {
-    _key: string;
-  } & FormBlock | {
-    _key: string;
-  } & CardsBlock | {
-    _key: string;
-  } & ImageWithBannerBlock | {
-    _key: string;
-  } & ImageCarouselBlock>;
-  info?: string;
-  metadata?: {
-    title?: string;
-    desc?: string;
-    image?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      changed?: boolean;
-      _type: "image";
-    };
-    tags?: Array<string>;
-    noIndex?: boolean;
-  };
+  } & TechnologyReference>;
 };
 
-export type EBook = {
+export type ClientArchive = {
   _id: string;
-  _type: "eBook";
+  _type: "clientArchive";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title: string;
-  slug: Slug;
-  coverImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    changed?: boolean;
-    _type: "image";
-  };
-  uploadFile?: Array<{
-    file: DownloadLinkObjectFile;
-    customTitle?: string;
-    _type: "downloadLinkObject";
-    _key: string;
-  }>;
-  service?: ServiceReference;
-  industry?: IndustryReference;
-  technology?: TechnologyReference;
-  summary?: Array<{
+  slug?: Slug;
+  excerpt?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -878,6 +957,126 @@ export type EBook = {
     _type: "block";
     _key: string;
   }>;
+  info?: string;
+  metadata?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+};
+
+export type ConversionPage = {
+  _id: string;
+  _type: "conversionPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
+  contactForm?: HubspotFormReference;
+  highlightedClients?: Array<{
+    _key: string;
+  } & ClientReference>;
+  highlightedQuotes?: Array<{
+    _key: string;
+  } & QuoteReference>;
+  pageBuilder?: Array<{
+    _key: string;
+  } & ImagesAndTextBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock | {
+    _key: string;
+  } & CardsBlock | {
+    _key: string;
+  } & ImageWithBannerBlock | {
+    _key: string;
+  } & ImageCarouselBlock | {
+    _key: string;
+  } & JobOpeningsBlock | {
+    _key: string;
+  } & ContentBlock>;
+};
+
+export type EBook = {
+  _id: string;
+  _type: "eBook";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
+  uploadFile?: Array<{
+    file: DownloadLinkObjectFile;
+    customTitle?: string;
+    _type: "downloadLinkObject";
+    _key: string;
+  }>;
+  services?: Array<{
+    _key: string;
+  } & ServiceReference>;
+  industries?: Array<{
+    _key: string;
+  } & IndustryReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -905,7 +1104,7 @@ export type EBook = {
     _key: string;
   } | {
     _key: string;
-  } & ImageAndTextBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & AccordionsBlock | {
     _key: string;
@@ -926,8 +1125,6 @@ export type EBook = {
   } & ButtonBlock | {
     _key: string;
   } & FormBlock | {
-    _key: string;
-  } & CardsBlock | {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
@@ -971,9 +1168,15 @@ export type Event = {
   location: string;
   price: string;
   signupForm: HubspotFormReference;
-  service?: ServiceReference;
-  industry?: IndustryReference;
-  technology?: TechnologyReference;
+  services?: Array<{
+    _key: string;
+  } & ServiceReference>;
+  industries?: Array<{
+    _key: string;
+  } & IndustryReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
   layout: "default" | "submersive";
   color?: "white" | "yellow";
   description?: Array<{
@@ -1029,7 +1232,7 @@ export type Event = {
     _key: string;
   } | {
     _key: string;
-  } & ImageAndTextBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & AccordionsBlock | {
     _key: string;
@@ -1050,8 +1253,6 @@ export type Event = {
   } & ButtonBlock | {
     _key: string;
   } & FormBlock | {
-    _key: string;
-  } & CardsBlock | {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
@@ -1079,11 +1280,52 @@ export type FrontPage = {
   _updatedAt: string;
   _rev: string;
   title: string;
+  heading: string;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  links?: Array<{
+    internalLink: InternalLink;
+    customTitle?: string;
+    _type: "internalLinkObject";
+    _key: string;
+  } | {
+    href: string;
+    customTitle?: string;
+    _type: "link";
+    _key: string;
+  } | {
+    file: DownloadLinkObjectFile;
+    customTitle?: string;
+    _type: "downloadLinkObject";
+    _key: string;
+  }>;
   pageBuilder?: Array<{
     _key: string;
-  } & ImageAndTextBlock | {
-    _key: string;
-  } & CallToActionBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & LogoCloudBlock | {
     _key: string;
@@ -1097,7 +1339,11 @@ export type FrontPage = {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
-  } & ImageCarouselBlock>;
+  } & ImageCarouselBlock | {
+    _key: string;
+  } & JobOpeningsBlock | {
+    _key: string;
+  } & ContentBlock>;
 };
 
 export type KnowledgeArticle = {
@@ -1118,9 +1364,15 @@ export type KnowledgeArticle = {
     _type: "image";
   };
   author?: PersonReference;
-  service?: ServiceReference;
-  industry?: IndustryReference;
-  technology?: TechnologyReference;
+  services?: Array<{
+    _key: string;
+  } & ServiceReference>;
+  industries?: Array<{
+    _key: string;
+  } & IndustryReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
   summary?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1174,7 +1426,7 @@ export type KnowledgeArticle = {
     _key: string;
   } | {
     _key: string;
-  } & ImageAndTextBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & AccordionsBlock | {
     _key: string;
@@ -1195,8 +1447,6 @@ export type KnowledgeArticle = {
   } & ButtonBlock | {
     _key: string;
   } & FormBlock | {
-    _key: string;
-  } & CardsBlock | {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
@@ -1236,9 +1486,15 @@ export type NewsArticle = {
     _key: string;
   }>;
   author?: PersonReference;
-  service?: ServiceReference;
-  industry?: IndustryReference;
-  technology?: TechnologyReference;
+  services?: Array<{
+    _key: string;
+  } & ServiceReference>;
+  industries?: Array<{
+    _key: string;
+  } & IndustryReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1266,7 +1522,7 @@ export type NewsArticle = {
     _key: string;
   } | {
     _key: string;
-  } & ImageAndTextBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & AccordionsBlock | {
     _key: string;
@@ -1287,8 +1543,6 @@ export type NewsArticle = {
   } & ButtonBlock | {
     _key: string;
   } & FormBlock | {
-    _key: string;
-  } & CardsBlock | {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
@@ -1317,11 +1571,51 @@ export type Page = {
   _rev: string;
   title: string;
   slug: Slug;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  links?: Array<{
+    internalLink: InternalLink;
+    customTitle?: string;
+    _type: "internalLinkObject";
+    _key: string;
+  } | {
+    href: string;
+    customTitle?: string;
+    _type: "link";
+    _key: string;
+  } | {
+    file: DownloadLinkObjectFile;
+    customTitle?: string;
+    _type: "downloadLinkObject";
+    _key: string;
+  }>;
   pageBuilder?: Array<{
     _key: string;
-  } & ImageAndTextBlock | {
-    _key: string;
-  } & CallToActionBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & LogoCloudBlock | {
     _key: string;
@@ -1335,7 +1629,11 @@ export type Page = {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
-  } & ImageCarouselBlock>;
+  } & ImageCarouselBlock | {
+    _key: string;
+  } & JobOpeningsBlock | {
+    _key: string;
+  } & ContentBlock>;
   metadata?: {
     title?: string;
     desc?: string;
@@ -1360,20 +1658,43 @@ export type Seminar = {
   _rev: string;
   title: string;
   slug: Slug;
-  publishDate: string;
-  coverImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    changed?: boolean;
-    _type: "image";
-  };
-  author?: PersonReference;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  client?: ClientReference;
   signupForm: HubspotFormReference;
-  service?: ServiceReference;
-  industry?: IndustryReference;
-  technology?: TechnologyReference;
+  services?: Array<{
+    _key: string;
+  } & ServiceReference>;
+  industries?: Array<{
+    _key: string;
+  } & IndustryReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1401,7 +1722,7 @@ export type Seminar = {
     _key: string;
   } | {
     _key: string;
-  } & ImageAndTextBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & AccordionsBlock | {
     _key: string;
@@ -1423,11 +1744,152 @@ export type Seminar = {
     _key: string;
   } & FormBlock | {
     _key: string;
-  } & CardsBlock | {
+  } & ImageWithBannerBlock | {
+    _key: string;
+  } & ImageCarouselBlock>;
+  metadata?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+};
+
+export type IsometricIllustrationReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "isometricIllustration";
+};
+
+export type Service = {
+  _id: string;
+  _type: "service";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  excerpt?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  illustration: IsometricIllustrationReference;
+  industries?: Array<{
+    _key: string;
+  } & IndustryReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
+  subServicesDescription?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3" | "h4";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3" | "h4";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      internalLink: InternalLink;
+      _type: "internalLinkObject";
+      _key: string;
+    } | {
+      href: string;
+      _type: "link";
+      _key: string;
+    } | {
+      file: DownloadLinkObjectFile;
+      _type: "downloadLinkObject";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    _key: string;
+  } & ImagesAndTextBlock | {
+    _key: string;
+  } & AccordionsBlock | {
+    _key: string;
+  } & Figure | {
+    _key: string;
+  } & CallToActionBlock | {
+    _key: string;
+  } & LogoCloudBlock | {
+    _key: string;
+  } & VideoBlock | {
+    _key: string;
+  } & ImageGalleryBlock | {
+    _key: string;
+  } & QuotesBlock | {
+    _key: string;
+  } & PeopleBlock | {
+    _key: string;
+  } & ButtonBlock | {
+    _key: string;
+  } & FormBlock | {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
   } & ImageCarouselBlock>;
+  info?: string;
   metadata?: {
     title?: string;
     desc?: string;
@@ -1460,7 +1922,7 @@ export type ServicesArchive = {
       _key: string;
     }>;
     style?: "normal";
-    listItem?: never;
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       internalLink: InternalLink;
       _type: "internalLinkObject";
@@ -1519,7 +1981,7 @@ export type SubService = {
       _key: string;
     }>;
     style?: "normal";
-    listItem?: never;
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       internalLink: InternalLink;
       _type: "internalLinkObject";
@@ -1538,8 +2000,13 @@ export type SubService = {
     _key: string;
   }>;
   illustration?: IsometricIllustrationReference;
-  industry?: IndustryReference;
-  technology?: TechnologyReference;
+  service: ServiceReference;
+  industries?: Array<{
+    _key: string;
+  } & IndustryReference>;
+  technologies?: Array<{
+    _key: string;
+  } & TechnologyReference>;
   content?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1567,7 +2034,7 @@ export type SubService = {
     _key: string;
   } | {
     _key: string;
-  } & ImageAndTextBlock | {
+  } & ImagesAndTextBlock | {
     _key: string;
   } & AccordionsBlock | {
     _key: string;
@@ -1588,8 +2055,6 @@ export type SubService = {
   } & ButtonBlock | {
     _key: string;
   } & FormBlock | {
-    _key: string;
-  } & CardsBlock | {
     _key: string;
   } & ImageWithBannerBlock | {
     _key: string;
@@ -1692,61 +2157,6 @@ export type KnowledgeHub = {
   };
 };
 
-export type HubspotForm = {
-  _id: string;
-  _type: "hubspotForm";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  formId: string;
-};
-
-export type Technology = {
-  _id: string;
-  _type: "technology";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-};
-
-export type Industry = {
-  _id: string;
-  _type: "industry";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-};
-
-export type Client = {
-  _id: string;
-  _type: "client";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  logo?: LogoReference;
-};
-
-export type Logo = {
-  _id: string;
-  _type: "logo";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    changed?: boolean;
-    _type: "image";
-  };
-};
-
 export type Person = {
   _id: string;
   _type: "person";
@@ -1767,11 +2177,45 @@ export type Person = {
   company?: string;
 };
 
-export type CaseStudyReference = {
+export type HubspotForm = {
+  _id: string;
+  _type: "hubspotForm";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  formId: string;
+};
+
+export type Logo = {
+  _id: string;
+  _type: "logo";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
+};
+
+export type ClientArchiveReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "caseStudy";
+  [internalGroqTypeReferenceTo]?: "clientArchive";
+};
+
+export type ConversionPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "conversionPage";
 };
 
 export type EBookReference = {
@@ -1779,13 +2223,6 @@ export type EBookReference = {
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "eBook";
-};
-
-export type EventReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "event";
 };
 
 export type KnowledgeArticleReference = {
@@ -1823,7 +2260,7 @@ export type ServicesArchiveReference = {
   [internalGroqTypeReferenceTo]?: "servicesArchive";
 };
 
-export type InternalLink = CaseStudyReference | EBookReference | EventReference | FrontPageReference | KnowledgeArticleReference | KnowledgeHubReference | NewsAndEventsArchiveReference | NewsArticleReference | PageReference | SeminarReference | ServiceReference | ServicesArchiveReference | SubServiceReference;
+export type InternalLink = CaseStudyReference | ClientArchiveReference | ClientReference | ConversionPageReference | EBookReference | EventReference | FrontPageReference | KnowledgeArticleReference | KnowledgeHubReference | NewsAndEventsArchiveReference | NewsArticleReference | PageReference | SeminarReference | ServiceReference | ServicesArchiveReference | SubServiceReference;
 
 export type ExternalLink = string;
 
@@ -1932,7 +2369,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | Options | SanityImageAssetReference | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Quote | EventType | ImageCarouselBlock | ImageWithBannerBlock | NewsArticleReference | ServiceReference | SubServiceReference | CardsBlock | HubspotFormReference | FormBlock | ButtonBlock | PersonReference | PeopleBlock | QuoteReference | QuotesBlock | ImageGalleryBlock | VideoBlock | LogoReference | LogoCloudBlock | CallToActionBlock | Figure | AccordionsBlock | ImageAndTextBlock | ClientReference | IndustryReference | TechnologyReference | CaseStudy | IsometricIllustrationReference | Service | EBook | Event | FrontPage | KnowledgeArticle | NewsArticle | Page | Seminar | ServicesArchive | SubService | IsometricIllustration | Slug | NewsAndEventsArchive | KnowledgeHub | HubspotForm | Technology | Industry | Client | Logo | Person | CaseStudyReference | EBookReference | EventReference | KnowledgeArticleReference | KnowledgeHubReference | NewsAndEventsArchiveReference | SeminarReference | ServicesArchiveReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObjectFile | SanityImageAssetReference | CallToActionImage | TypegenSettings | SanityImageCrop | SanityImageHotspot | FrontPageReference | PageReference | SiteSettings | MetadataSettings | MenuSettings | Technology | Quote | ServiceReference | TechnologyReference | JobOpening | Industry | EventType | ContentBlock | JobOpeningsBlock | ImageCarouselBlock | HubspotFormReference | ImageWithBannerBlock | SubServiceReference | NewsArticleReference | CaseStudyReference | EventReference | ClientReference | CardsBlock | FormBlock | ButtonBlock | PersonReference | PeopleBlock | QuoteReference | QuotesBlock | ImageGalleryBlock | VideoBlock | LogoReference | LogoCloudBlock | CallToActionBlock | Figure | AccordionsBlock | ImagesAndTextBlock | IndustryReference | CaseStudy | Client | ClientArchive | ConversionPage | EBook | Event | FrontPage | KnowledgeArticle | NewsArticle | Page | Seminar | IsometricIllustrationReference | Service | ServicesArchive | SubService | IsometricIllustration | Slug | NewsAndEventsArchive | KnowledgeHub | Person | HubspotForm | Logo | ClientArchiveReference | ConversionPageReference | EBookReference | KnowledgeArticleReference | KnowledgeHubReference | NewsAndEventsArchiveReference | SeminarReference | ServicesArchiveReference | InternalLink | ExternalLink | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/components/fathom/fathom-secrets.query.ts
 // Variable: fathomSecretsQuery
@@ -2040,123 +2477,15 @@ export type ArticleQueryResult = {
   } | {
     _key: string;
     _type: "callToAction.block";
-    heading: string;
-    content: Array<{
-      _key: string;
-      _ts: "PortableTextInnerQuery";
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal";
-      listItem?: never;
-      markDefs: Array<{
-        file: DownloadLinkObjectFile;
-        _type: "downloadLinkObject";
-        _key: string;
-        _ts: "DownloadLinkObjectInPortableTextQuery";
-        url: null;
-      } | {
-        internalLink: null;
-        _type: "internalLinkObject";
-        _key: string;
-        _ts: "InternalLinkObjectInPortableTextQuery";
-      } | {
-        href: string;
-        _type: "link";
-        _key: string;
-        _ts: "LinkInPortableTextQuery";
-        url: string;
-      }> | null;
-      level?: number;
-      _type: "block";
-    }> | null;
-    links: Array<{
-      _key: string;
-      linkType: "download";
-      title: string | null;
-      url: null;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "external";
-      title: string;
-      url: string;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "internal";
-      description: null;
-    }> | null;
+    heading: null;
+    content: null;
+    links: null;
   } | {
     _key: string;
     _type: "figure";
     crop: SanityImageCrop | null;
     hotspot: SanityImageHotspot | null;
     asset: null;
-  } | {
-    _key: string;
-    _type: "imageAndText.block";
-    heading: string;
-    content: Array<{
-      _key: string;
-      _ts: "PortableTextInnerQuery";
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal";
-      listItem?: "bullet" | "number";
-      markDefs: Array<{
-        file: DownloadLinkObjectFile;
-        _type: "downloadLinkObject";
-        _key: string;
-        _ts: "DownloadLinkObjectInPortableTextQuery";
-        url: null;
-      } | {
-        internalLink: null;
-        _type: "internalLinkObject";
-        _key: string;
-        _ts: "InternalLinkObjectInPortableTextQuery";
-      } | {
-        href: string;
-        _type: "link";
-        _key: string;
-        _ts: "LinkInPortableTextQuery";
-        url: string;
-      }> | null;
-      level?: number;
-      _type: "block";
-    }> | null;
-    links: Array<{
-      _key: string;
-      linkType: "download";
-      title: string | null;
-      url: null;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "external";
-      title: string;
-      url: string;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "internal";
-      description: null;
-    }> | null;
-    image: {
-      crop: SanityImageCrop | null;
-      hotspot: SanityImageHotspot | null;
-      asset: null;
-    } | null;
-    options: {
-      imagePosition: "left" | "right" | null;
-    } | null;
   } | {
     _key: string;
   }> | null;
@@ -2188,122 +2517,11 @@ export type FrontPageQueryResult = null;
 export type PageQueryResult = {
   _id: string;
   pageBuilder: Array<{
-    _type: "callToAction.block";
-    _key: string;
-    heading: string;
-    content: Array<{
-      _key: string;
-      _ts: "PortableTextInnerQuery";
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal";
-      listItem?: never;
-      markDefs: Array<{
-        file: DownloadLinkObjectFile;
-        _type: "downloadLinkObject";
-        _key: string;
-        _ts: "DownloadLinkObjectInPortableTextQuery";
-        url: null;
-      } | {
-        internalLink: null;
-        _type: "internalLinkObject";
-        _key: string;
-        _ts: "InternalLinkObjectInPortableTextQuery";
-      } | {
-        href: string;
-        _type: "link";
-        _key: string;
-        _ts: "LinkInPortableTextQuery";
-        url: string;
-      }> | null;
-      level?: number;
-      _type: "block";
-    }> | null;
-    links: Array<{
-      _key: string;
-      linkType: "download";
-      title: string | null;
-      url: null;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "external";
-      title: string;
-      url: string;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "internal";
-      description: null;
-    }> | null;
-  } | {
     _type: "cards.block";
     _key: string;
   } | {
-    _type: "imageAndText.block";
+    _type: "content.block";
     _key: string;
-    heading: string;
-    content: Array<{
-      _key: string;
-      _ts: "PortableTextInnerQuery";
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal";
-      listItem?: "bullet" | "number";
-      markDefs: Array<{
-        file: DownloadLinkObjectFile;
-        _type: "downloadLinkObject";
-        _key: string;
-        _ts: "DownloadLinkObjectInPortableTextQuery";
-        url: null;
-      } | {
-        internalLink: null;
-        _type: "internalLinkObject";
-        _key: string;
-        _ts: "InternalLinkObjectInPortableTextQuery";
-      } | {
-        href: string;
-        _type: "link";
-        _key: string;
-        _ts: "LinkInPortableTextQuery";
-        url: string;
-      }> | null;
-      level?: number;
-      _type: "block";
-    }> | null;
-    links: Array<{
-      _key: string;
-      linkType: "download";
-      title: string | null;
-      url: null;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "external";
-      title: string;
-      url: string;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "internal";
-      description: null;
-    }> | null;
-    image: {
-      crop: SanityImageCrop | null;
-      hotspot: SanityImageHotspot | null;
-      asset: null;
-    } | null;
-    options: {
-      imagePosition: "left" | "right" | null;
-    } | null;
   } | {
     _type: "imageCarousel.block";
     _key: string;
@@ -2311,7 +2529,13 @@ export type PageQueryResult = {
     _type: "imageGallery.block";
     _key: string;
   } | {
+    _type: "imagesAndText.block";
+    _key: string;
+  } | {
     _type: "imageWithBanner.block";
+    _key: string;
+  } | {
+    _type: "jobOpenings.block";
     _key: string;
   } | {
     _type: "logoCloud.block";
@@ -2325,7 +2549,32 @@ export type PageQueryResult = {
   }> | null;
   metadata: {
     title: string;
-    desc: string | null;
+    desc: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        file: DownloadLinkObjectFile;
+        _type: "downloadLinkObject";
+        _key: string;
+      } | {
+        internalLink: InternalLink;
+        _type: "internalLinkObject";
+        _key: string;
+      } | {
+        href: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | string | null;
     image: {
       id: string | null;
       altText: null;
@@ -2344,122 +2593,11 @@ export type PageSlugsQueryResult = Array<{
 // Variable: _pageBuilderTypegenQuery
 // Query: *[_type == "page"][0].pageBuilder[] {      _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  links[] {    _key,    _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},    _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}  }}    }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  links[] {    _key,    _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},    _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}  }}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }}  )    }
 export type _pageBuilderTypegenQueryResult = Array<{
-  _type: "callToAction.block";
-  _key: string;
-  heading: string;
-  content: Array<{
-    _key: string;
-    _ts: "PortableTextInnerQuery";
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal";
-    listItem?: never;
-    markDefs: Array<{
-      file: DownloadLinkObjectFile;
-      _type: "downloadLinkObject";
-      _key: string;
-      _ts: "DownloadLinkObjectInPortableTextQuery";
-      url: null;
-    } | {
-      internalLink: null;
-      _type: "internalLinkObject";
-      _key: string;
-      _ts: "InternalLinkObjectInPortableTextQuery";
-    } | {
-      href: string;
-      _type: "link";
-      _key: string;
-      _ts: "LinkInPortableTextQuery";
-      url: string;
-    }> | null;
-    level?: number;
-    _type: "block";
-  }> | null;
-  links: Array<{
-    _key: string;
-    linkType: "download";
-    title: string | null;
-    url: null;
-    description: null;
-  } | {
-    _key: string;
-    linkType: "external";
-    title: string;
-    url: string;
-    description: null;
-  } | {
-    _key: string;
-    linkType: "internal";
-    description: null;
-  }> | null;
-} | {
   _type: "cards.block";
   _key: string;
 } | {
-  _type: "imageAndText.block";
+  _type: "content.block";
   _key: string;
-  heading: string;
-  content: Array<{
-    _key: string;
-    _ts: "PortableTextInnerQuery";
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal";
-    listItem?: "bullet" | "number";
-    markDefs: Array<{
-      file: DownloadLinkObjectFile;
-      _type: "downloadLinkObject";
-      _key: string;
-      _ts: "DownloadLinkObjectInPortableTextQuery";
-      url: null;
-    } | {
-      internalLink: null;
-      _type: "internalLinkObject";
-      _key: string;
-      _ts: "InternalLinkObjectInPortableTextQuery";
-    } | {
-      href: string;
-      _type: "link";
-      _key: string;
-      _ts: "LinkInPortableTextQuery";
-      url: string;
-    }> | null;
-    level?: number;
-    _type: "block";
-  }> | null;
-  links: Array<{
-    _key: string;
-    linkType: "download";
-    title: string | null;
-    url: null;
-    description: null;
-  } | {
-    _key: string;
-    linkType: "external";
-    title: string;
-    url: string;
-    description: null;
-  } | {
-    _key: string;
-    linkType: "internal";
-    description: null;
-  }> | null;
-  image: {
-    crop: SanityImageCrop | null;
-    hotspot: SanityImageHotspot | null;
-    asset: null;
-  } | null;
-  options: {
-    imagePosition: "left" | "right" | null;
-  } | null;
 } | {
   _type: "imageCarousel.block";
   _key: string;
@@ -2467,7 +2605,13 @@ export type _pageBuilderTypegenQueryResult = Array<{
   _type: "imageGallery.block";
   _key: string;
 } | {
+  _type: "imagesAndText.block";
+  _key: string;
+} | {
   _type: "imageWithBanner.block";
+  _key: string;
+} | {
+  _type: "jobOpenings.block";
   _key: string;
 } | {
   _type: "logoCloud.block";
@@ -2496,6 +2640,18 @@ export type SitemapQueryResult = {
     _type: "client";
     slug: null;
     title: null;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "clientArchive";
+    slug: string | null;
+    title: string;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "conversionPage";
+    slug: string;
+    title: string;
   } | {
     _id: string;
     _updatedAt: string;
@@ -2536,6 +2692,12 @@ export type SitemapQueryResult = {
     _id: string;
     _updatedAt: string;
     _type: "isometricIllustration";
+    slug: null;
+    title: string | null;
+  } | {
+    _id: string;
+    _updatedAt: string;
+    _type: "jobOpening";
     slug: null;
     title: string | null;
   } | {
@@ -2701,123 +2863,15 @@ export type _fullPortableTextQueryTypeResult = {
   } | {
     _key: string;
     _type: "callToAction.block";
-    heading: string;
-    content: Array<{
-      _key: string;
-      _ts: "PortableTextInnerQuery";
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal";
-      listItem?: never;
-      markDefs: Array<{
-        file: DownloadLinkObjectFile;
-        _type: "downloadLinkObject";
-        _key: string;
-        _ts: "DownloadLinkObjectInPortableTextQuery";
-        url: null;
-      } | {
-        internalLink: null;
-        _type: "internalLinkObject";
-        _key: string;
-        _ts: "InternalLinkObjectInPortableTextQuery";
-      } | {
-        href: string;
-        _type: "link";
-        _key: string;
-        _ts: "LinkInPortableTextQuery";
-        url: string;
-      }> | null;
-      level?: number;
-      _type: "block";
-    }> | null;
-    links: Array<{
-      _key: string;
-      linkType: "download";
-      title: string | null;
-      url: null;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "external";
-      title: string;
-      url: string;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "internal";
-      description: null;
-    }> | null;
+    heading: null;
+    content: null;
+    links: null;
   } | {
     _key: string;
     _type: "figure";
     crop: SanityImageCrop | null;
     hotspot: SanityImageHotspot | null;
     asset: null;
-  } | {
-    _key: string;
-    _type: "imageAndText.block";
-    heading: string;
-    content: Array<{
-      _key: string;
-      _ts: "PortableTextInnerQuery";
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal";
-      listItem?: "bullet" | "number";
-      markDefs: Array<{
-        file: DownloadLinkObjectFile;
-        _type: "downloadLinkObject";
-        _key: string;
-        _ts: "DownloadLinkObjectInPortableTextQuery";
-        url: null;
-      } | {
-        internalLink: null;
-        _type: "internalLinkObject";
-        _key: string;
-        _ts: "InternalLinkObjectInPortableTextQuery";
-      } | {
-        href: string;
-        _type: "link";
-        _key: string;
-        _ts: "LinkInPortableTextQuery";
-        url: string;
-      }> | null;
-      level?: number;
-      _type: "block";
-    }> | null;
-    links: Array<{
-      _key: string;
-      linkType: "download";
-      title: string | null;
-      url: null;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "external";
-      title: string;
-      url: string;
-      description: null;
-    } | {
-      _key: string;
-      linkType: "internal";
-      description: null;
-    }> | null;
-    image: {
-      crop: SanityImageCrop | null;
-      hotspot: SanityImageHotspot | null;
-      asset: null;
-    } | null;
-    options: {
-      imagePosition: "left" | "right" | null;
-    } | null;
   } | {
     _key: string;
   }> | null;
@@ -3060,7 +3114,32 @@ export type _fullLinksTypegenQueryResult = {
 export type MetadataPageQueryResult = {
   metadata: {
     title: string;
-    desc: string | null;
+    desc: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        file: DownloadLinkObjectFile;
+        _type: "downloadLinkObject";
+        _key: string;
+      } | {
+        internalLink: InternalLink;
+        _type: "internalLinkObject";
+        _key: string;
+      } | {
+        href: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | string | null;
     image: {
       id: string | null;
       altText: null;

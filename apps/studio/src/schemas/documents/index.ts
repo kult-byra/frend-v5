@@ -19,6 +19,7 @@ export { knowledgeArticleSchema } from "@/schemas/documents/knowledge-hub/knowle
 export { seminarSchema } from "@/schemas/documents/knowledge-hub/seminar.schema";
 export { caseStudySchema } from "@/schemas/documents/knowledge-hub/case-study.schema";
 export { clientSchema } from "@/schemas/documents/clients/client.schema";
+export { clientArchiveSchema } from "@/schemas/documents/clients/client-archive.schema";
 export { eBookSchema } from "@/schemas/documents/knowledge-hub/e-book.schema";
 export { conversionPageSchema } from "@/schemas/documents/conversion-page.schema";
 export { jobOpeningSchema } from "@/schemas/documents/organisation/job-opening.schema";

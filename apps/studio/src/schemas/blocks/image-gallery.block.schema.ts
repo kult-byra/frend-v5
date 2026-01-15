@@ -19,7 +19,7 @@ export const imageGalleryBlockSchema = defineBlock({
             title: "Image",
         }),
       ],
-      validation: (Rule) => Rule.required().min(2).max(3).error("At least two images are required and at most three are allowed"),
+      validation: (Rule) => Rule.required().min(1).max(3).error("At least one image is required and at most three are allowed"),
     }),
   ],
   preview: {

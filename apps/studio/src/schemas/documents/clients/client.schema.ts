@@ -12,6 +12,9 @@ export const clientSchema = defineType({
   type: "document",
   icon: Building,
   groups: defaultGroups,
+  options: {
+    linkable: true,
+  },
   fields: [
     stringField({
       name: "name",

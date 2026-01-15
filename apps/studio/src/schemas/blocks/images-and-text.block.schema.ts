@@ -15,7 +15,6 @@ export const imagesAndTextBlockSchema = defineBlock({
     stringField({
       name: "heading",
       title: "Heading",
-      required: true,
     }),
     portableTextField({
       includeLists: true,
@@ -41,19 +40,11 @@ export const imagesAndTextBlockSchema = defineBlock({
     }),
 
   ],
-  optionFields: [
-    stringField({
-      name: "imagePosition",
-      title: "Image position",
-      options: {
-        list: [
-          { title: "Left", value: "left" },
-          { title: "Right", value: "right" },
-        ],
-        layout: "radio",
-        direction: "horizontal",
-      },
-      initialValue: "left",
-    }),
-  ],
+  preview: {
+      prepare() {
+      return {
+        title: "Images and text",
+      };
+    },
+  },
 });

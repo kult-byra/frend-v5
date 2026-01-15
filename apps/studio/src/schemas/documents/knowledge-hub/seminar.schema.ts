@@ -18,9 +18,15 @@ export const seminarSchema = defineType({
     linkable: true,
   },
   fields: [
-    ...heroFields({ 
-      includePublishDate: true, 
-      includeAuthor: true,
+    ...heroFields({
+      includeCoverImage: false,
+      includeExcerpt: true,
+    }),
+    referenceField({
+      title: "Client",
+      name: "client",
+      to: [{ type: "client" }],
+      group: "key",
     }),
     referenceField({
       title: "Signup form",

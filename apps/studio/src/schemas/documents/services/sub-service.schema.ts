@@ -29,6 +29,13 @@ export const subServiceSchema = defineType({
       to: [{ type: "isometricIllustration" }],
       group: "key",
     }),
+    referenceField({
+      title: "Service",
+      name: "service",
+      to: [{ type: "service" }],
+      group: "key",
+      required: true,
+    }),
 
     ...connectionsFields({service: false}),
 
