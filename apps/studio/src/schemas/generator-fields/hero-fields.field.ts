@@ -6,6 +6,7 @@ import { slugField } from "@/schemas/generator-fields/slug.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { referenceField } from "./reference.field";
 import { portableTextField } from "./portable-text/portable-text.field";
+import { linksField } from "./links.field";
 
 export const heroFields = (options?: { 
   includePublishDate?: boolean; 
@@ -14,6 +15,7 @@ export const heroFields = (options?: {
   isStatic?: boolean
   includeExcerpt?: boolean
   includeCoverImage?: boolean
+  includeLinks?: boolean
 }): FieldDefinition[] => { const { 
     includePublishDate = false, 
     multipleCoverImages = false,
@@ -21,6 +23,7 @@ export const heroFields = (options?: {
     isStatic = false,
     includeExcerpt = false,
     includeCoverImage = true,
+    includeLinks = false,
   } = options ?? {};
 
   return [
@@ -36,6 +39,7 @@ export const heroFields = (options?: {
       name: "excerpt",
       group: "key",
       noContent: true,
+      includeLists: true,
     })] : []),
     ...(includePublishDate
       ? [
@@ -79,6 +83,18 @@ export const heroFields = (options?: {
             title: "Author",
             name: "author",
             to: [{ type: "person" }],
+            group: "key",
+          }),
+        ]
+      : []),
+    ...(includeLinks
+      ? [
+          linksField({
+            title: "Links",
+            name: "links",
+            includeExternal: true,
+            includeDownload: true,
+            max: 2,
             group: "key",
           }),
         ]

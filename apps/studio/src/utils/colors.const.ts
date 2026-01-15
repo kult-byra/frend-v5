@@ -12,6 +12,14 @@ export const COLORS = [
     name: "yellow",
     hex: "#FFB23C",
   },
+  {
+    name: "navy",
+    hex: "#0B0426",
+  },
+  {
+    name: "orange",
+    hex: "#FC5000",
+  },
 ] as const satisfies Color[];
 
 export type ColorName = (typeof COLORS)[number]["name"];

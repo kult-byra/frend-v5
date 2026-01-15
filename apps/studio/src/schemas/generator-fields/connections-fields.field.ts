@@ -17,30 +17,33 @@ export const connectionsFields = (options?: {
     ...(service
       ? [
           referenceField({
-            title: "Service",
-            name: "service",
+            title: "Services",
+            name: "services",
             to: [{ type: "service" }],
             group: "connections",
+            allowMultiple: true,
           }),
         ]
       : []),
     ...(industry
       ? [
           referenceField({
-            title: "Industry",
-            name: "industry",
+            title: "Industries",
+            name: "industries",
             to: [{ type: "industry" }],
             group: "connections",
+            allowMultiple: true,
           }),
         ]
       : []),
     ...(technology
       ? [
           referenceField({
-            title: "Technology",
-            name: "technology",
+            title: "Technologies",
+            name: "technologies",
             to: [{ type: "technology" }],
             group: "connections",
+            allowMultiple: true,
           }),
         ]
       : []),

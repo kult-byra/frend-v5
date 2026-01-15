@@ -17,3 +17,8 @@ export { isometricIllustrationSchema } from "@/schemas/documents/isometric-illus
 export { knowledgeHubSchema } from "@/schemas/documents/knowledge-hub/knowledge-hub.schema";
 export { knowledgeArticleSchema } from "@/schemas/documents/knowledge-hub/knowledge-article.schema";
 export { seminarSchema } from "@/schemas/documents/knowledge-hub/seminar.schema";
+export { caseStudySchema } from "@/schemas/documents/knowledge-hub/case-study.schema";
+export { clientSchema } from "@/schemas/documents/clients/client.schema";
+export { eBookSchema } from "@/schemas/documents/knowledge-hub/e-book.schema";
+export { conversionPageSchema } from "@/schemas/documents/conversion-page.schema";
+export { jobOpeningSchema } from "@/schemas/documents/organisation/job-opening.schema";

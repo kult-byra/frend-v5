@@ -15,7 +15,7 @@ export const pageBuilderField = (
   return defineField({
     ...props,
     name: "pageBuilder",
-    title: title ?? "Sidebygger",
+    title: title ?? "Page builder",
     type: "array",
     group: group === false ? undefined : (group ?? ["key", "content"]),
     of: PAGE_BUILDER_BLOCK_TYPES.map((type) => ({ type })),

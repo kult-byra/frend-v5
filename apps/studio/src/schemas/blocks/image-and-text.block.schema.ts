@@ -7,13 +7,13 @@ import { defineBlock } from "@/schemas/utils/define-block.util";
 
 export const imageAndTextBlockSchema = defineBlock({
   name: "imageAndText",
-  title: "Bilde og tekst",
+  title: "Image and text",
   icon: Columns2,
   scope: ["pageBuilder", "portableText"],
   fields: [
     stringField({
       name: "heading",
-      title: "Overskrift",
+      title: "Heading",
       required: true,
     }),
     portableTextField({
@@ -21,7 +21,7 @@ export const imageAndTextBlockSchema = defineBlock({
     }),
     linksField({
       name: "links",
-      title: "Lenker",
+      title: "Links",
       includeExternal: true,
       includeDownload: true,
       max: 2,
@@ -34,11 +34,11 @@ export const imageAndTextBlockSchema = defineBlock({
   optionFields: [
     stringField({
       name: "imagePosition",
-      title: "Bildeposisjon",
+      title: "Image position",
       options: {
         list: [
-          { title: "Venstre", value: "left" },
-          { title: "Høyre", value: "right" },
+          { title: "Left", value: "left" },
+          { title: "Right", value: "right" },
         ],
         layout: "radio",
         direction: "horizontal",

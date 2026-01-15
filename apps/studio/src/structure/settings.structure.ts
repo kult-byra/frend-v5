@@ -8,11 +8,11 @@ import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
 
 export const settingsStructure = (S: StructureBuilder) => {
   return S.listItem()
-    .title("Innstillinger")
+    .title("Settings")
     .icon(Settings)
     .child(
       S.list()
-        .title("Innstillinger")
+        .title("Settings")
         .items([
           singletonListItem(S, siteSettingsSchema),
 
@@ -25,11 +25,11 @@ export const settingsStructure = (S: StructureBuilder) => {
           S.divider(),
 
           S.listItem()
-            .title(hubspotFormSchema.title ?? "HubSpot-skjemaer")
+            .title(hubspotFormSchema.title ?? "HubSpot forms")
             .icon(hubspotFormSchema.icon)
             .child(
               S.documentTypeList(hubspotFormSchema.name).title(
-                hubspotFormSchema.title ?? "HubSpot-skjemaer",
+                hubspotFormSchema.title ?? "HubSpot forms",
               ),
             ),
         ]),

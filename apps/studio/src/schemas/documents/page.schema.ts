@@ -3,13 +3,12 @@ import { defineType } from "sanity";
 
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
-import { slugField } from "@/schemas/generator-fields/slug.field";
-import { stringField } from "@/schemas/generator-fields/string.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
+import { heroFields } from "../generator-fields/hero-fields.field";
 
 export const pageSchema = defineType({
   name: "page",
-  title: "Side",
+  title: "Page",
   type: "document",
   icon: LayoutPanelTop,
   groups: defaultGroups,
@@ -17,14 +16,14 @@ export const pageSchema = defineType({
     linkable: true,
   },
   fields: [
-    stringField({
-      name: "title",
-      title: "Tittel",
-      required: true,
-      group: "key",
+    ...heroFields({
+      includeCoverImage: false,
+      includeLinks: true,
+      includeExcerpt: true,
     }),
-    slugField(),
-    pageBuilderField(),
+    pageBuilderField({
+      group: "content",
+    }),
     metadataField(),
   ],
 });

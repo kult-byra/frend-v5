@@ -14,6 +14,11 @@ export const routeConfig = {
   servicesArchive: "/tjenester",
   service: "/tjenester/:slug",
   subService: "/tjenester/:parentSlug/:slug",
+  knowledgeHub: "/kunnskapsarkiv",
+  knowledgeArticle: "/kunnskapsarkiv/:slug",
+  seminar: "/seminarer/:slug",
+  caseStudy: "/saker/:slug",
+  eBook: "/e-bøker/:slug",
 } as const satisfies ValidRouteConfig;
 
 // Helper function to get the route path

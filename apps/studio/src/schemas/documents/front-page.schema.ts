@@ -3,6 +3,8 @@ import { defineType } from "sanity";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
+import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
+import { linksField } from "../generator-fields/links.field";
 
 export const frontPageSchema = defineType({
   name: "frontPage",
@@ -16,17 +18,39 @@ export const frontPageSchema = defineType({
   fields: [
     stringField({
       name: "title",
-      title: "Tittel",
+      title: "Front page title",
       required: true,
       group: "key",
       options: {
         tip: {
-          title: "Om forsidetittel",
+          title: "About front page title",
           description:
-            "Denne tittelen brukes kun som intern referanse, og vil ikke vises på nettsiden.",
+            "This title is used for internal reference only and will not be displayed on the website.",
         },
       },
     }),
-    pageBuilderField(),
+    stringField({
+      name: "heading",
+      title: "Heading",
+      required: true,
+      group: "key",
+    }),
+    portableTextField({
+      title: "Excerpt",
+      name: "excerpt",
+      group: "key",
+      noContent: true,
+    }),
+    linksField({
+      title: "Links",
+      name: "links",
+      includeExternal: true,
+      includeDownload: true,
+      max: 2,
+      group: "key",
+    }),
+    pageBuilderField({
+      group: "content",
+    }),
   ],
 });
