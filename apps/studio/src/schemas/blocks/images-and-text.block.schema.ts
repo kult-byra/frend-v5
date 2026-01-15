@@ -4,12 +4,13 @@ import { linksField } from "@/schemas/generator-fields/links.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defineBlock } from "@/schemas/utils/define-block.util";
+import { defineField } from "sanity";
 
-export const imageAndTextBlockSchema = defineBlock({
-  name: "imageAndText",
-  title: "Image and text",
+export const imagesAndTextBlockSchema = defineBlock({
+  name: "imagesAndText",
+  title: "Images and text",
   icon: Columns2,
-  scope: ["pageBuilder", "portableText"],
+  scope: ["portableText", "pageBuilder"],
   fields: [
     stringField({
       name: "heading",
@@ -26,10 +27,19 @@ export const imageAndTextBlockSchema = defineBlock({
       includeDownload: true,
       max: 2,
     }),
-    figureField({
-      name: "image",
-      required: true,
+    defineField({
+      title: "Images",
+      name: "images",
+      type: "array",
+      of: [
+        figureField({
+          name: "image",
+          title: "Image",
+        }),
+      ],
+      validation: (Rule) => Rule.required().min(1).max(3).error("At least one image is required and at most three are allowed"),
     }),
+
   ],
   optionFields: [
     stringField({

@@ -1,7 +1,7 @@
 import { accordionsBlockSchema } from "@/schemas/blocks/accordions.block.schema";
 import { callToActionBlockSchema } from "@/schemas/blocks/call-to-action.block.schema";
 import { figureBlockSchema } from "@/schemas/blocks/figure.block.schema";
-import { imageAndTextBlockSchema } from "@/schemas/blocks/image-and-text.block.schema";
+import { imagesAndTextBlockSchema } from "@/schemas/blocks/images-and-text.block.schema";
 import { imageGalleryBlockSchema } from "@/schemas/blocks/image-gallery.block.schema";
 import { logoCloudBlockSchema } from "@/schemas/blocks/logo-cloud.block.schema";
 import { videoBlockSchema } from "@/schemas/blocks/video.block.schema";
@@ -13,9 +13,10 @@ import { cardsBlockSchema } from "./cards.block.schema";
 import { imageWithBannerBlockSchema } from "./image-with-banner.block.schema";
 import { imageCarouselBlockSchema } from "./image-carousel.block.schema";
 import { jobOpeningsBlockSchema } from "./job-openings.block.schema";
+import { contentBlockSchema } from "./content.block.schema";
 
 export const allBlockSchemas = {
-  imageAndTextBlockSchema,
+  imagesAndTextBlockSchema,
   accordionsBlockSchema,
   figureBlockSchema,
   callToActionBlockSchema,
@@ -30,4 +31,5 @@ export const allBlockSchemas = {
   imageWithBannerBlockSchema,
   imageCarouselBlockSchema,
   jobOpeningsBlockSchema,
+  contentBlockSchema,
 };
