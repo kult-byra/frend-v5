@@ -7,6 +7,7 @@ import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
+import { booleanField } from "@/schemas/generator-fields/boolean.field";
 
 export const seminarSchema = defineType({
   name: "seminar",
@@ -34,6 +35,12 @@ export const seminarSchema = defineType({
       to: [{ type: "hubspotForm" }],
       group: "key",
       validation: (Rule) => Rule.required().error("Signup form is required"),
+  }),
+  booleanField({
+    title: "Is flagship model seminar",
+    name: "isFlagshipModelSeminar",
+    group: "key",
+    initialValue: false,
   }),
     ...connectionsFields(),
     //TODO: Fix the full seminar stuff

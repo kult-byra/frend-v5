@@ -24,7 +24,13 @@ export const figureField = (
       type: "image",
       icon: Image,
       options: {
-        hotspot: true,
+        hotspot: {
+          previews: [
+            {title: '3:2', aspectRatio: 3 / 2},
+            {title: '3:4', aspectRatio: 3 / 4},
+            {title: '1:1', aspectRatio: 1 / 1},
+          ]
+        },
         required,
       },
       fields: [
