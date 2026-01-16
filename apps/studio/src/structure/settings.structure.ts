@@ -5,6 +5,7 @@ import type { StructureBuilder } from "sanity/structure";
 import { hubspotFormSchema } from "@/schemas/documents/hubspot-form.schema";
 import { menuSettingsSchema, metadataSettingsSchema, siteSettingsSchema } from "@/schemas/settings";
 import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
+import { footerSettingsSchema } from "@/schemas/settings/footer-settings.schema";
 
 export const settingsStructure = (S: StructureBuilder) => {
   return S.listItem()
@@ -17,6 +18,8 @@ export const settingsStructure = (S: StructureBuilder) => {
           singletonListItem(S, siteSettingsSchema),
 
           singletonListItem(S, menuSettingsSchema),
+
+          singletonListItem(S, footerSettingsSchema),
 
           S.divider(),
 
