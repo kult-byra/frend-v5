@@ -31,3 +31,12 @@ svg.lucide {
 .static-path {
   width: 100%;
 }
+
+/* Custom Portable Text list item styles */
+.pt-list-item-dash [data-list-prefix]::before {
+  content: "–";
+}
+
+.pt-list-item-check [data-list-prefix]::before {
+  content: "☐";
+}

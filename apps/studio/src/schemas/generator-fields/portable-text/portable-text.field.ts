@@ -1,8 +1,8 @@
 // TODO: Update with def from kult-astro repo
 
+import { CheckSquare, List, ListOrdered, Minus } from "lucide-react";
 import type { ArrayDefinition } from "sanity";
 import { defineField } from "sanity";
-import { CheckSquare, List, ListOrdered, Minus } from "lucide-react";
 
 import { downloadLinkObjectField } from "@/schemas/generator-fields/download-link-object.field";
 import { externalLinkObjectField } from "@/schemas/generator-fields/external-link-object.field";
