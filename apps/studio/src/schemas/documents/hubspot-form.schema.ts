@@ -6,27 +6,27 @@ import { stringField } from "@/schemas/generator-fields/string.field";
 
 export const hubspotFormSchema = defineType({
   name: "hubspotForm",
-  title: "HubSpot-skjema",
+  title: "HubSpot form",
   type: "document",
   icon: FormInput,
-  description: "Et skjema som hentes fra HubSpot og rendres med Frends design",
+  description: "A form that is fetched from HubSpot and rendered with Frends design",
   fields: [
     stringField({
       name: "title",
-      title: "Tittel",
-      description: "Intern tittel for å identifisere skjemaet i Sanity",
+      title: "Title",
+      description: "Internal title to identify the form in Sanity",
       required: true,
     }),
     defineField({
       name: "formId",
-      title: "HubSpot-skjema",
+      title: "HubSpot form",
       description:
-        "Velg et skjema fra HubSpot. Skjemaet vil rendres med Frends design på nettsiden.",
+        "Select a form from HubSpot. The form will be rendered with Frends design on the website.",
       type: "string",
       components: {
         input: HubspotFormInput,
       },
-      validation: (Rule) => Rule.required().error("Du må velge et skjema fra HubSpot"),
+      validation: (Rule) => Rule.required().error("You must select a form from HubSpot"),
     }),
   ],
   preview: {
@@ -36,8 +36,8 @@ export const hubspotFormSchema = defineType({
     },
     prepare({ title, formId }) {
       return {
-        title: title || "Uten tittel",
-        subtitle: formId ? `HubSpot: ${formId}` : "Ikke konfigurert",
+        title: title || "Without title",
+        subtitle: formId ? `HubSpot: ${formId}` : "Not configured",
       };
     },
   },

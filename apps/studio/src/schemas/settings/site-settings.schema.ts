@@ -5,7 +5,7 @@ import { referenceField } from "@/schemas/generator-fields/reference.field";
 
 export const siteSettingsSchema = defineType({
   type: "document",
-  title: "Globale innstillinger",
+  title: "Global settings",
   name: "siteSettings",
   icon: Globe,
   options: {
@@ -14,13 +14,13 @@ export const siteSettingsSchema = defineType({
   fields: [
     referenceField({
       name: "frontPage",
-      title: "Forside",
+      title: "Front page",
       to: [{ type: "frontPage" }],
       required: true,
     }),
     referenceField({
       name: "privacyPolicyPage",
-      title: "Side for personvernerklæring",
+      title: "Page for privacy policy",
       to: [{ type: "page" }],
       required: true,
     }),
@@ -28,12 +28,12 @@ export const siteSettingsSchema = defineType({
       name: "banner",
       title: "Banner",
       description:
-        "Vises helt øverst på nettsiden, på alle sider. Nyttig for kampanjer eller viktig informasjon.",
+        "Shown at the top of the website, on all pages. Useful for campaigns or important information.",
       type: "object",
       fields: [
         defineField({
           name: "showBanner",
-          title: "Vis banner",
+          title: "Show banner",
           type: "boolean",
         }),
         portableTextField({
@@ -45,7 +45,7 @@ export const siteSettingsSchema = defineType({
   preview: {
     prepare() {
       return {
-        title: "Globale innstillinger",
+        title: "Global settings",
       };
     },
   },

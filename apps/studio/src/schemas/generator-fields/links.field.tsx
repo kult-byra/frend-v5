@@ -7,6 +7,9 @@ import { externalLinkObjectField } from "@/schemas/generator-fields/external-lin
 import { internalLinkObjectField } from "@/schemas/generator-fields/internal-link-object.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
+import { booleanField } from "./boolean.field";
+import { referenceField } from "./reference.field";
+import { figureField } from "./figure.field";
 
 type LinksFieldProps = Omit<FieldDef<ArrayDefinition>, "of" | "validation"> & {
   includeInternal?: boolean;
@@ -145,23 +148,102 @@ const linkGroup = (props: LinksFieldProps) => {
         title: "Tittel",
         required: true,
       }),
-      linksField({
-        name: "links",
-        title: "Linker",
-        includeExternal: true,
-        includeDescription: includeDescriptionInLinkGroup,
+      stringField({
+        name: "menuType",
+        title: "Menu type",
+        description: "Use default for standard menu items, or other options for links to latest content.",
+        options: {
+          list: [
+            { title: "Default", value: "default" },
+            { title: "Knowledge", value: "knowledge" },
+            { title: "News and events", value: "newsAndEvents" },
+            { title: "Contact", value: "contact" },
+          ],
+          layout: "radio",
+          direction: "horizontal",
+        },
         required: true,
+        initialValue: "default",
+      }),
+      defineField({
+        title: "Links",
+        name: "links",
+        type: "object",
+        hidden: ({ parent }) => parent?.menuType === "contact",
+        fields: [
+          linksField({
+            name: "mainLinks",
+            title: "Main links",
+            includeExternal: true,
+          }),
+          linksField({
+            name: "secondaryLinks",
+            title: "Secondary links",
+            includeExternal: true,
+          }),
+        ],
+      }),
+      defineField({
+        title: "Linkgroups",
+        name: "linkGroups",
+        type: "array",
+        hidden: ({ parent }) => parent?.menuType !== "contact",
+        of: [
+          defineField({
+            title: "Linkgroup",
+            name: "linkGroup",
+            type: "object",
+            fields: [
+              stringField({
+                name: "title",
+                title: "Tittel",
+                required: true,
+              }),
+              linksField({
+                name: "links",
+                title: "Links",
+                includeExternal: true,
+              }),
+            ],
+            preview: {
+              select: {
+                title: "title",
+              },
+              prepare({ title }) {
+                return {
+                  title,
+                };
+              },
+            },
+          }),
+        ],
+      }),
+      referenceField({
+        title: "Contact form",
+        name: "contactForm",
+        to: [{ type: "hubspotForm" }],
+        hidden: ({ parent }) => parent?.menuType !== "contact",
+      }),
+      figureField({
+        title: "Image",
+        name: "image",
+        hidden: ({ parent }) => parent?.menuType !== "contact",
       }),
     ],
     preview: {
       select: {
         title: "title",
-        links: "links",
+        menuType: "menuType",
       },
-      prepare({ title, links }) {
+      prepare({ title, menuType }) {
+        const menuTypeMap: Record<string, string> = {
+          default: "Default",
+          knowledge: "Knowledge",
+          newsAndEvents: "News and events",
+        };
         return {
           title,
-          subtitle: `${links?.length ?? 0} link${links?.length !== 1 ? "er" : ""}`,
+          subtitle: menuType ? menuTypeMap[menuType] ?? menuType : "Default",
         };
       },
     },

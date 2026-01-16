@@ -19,14 +19,14 @@ export const metadataField = (
     fields: [
       defineField({
         name: "title",
-        title: "Tittel for søkemotorer og sosiale medier",
+        title: "Title for search engines and social media",
         type: "string",
         validation: (Rule) =>
           Rule.max(50).warning("The title exceeds 50 characters and may me truncated (...)"),
       }),
       defineField({
         name: "desc",
-        title: "Beskrivelse for søkemotorer og sosiale medier",
+        title: "Description for search engines and social media",
         type: "text",
         rows: 3,
         validation: (Rule) =>
@@ -36,7 +36,7 @@ export const metadataField = (
       }),
       figureField({
         name: "image",
-        title: "Bilde for deling på sosiale medier",
+        title: "Image for sharing on social media",
         description: "Anbefalt størrelse: 1200x630 (PNG eller JPG)",
       }),
       ...(!isDefault
@@ -44,7 +44,7 @@ export const metadataField = (
             defineField({
               name: "tags",
               title: "Tags",
-              description: "Synonymer og relaterte søkeord",
+              description: "Synonyms and related search terms",
               type: "array",
               of: [{ type: "string" }],
               options: {
@@ -53,8 +53,8 @@ export const metadataField = (
             }),
             defineField({
               name: "noIndex",
-              title: "Ikke indeksér denne siden",
-              description: "Hvis du skrur denne på, vil ikke siden være synlig for søkemotorer",
+              title: "Do not index this page",
+              description: "If you turn this on, the page will not be visible for search engines",
               type: "boolean",
             }),
           ]

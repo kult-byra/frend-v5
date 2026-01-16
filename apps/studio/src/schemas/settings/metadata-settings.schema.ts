@@ -5,7 +5,7 @@ import { metadataField } from "@/schemas/generator-fields/metadata.field";
 export const metadataSettingsSchema = defineType({
   type: "document",
   name: "metadataSettings",
-  title: "Standard SEO & metadata",
+  title: "Standard SEO & metadata settings",
   icon: Search,
   options: {
     singleton: true,
@@ -14,7 +14,7 @@ export const metadataSettingsSchema = defineType({
   preview: {
     prepare() {
       return {
-        title: "Standard SEO & metadata",
+        title: "Standard SEO & metadata settings",
       };
     },
   },

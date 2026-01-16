@@ -11,7 +11,7 @@ export const externalLinkObjectField = defineField({
     defineField({
       name: "href",
       title: "URL",
-      type: "url",
+      type: "string",
       options: {
         required: true,
         tip: {

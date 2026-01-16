@@ -1,11 +1,11 @@
 import { Menu } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { linksField } from "@/schemas/generator-fields/links.field";
 
 export const menuSettingsSchema = defineType({
   type: "document",
   name: "menuSettings",
-  title: "Menyer",
+  title: "Menus",
   icon: Menu,
   options: {
     singleton: true,
@@ -13,21 +13,21 @@ export const menuSettingsSchema = defineType({
   fields: [
     linksField({
       name: "mainMenu",
-      title: "Hovedmeny",
+      title: "Main menu (left)",
       includeExternal: true,
-      includeLinkGroup: true,
-      includeDescriptionInLinkGroup: true,
+      includeLinkGroup: true, 
     }),
     linksField({
-      name: "button",
-      title: "Knapp",
-      max: 1,
+      name: "secondaryMenu",
+      title: "Secondary menu (right)",
+      includeExternal: true,
+      includeLinkGroup: true,
     }),
   ],
   preview: {
     prepare() {
       return {
-        title: "Menyer",
+        title: "Menus",
       };
     },
   },
