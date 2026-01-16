@@ -2810,9 +2810,26 @@ export type AllSanitySchemaTypes = SanityFileAssetReference | DownloadLinkObject
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/app/(site)/image-test/page.tsx
 // Variable: imageOnlyQuery
-// Query: *[_type == "newsArticle" && _id == "b0aaa3a1-5a60-4555-a956-09ec63450c91"][0] {    coverImage{            crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }    }}
+// Query: *[_type == "newsArticle" && _id == "b0aaa3a1-5a60-4555-a956-09ec63450c91"][0] {    "coverImage": coverImages[0].figure{            crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }    }}
 export type ImageOnlyQueryResult = {
-  coverImage: null;
+  coverImage: {
+    crop: SanityImageCrop | null;
+    hotspot: SanityImageHotspot | null;
+    asset: {
+      _id: string;
+      title: string | null;
+      altText: string | null;
+      description: string | null;
+      metadata: {
+        lqip: string | null;
+        dimensions: {
+          aspectRatio: number;
+          width: number;
+          height: number;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
 } | null;
 
 // Source: ./src/components/fathom/fathom-secrets.query.ts
