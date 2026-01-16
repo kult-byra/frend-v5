@@ -7,6 +7,7 @@ import { stringField } from "@/schemas/generator-fields/string.field";
 import { referenceField } from "./reference.field";
 import { portableTextField } from "./portable-text/portable-text.field";
 import { linksField } from "./links.field";
+import { figureOrVideoField } from "./figure-or-video-field";
 
 export const heroFields = (options?: { 
   includePublishDate?: boolean; 
@@ -60,9 +61,9 @@ export const heroFields = (options?: {
               name: "coverImages",
               type: "array",
               of: [
-                figureField({
-                  name: "image",
-                  title: "Image",
+                figureOrVideoField({
+                  name: "figureOrVideo",
+                  title: "Main images/videos",
                 }),
               ],
               group: "key",
@@ -70,11 +71,11 @@ export const heroFields = (options?: {
             }),
           ]
         : [
-            figureField({
-              name: "coverImage",
-              title: "Cover image",
-              group: "key",
-            }),
+          figureOrVideoField({
+            name: "figureOrVideo",
+            title: "Main image/video",
+            group: "key",
+          }),
           ]
       : []),
     ...(includeAuthor

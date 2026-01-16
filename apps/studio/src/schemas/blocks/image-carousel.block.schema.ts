@@ -1,7 +1,7 @@
 import { Images } from "lucide-react";
 import { defineBlock } from "@/schemas/utils/define-block.util";
 import { defineField } from "sanity";
-import { figureField } from "../generator-fields/figure.field";
+import { figureOrVideoField } from "../generator-fields/figure-or-video-field";
 
 export const imageCarouselBlockSchema = defineBlock({
     name: "imageCarousel",
@@ -14,9 +14,9 @@ export const imageCarouselBlockSchema = defineBlock({
             name: "images",
             type: "array",
             of: [
-                figureField({
-                    name: "image",
-                    title: "Image",
+                figureOrVideoField({
+                    name: "figureOrVideo",
+                    title: "Image/video",
                     required: true,
                 }),
             ],

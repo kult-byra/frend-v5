@@ -5,6 +5,7 @@ import { portableTextField } from "@/schemas/generator-fields/portable-text/port
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defineBlock } from "@/schemas/utils/define-block.util";
 import { defineField } from "sanity";
+import { figureOrVideoField } from "../generator-fields/figure-or-video-field";
 
 export const imagesAndTextBlockSchema = defineBlock({
   name: "imagesAndText",
@@ -31,9 +32,9 @@ export const imagesAndTextBlockSchema = defineBlock({
       name: "images",
       type: "array",
       of: [
-        figureField({
-          name: "image",
-          title: "Image",
+        figureOrVideoField({
+          name: "figureOrVideo",
+          title: "Image/video",
         }),
       ],
       validation: (Rule) => Rule.required().min(1).max(3).error("At least one image is required and at most three are allowed"),

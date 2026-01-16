@@ -1,6 +1,6 @@
-import { figureField } from "@/schemas/generator-fields/figure.field";
+import { figureOrVideoField } from "@/schemas/generator-fields/figure-or-video-field";
 
-export const figureBlockSchema = figureField({
+export const figureBlockSchema = figureOrVideoField({
   name: "figure",
   scope: ["portableText"],
 });

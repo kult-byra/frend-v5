@@ -1,7 +1,8 @@
 import { Image } from "lucide-react";
 import { defineBlock } from "@/schemas/utils/define-block.util";
 import { defineField } from "sanity";
-import { figureField } from "../generator-fields/figure.field";
+import { figureOrVideoField } from "../generator-fields/figure-or-video-field";
+import { imageFormatField } from "../generator-fields/image-format.field";
 
 export const imageGalleryBlockSchema = defineBlock({
   name: "imageGallery",
@@ -14,12 +15,20 @@ export const imageGalleryBlockSchema = defineBlock({
       name: "images",
       type: "array",
       of: [
-        figureField({
-            name: "image",
-            title: "Image",
+        defineField({
+          title: "Image/video",
+          name: "figureOrVideo",
+          type: "object",
+          fields: [
+            figureOrVideoField({
+              name: "figureOrVideo",
+              title: "Image/video",
+            }),
+            imageFormatField(),
+          ],
         }),
       ],
-      validation: (Rule) => Rule.required().min(1).max(3).error("At least one image is required and at most three are allowed"),
+      validation: (Rule) => Rule.required().min(1).max(3).error("At least one image/video is required and at most three are allowed"),
     }),
   ],
   preview: {
