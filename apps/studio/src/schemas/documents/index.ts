@@ -23,3 +23,4 @@ export { clientArchiveSchema } from "@/schemas/documents/clients/client-archive.
 export { eBookSchema } from "@/schemas/documents/knowledge-hub/e-book.schema";
 export { conversionPageSchema } from "@/schemas/documents/conversion-page.schema";
 export { jobOpeningSchema } from "@/schemas/documents/organisation/job-opening.schema";
+export { organisationSettingsSchema } from "@/schemas/documents/organisation/organisation-settings.schema";

@@ -1,4 +1,4 @@
-import { Settings } from "lucide-react";
+import { Settings, Tag } from "lucide-react";
 
 import type { StructureBuilder } from "sanity/structure";
 
@@ -34,6 +34,24 @@ export const settingsStructure = (S: StructureBuilder) => {
               S.documentTypeList(hubspotFormSchema.name).title(
                 hubspotFormSchema.title ?? "HubSpot forms",
               ),
+            ),
+
+            S.divider(),
+
+            S.documentTypeListItem("quote").title("Quotes"),
+
+            S.divider(),
+
+            S.listItem()
+            .title("Tags")
+            .icon(Tag)
+            .child(
+              S.list()
+                .title("Tags")
+                .items([
+                  S.documentTypeListItem("technology").title("Technologies"),
+                  S.documentTypeListItem("industry").title("Industries"),
+                ]),
             ),
         ]),
     );
