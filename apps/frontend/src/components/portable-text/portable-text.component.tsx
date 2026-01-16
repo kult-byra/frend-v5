@@ -25,6 +25,7 @@ export type PortableTextOptions = {
   topHLevel?: HeadingLevel;
   topHSize?: HeadingSize;
   disableStrong?: boolean;
+  checklistIcon?: string | React.ReactNode;
 };
 
 const block = (options: PortableTextOptions): BlockStylesRendererMap => {
@@ -140,11 +141,23 @@ const list = (options: PortableTextOptions): ListStyleRendererMap => {
     number: ({ children }: PropsWithChildren) => (
       <ol className={cn(pSize, listStyle, "list-decimal")}>{children}</ol>
     ),
-  };
+    dash: ({ children }: PropsWithChildren) => (
+      <ul className={cn(pSize, listStyle, "list-none")}>
+        {children}
+      </ul>
+    ),
+    check: ({ children }: PropsWithChildren) => (
+      <ul className={cn(pSize, listStyle, "list-none")}>
+        {children}
+      </ul>
+    ),
+  } as ListStyleRendererMap;
 };
 
-const listItem = (): ListLevelRenderMap => {
+const listItem = (options: PortableTextOptions): ListLevelRenderMap => {
   const subLevelListItemStyle = "first:mt-[0.35em]";
+  const { checklistIcon } = options ?? {};
+  const checkIcon = checklistIcon ?? "✓";
 
   return {
     bullet: ({ children, value: { level } }: PropsWithChildren & { value: { level?: number } }) => (
@@ -153,7 +166,18 @@ const listItem = (): ListLevelRenderMap => {
     number: ({ children, value: { level } }: PropsWithChildren & { value: { level?: number } }) => (
       <li className={cn(level && level > 1 && subLevelListItemStyle)}>{children}</li>
     ),
-  };
+    dash: ({ children, value: { level } }: PropsWithChildren & { value: { level?: number } }) => (
+      <li className={cn(level && level > 1 && subLevelListItemStyle, "before:content-['-'] before:mr-2")}>
+        {children}
+      </li>
+    ),
+    check: ({ children, value: { level } }: PropsWithChildren & { value: { level?: number } }) => (
+      <li className={cn(level && level > 1 && subLevelListItemStyle, "flex items-start gap-2")}>
+        <span className="mt-0.5 flex-shrink-0">{checkIcon}</span>
+        <span>{children}</span>
+      </li>
+    ),
+  } as ListLevelRenderMap;
 };
 
 const types = (): BlockTypeRendererMap => {
@@ -178,7 +202,7 @@ const components = (options: PortableTextOptions) => {
     marks: marks(options),
     block: block(options),
     list: list(options),
-    listItem: listItem(),
+    listItem: listItem(options),
     types: types(),
   };
 };

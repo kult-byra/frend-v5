@@ -2,6 +2,7 @@
 
 import type { ArrayDefinition } from "sanity";
 import { defineField } from "sanity";
+import { CheckSquare, List, ListOrdered, Minus } from "lucide-react";
 
 import { downloadLinkObjectField } from "@/schemas/generator-fields/download-link-object.field";
 import { externalLinkObjectField } from "@/schemas/generator-fields/external-link-object.field";
@@ -39,8 +40,10 @@ const headingStyles = [
 // LISTS
 /* Will be included if includeLists == true */
 const listObjects = [
-  { title: "Punktliste", value: "bullet" },
-  { title: "Nummerert liste", value: "number" },
+  { title: "Bullet list", value: "bullet", icon: List },
+  { title: "Numbered list", value: "number", icon: ListOrdered },
+  { title: "Dash list", value: "dash", icon: Minus },
+  { title: "Checklist", value: "check", icon: CheckSquare },
 ];
 
 // LINKS (always included)
