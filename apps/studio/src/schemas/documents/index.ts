@@ -16,11 +16,15 @@ export { servicesArchiveSchema } from "@/schemas/documents/services/services-arc
 export { isometricIllustrationSchema } from "@/schemas/documents/isometric-illustration.schema";
 export { knowledgeHubSchema } from "@/schemas/documents/knowledge-hub/knowledge-hub.schema";
 export { knowledgeArticleSchema } from "@/schemas/documents/knowledge-hub/knowledge-article.schema";
+export { knowledgeArticleArchiveSchema } from "@/schemas/documents/knowledge-hub/knowledge-article-archive.schema";
 export { seminarSchema } from "@/schemas/documents/knowledge-hub/seminar.schema";
+export { seminarArchiveSchema } from "@/schemas/documents/knowledge-hub/seminar-archive.schema";
 export { caseStudySchema } from "@/schemas/documents/knowledge-hub/case-study.schema";
+export { caseStudyArchiveSchema } from "@/schemas/documents/knowledge-hub/case-study-archive.schema";
 export { clientSchema } from "@/schemas/documents/clients/client.schema";
 export { clientArchiveSchema } from "@/schemas/documents/clients/client-archive.schema";
 export { eBookSchema } from "@/schemas/documents/knowledge-hub/e-book.schema";
+export { eBookArchiveSchema } from "@/schemas/documents/knowledge-hub/e-book-archive.schema";
 export { conversionPageSchema } from "@/schemas/documents/conversion-page.schema";
 export { jobOpeningSchema } from "@/schemas/documents/organisation/job-opening.schema";
 export { organisationSettingsSchema } from "@/schemas/documents/organisation/organisation-settings.schema";
