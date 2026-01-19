@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import { defineField, defineType } from "sanity";
+import { defineType } from "sanity";
 import { linksField } from "@/schemas/generator-fields/links.field";
 
 export const menuSettingsSchema = defineType({
@@ -15,7 +15,7 @@ export const menuSettingsSchema = defineType({
       name: "mainMenu",
       title: "Main menu (left)",
       includeExternal: true,
-      includeLinkGroup: true, 
+      includeLinkGroup: true,
     }),
     linksField({
       name: "secondaryMenu",

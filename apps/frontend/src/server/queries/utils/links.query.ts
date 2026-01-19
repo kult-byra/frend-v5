@@ -41,10 +41,18 @@ const downloadLinkQuery = defineQuery(`
 const linkGroupQuery = defineQuery(`
   "linkType": "linkGroup",
   title,
-  links[] {
-    _key,
-    _type == "internalLinkObject" => {${internalLinkQuery}},
-    _type == "link" => {${externalLinkQuery}}
+  menuType,
+  links {
+    mainLinks[] {
+      _key,
+      _type == "internalLinkObject" => {${internalLinkQuery}},
+      _type == "link" => {${externalLinkQuery}}
+    },
+    secondaryLinks[] {
+      _key,
+      _type == "internalLinkObject" => {${internalLinkQuery}},
+      _type == "link" => {${externalLinkQuery}}
+    }
   }
 `);
 
