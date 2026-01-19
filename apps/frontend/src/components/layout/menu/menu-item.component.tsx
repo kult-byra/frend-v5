@@ -60,10 +60,14 @@ const LinkGroup = (props: LinkGroupProps) => {
 const LinkGroupContent = (props: LinkGroupProps & { className?: string }) => {
   const { links, className } = props;
 
+  const mainLinks = links?.mainLinks ?? [];
+
+  if (mainLinks.length === 0) return null;
+
   return (
     <NavigationMenuContent className={className}>
       <ul className="menu:p-[0.5em] grid md:grid-cols-2 gap-1 rounded-md">
-        {links?.map((link) => (
+        {mainLinks.map((link) => (
           <li key={link._key}>
             <NavigationMenuLink asChild>
               <LinkResolver

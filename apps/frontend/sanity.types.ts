@@ -873,7 +873,7 @@ export type CardsBlock = {
   manualSelection?: boolean;
   automaticInfo?: string;
   manualInfo?: string;
-  manualServiceDocuments?: Array<ServiceReference | SubServiceReference>;
+  manualServiceDocuments?: ArrayOf<ServiceReference | SubServiceReference>;
   manualNewsArticleDocuments?: Array<
     {
       _key: string;
@@ -3353,6 +3353,12 @@ export type AllSanitySchemaTypes =
   | Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
+
+type ArrayOf<T> = Array<
+  T & {
+    _key: string;
+  }
+>;
 
 // Source: src/app/(site)/image-test/page.tsx
 // Variable: imageOnlyQuery
