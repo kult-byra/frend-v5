@@ -2,14 +2,45 @@
 
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:is(.dark *));
-
 @source "./node_modules/@kult-byra/brandkit/src/**/*.{vue,js,ts,jsx,tsx}";
 
+/* ===== FONT FACES ===== */
+@font-face {
+  font-family: "Suisse Int'l";
+  src: url("/fonts/SuisseIntl-Book.woff2") format("woff2"),
+       url("/fonts/SuisseIntl-Book.woff") format("woff");
+  font-weight: 450;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Suisse Int'l";
+  src: url("/fonts/SuisseIntl-SemiBold.woff2") format("woff2"),
+       url("/fonts/SuisseIntl-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Mono";
+  src: url("/fonts/DMMono-Regular.woff2") format("woff2"),
+       url("/fonts/DMMono-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
+  /* ===== BREAKPOINTS ===== */
   --breakpoint-xs: 375px;
+  --breakpoint-mobile: 425px;
+  --breakpoint-tablet: 1024px;
+  --breakpoint-desktop: 1440px;
   --breakpoint-menu: 1250px;
 
+  /* ===== FONT SIZES ===== */
   --text-2xs: 0.583rem;
   --text-xs: 0.666rem;
   --text-sm: 0.75rem;
@@ -100,6 +131,33 @@ a.skip-main:active {
 }
 
 :root {
+  /* ===== FONT FAMILIES ===== */
+  --font-suisse-book: "Suisse Int'l", sans-serif;
+  --font-suisse-semibold: "Suisse Int'l", sans-serif;
+  --font-dm-mono: "DM Mono", monospace;
+
+  /* ===== FONT SIZES ===== */
+  --font-size-12: 0.75rem;
+  --font-size-14: 0.875rem;
+  --font-size-16: 1rem;
+  --font-size-18: 1.125rem;
+  --font-size-20: 1.25rem;
+  --font-size-24: 1.5rem;
+  --font-size-28: 1.75rem;
+  --font-size-30: 1.875rem;
+  --font-size-42: 2.625rem;
+
+  /* ===== LINE HEIGHTS ===== */
+  --leading-110: 1.1;
+  --leading-130: 1.3;
+  --leading-145: 1.45;
+  --leading-150: 1.5;
+
+  /* ===== SPACING ===== */
+  --space-30: 30px;
+  --gutter: 16px;
+  --margin: 16px;
+
   /* ===== PRIMITIVE COLORS ===== */
   --color-dark-purple: #0b0426;
   --color-white: #ffffff;
@@ -171,71 +229,45 @@ a.skip-main:active {
   --stroke-soft-inverted: var(--color-white-10);
   --stroke-error: var(--color-error);
 
+  /* ===== TYPOGRAPHY TOKENS ===== */
+  /* Headings */
+  --headline-1-size-sm: var(--font-size-30);
+  --headline-1-size-lg: var(--font-size-42);
+  --headline-1-line-height: var(--leading-110);
+  --headline-1-weight: 600;
+
+  --headline-2-size-sm: var(--font-size-24);
+  --headline-2-size-lg: var(--font-size-28);
+  --headline-2-line-height: var(--leading-110);
+  --headline-2-weight: 600;
+
+  --headline-3-size: var(--font-size-20);
+  --headline-3-line-height: var(--leading-130);
+  --headline-3-weight: 600;
+
+  /* Body */
+  --body-title-size: var(--font-size-16);
+  --body-title-line-height: var(--leading-145);
+  --body-title-weight: 600;
+
+  --body-size: var(--font-size-16);
+  --body-line-height: var(--leading-145);
+  --body-weight: 450;
+
+  --body-large-size: var(--font-size-18);
+  --body-large-line-height: var(--leading-150);
+  --body-large-weight: 450;
+
+  --body-small-size: var(--font-size-12);
+  --body-small-line-height: var(--leading-145);
+  --body-small-weight: 450;
+
+  --code-size: var(--font-size-16);
+  --code-line-height: var(--leading-150);
+  --code-weight: 400;
+
   /* ===== SEMANTIC - OVERLAY ===== */
   --overlay-modal: var(--color-orange);
-
-  /* ===== LEGACY COMPATIBILITY ===== */
-  --background: var(--color-white);
-  --foreground: var(--color-dark-purple);
-  --card: var(--color-white);
-  --card-foreground: var(--color-dark-purple);
-  --popover: var(--color-white);
-  --popover-foreground: var(--color-dark-purple);
-  --primary: var(--color-dark-purple);
-  --primary-foreground: var(--color-white);
-  --secondary: var(--color-fresh-purple-10);
-  --secondary-foreground: var(--color-dark-purple);
-  --muted: var(--color-fresh-purple-5);
-  --muted-foreground: var(--color-dark-purple-65);
-  --accent: var(--color-fresh-purple-10);
-  --accent-foreground: var(--color-dark-purple);
-  --destructive: var(--color-error);
-  --destructive-foreground: var(--color-white);
-  --border: var(--stroke-soft);
-  --input: var(--stroke-soft);
-  --ring: var(--color-dark-purple);
-  --chart-1: var(--color-orange);
-  --chart-2: var(--color-green);
-  --chart-3: var(--color-fresh-purple);
-  --chart-4: var(--color-yellow);
-  --chart-5: var(--color-red);
-  --radius: 0.5rem;
-}
-
-.dark {
-  /* Inverted colors for dark mode */
-  --text-primary: var(--color-white);
-  --text-secondary: var(--color-white-65);
-  --container-primary: var(--color-dark-purple);
-  --container-secondary: oklch(from #875eff l c h / 15%);
-  --container-shade: var(--color-white-10);
-  --button-primary-fill: var(--color-white);
-  --button-primary-text: var(--color-dark-purple);
-  --button-secondary-stroke: var(--color-white);
-  --button-secondary-text: var(--color-white);
-  --stroke-soft: var(--color-white-10);
-  --stroke-full: var(--color-white);
-
-  /* Legacy dark mode */
-  --background: var(--color-dark-purple);
-  --foreground: var(--color-white);
-  --card: var(--color-dark-purple);
-  --card-foreground: var(--color-white);
-  --popover: var(--color-dark-purple);
-  --popover-foreground: var(--color-white);
-  --primary: var(--color-white);
-  --primary-foreground: var(--color-dark-purple);
-  --secondary: oklch(from #875eff l c h / 15%);
-  --secondary-foreground: var(--color-white);
-  --muted: oklch(from #875eff l c h / 10%);
-  --muted-foreground: var(--color-white-65);
-  --accent: oklch(from #875eff l c h / 15%);
-  --accent-foreground: var(--color-white);
-  --destructive: #ff4444;
-  --destructive-foreground: var(--color-white);
-  --border: var(--color-white-10);
-  --input: var(--color-white-10);
-  --ring: var(--color-white);
 }
 
 @theme inline {
@@ -290,46 +322,93 @@ a.skip-main:active {
   --color-stroke-full: var(--stroke-full);
   --color-stroke-soft-inverted: var(--stroke-soft-inverted);
   --color-stroke-error: var(--stroke-error);
-
-  /* Legacy compatibility */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  /* Radius */
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-stroke-soft outline-stroke-full/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-container-primary text-text-primary;
+  }
+}
+
+/* ===== TYPOGRAPHY UTILITY CLASSES ===== */
+@layer utilities {
+  /* Headings */
+  .text-headline-1 {
+    font-family: var(--font-suisse-semibold);
+    font-size: var(--headline-1-size-sm);
+    line-height: var(--headline-1-line-height);
+    font-weight: var(--headline-1-weight);
+    letter-spacing: 0;
+  }
+  @media (min-width: 1025px) {
+    .text-headline-1 {
+      font-size: var(--headline-1-size-lg);
+    }
+  }
+
+  .text-headline-2 {
+    font-family: var(--font-suisse-semibold);
+    font-size: var(--headline-2-size-sm);
+    line-height: var(--headline-2-line-height);
+    font-weight: var(--headline-2-weight);
+    letter-spacing: 0;
+  }
+  @media (min-width: 1025px) {
+    .text-headline-2 {
+      font-size: var(--headline-2-size-lg);
+    }
+  }
+
+  .text-headline-3 {
+    font-family: var(--font-suisse-semibold);
+    font-size: var(--headline-3-size);
+    line-height: var(--headline-3-line-height);
+    font-weight: var(--headline-3-weight);
+    letter-spacing: 0;
+  }
+
+  /* Body styles */
+  .text-body-title {
+    font-family: var(--font-suisse-semibold);
+    font-size: var(--body-title-size);
+    line-height: var(--body-title-line-height);
+    font-weight: var(--body-title-weight);
+    letter-spacing: 0;
+  }
+
+  .text-body {
+    font-family: var(--font-suisse-book);
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+    font-weight: var(--body-weight);
+    letter-spacing: 0;
+  }
+
+  .text-body-large {
+    font-family: var(--font-suisse-book);
+    font-size: var(--body-large-size);
+    line-height: var(--body-large-line-height);
+    font-weight: var(--body-large-weight);
+    letter-spacing: 0;
+  }
+
+  .text-body-small {
+    font-family: var(--font-suisse-book);
+    font-size: var(--body-small-size);
+    line-height: var(--body-small-line-height);
+    font-weight: var(--body-small-weight);
+    letter-spacing: 0;
+  }
+
+  .text-code {
+    font-family: var(--font-dm-mono);
+    font-size: var(--code-size);
+    line-height: var(--code-line-height);
+    font-weight: var(--code-weight);
+    letter-spacing: 0;
   }
 }
 
