@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
-import { imageQuery } from "../utils/image.query";
 import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
+import { imageQuery } from "../utils/image.query";
 
 // @sanity-typegen-ignore
 export const cardsBlockQuery = defineQuery(`

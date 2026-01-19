@@ -1,9 +1,9 @@
 import { defineQuery } from "next-sanity";
 import { callToActionBlockQuery } from "@/server/queries/blocks/call-to-action.block.query";
+import { cardsBlockQuery } from "@/server/queries/blocks/cards.block.query";
+import { contentBlockQuery } from "@/server/queries/blocks/content.block.query";
 import { imageAndTextBlockQuery } from "@/server/queries/blocks/image-and-text.block.query";
 import { imagesAndTextBlockQuery } from "@/server/queries/blocks/images-and-text.block.query";
-import { contentBlockQuery } from "@/server/queries/blocks/content.block.query";
-import { cardsBlockQuery } from "@/server/queries/blocks/cards.block.query";
 import { imagesWithBannerBlockQuery } from "@/server/queries/blocks/images-with-banner.block.query";
 
 //@sanity-typegen-ignore

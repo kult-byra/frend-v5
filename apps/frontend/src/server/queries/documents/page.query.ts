@@ -13,7 +13,8 @@ export const pageQuery = defineQuery(`
 `);
 
 export const pageSlugsQuery = defineQuery(`
-  *[_type == "page" && language == $locale] {
-    "slug": slug.current
+  *[_type == "page"] {
+    "slug": slug.current,
+    "locale": language
   }
 `);

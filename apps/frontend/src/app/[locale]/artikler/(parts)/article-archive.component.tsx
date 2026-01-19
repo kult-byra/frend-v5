@@ -1,8 +1,10 @@
 import { Pagination } from "@/components/pagination.component";
 import { ArticleTeaser } from "@/components/teasers/article.teaser";
 import { ARTICLES_PER_PAGE } from "@/lib/search-params/articles.search-params";
-import type { ArticleArchivePaginatedQueryResult } from "@/sanity-types";
-import { articleArchivePaginatedQuery } from "@/server/queries/documents/article-archive.query";
+import {
+  type ArticleArchivePaginatedResult,
+  articleArchivePaginatedQuery,
+} from "@/server/queries/documents/article-archive.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 
 type Props = {
@@ -18,7 +20,9 @@ export const ArticleArchive = async ({ initialPage, locale }: Props) => {
   const start = (initialPage - 1) * ARTICLES_PER_PAGE;
   const end = start + ARTICLES_PER_PAGE;
 
-  const { data } = await sanityFetch({
+  // Type assertion needed because sanity-typegen cannot infer types from nested subqueries
+  // ArticleArchivePaginatedResult is derived from ArticleTeaserProps (typegen-generated)
+  const { data } = (await sanityFetch({
     query: articleArchivePaginatedQuery,
     params: {
       start,
@@ -26,9 +30,9 @@ export const ArticleArchive = async ({ initialPage, locale }: Props) => {
       locale,
     },
     tags: ["newsArticle"],
-  });
+  })) as { data: ArticleArchivePaginatedResult };
 
-  const { articles, total } = data as NonNullable<ArticleArchivePaginatedQueryResult>;
+  const { articles, total } = data;
   const totalPages = Math.ceil(total / ARTICLES_PER_PAGE);
 
   return (

@@ -23,6 +23,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
       {routing.locales.map((loc) => (
         <button
           key={loc}
+          type="button"
           onClick={() => switchLocale(loc)}
           className={cn(
             "px-2 py-1 text-sm rounded transition-colors",

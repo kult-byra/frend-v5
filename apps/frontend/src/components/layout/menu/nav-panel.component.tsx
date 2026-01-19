@@ -1,12 +1,12 @@
 "use client";
 
+import { resolvePath } from "@workspace/routing/src/resolve-path";
+import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useRef } from "react";
-import Link from "next/link";
-import { resolvePath } from "@workspace/routing/src/resolve-path";
 import { cn } from "@/utils/cn.util";
-import { NavBadge } from "./nav-badge.component";
 import type { LinkGroupProps, MainMenuProps } from "./menu.types";
+import { NavBadge } from "./nav-badge.component";
 
 type NavPanelProps = {
   isOpen: boolean;

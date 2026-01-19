@@ -14,7 +14,8 @@ export const articleQuery = defineQuery(`
 `);
 
 export const articleSlugsQuery = defineQuery(`
-  *[_type == "newsArticle" && language == $locale] {
-    "slug": slug.current
+  *[_type == "newsArticle"] {
+    "slug": slug.current,
+    "locale": language
   }
 `);

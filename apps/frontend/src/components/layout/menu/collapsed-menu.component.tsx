@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { X } from "lucide-react";
 import { resolvePath } from "@workspace/routing/src/resolve-path";
+import { X } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { NavBadge } from "./nav-badge.component";
 import type { LinkGroupProps, MainMenuProps, SecondaryMenuProps } from "./menu.types";
+import { NavBadge } from "./nav-badge.component";
 
 type CollapsedMenuProps = {
   mainMenu: MainMenuProps;

@@ -1,5 +1,5 @@
 import { defineQuery } from "next-sanity";
-import type { _articleTeaserTypegenQueryResult } from "@/sanity-types";
+import type { ArticleTeaserTypegenQueryResult } from "@/sanity-types";
 
 // @sanity-typegen-ignore
 export const articleTeaserQuery = defineQuery(`
@@ -16,4 +16,4 @@ const _articleTeaserTypegenQuery = defineQuery(`
     }
   `);
 
-export type ArticleTeaserProps = NonNullable<_articleTeaserTypegenQueryResult>;
+export type ArticleTeaserProps = NonNullable<ArticleTeaserTypegenQueryResult>;

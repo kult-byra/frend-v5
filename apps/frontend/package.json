@@ -11,10 +11,10 @@
     "start": "next start",
     "format": "biome format --write .",
     "check": "biome check .",
-    "check:fix": "biome check --apply .",
-    "check:unsafe": "biome check --apply-unsafe .",
+    "check:fix": "biome check --write .",
+    "check:unsafe": "biome check --write --unsafe .",
     "lint": "biome lint .",
-    "lint:fix": "biome lint --apply .",
+    "lint:fix": "biome lint --write .",
     "build:icons": "icons build -i svg-icons -o public/icons --optimize",
     "add-icon": "pnpm dlx @sly-cli/sly add lucide-icons"
   },

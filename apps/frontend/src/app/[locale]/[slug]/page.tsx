@@ -14,12 +14,13 @@ const { Page, generateMetadata, generateStaticParams } = createPage({
   generateStaticParams: async () => {
     const { data } = await sanityFetch({
       query: pageSlugsQuery,
-      params: { locale: "no" },
       perspective: "published",
       stega: false,
     });
 
-    return data;
+    return (data ?? []).filter(
+      (item): item is { slug: string; locale: string } => item.locale !== null,
+    );
   },
 
   loader: async ({ params }) => {

@@ -1,4 +1,5 @@
 import { defineQuery } from "next-sanity";
+import type { ArticleTeaserProps } from "../teasers/article-teaser.query";
 import { articleTeaserQuery } from "../teasers/article-teaser.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
@@ -12,14 +13,20 @@ export const articleArchiveSettingsQuery = defineQuery(`
   }
 `);
 
-// Query for paginated articles
-// Pass start and end indices directly (e.g., start=0, end=12 for first page)
+// Query for paginated articles - nested subquery, use ArticleArchivePaginatedResult
+// @sanity-typegen-ignore
 export const articleArchivePaginatedQuery = defineQuery(`{
   "articles": *[_type == "newsArticle" && publishDate < now() && language == $locale] | order(publishDate desc) [$start...$end] {
     ${articleTeaserQuery}
   },
   "total": count(*[_type == "newsArticle" && publishDate < now() && language == $locale])
 }`);
+
+// Type derived from ArticleTeaserProps (which is generated via typegen in article-teaser.query.ts)
+export type ArticleArchivePaginatedResult = {
+  articles: ArticleTeaserProps[];
+  total: number;
+};
 
 // Legacy query for backwards compatibility
 export const articleArchiveQuery = defineQuery(`

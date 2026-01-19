@@ -1,5 +1,5 @@
 import { defineQuery } from "next-sanity";
-import type { _imageTypegenQueryResult } from "@/sanity-types";
+import type { ImageTypegenQueryResult } from "@/sanity-types";
 
 // @sanity-typegen-ignore
 export const imageInnerQuery = defineQuery(`
@@ -32,4 +32,4 @@ const _imageTypegenQuery = defineQuery(`*[_type == "typegenSettings"][0]{
   }
 }`);
 
-export type ImageQueryProps = NonNullable<NonNullable<_imageTypegenQueryResult>["image"]>;
+export type ImageQueryProps = NonNullable<NonNullable<ImageTypegenQueryResult>["image"]>;

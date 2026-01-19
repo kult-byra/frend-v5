@@ -9,8 +9,8 @@ import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 type CardsBlockProps = PageBuilderBlockProps<"cards.block">;
 type CardItem = NonNullable<CardsBlockProps["items"]>[number];
 type ClientCardItem = CardItem & {
-  industries?: string[];
-  description?: string;
+  industries?: string[] | null;
+  description?: string | null;
 };
 
 const ServicesCards = ({ items }: { items: CardItem[] }) => (

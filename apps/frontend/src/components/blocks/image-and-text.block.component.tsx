@@ -2,10 +2,22 @@ import { BlockContainer } from "@/components/layout/block-container.component";
 import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { Img } from "@/components/utils/img.component";
+import type { FullPortableTextQueryTypeResult } from "@/sanity-types";
+import type { ImageQueryProps } from "@/server/queries/utils/image.query";
 import { cn } from "@/utils/cn.util";
-import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
-export const ImageAndTextBlock = (props: PageBuilderBlockProps<"imageAndText.block">) => {
+type ImageAndTextBlockProps = {
+  _type: "imageAndText.block";
+  _key: string;
+  heading: string | null;
+  content: NonNullable<FullPortableTextQueryTypeResult>["content"] | null;
+  image: ImageQueryProps | null;
+  options: {
+    imagePosition: "left" | "right" | null;
+  } | null;
+};
+
+export const ImageAndTextBlock = (props: ImageAndTextBlockProps) => {
   const { heading, content, image, options } = props;
 
   const { imagePosition = "left" } = options ?? {};

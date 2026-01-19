@@ -1,10 +1,9 @@
-import { Suspense } from "react";
-
+import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { VisualEditing } from "next-sanity/visual-editing";
-import { draftMode } from "next/headers";
-import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { ClientWrapper } from "@/components/client-wrapper.component";
 import { FathomBase } from "@/components/fathom/fathom-base.component";
@@ -14,8 +13,8 @@ import { PreloadResources } from "@/components/preload-resources.component";
 import { DraftmodeBanner } from "@/components/utils/draft-mode.component";
 import { TailwindIndicator } from "@/components/utils/tailwind-indicator.component";
 import { type Locale, routing } from "@/i18n/routing";
-import { SanityLive } from "@/server/sanity/sanity-live";
 import { fetchSettings } from "@/server/queries/settings/settings.query";
+import { SanityLive } from "@/server/sanity/sanity-live";
 import { cn } from "@/utils/cn.util";
 
 import { mabry } from "../layout";

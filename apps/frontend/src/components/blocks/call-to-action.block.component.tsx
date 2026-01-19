@@ -1,10 +1,19 @@
 import { BlockContainer } from "@/components/layout/block-container.component";
 import { H2 } from "@/components/layout/heading.component";
-import type { PageBuilderBlockProps } from "@/components/page-builder/page-builder.types";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { ButtonGroup } from "@/components/ui/parts/button-group.component";
+import type { FullPortableTextQueryTypeResult } from "@/sanity-types";
+import type { LinksProps } from "@/server/queries/utils/links.query";
 
-export const CallToActionBlock = (props: PageBuilderBlockProps<"callToAction.block">) => {
+type CallToActionBlockProps = {
+  _type: "callToAction.block";
+  _key: string;
+  heading: string | null;
+  content: NonNullable<FullPortableTextQueryTypeResult>["content"] | null;
+  links: LinksProps | null;
+};
+
+export const CallToActionBlock = (props: CallToActionBlockProps) => {
   const { heading, content, links } = props;
 
   return (
