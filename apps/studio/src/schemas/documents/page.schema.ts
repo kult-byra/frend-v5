@@ -1,5 +1,5 @@
 import { LayoutPanelTop } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
@@ -16,6 +16,12 @@ export const pageSchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     ...heroFields({
       includeCoverImage: false,
       includeLinks: true,

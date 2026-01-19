@@ -11,6 +11,7 @@ import { ArticleArchive } from "./(parts)/article-archive.component";
 import { ArticleArchiveSkeleton } from "./(parts)/article-archive-skeleton.component";
 
 type Props = {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ page?: string }>;
 };
 
@@ -21,18 +22,20 @@ type Props = {
 //   ...
 // }
 
-async function getArchiveSettings() {
+async function getArchiveSettings(locale: string) {
   const { data } = await sanityFetch({
     query: articleArchiveSettingsQuery,
+    params: { locale },
     tags: ["newsAndEventsArchive"],
   });
 
   return data as NonNullable<ArticleArchiveSettingsQueryResult>;
 }
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const { page } = await articlesParamsCache.parse(searchParams);
-  const settings = await getArchiveSettings();
+  const settings = await getArchiveSettings(locale);
 
   const baseTitle = settings?.title ?? "Artikler";
   const title = page > 1 ? `${baseTitle} - Side ${page}` : baseTitle;
@@ -49,9 +52,10 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   };
 }
 
-export default async function ArticlesPage({ searchParams }: Props) {
+export default async function ArticlesPage({ params, searchParams }: Props) {
+  const { locale } = await params;
   const { page } = await articlesParamsCache.parse(searchParams);
-  const settings = await getArchiveSettings();
+  const settings = await getArchiveSettings(locale);
 
   return (
     <Container className="py-12">
@@ -60,7 +64,7 @@ export default async function ArticlesPage({ searchParams }: Props) {
       {page > 1 && <p className="text-muted-foreground mb-6">Side {page} av artikler</p>}
 
       <Suspense fallback={<ArticleArchiveSkeleton />}>
-        <ArticleArchive initialPage={page} />
+        <ArticleArchive initialPage={page} locale={locale} />
       </Suspense>
     </Container>
   );

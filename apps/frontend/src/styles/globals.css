@@ -7,8 +7,9 @@
 /* ===== FONT FACES ===== */
 @font-face {
   font-family: "Suisse Int'l";
-  src: url("/fonts/SuisseIntl-Book.woff2") format("woff2"),
-       url("/fonts/SuisseIntl-Book.woff") format("woff");
+  src:
+    url("/fonts/SuisseIntl-Book.woff2") format("woff2"),
+    url("/fonts/SuisseIntl-Book.woff") format("woff");
   font-weight: 450;
   font-style: normal;
   font-display: swap;
@@ -16,8 +17,9 @@
 
 @font-face {
   font-family: "Suisse Int'l";
-  src: url("/fonts/SuisseIntl-SemiBold.woff2") format("woff2"),
-       url("/fonts/SuisseIntl-SemiBold.woff") format("woff");
+  src:
+    url("/fonts/SuisseIntl-SemiBold.woff2") format("woff2"),
+    url("/fonts/SuisseIntl-SemiBold.woff") format("woff");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -25,8 +27,9 @@
 
 @font-face {
   font-family: "DM Mono";
-  src: url("/fonts/DMMono-Regular.woff2") format("woff2"),
-       url("/fonts/DMMono-Regular.woff") format("woff");
+  src:
+    url("/fonts/DMMono-Regular.woff2") format("woff2"),
+    url("/fonts/DMMono-Regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;

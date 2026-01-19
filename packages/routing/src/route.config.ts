@@ -50,3 +50,30 @@ export const ROOT_PATHS = [
 
 // Infer the type of rootPaths
 export type RootPath = (typeof ROOT_PATHS)[number];
+
+export const routeTranslations = {
+  no: {
+    artikler: 'artikler',
+    nyheter: 'nyheter',
+    arrangementer: 'arrangementer',
+    tjenester: 'tjenester',
+    kunnskapsarkiv: 'kunnskapsarkiv',
+    seminarer: 'seminarer',
+    prosjekter: 'prosjekter',
+    kunder: 'kunder',
+    'e-boker': 'e-boker',
+  },
+  en: {
+    artikler: 'articles',
+    nyheter: 'news',
+    arrangementer: 'events',
+    tjenester: 'services',
+    kunnskapsarkiv: 'knowledge-hub',
+    seminarer: 'seminars',
+    prosjekter: 'projects',
+    kunder: 'clients',
+    'e-boker': 'ebooks',
+  },
+} as const
+
+export type Locale = keyof typeof routeTranslations

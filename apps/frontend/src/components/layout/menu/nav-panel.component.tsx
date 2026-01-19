@@ -19,7 +19,8 @@ type NavPanelProps = {
 };
 
 export const NavPanel = (props: NavPanelProps) => {
-  const { isOpen, onClose, linkGroup, mainMenu, activePanel, setActivePanel, newsEventsCount } = props;
+  const { isOpen, onClose, linkGroup, mainMenu, activePanel, setActivePanel, newsEventsCount } =
+    props;
 
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -38,11 +39,7 @@ export const NavPanel = (props: NavPanelProps) => {
   // Handle click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (
-        isOpen &&
-        panelRef.current &&
-        !panelRef.current.contains(e.target as Node)
-      ) {
+      if (isOpen && panelRef.current && !panelRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
@@ -59,7 +56,7 @@ export const NavPanel = (props: NavPanelProps) => {
       ref={panelRef}
       className={cn(
         "fixed top-0 left-0 h-full z-30 bg-light-purple transition-transform duration-200 ease-out hidden menu:block",
-        isOpen ? "translate-x-0" : "-translate-x-full"
+        isOpen ? "translate-x-0" : "-translate-x-full",
       )}
       role="dialog"
       aria-modal="true"
@@ -68,7 +65,9 @@ export const NavPanel = (props: NavPanelProps) => {
       {/* Header with category badges - matches header layout */}
       <div className="flex items-center h-[52px] px-4 py-2 gap-6">
         {/* Invisible logo spacer to align badges with header */}
-        <span className="font-semibold text-lg opacity-0 select-none" aria-hidden="true">frend</span>
+        <span className="font-semibold text-lg opacity-0 select-none" aria-hidden="true">
+          frend
+        </span>
         <div className="flex items-center gap-2">
           {mainMenu?.map((item) => {
             if (item.linkType !== "linkGroup") return null;
@@ -78,9 +77,7 @@ export const NavPanel = (props: NavPanelProps) => {
                 item={item}
                 isActive={activePanel === item._key}
                 onClick={() => setActivePanel(activePanel === item._key ? null : item._key)}
-                notificationCount={
-                  item.menuType === "newsAndEvents" ? newsEventsCount : undefined
-                }
+                notificationCount={item.menuType === "newsAndEvents" ? newsEventsCount : undefined}
               />
             );
           })}

@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 import "./src/env";
+
+const withNextIntl = createNextIntlPlugin();
 
 const config: NextConfig = {
   transpilePackages: ["@workspace/routing"],
@@ -22,4 +25,5 @@ const config: NextConfig = {
     fetches: { fullUrl: false },
   },
 };
-export default config;
+
+export default withNextIntl(config);

@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { linksField } from "@/schemas/generator-fields/links.field";
 
 export const menuSettingsSchema = defineType({
@@ -11,6 +11,12 @@ export const menuSettingsSchema = defineType({
     singleton: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     linksField({
       name: "mainMenu",
       title: "Main menu (left)",

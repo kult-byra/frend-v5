@@ -1,5 +1,5 @@
 import { Bookmark } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
@@ -16,6 +16,12 @@ export const frontPageSchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     stringField({
       name: "title",
       title: "Front page title",

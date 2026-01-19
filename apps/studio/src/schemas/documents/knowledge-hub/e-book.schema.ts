@@ -1,5 +1,5 @@
 import { Book, BookOpen } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
@@ -19,6 +19,12 @@ export const eBookSchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     ...heroFields(),
     linksField({
         title: "Upload file",

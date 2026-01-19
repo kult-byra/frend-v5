@@ -1,5 +1,5 @@
 import { Bot, PanelBottom } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { linksField } from "@/schemas/generator-fields/links.field";
 import { referenceField } from "../generator-fields/reference.field";
 import { pageBuilderField } from "../generator-fields/page-builder.field";
@@ -16,6 +16,12 @@ export const footerSettingsSchema = defineType({
     singleton: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     linksField({
       name: "footerLinks",
       title: "Footer links",

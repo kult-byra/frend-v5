@@ -21,6 +21,12 @@ export const caseStudySchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     ...heroFields(),
     referenceField({
         title: "Client",

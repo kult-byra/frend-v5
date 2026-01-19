@@ -20,13 +20,7 @@ export const ImagesAndTextBlock = (props: PageBuilderBlockProps<"imagesAndText.b
         <div className="grid gap-4">
           {images?.map((item) => (
             <div key={item._key}>
-              {item.image && (
-                <Img
-                  {...item.image}
-                  sizes={{ md: "half" }}
-                  className="rounded-lg"
-                />
-              )}
+              {item.image && <Img {...item.image} sizes={{ md: "half" }} className="rounded-lg" />}
             </div>
           ))}
         </div>

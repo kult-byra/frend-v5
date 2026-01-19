@@ -18,8 +18,7 @@ export const Menu = (props: MenuProps) => {
   if (!mainMenu) return null;
 
   const activeLinkGroup = mainMenu?.find(
-    (item): item is LinkGroupProps =>
-      item.linkType === "linkGroup" && item._key === activePanel
+    (item): item is LinkGroupProps => item.linkType === "linkGroup" && item._key === activePanel,
   );
 
   return (

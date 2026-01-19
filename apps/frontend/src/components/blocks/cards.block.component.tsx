@@ -58,10 +58,7 @@ const NewsArticleCards = ({ items }: { items: CardItem[] }) => (
 const CaseStudyCards = ({ items }: { items: CardItem[] }) => (
   <div className="grid gap-8 sm:grid-cols-2">
     {items.map((item) => (
-      <div
-        key={item._id}
-        className="group relative overflow-hidden rounded-xl bg-gray-900"
-      >
+      <div key={item._id} className="group relative overflow-hidden rounded-xl bg-gray-900">
         {item.image && (
           <Img
             {...item.image}
@@ -80,10 +77,7 @@ const CaseStudyCards = ({ items }: { items: CardItem[] }) => (
 const EventCards = ({ items }: { items: CardItem[] }) => (
   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     {items.map((item) => (
-      <div
-        key={item._id}
-        className="flex gap-4 rounded-lg border border-gray-200 bg-white p-4"
-      >
+      <div key={item._id} className="flex gap-4 rounded-lg border border-gray-200 bg-white p-4">
         {item.image && (
           <Img
             {...item.image}
@@ -126,14 +120,10 @@ const ClientCardHover = ({ item }: { item: ClientCardItem }) => {
       <div className="flex flex-col gap-2">
         <p className="text-body-title text-text-primary">{item.title}</p>
         {item.description && (
-          <p className="text-body-small text-text-primary">
-            {item.description}
-          </p>
+          <p className="text-body-small text-text-primary">{item.description}</p>
         )}
         {item.industries && item.industries.length > 0 && (
-          <p className="text-body-small text-text-secondary">
-            {item.industries.join(", ")}
-          </p>
+          <p className="text-body-small text-text-secondary">{item.industries.join(", ")}</p>
         )}
       </div>
       {item.slug && (

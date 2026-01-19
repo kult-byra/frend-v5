@@ -16,18 +16,13 @@ export const NavBadge = (props: NavBadgeProps) => {
 
   const baseClassName = cn(
     "backdrop-blur-[5px] rounded px-2 py-1 flex items-center gap-1 text-body text-text-primary transition-colors",
-    isActive ? "bg-light-orange" : "bg-container-shade hover:bg-container-shade/80"
+    isActive ? "bg-light-orange" : "bg-container-shade hover:bg-container-shade/80",
   );
 
   // For linkGroups, render as a button that triggers the panel
   if (item.linkType === "linkGroup") {
     return (
-      <button
-        type="button"
-        className={baseClassName}
-        onClick={onClick}
-        aria-expanded={isActive}
-      >
+      <button type="button" className={baseClassName} onClick={onClick} aria-expanded={isActive}>
         {item.title}
         {notificationCount !== undefined && notificationCount > 0 && (
           <NotificationBadge count={notificationCount} />

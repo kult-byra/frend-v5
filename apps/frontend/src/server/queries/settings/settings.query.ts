@@ -4,17 +4,20 @@ import { menuSettingsQuery } from "./menu-settings.query";
 import { metadataSettingsQuery } from "./metadata-settings.query";
 import { newsEventsCountQuery } from "./news-events-count.query";
 import { siteSettingsQuery } from "./site-settings.query";
+import { stringTranslationsQuery } from "./string-translations.query";
 
 const settingsQuery = defineQuery(`{
   "siteSettings": ${siteSettingsQuery},
   "menuSettings": ${menuSettingsQuery},
   "metadataSettings": ${metadataSettingsQuery},
-  "newsEventsCount": ${newsEventsCountQuery}
+  "newsEventsCount": ${newsEventsCountQuery},
+  "stringTranslations": ${stringTranslationsQuery}
 }`);
 
-export const fetchSettings = async () => {
+export const fetchSettings = async (locale: string) => {
   const data = await sanityFetch({
     query: settingsQuery,
+    params: { locale },
   });
 
   return data.data;

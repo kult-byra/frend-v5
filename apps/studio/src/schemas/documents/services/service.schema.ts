@@ -1,5 +1,5 @@
 import { Bot, Package } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
@@ -19,6 +19,12 @@ export const serviceSchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     ...heroFields({
       includeExcerpt: true,
       includeCoverImage: false,

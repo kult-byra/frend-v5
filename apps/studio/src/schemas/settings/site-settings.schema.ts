@@ -12,6 +12,12 @@ export const siteSettingsSchema = defineType({
     singleton: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     referenceField({
       name: "frontPage",
       title: "Front page",

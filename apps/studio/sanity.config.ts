@@ -1,7 +1,13 @@
+import { documentInternationalization } from "@sanity/document-internationalization";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { media, mediaAssetSource } from "sanity-plugin-media";
 import "./styles.css";
+
+const languages = [
+  { id: "no", title: "Norwegian" },
+  { id: "en", title: "English" },
+];
 
 import type { Tool } from "sanity";
 import { defineDocuments, presentationTool } from "sanity/presentation";
@@ -35,6 +41,37 @@ const config = defineConfig({
     structureTool({ structure }),
     media(),
     ...(process.env.NODE_ENV === "development" ? [visionTool()] : []),
+    documentInternationalization({
+      supportedLanguages: languages,
+      schemaTypes: [
+        "page",
+        "frontPage",
+        "conversionPage",
+        "newsArticle",
+        "event",
+        "newsAndEventsArchive",
+        "knowledgeArticle",
+        "knowledgeHub",
+        "knowledgeArticleArchive",
+        "service",
+        "subService",
+        "servicesArchive",
+        "seminar",
+        "seminarArchive",
+        "caseStudy",
+        "caseStudyArchive",
+        "eBook",
+        "eBookArchive",
+        "client",
+        "clientArchive",
+        "person",
+        "jobOpening",
+        "siteSettings",
+        "menuSettings",
+        "footerSettings",
+        "metadataSettings",
+      ],
+    }),
     presentationTool({
       previewUrl: {
         draftMode: {

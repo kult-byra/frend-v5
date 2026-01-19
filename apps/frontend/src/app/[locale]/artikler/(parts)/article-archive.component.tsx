@@ -7,9 +7,10 @@ import { sanityFetch } from "@/server/sanity/sanity-live";
 
 type Props = {
   initialPage: number;
+  locale: string;
 };
 
-export const ArticleArchive = async ({ initialPage }: Props) => {
+export const ArticleArchive = async ({ initialPage, locale }: Props) => {
   // TODO: Enable when next-sanity supports cache components
   // "use cache";
   // cacheLife("hours");
@@ -22,6 +23,7 @@ export const ArticleArchive = async ({ initialPage }: Props) => {
     params: {
       start,
       end,
+      locale,
     },
     tags: ["newsArticle"],
   });

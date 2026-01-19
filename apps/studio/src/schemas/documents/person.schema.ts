@@ -9,6 +9,12 @@ export const personSchema = defineType({
   type: "document",
   icon: User,
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     stringField({
       name: "name",
       title: "Navn",

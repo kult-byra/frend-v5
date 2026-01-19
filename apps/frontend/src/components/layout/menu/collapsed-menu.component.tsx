@@ -21,8 +21,7 @@ export const CollapsedMenu = (props: CollapsedMenuProps) => {
 
   // Find the active link group
   const activeLinkGroup = mainMenu?.find(
-    (item): item is LinkGroupProps =>
-      item.linkType === "linkGroup" && item._key === activeCategory
+    (item): item is LinkGroupProps => item.linkType === "linkGroup" && item._key === activeCategory,
   );
 
   // Set first linkGroup as default when opening

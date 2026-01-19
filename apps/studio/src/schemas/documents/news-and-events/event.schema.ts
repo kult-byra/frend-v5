@@ -22,6 +22,12 @@ export const eventSchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     //KEY
     ...heroFields(),
     defineField({

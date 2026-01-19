@@ -1,5 +1,5 @@
 import { Building } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
@@ -16,6 +16,12 @@ export const clientSchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     stringField({
       name: "name",
       title: "Name",

@@ -3,7 +3,7 @@ import { linksField } from "@/schemas/generator-fields/links.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
 import { Briefcase } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export const jobOpeningSchema = defineType({
     name: "jobOpening",
@@ -12,6 +12,12 @@ export const jobOpeningSchema = defineType({
     icon: Briefcase,
     groups: defaultGroups,
     fields: [
+        defineField({
+          name: "language",
+          type: "string",
+          readOnly: true,
+          hidden: true,
+        }),
         stringField({
             title: "Title",
             name: "title",

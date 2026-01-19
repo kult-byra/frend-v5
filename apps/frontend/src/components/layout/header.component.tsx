@@ -23,9 +23,7 @@ export const Header = (props: SettingsQueryResult) => {
             {env.NEXT_PUBLIC_SITE_TITLE}
           </Link>
 
-          {menuSettings && (
-            <Menu {...menuSettings} newsEventsCount={newsEventsCount ?? 0} />
-          )}
+          {menuSettings && <Menu {...menuSettings} newsEventsCount={newsEventsCount ?? 0} />}
         </div>
       </div>
     </header>

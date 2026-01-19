@@ -1,5 +1,5 @@
 import { Bot, Package } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
@@ -19,6 +19,12 @@ export const subServiceSchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     ...heroFields({
       includeExcerpt: true,
       includeCoverImage: false,
