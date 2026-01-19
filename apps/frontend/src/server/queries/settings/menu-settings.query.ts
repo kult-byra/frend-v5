@@ -5,6 +5,9 @@ export const menuSettingsQuery = defineQuery(`
   *[_type == "menuSettings"][0] {
     mainMenu[] {
       ${linksQuery}
+    },
+    secondaryMenu[] {
+      ${linksQuery}
     }
   }
 `);
