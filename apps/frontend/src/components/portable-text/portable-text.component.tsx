@@ -142,14 +142,10 @@ const list = (options: PortableTextOptions): ListStyleRendererMap => {
       <ol className={cn(pSize, listStyle, "list-decimal")}>{children}</ol>
     ),
     dash: ({ children }: PropsWithChildren) => (
-      <ul className={cn(pSize, listStyle, "list-none")}>
-        {children}
-      </ul>
+      <ul className={cn(pSize, listStyle, "list-none")}>{children}</ul>
     ),
     check: ({ children }: PropsWithChildren) => (
-      <ul className={cn(pSize, listStyle, "list-none")}>
-        {children}
-      </ul>
+      <ul className={cn(pSize, listStyle, "list-none")}>{children}</ul>
     ),
   } as ListStyleRendererMap;
 };
@@ -167,7 +163,12 @@ const listItem = (options: PortableTextOptions): ListLevelRenderMap => {
       <li className={cn(level && level > 1 && subLevelListItemStyle)}>{children}</li>
     ),
     dash: ({ children, value: { level } }: PropsWithChildren & { value: { level?: number } }) => (
-      <li className={cn(level && level > 1 && subLevelListItemStyle, "before:content-['-'] before:mr-2")}>
+      <li
+        className={cn(
+          level && level > 1 && subLevelListItemStyle,
+          "before:content-['-'] before:mr-2",
+        )}
+      >
         {children}
       </li>
     ),

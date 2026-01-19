@@ -16,7 +16,6 @@
     "lint": "biome lint .",
     "lint:fix": "biome lint --apply .",
     "build:icons": "icons build -i svg-icons -o public/icons --optimize",
-    "typegen": "cd ../studio && SKIP_VALIDATION=true  sanity schema extract --path ../frontend/schema.json --enforce-required-fields && cd ../frontend && sanity typegen generate",
     "add-icon": "pnpm dlx @sly-cli/sly add lucide-icons"
   },
   "keywords": [],
