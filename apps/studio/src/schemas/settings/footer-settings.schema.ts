@@ -1,7 +1,7 @@
 import { Bot, PanelBottom } from "lucide-react";
 import { defineType } from "sanity";
 import { linksField } from "@/schemas/generator-fields/links.field";
-import { figureField } from "../generator-fields/figure.field";
+import { illustrationField } from "../generator-fields/illustration.field";
 import { infoField } from "../generator-fields/info.field";
 import { pageBuilderField } from "../generator-fields/page-builder.field";
 import { referenceField } from "../generator-fields/reference.field";
@@ -49,7 +49,7 @@ export const footerSettingsSchema = defineType({
     }),
 
     // Shared (not language-specific)
-    figureField({
+    illustrationField({
       title: "Illustration",
       name: "illustration",
       group: "shared",

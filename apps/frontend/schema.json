@@ -1,6 +1,132 @@
 [
   {
     "type": "type",
+    "name": "media",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "mediaType": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "figure"
+              },
+              {
+                "type": "string",
+                "value": "video"
+              }
+            ]
+          },
+          "optional": false
+        },
+        "figure": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "media.figure"
+          },
+          "optional": true
+        },
+        "videoUrl": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "sanity.imageAsset.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "sanity.imageAsset"
+    }
+  },
+  {
+    "type": "type",
+    "name": "media.figure",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "asset": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageAsset.reference"
+          },
+          "optional": true
+        },
+        "media": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "figure.media"
+          },
+          "optional": true
+        },
+        "hotspot": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageHotspot"
+          },
+          "optional": true
+        },
+        "crop": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageCrop"
+          },
+          "optional": true
+        },
+        "changed": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "image"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
     "name": "sanity.fileAsset.reference",
     "value": {
       "type": "object",
@@ -47,7 +173,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "media"
+            "name": "file.media"
           },
           "optional": true
         },
@@ -59,36 +185,6 @@
           }
         }
       }
-    }
-  },
-  {
-    "type": "type",
-    "name": "sanity.imageAsset.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "sanity.imageAsset"
     }
   },
   {
@@ -4673,54 +4769,205 @@
       "illustration": {
         "type": "objectAttribute",
         "value": {
-          "type": "object",
-          "attributes": {
-            "asset": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageAsset.reference"
-              },
-              "optional": true
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "light-bubbles-01"
             },
-            "media": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "unknown"
-              },
-              "optional": true
+            {
+              "type": "string",
+              "value": "light-bubbles-02"
             },
-            "hotspot": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageHotspot"
-              },
-              "optional": true
+            {
+              "type": "string",
+              "value": "light-choices"
             },
-            "crop": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageCrop"
-              },
-              "optional": true
+            {
+              "type": "string",
+              "value": "light-collaboration"
             },
-            "changed": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
+            {
+              "type": "string",
+              "value": "light-competition-01"
             },
-            "_type": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string",
-                "value": "image"
-              }
+            {
+              "type": "string",
+              "value": "light-competition-02"
+            },
+            {
+              "type": "string",
+              "value": "light-confused"
+            },
+            {
+              "type": "string",
+              "value": "light-confused-team"
+            },
+            {
+              "type": "string",
+              "value": "light-cooperation"
+            },
+            {
+              "type": "string",
+              "value": "light-direction"
+            },
+            {
+              "type": "string",
+              "value": "light-growth"
+            },
+            {
+              "type": "string",
+              "value": "light-idea"
+            },
+            {
+              "type": "string",
+              "value": "light-meeting-01"
+            },
+            {
+              "type": "string",
+              "value": "light-meeting-02"
+            },
+            {
+              "type": "string",
+              "value": "light-pie-chart"
+            },
+            {
+              "type": "string",
+              "value": "light-strategy-card"
+            },
+            {
+              "type": "string",
+              "value": "light-strategy-chess"
+            },
+            {
+              "type": "string",
+              "value": "light-victorys"
+            },
+            {
+              "type": "string",
+              "value": "light-icon-award"
+            },
+            {
+              "type": "string",
+              "value": "light-icon-chess"
+            },
+            {
+              "type": "string",
+              "value": "light-icon-chessboard"
+            },
+            {
+              "type": "string",
+              "value": "light-icon-hourglass"
+            },
+            {
+              "type": "string",
+              "value": "light-icon-light-bulb"
+            },
+            {
+              "type": "string",
+              "value": "light-icon-timer"
+            },
+            {
+              "type": "string",
+              "value": "light-icon-trophy"
+            },
+            {
+              "type": "string",
+              "value": "dark-bubbles-01"
+            },
+            {
+              "type": "string",
+              "value": "dark-bubbles-02"
+            },
+            {
+              "type": "string",
+              "value": "dark-choices"
+            },
+            {
+              "type": "string",
+              "value": "dark-collaboration"
+            },
+            {
+              "type": "string",
+              "value": "dark-competition-01"
+            },
+            {
+              "type": "string",
+              "value": "dark-competition-02"
+            },
+            {
+              "type": "string",
+              "value": "dark-confused"
+            },
+            {
+              "type": "string",
+              "value": "dark-confused-team"
+            },
+            {
+              "type": "string",
+              "value": "dark-cooperation"
+            },
+            {
+              "type": "string",
+              "value": "dark-direction"
+            },
+            {
+              "type": "string",
+              "value": "dark-growth"
+            },
+            {
+              "type": "string",
+              "value": "dark-idea"
+            },
+            {
+              "type": "string",
+              "value": "dark-meeting-01"
+            },
+            {
+              "type": "string",
+              "value": "dark-meeting-02"
+            },
+            {
+              "type": "string",
+              "value": "dark-pie-chart"
+            },
+            {
+              "type": "string",
+              "value": "dark-strategy-card"
+            },
+            {
+              "type": "string",
+              "value": "dark-strategy-chess"
+            },
+            {
+              "type": "string",
+              "value": "dark-victorys"
+            },
+            {
+              "type": "string",
+              "value": "dark-icon-award"
+            },
+            {
+              "type": "string",
+              "value": "dark-icon-chess"
+            },
+            {
+              "type": "string",
+              "value": "dark-icon-chessboard"
+            },
+            {
+              "type": "string",
+              "value": "dark-icon-hourglass"
+            },
+            {
+              "type": "string",
+              "value": "dark-icon-timer"
+            },
+            {
+              "type": "string",
+              "value": "dark-icon-trophy"
             }
-          }
+          ]
         },
         "optional": true
       },
@@ -8809,6 +9056,45 @@
     }
   },
   {
+    "name": "mediaAndFormHero",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "mediaAndFormHero"
+          }
+        },
+        "heroText": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": false
+        },
+        "media": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "media"
+          },
+          "optional": true
+        },
+        "form": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "hubspotForm.reference"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "type": "type",
     "name": "caseStudyArchive.reference",
     "value": {
@@ -9258,6 +9544,43 @@
     }
   },
   {
+    "name": "hero",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "hero"
+          }
+        },
+        "heroType": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "mediaAndFormHero"
+              }
+            ]
+          },
+          "optional": false
+        },
+        "mediaAndFormHero": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "mediaAndFormHero"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "externalLink",
     "type": "type",
     "value": {
@@ -9468,10 +9791,6 @@
               {
                 "type": "inline",
                 "name": "clientArchive.reference"
-              },
-              {
-                "type": "inline",
-                "name": "person.reference"
               },
               {
                 "type": "inline",
@@ -14258,344 +14577,11 @@
         },
         "optional": false
       },
-      "heading": {
+      "hero": {
         "type": "objectAttribute",
         "value": {
-          "type": "string"
-        },
-        "optional": false
-      },
-      "excerpt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "children": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "array",
-                  "of": {
-                    "type": "object",
-                    "attributes": {
-                      "marks": {
-                        "type": "objectAttribute",
-                        "value": {
-                          "type": "array",
-                          "of": {
-                            "type": "string"
-                          }
-                        },
-                        "optional": true
-                      },
-                      "text": {
-                        "type": "objectAttribute",
-                        "value": {
-                          "type": "string"
-                        },
-                        "optional": true
-                      },
-                      "_type": {
-                        "type": "objectAttribute",
-                        "value": {
-                          "type": "string",
-                          "value": "span"
-                        }
-                      }
-                    },
-                    "rest": {
-                      "type": "object",
-                      "attributes": {
-                        "_key": {
-                          "type": "objectAttribute",
-                          "value": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "optional": true
-              },
-              "style": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "union",
-                  "of": [
-                    {
-                      "type": "string",
-                      "value": "normal"
-                    }
-                  ]
-                },
-                "optional": true
-              },
-              "listItem": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "union",
-                  "of": []
-                },
-                "optional": true
-              },
-              "markDefs": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "array",
-                  "of": {
-                    "type": "union",
-                    "of": [
-                      {
-                        "type": "object",
-                        "attributes": {
-                          "internalLink": {
-                            "type": "objectAttribute",
-                            "value": {
-                              "type": "inline",
-                              "name": "internalLink"
-                            },
-                            "optional": false
-                          },
-                          "_type": {
-                            "type": "objectAttribute",
-                            "value": {
-                              "type": "string",
-                              "value": "internalLinkObject"
-                            }
-                          }
-                        },
-                        "rest": {
-                          "type": "object",
-                          "attributes": {
-                            "_key": {
-                              "type": "objectAttribute",
-                              "value": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "type": "object",
-                        "attributes": {
-                          "href": {
-                            "type": "objectAttribute",
-                            "value": {
-                              "type": "string"
-                            },
-                            "optional": false
-                          },
-                          "_type": {
-                            "type": "objectAttribute",
-                            "value": {
-                              "type": "string",
-                              "value": "link"
-                            }
-                          }
-                        },
-                        "rest": {
-                          "type": "object",
-                          "attributes": {
-                            "_key": {
-                              "type": "objectAttribute",
-                              "value": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "type": "object",
-                        "attributes": {
-                          "file": {
-                            "type": "objectAttribute",
-                            "value": {
-                              "type": "inline",
-                              "name": "downloadLinkObject.file"
-                            },
-                            "optional": false
-                          },
-                          "_type": {
-                            "type": "objectAttribute",
-                            "value": {
-                              "type": "string",
-                              "value": "downloadLinkObject"
-                            }
-                          }
-                        },
-                        "rest": {
-                          "type": "object",
-                          "attributes": {
-                            "_key": {
-                              "type": "objectAttribute",
-                              "value": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    ]
-                  }
-                },
-                "optional": true
-              },
-              "level": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "number"
-                },
-                "optional": true
-              },
-              "_type": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string",
-                  "value": "block"
-                }
-              }
-            },
-            "rest": {
-              "type": "object",
-              "attributes": {
-                "_key": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "optional": true
-      },
-      "links": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "array",
-          "of": {
-            "type": "union",
-            "of": [
-              {
-                "type": "object",
-                "attributes": {
-                  "internalLink": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "inline",
-                      "name": "internalLink"
-                    },
-                    "optional": false
-                  },
-                  "customTitle": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "_type": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string",
-                      "value": "internalLinkObject"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "object",
-                  "attributes": {
-                    "_key": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "href": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": false
-                  },
-                  "customTitle": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "_type": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string",
-                      "value": "link"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "object",
-                  "attributes": {
-                    "_key": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "file": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "inline",
-                      "name": "downloadLinkObject.file"
-                    },
-                    "optional": false
-                  },
-                  "customTitle": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "_type": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string",
-                      "value": "downloadLinkObject"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "object",
-                  "attributes": {
-                    "_key": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          }
+          "type": "inline",
+          "name": "hero"
         },
         "optional": true
       },
@@ -20665,13 +20651,6 @@
           "type": "string"
         }
       },
-      "language": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
       "name": {
         "type": "objectAttribute",
         "value": {
@@ -20733,7 +20712,14 @@
         },
         "optional": true
       },
-      "role": {
+      "role_no": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "role_en": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

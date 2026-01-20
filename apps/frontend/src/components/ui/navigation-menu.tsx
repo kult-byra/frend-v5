@@ -46,7 +46,7 @@ function NavigationMenuList({
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
       className={cn(
-        "group flex items-center gap-[0.2em] [&[data-orientation='vertical']]:flex-col [&[data-orientation='vertical']]:items-start menu:-mr-[1em]",
+        "group flex items-center gap-[0.2em] [&[data-orientation='vertical']]:flex-col [&[data-orientation='vertical']]:items-start laptop:-mr-[1em]",
         className,
       )}
       {...props}
@@ -68,7 +68,7 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex items-center justify-center rounded-md menu:px-[1em] py-[0.65em] font-medium transition-colors menu:hover:bg-slate-100 menu:hover:text-slate-900 menu:focus:bg-slate-100 menu:focus:text-slate-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 menu:data-[active]:bg-slate-100/50 menu:data-[state=open]:bg-slate-100/50",
+  "group inline-flex items-center justify-center rounded-md laptop:px-[1em] py-[0.65em] font-medium transition-colors laptop:hover:bg-slate-100 laptop:hover:text-slate-900 laptop:focus:bg-slate-100 laptop:focus:text-slate-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 laptop:data-[active]:bg-slate-100/50 laptop:data-[state=open]:bg-slate-100/50",
 );
 
 function NavigationMenuTrigger({
@@ -100,7 +100,7 @@ function NavigationMenuContent({
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
       className={cn(
-        "navigation-menu-content w-full  menu:absolute menu:left-0 menu:top-0",
+        "navigation-menu-content w-full  laptop:absolute laptop:left-0 laptop:top-0",
         className,
       )}
       {...props}
@@ -115,7 +115,9 @@ function NavigationMenuViewport({
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
   return (
     <div
-      className={cn("menu:absolute menu:right-0 menu:mt-[0.25em] menu:top-full w-full min-w-96")}
+      className={cn(
+        "laptop:absolute laptop:right-0 laptop:mt-[0.25em] laptop:top-full w-full min-w-96",
+      )}
     >
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"

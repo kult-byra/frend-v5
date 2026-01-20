@@ -92,6 +92,36 @@ To add a translatable string:
 
 Queries live in `apps/frontend/src/server/queries/` and use `defineQuery()` from next-sanity. Type generation runs automatically on pre-commit when `.schema.ts` or `.query.ts` files change.
 
+### Sanity Images
+
+**For rendered images** (in React components), use `SanityImage` from `sanity-image`:
+
+```tsx
+import { SanityImage } from "sanity-image";
+import { env } from "@/env";
+
+<SanityImage
+  id={asset._id}
+  projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+  dataset={env.NEXT_PUBLIC_SANITY_DATASET}
+  alt={altText ?? ""}
+  width={64}
+  height={64}
+/>
+```
+
+For complex images with sizes/captions, use the `Img` component from `@/components/utils/img.component.tsx`.
+
+**For URL-only needs** (metadata, Open Graph), use `urlForImageId` from `@/server/sanity/sanity-image`:
+
+```tsx
+import { urlForImageId } from "@/server/sanity/sanity-image";
+
+const url = urlForImageId(imageId, { width: 800, height: 600 });
+```
+
+**Never** manually construct Sanity CDN URLs.
+
 ### Pre-commit Hooks
 
 Lefthook runs on pre-commit:

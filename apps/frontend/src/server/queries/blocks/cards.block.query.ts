@@ -21,6 +21,8 @@ export const cardsBlockQuery = defineQuery(`
       _type,
       title,
       "slug": slug.current,
+      excerpt,
+      "illustration": illustration->illustration.asset->url,
       image { ${imageQuery} }
     },
     contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {
@@ -58,6 +60,8 @@ export const cardsBlockQuery = defineQuery(`
       _type,
       title,
       "slug": slug.current,
+      excerpt,
+      "illustration": illustration->illustration.asset->url,
       image { ${imageQuery} }
     },
     contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) [0...6] {

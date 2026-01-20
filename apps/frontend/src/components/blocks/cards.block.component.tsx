@@ -1,9 +1,12 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { toPlainText } from "next-sanity";
 import { BlockContainer } from "@/components/layout/block-container.component";
 import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { Img } from "@/components/utils/img.component";
+import { cn } from "@/utils/cn.util";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
 type CardsBlockProps = PageBuilderBlockProps<"cards.block">;
@@ -13,23 +16,58 @@ type ClientCardItem = CardItem & {
   description?: string | null;
 };
 
-const ServicesCards = ({ items }: { items: CardItem[] }) => (
-  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {items.map((item) => (
-      <div
-        key={item._id}
-        className="group rounded-lg border border-gray-200 bg-white p-6 transition-shadow hover:shadow-lg"
-      >
-        {item.image && (
-          <Img
-            {...item.image}
-            sizes={{ md: "half" }}
-            className="mb-4 aspect-video rounded-md object-cover"
-          />
-        )}
-        <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
-      </div>
-    ))}
+type ServiceCardItem = CardItem & {
+  excerpt?: unknown;
+  illustration?: string | null;
+};
+
+const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {items.map((item, index) => {
+      // Extract plain text from excerpt if available
+      const excerptText = item.excerpt
+        ? toPlainText(item.excerpt as Parameters<typeof toPlainText>[0])
+        : null;
+
+      return (
+        <Link
+          key={item._id}
+          href={`/tjenester/${item.slug}`}
+          className={cn(
+            "group flex flex-col rounded overflow-hidden",
+            index % 2 === 0 ? "bg-container-secondary" : "bg-container-tertiary-1",
+          )}
+        >
+          {/* Illustration - spacing-md (40px) bottom padding per design system */}
+          <div className="flex items-center justify-center px-4 pt-4 pb-10">
+            {item.illustration && (
+              <Image
+                src={item.illustration}
+                alt=""
+                width={120}
+                height={120}
+                className="size-[120px] object-contain"
+              />
+            )}
+          </div>
+
+          {/* Text content - spacing-xs (16px) padding and gap */}
+          <div className="flex flex-1 flex-col gap-4 p-4">
+            <h3 className="text-[20px] font-semibold leading-[130%]">{item.title}</h3>
+            {excerptText && (
+              <p className="text-base leading-[145%] text-text-secondary">{excerptText}</p>
+            )}
+          </div>
+
+          {/* Arrow button - 32px desktop size per media controls spec */}
+          <div className="border-t border-stroke-soft p-4">
+            <div className="flex size-8 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-orange">
+              <ArrowRight className="size-4 text-white" />
+            </div>
+          </div>
+        </Link>
+      );
+    })}
   </div>
 );
 

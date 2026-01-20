@@ -28,7 +28,6 @@ export const I18N_SCHEMA_TYPES = [
   "eBookArchive",
   "client",
   "clientArchive",
-  "person",
   "jobOpening",
   // Settings use field-level translations (language fieldsets) instead of document-level i18n
 ] as const;

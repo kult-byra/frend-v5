@@ -18,6 +18,7 @@ export const organisationStructure = (
       S.list()
         .title(title)
         .items([
+          S.documentTypeListItem("person").title("People"),
           filteredDocumentListItem(S, "jobOpening", "Job openings", languageId, i18nSchemaTypes),
           S.divider(),
           singletonListItem(S, organisationSettingsSchema),

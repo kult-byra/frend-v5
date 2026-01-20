@@ -1,0 +1,82 @@
+type IllustrationMeta = {
+  name: string;
+  label: string;
+  /**
+   * "dark" = light-colored SVG, use on DARK backgrounds
+   * "light" = dark-colored SVG, use on LIGHT backgrounds
+   */
+  mode: "light" | "dark";
+  type: "icon" | "illustration";
+};
+
+/** Display labels for modes - clarifies usage context */
+export const MODE_LABELS = {
+  dark: "For dark backgrounds",
+  light: "For light backgrounds",
+} as const;
+
+export const ILLUSTRATIONS = [
+  // Light Mode - Illustrations
+  { name: "light-bubbles-01", label: "Bubbles 1", mode: "light", type: "illustration" },
+  { name: "light-bubbles-02", label: "Bubbles 2", mode: "light", type: "illustration" },
+  { name: "light-choices", label: "Choices", mode: "light", type: "illustration" },
+  { name: "light-collaboration", label: "Collaboration", mode: "light", type: "illustration" },
+  { name: "light-competition-01", label: "Competition 1", mode: "light", type: "illustration" },
+  { name: "light-competition-02", label: "Competition 2", mode: "light", type: "illustration" },
+  { name: "light-confused", label: "Confused", mode: "light", type: "illustration" },
+  { name: "light-confused-team", label: "Confused Team", mode: "light", type: "illustration" },
+  { name: "light-cooperation", label: "Cooperation", mode: "light", type: "illustration" },
+  { name: "light-direction", label: "Direction", mode: "light", type: "illustration" },
+  { name: "light-growth", label: "Growth", mode: "light", type: "illustration" },
+  { name: "light-idea", label: "Idea", mode: "light", type: "illustration" },
+  { name: "light-meeting-01", label: "Meeting 1", mode: "light", type: "illustration" },
+  { name: "light-meeting-02", label: "Meeting 2", mode: "light", type: "illustration" },
+  { name: "light-pie-chart", label: "Pie Chart", mode: "light", type: "illustration" },
+  { name: "light-strategy-card", label: "Strategy Card", mode: "light", type: "illustration" },
+  { name: "light-strategy-chess", label: "Strategy Chess", mode: "light", type: "illustration" },
+  { name: "light-victorys", label: "Victory", mode: "light", type: "illustration" },
+
+  // Light Mode - Icons
+  { name: "light-icon-award", label: "Award", mode: "light", type: "icon" },
+  { name: "light-icon-chess", label: "Chess", mode: "light", type: "icon" },
+  { name: "light-icon-chessboard", label: "Chessboard", mode: "light", type: "icon" },
+  { name: "light-icon-hourglass", label: "Hourglass", mode: "light", type: "icon" },
+  { name: "light-icon-light-bulb", label: "Light Bulb", mode: "light", type: "icon" },
+  { name: "light-icon-timer", label: "Timer", mode: "light", type: "icon" },
+  { name: "light-icon-trophy", label: "Trophy", mode: "light", type: "icon" },
+
+  // Dark Mode - Illustrations
+  { name: "dark-bubbles-01", label: "Bubbles 1", mode: "dark", type: "illustration" },
+  { name: "dark-bubbles-02", label: "Bubbles 2", mode: "dark", type: "illustration" },
+  { name: "dark-choices", label: "Choices", mode: "dark", type: "illustration" },
+  { name: "dark-collaboration", label: "Collaboration", mode: "dark", type: "illustration" },
+  { name: "dark-competition-01", label: "Competition 1", mode: "dark", type: "illustration" },
+  { name: "dark-competition-02", label: "Competition 2", mode: "dark", type: "illustration" },
+  { name: "dark-confused", label: "Confused", mode: "dark", type: "illustration" },
+  { name: "dark-confused-team", label: "Confused Team", mode: "dark", type: "illustration" },
+  { name: "dark-cooperation", label: "Cooperation", mode: "dark", type: "illustration" },
+  { name: "dark-direction", label: "Direction", mode: "dark", type: "illustration" },
+  { name: "dark-growth", label: "Growth", mode: "dark", type: "illustration" },
+  { name: "dark-idea", label: "Idea", mode: "dark", type: "illustration" },
+  { name: "dark-meeting-01", label: "Meeting 1", mode: "dark", type: "illustration" },
+  { name: "dark-meeting-02", label: "Meeting 2", mode: "dark", type: "illustration" },
+  { name: "dark-pie-chart", label: "Pie Chart", mode: "dark", type: "illustration" },
+  { name: "dark-strategy-card", label: "Strategy Card", mode: "dark", type: "illustration" },
+  { name: "dark-strategy-chess", label: "Strategy Chess", mode: "dark", type: "illustration" },
+  { name: "dark-victorys", label: "Victory", mode: "dark", type: "illustration" },
+
+  // Dark Mode - Icons
+  { name: "dark-icon-award", label: "Award", mode: "dark", type: "icon" },
+  { name: "dark-icon-chess", label: "Chess", mode: "dark", type: "icon" },
+  { name: "dark-icon-chessboard", label: "Chessboard", mode: "dark", type: "icon" },
+  { name: "dark-icon-hourglass", label: "Hourglass", mode: "dark", type: "icon" },
+  { name: "dark-icon-timer", label: "Timer", mode: "dark", type: "icon" },
+  { name: "dark-icon-trophy", label: "Trophy", mode: "dark", type: "icon" },
+] as const satisfies IllustrationMeta[];
+
+export type IllustrationName = (typeof ILLUSTRATIONS)[number]["name"];
+export type IllustrationMode = (typeof ILLUSTRATIONS)[number]["mode"];
+export type IllustrationType = (typeof ILLUSTRATIONS)[number]["type"];
+
+export const getIllustration = (name: IllustrationName) =>
+  ILLUSTRATIONS.find((i) => i.name === name);

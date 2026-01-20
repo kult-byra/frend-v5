@@ -28,8 +28,8 @@ export function CaseStudy({ title, subtitle, client, keyResults }: Props) {
         <section className="mt-8">
           <H2 className="mb-4">Nøkkelresultater</H2>
           <ul className="list-disc list-inside space-y-2">
-            {keyResults.map((result, index) => (
-              <li key={index} className="text-muted-foreground">
+            {keyResults.map((result) => (
+              <li key={result} className="text-muted-foreground">
                 {result}
               </li>
             ))}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/layout/container.component";
-import { H1 } from "@/components/layout/heading.component";
+import Link from "next/link";
+import { toPlainText } from "next-sanity";
+import { Button } from "@/components/ui/button";
 import type { ServicesArchiveSettingsQueryResult, ServicesListQueryResult } from "@/sanity-types";
 import {
   servicesArchiveSettingsQuery,
@@ -45,14 +46,27 @@ export default async function ServicesPage({ params }: Props) {
   const { locale } = await params;
   const [settings, services] = await Promise.all([getArchiveSettings(locale), getServices(locale)]);
 
-  return (
-    <Container className="py-12">
-      <H1 className="mb-4">{settings?.title ?? "Tjenester"}</H1>
-      {settings?.subtitle && (
-        <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
-      )}
+  const excerptText = settings?.excerpt ? toPlainText(settings.excerpt) : settings?.subtitle;
 
-      <ServicesList services={services} />
-    </Container>
+  return (
+    <section className="bg-container-primary pb-(--spacing-xl) pt-0">
+      {/* Header section with excerpt and CTA */}
+      <div className="grid tablet:grid-cols-2 gap-(--gutter) px-(--margin) pb-(--spacing-xl)">
+        <div>{/* Empty left column */}</div>
+        <div className="flex flex-col gap-(--gutter)">
+          {excerptText && (
+            <p className="text-body-large text-text-primary max-w-[720px]">{excerptText}</p>
+          )}
+          <Button asChild>
+            <Link href="/tjenester">All services</Link>
+          </Button>
+        </div>
+      </div>
+
+      {/* Services grid */}
+      <div className="px-(--margin)">
+        <ServicesList services={services} />
+      </div>
+    </section>
   );
 }

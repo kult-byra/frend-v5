@@ -1,5 +1,7 @@
-import Image from "next/image";
+import { SanityImage } from "sanity-image";
+import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { Container } from "@/components/layout/container.component";
+import { Logo } from "@/components/logo.component";
 import { LinkResolver } from "@/components/utils/link-resolver.component";
 import { env } from "@/env";
 import type { SettingsQueryResult } from "@/sanity-types";
@@ -9,11 +11,6 @@ type FooterProps = Pick<
   SettingsQueryResult,
   "siteSettings" | "footerSettings" | "organisationSettings"
 >;
-
-const getSanityImageUrl = (id: string) => {
-  const filename = id.replace("image-", "").replace(/-([^-]+)$/, ".$1");
-  return `https://cdn.sanity.io/images/${env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${env.NEXT_PUBLIC_SANITY_DATASET}/${filename}`;
-};
 
 export const Footer = (props: FooterProps) => {
   const { siteSettings, footerSettings, organisationSettings } = props;
@@ -40,7 +37,7 @@ export const Footer = (props: FooterProps) => {
       </Container>
 
       {/* Legal section */}
-      <Container className="relative overflow-hidden pb-0 pt-20">
+      <Container className="relative flex min-h-[423px] flex-col justify-end pb-0">
         <div className="flex items-end justify-between">
           {/* Legal text */}
           <div className="flex flex-col gap-1 p-4 text-body-small">
@@ -60,26 +57,18 @@ export const Footer = (props: FooterProps) => {
           </div>
 
           {/* Illustration - bottom center */}
-          {footerSettings?.illustration?.asset && (
+          {footerSettings?.illustration && (
             <div className="pointer-events-none absolute bottom-0 left-1/2 hidden -translate-x-1/2 select-none md:block">
-              <Image
-                src={getSanityImageUrl(footerSettings.illustration.asset._id)}
-                alt={footerSettings.illustration.asset.altText ?? ""}
-                width={400}
-                height={400}
-                className="h-auto w-[300px] lg:w-[400px]"
+              <Illustration
+                name={footerSettings.illustration as IllustrationName}
+                className="h-auto w-[320px] lg:w-[423px]"
               />
             </div>
           )}
 
-          {/* Large logo text */}
-          <div className="pointer-events-none hidden select-none p-4 md:block">
-            <span
-              className="block text-[200px] font-semibold leading-none text-orange lg:text-[280px]"
-              aria-hidden="true"
-            >
-              frend
-            </span>
+          {/* Logo - bottom right */}
+          <div className="hidden p-4 md:block">
+            <Logo color="orange" variant="angled2" width={423} height={466} />
           </div>
         </div>
       </Container>
@@ -180,11 +169,13 @@ const FooterCertificationsSection = ({
         {certifications.map((cert) => (
           <div key={cert._key} className="flex items-center gap-2">
             {cert.logo?.image?.asset && (
-              <Image
-                src={getSanityImageUrl(cert.logo.image.asset._id)}
+              <SanityImage
+                id={cert.logo.image.asset._id}
+                projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+                dataset={env.NEXT_PUBLIC_SANITY_DATASET}
                 alt={cert.logo.title ?? ""}
-                width={32}
-                height={32}
+                width={64}
+                height={64}
                 className="h-6 w-auto brightness-0 invert"
               />
             )}

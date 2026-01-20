@@ -15,7 +15,7 @@ export const NavBadge = (props: NavBadgeProps) => {
   const { item, isActive = false, onClick, notificationCount } = props;
 
   const baseClassName = cn(
-    "backdrop-blur-[5px] rounded px-2 py-1 flex items-center gap-1 text-body text-text-primary transition-colors",
+    "backdrop-blur-[5px] rounded-[4px] px-2 py-1 flex items-center gap-1 text-[16px] leading-[1.45] text-text-primary transition-colors",
     isActive ? "bg-light-orange" : "bg-container-shade hover:bg-container-shade/80",
   );
 
@@ -44,7 +44,7 @@ export const NavBadge = (props: NavBadgeProps) => {
 };
 
 const NotificationBadge = ({ count }: { count: number }) => (
-  <span className="size-5 rounded-full bg-orange text-container-primary text-body-small flex items-center justify-center">
+  <span className="size-5 rounded-full bg-orange text-text-primary text-[12px] leading-[1.45] flex items-center justify-center">
     {count}
   </span>
 );

@@ -1,5 +1,4 @@
 import { defineQuery } from "next-sanity";
-import { imageInnerQuery } from "../utils/image.query";
 import { linksQuery } from "../utils/links.query";
 
 // Field-level i18n: selects locale-specific fields and aliases them
@@ -11,8 +10,6 @@ export const footerSettingsQuery = defineQuery(`
     )[] {
       ${linksQuery}
     },
-    illustration {
-      ${imageInnerQuery}
-    }
+    illustration
   }
 `);

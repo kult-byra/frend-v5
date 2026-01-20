@@ -16,6 +16,7 @@
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "build:icons": "icons build -i svg-icons -o public/icons --optimize",
+    "build:illustrations": "icons build -i svg-illustrations -o public/illustrations --optimize",
     "add-icon": "pnpm dlx @sly-cli/sly add lucide-icons"
   },
   "keywords": [],

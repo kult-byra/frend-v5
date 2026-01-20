@@ -16,9 +16,9 @@ export const ExpandedMenu = (props: ExpandedMenuProps) => {
   const { mainMenu, secondaryMenu, activePanel, setActivePanel, newsEventsCount } = props;
 
   return (
-    <div className="hidden menu:flex items-center">
+    <div className="hidden laptop:flex items-center">
       {/* Main menu badges */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 shrink-0">
         {mainMenu?.map((item) => (
           <NavBadge
             key={item._key}

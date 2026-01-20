@@ -37,11 +37,12 @@
 
 @theme {
   /* ===== BREAKPOINTS ===== */
-  --breakpoint-xs: 375px;
-  --breakpoint-mobile: 425px;
-  --breakpoint-tablet: 1024px;
+  --breakpoint-sm: 320px;
+  --breakpoint-mobile: 390px;
+  --breakpoint-tablet: 820px;
+  --breakpoint-laptop: 1024px;
   --breakpoint-desktop: 1440px;
-  --breakpoint-menu: 1250px;
+  --breakpoint-wide: 1920px;
 
   /* ===== FONT SIZES ===== */
   --text-2xs: 0.583rem;

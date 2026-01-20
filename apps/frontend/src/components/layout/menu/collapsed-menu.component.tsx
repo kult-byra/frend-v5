@@ -42,7 +42,7 @@ export const CollapsedMenu = (props: CollapsedMenuProps) => {
   const linkGroupSecondaryLinks = activeLinkGroup?.links?.secondaryLinks ?? [];
 
   return (
-    <div className="menu:hidden">
+    <div className="laptop:hidden">
       {/* Menu trigger button */}
       <button
         type="button"
