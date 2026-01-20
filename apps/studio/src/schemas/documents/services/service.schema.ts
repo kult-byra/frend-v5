@@ -1,13 +1,14 @@
 import { Bot, Package } from "lucide-react";
 import { defineField, defineType } from "sanity";
-import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
-import { defaultGroups } from "@/schemas/utils/default-groups.util";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
+import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
+import { infoField } from "@/schemas/generator-fields/info.field";
+import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
-import { infoField } from "@/schemas/generator-fields/info.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
-import { metadataField } from "@/schemas/generator-fields/metadata.field";
+import { defaultGroups } from "@/schemas/utils/default-groups.util";
+import { i18nPreview } from "@/schemas/utils/i18n-preview.util";
 
 export const serviceSchema = defineType({
   name: "service",
@@ -62,10 +63,10 @@ export const serviceSchema = defineType({
     }),
     metadataField ()
   ],
-  preview: {
+  preview: i18nPreview({
     select: {
       title: "title",
       media: "illustration.illustration",
     },
-  },
+  }),
 });

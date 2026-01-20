@@ -13,13 +13,14 @@ export const servicesStructure = (
   i18nSchemaTypes?: string[]
 ) => {
   // Build language filter for GROQ queries
+  // Include documents without a language set (orphans) so they appear in both language views
   const languageFilter = languageId && i18nSchemaTypes?.includes("service")
-    ? ' && language == $language'
+    ? ' && (language == $language || !defined(language))'
     : '';
   const languageParams = languageId ? { language: languageId } : {};
 
   const subServiceLanguageFilter = languageId && i18nSchemaTypes?.includes("subService")
-    ? ' && language == $language'
+    ? ' && (language == $language || !defined(language))'
     : '';
 
   return S.listItem()

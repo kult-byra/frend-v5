@@ -39,9 +39,10 @@ const i18nSchemaTypes = [
   "metadataSettings",
 ];
 
-import type { Tool } from "sanity";
+import type { DocumentBadgeComponent, Tool } from "sanity";
 import { defineDocuments, presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
+import { MissingLanguageBadge } from "@/components/document";
 import { WrapperField } from "@/components/fields/wrapper-field";
 import { StudioIcon } from "@/components/utils/studio-icon.component";
 import { env } from "@/env";
@@ -109,6 +110,17 @@ const formConfig = {
   },
 };
 
+// Document configuration for badges on i18n types
+const documentConfig = {
+  badges: (prev: DocumentBadgeComponent[], context: { schemaType: string }) => {
+    // Only add missing language badge for i18n document types
+    if (i18nSchemaTypes.includes(context.schemaType)) {
+      return [...prev, MissingLanguageBadge];
+    }
+    return prev;
+  },
+};
+
 // Generate workspace configs for each language
 const config = defineConfig(
   languages.map((language) => ({
@@ -125,6 +137,7 @@ const config = defineConfig(
     plugins: getPlugins(language.id),
     tools: getTools(language.id),
     form: formConfig,
+    document: documentConfig,
   }))
 );
 

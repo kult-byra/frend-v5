@@ -9,6 +9,7 @@ import { organisationStructure } from "./organisation.structure";
 /**
  * Creates a filtered document list item that only shows documents for a specific language.
  * For i18n document types, filters by the `language` field.
+ * Documents without a language set (orphans) will appear in both language views.
  * For non-i18n types, shows all documents.
  */
 export const filteredDocumentListItem = (
@@ -19,6 +20,7 @@ export const filteredDocumentListItem = (
   i18nSchemaTypes?: string[]
 ) => {
   // If this type supports i18n and we have a language filter, filter by language
+  // Also include documents without a language set (orphans) so they appear in both views
   if (languageId && i18nSchemaTypes?.includes(typeName)) {
     return S.listItem()
       .title(title)
@@ -27,7 +29,7 @@ export const filteredDocumentListItem = (
         S.documentList()
           .title(title)
           .schemaType(typeName)
-          .filter('_type == $type && language == $language')
+          .filter('_type == $type && (language == $language || !defined(language))')
           .params({ type: typeName, language: languageId })
       );
   }
