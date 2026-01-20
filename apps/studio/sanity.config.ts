@@ -1,48 +1,12 @@
 import { documentInternationalization } from "@sanity/document-internationalization";
 import { visionTool } from "@sanity/vision";
+import type { DocumentBadgeComponent, NewDocumentOptionsContext, TemplateItem, Tool } from "sanity";
 import { defineConfig } from "sanity";
-import { media, mediaAssetSource } from "sanity-plugin-media";
-import "./styles.css";
-
-const languages = [
-  { id: "no", title: "Norsk 🇧🇻" },
-  { id: "en", title: "English 🇬🇧" },
-] as const;
-
-// Document types that support internationalization
-const i18nSchemaTypes = [
-  "page",
-  "frontPage",
-  "conversionPage",
-  "newsArticle",
-  "event",
-  "newsAndEventsArchive",
-  "knowledgeArticle",
-  "knowledgeHub",
-  "knowledgeArticleArchive",
-  "service",
-  "subService",
-  "servicesArchive",
-  "seminar",
-  "seminarArchive",
-  "caseStudy",
-  "caseStudyArchive",
-  "eBook",
-  "eBookArchive",
-  "client",
-  "clientArchive",
-  "person",
-  "jobOpening",
-  "siteSettings",
-  "menuSettings",
-  "footerSettings",
-  "metadataSettings",
-];
-
-import type { DocumentBadgeComponent, Tool } from "sanity";
 import { defineDocuments, presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
-import { MissingLanguageBadge } from "@/components/document";
+import { media, mediaAssetSource } from "sanity-plugin-media";
+
+import { MissingLanguageBadge, MissingLanguageInput } from "@/components/document";
 import { WrapperField } from "@/components/fields/wrapper-field";
 import { StudioIcon } from "@/components/utils/studio-icon.component";
 import { env } from "@/env";
@@ -55,17 +19,23 @@ import { fathomTool } from "@/tools/fathom/fathom.tool";
 import { hubspotTool } from "@/tools/hubspot";
 import { kultDashboardTool } from "@/tools/kult-dashboard/kult-dashboard.tool";
 import { kultResourcesDashboardTool } from "@/tools/kult-dashboard/kult-resources.tool";
+import { I18N_SCHEMA_TYPES } from "@/utils/i18n-schema-types.util";
 import { STUDIO_BASE_PATH } from "@/utils/studio-base-path.util";
+
+import "./styles.css";
+
+const languages = [
+  { id: "no", title: "Norsk 🇧🇻" },
+  { id: "en", title: "English 🇬🇧" },
+] as const;
 
 // Shared configuration for plugins
 const getPlugins = (languageId: string) => [
-  structureTool({ structure: createLanguageStructure(languageId, i18nSchemaTypes) }),
+  structureTool({ structure: createLanguageStructure(languageId, [...I18N_SCHEMA_TYPES]) }),
   media(),
-  ...(process.env.NODE_ENV === "development" ? [visionTool()] : []),
-  documentInternationalization({
-    supportedLanguages: [...languages],
-    schemaTypes: i18nSchemaTypes,
-  }),
+  
+
+  /** Sanity  */
   presentationTool({
     previewUrl: {
       draftMode: {
@@ -78,6 +48,14 @@ const getPlugins = (languageId: string) => [
         ...presentationLocations,
       },
     },
+  }),
+
+  ...(process.env.NODE_ENV === "development" ? [visionTool()] : []),
+
+  // Document internationalization plugin ("Translations" button)
+  documentInternationalization({
+    supportedLanguages: [...languages],
+    schemaTypes: [...I18N_SCHEMA_TYPES],
   }),
 ];
 
@@ -101,6 +79,7 @@ const getTools = (languageId: (typeof languages)[number]["id"]) => {
 const formConfig = {
   components: {
     field: WrapperField,
+    input: MissingLanguageInput,
   },
   image: {
     assetSources: () => [mediaAssetSource],
@@ -110,16 +89,26 @@ const formConfig = {
   },
 };
 
-// Document configuration for badges on i18n types
-const documentConfig = {
+// Document configuration factory for each language workspace
+const getDocumentConfig = (languageId: string) => ({
+  
+  
+  // Badges for i18n documents
   badges: (prev: DocumentBadgeComponent[], context: { schemaType: string }) => {
-    // Only add missing language badge for i18n document types
-    if (i18nSchemaTypes.includes(context.schemaType)) {
+    if ((I18N_SCHEMA_TYPES as readonly string[]).includes(context.schemaType)) {
       return [...prev, MissingLanguageBadge];
     }
     return prev;
   },
-};
+
+  // Filter new document options to only show templates for the current workspace language
+  newDocumentOptions: (prev: TemplateItem[], _context: NewDocumentOptionsContext) => {
+    const otherLanguages = languages.filter((l) => l.id !== languageId).map((l) => l.id);
+    return prev.filter(
+      (item) => !otherLanguages.some((lang) => item.templateId.endsWith(`-${lang}`)),
+    );
+  },
+});
 
 // Generate workspace configs for each language
 const config = defineConfig(
@@ -137,8 +126,8 @@ const config = defineConfig(
     plugins: getPlugins(language.id),
     tools: getTools(language.id),
     form: formConfig,
-    document: documentConfig,
-  }))
+    document: getDocumentConfig(language.id),
+  })),
 );
 
 export default config;

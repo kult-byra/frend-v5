@@ -8,7 +8,6 @@ import { portableTextField } from "@/schemas/generator-fields/portable-text/port
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
-import { i18nPreview } from "@/schemas/utils/i18n-preview.util";
 
 export const serviceSchema = defineType({
   name: "service",
@@ -63,10 +62,10 @@ export const serviceSchema = defineType({
     }),
     metadataField ()
   ],
-  preview: i18nPreview({
+  preview: {
     select: {
       title: "title",
       media: "illustration.illustration",
     },
-  }),
+  },
 });

@@ -1,71 +1,57 @@
-import type { PreviewConfig } from "sanity";
-
-type PreviewSelection = Record<string, string>;
-
-interface I18nPreviewOptions {
-  /** Fields to select for preview (same as standard preview.select) */
-  select: PreviewSelection;
-  /** Optional prepare function to transform selected values */
-  prepare?: (selection: Record<string, unknown>) => {
-    title?: string;
-    subtitle?: string;
-    media?: unknown;
-  };
-}
+import type { PreviewConfig, SchemaTypeDefinition } from "sanity";
+import { I18N_SCHEMA_TYPES } from "@/utils/i18n-schema-types.util";
 
 /**
- * Creates a preview configuration that shows a warning subtitle when
- * a document has no language set (orphan document).
- *
- * @example
- * ```ts
- * export const mySchema = defineType({
- *   // ...
- *   preview: i18nPreview({
- *     select: { title: "title", media: "image" },
- *   }),
- * });
- * ```
- *
- * @example With custom prepare function
- * ```ts
- * export const mySchema = defineType({
- *   // ...
- *   preview: i18nPreview({
- *     select: { title: "title", date: "publishedAt" },
- *     prepare: ({ title, date }) => ({
- *       title: title as string,
- *       subtitle: new Date(date as string).getFullYear().toString(),
- *     }),
- *   }),
- * });
- * ```
+ * Enhances schema types with i18n preview warning.
+ * For i18n document types, adds a "No language set" warning to the subtitle
+ * when the document has no language assigned.
  */
-export const i18nPreview = (options: I18nPreviewOptions): PreviewConfig => {
-  const { select, prepare } = options;
+export const enhanceWithI18nPreview = (
+  schemas: SchemaTypeDefinition[]
+): SchemaTypeDefinition[] => {
+  return schemas.map((schema) => {
+    // Only enhance i18n document types
+    if (!(I18N_SCHEMA_TYPES as readonly string[]).includes(schema.name)) {
+      return schema;
+    }
 
-  return {
-    select: {
-      ...select,
-      language: "language",
-    },
-    prepare: (selection) => {
-      const { language, ...rest } = selection;
+    // Get existing preview config or create default
+    const existingPreview = (schema as { preview?: PreviewConfig }).preview;
+    const existingSelect = existingPreview?.select ?? { title: "title" };
+    const existingPrepare = existingPreview?.prepare;
 
-      // Get base preview from custom prepare or use defaults
-      const basePreview = prepare
-        ? prepare(rest)
-        : { title: rest.title as string | undefined, media: rest.media };
+    return {
+      ...schema,
+      preview: {
+        select: {
+          ...existingSelect,
+          _i18n_language: "language",
+        },
+        // biome-ignore lint/suspicious/noExplicitAny: Sanity preview types are complex
+        prepare: (selection: Record<string, any>) => {
+          const { _i18n_language, ...rest } = selection;
 
-      // If no language, show warning in subtitle
-      if (!language) {
-        return {
-          ...basePreview,
-          subtitle: "⚠ No language set",
-        };
-      }
+          // Get base preview from existing prepare or use defaults
+          const basePreview = existingPrepare
+            ? existingPrepare(rest)
+            : {
+                title: rest.title as string | undefined,
+                subtitle: rest.subtitle as string | undefined,
+                media: rest.media,
+              };
 
-      return basePreview;
-    },
-  };
+          // If no language, override subtitle with warning
+          if (!_i18n_language) {
+            return {
+              ...basePreview,
+              subtitle: "⚠ No language set",
+            };
+          }
+
+          // Language is set - return base preview with its subtitle intact
+          return basePreview;
+        },
+      },
+    } as SchemaTypeDefinition;
+  });
 };
