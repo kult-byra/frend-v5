@@ -213,13 +213,572 @@ export type StringTranslations = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  skipToMain?: string;
-  languageLabel?: string;
-  notFound?: string;
-  navHome?: string;
-  navArticles?: string;
-  navServices?: string;
+  skipToMain_no?: string;
+  languageLabel_no?: string;
+  notFound_no?: string;
+  navHome_no?: string;
+  navArticles_no?: string;
+  navServices_no?: string;
+  skipToMain_en?: string;
+  languageLabel_en?: string;
+  notFound_en?: string;
+  navHome_en?: string;
+  navArticles_en?: string;
+  navServices_en?: string;
+};
+
+export type FrontPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "frontPage";
+};
+
+export type PageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "page";
+};
+
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  frontPage_no: FrontPageReference;
+  privacyPolicyPage_no: PageReference;
+  banner_no?: {
+    showBanner?: boolean;
+    content?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal";
+      listItem?: never;
+      markDefs?: Array<
+        | {
+            internalLink: InternalLink;
+            _type: "internalLinkObject";
+            _key: string;
+          }
+        | {
+            href: string;
+            _type: "link";
+            _key: string;
+          }
+        | {
+            file: DownloadLinkObjectFile;
+            _type: "downloadLinkObject";
+            _key: string;
+          }
+      >;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+  };
+  frontPage_en: FrontPageReference;
+  privacyPolicyPage_en: PageReference;
+  banner_en?: {
+    showBanner?: boolean;
+    content?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal";
+      listItem?: never;
+      markDefs?: Array<
+        | {
+            internalLink: InternalLink;
+            _type: "internalLinkObject";
+            _key: string;
+          }
+        | {
+            href: string;
+            _type: "link";
+            _key: string;
+          }
+        | {
+            file: DownloadLinkObjectFile;
+            _type: "downloadLinkObject";
+            _key: string;
+          }
+      >;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+  };
+};
+
+export type MetadataSettings = {
+  _id: string;
+  _type: "metadataSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  metadata_no?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+  };
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+  };
+};
+
+export type MenuSettings = {
+  _id: string;
+  _type: "menuSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  mainMenu_no?: Array<
+    | {
+        internalLink: InternalLink;
+        customTitle?: string;
+        _type: "internalLinkObject";
+        _key: string;
+      }
+    | {
+        href: string;
+        customTitle?: string;
+        _type: "link";
+        _key: string;
+      }
+    | {
+        title: string;
+        menuType: "default" | "knowledge" | "newsAndEvents" | "contact";
+        links?: {
+          mainLinks?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          secondaryLinks?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+        };
+        linkGroups?: Array<{
+          title: string;
+          links?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          _type: "linkGroup";
+          _key: string;
+        }>;
+        contactForm?: HubspotFormReference;
+        image?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          changed?: boolean;
+          _type: "image";
+        };
+        _type: "linkGroup";
+        _key: string;
+      }
+  >;
+  secondaryMenu_no?: Array<
+    | {
+        internalLink: InternalLink;
+        customTitle?: string;
+        _type: "internalLinkObject";
+        _key: string;
+      }
+    | {
+        href: string;
+        customTitle?: string;
+        _type: "link";
+        _key: string;
+      }
+    | {
+        title: string;
+        menuType: "default" | "knowledge" | "newsAndEvents" | "contact";
+        links?: {
+          mainLinks?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          secondaryLinks?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+        };
+        linkGroups?: Array<{
+          title: string;
+          links?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          _type: "linkGroup";
+          _key: string;
+        }>;
+        contactForm?: HubspotFormReference;
+        image?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          changed?: boolean;
+          _type: "image";
+        };
+        _type: "linkGroup";
+        _key: string;
+      }
+  >;
+  mainMenu_en?: Array<
+    | {
+        internalLink: InternalLink;
+        customTitle?: string;
+        _type: "internalLinkObject";
+        _key: string;
+      }
+    | {
+        href: string;
+        customTitle?: string;
+        _type: "link";
+        _key: string;
+      }
+    | {
+        title: string;
+        menuType: "default" | "knowledge" | "newsAndEvents" | "contact";
+        links?: {
+          mainLinks?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          secondaryLinks?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+        };
+        linkGroups?: Array<{
+          title: string;
+          links?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          _type: "linkGroup";
+          _key: string;
+        }>;
+        contactForm?: HubspotFormReference;
+        image?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          changed?: boolean;
+          _type: "image";
+        };
+        _type: "linkGroup";
+        _key: string;
+      }
+  >;
+  secondaryMenu_en?: Array<
+    | {
+        internalLink: InternalLink;
+        customTitle?: string;
+        _type: "internalLinkObject";
+        _key: string;
+      }
+    | {
+        href: string;
+        customTitle?: string;
+        _type: "link";
+        _key: string;
+      }
+    | {
+        title: string;
+        menuType: "default" | "knowledge" | "newsAndEvents" | "contact";
+        links?: {
+          mainLinks?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          secondaryLinks?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+        };
+        linkGroups?: Array<{
+          title: string;
+          links?: Array<
+            | {
+                internalLink: InternalLink;
+                customTitle?: string;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                customTitle?: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          _type: "linkGroup";
+          _key: string;
+        }>;
+        contactForm?: HubspotFormReference;
+        image?: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          changed?: boolean;
+          _type: "image";
+        };
+        _type: "linkGroup";
+        _key: string;
+      }
+  >;
+};
+
+export type FooterSettings = {
+  _id: string;
+  _type: "footerSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  footerLinks_no?: Array<
+    | {
+        internalLink: InternalLink;
+        customTitle?: string;
+        _type: "internalLinkObject";
+        _key: string;
+      }
+    | {
+        href: string;
+        customTitle?: string;
+        _type: "link";
+        _key: string;
+      }
+  >;
+  pageBuilder_no?: Array<
+    | ({
+        _key: string;
+      } & ImagesAndTextBlock)
+    | ({
+        _key: string;
+      } & LogoCloudBlock)
+    | ({
+        _key: string;
+      } & ImageGalleryBlock)
+    | ({
+        _key: string;
+      } & QuotesBlock)
+    | ({
+        _key: string;
+      } & PeopleBlock)
+    | ({
+        _key: string;
+      } & CardsBlock)
+    | ({
+        _key: string;
+      } & ImagesWithBannerBlock)
+    | ({
+        _key: string;
+      } & ImageCarouselBlock)
+    | ({
+        _key: string;
+      } & JobOpeningsBlock)
+    | ({
+        _key: string;
+      } & ContentBlock)
+  >;
+  footerLinks_en?: Array<
+    | {
+        internalLink: InternalLink;
+        customTitle?: string;
+        _type: "internalLinkObject";
+        _key: string;
+      }
+    | {
+        href: string;
+        customTitle?: string;
+        _type: "link";
+        _key: string;
+      }
+  >;
+  pageBuilder_en?: Array<
+    | ({
+        _key: string;
+      } & ImagesAndTextBlock)
+    | ({
+        _key: string;
+      } & LogoCloudBlock)
+    | ({
+        _key: string;
+      } & ImageGalleryBlock)
+    | ({
+        _key: string;
+      } & QuotesBlock)
+    | ({
+        _key: string;
+      } & PeopleBlock)
+    | ({
+        _key: string;
+      } & CardsBlock)
+    | ({
+        _key: string;
+      } & ImagesWithBannerBlock)
+    | ({
+        _key: string;
+      } & ImageCarouselBlock)
+    | ({
+        _key: string;
+      } & JobOpeningsBlock)
+    | ({
+        _key: string;
+      } & ContentBlock)
+  >;
+  illustration?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    changed?: boolean;
+    _type: "image";
+  };
+  contactForm?: HubspotFormReference;
+  info?: string;
 };
 
 export type Technology = {
@@ -908,13 +1467,6 @@ export type EBookReference = {
   [internalGroqTypeReferenceTo]?: "eBook";
 };
 
-export type FrontPageReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "frontPage";
-};
-
 export type KnowledgeArticleArchiveReference = {
   _ref: string;
   _type: "reference";
@@ -941,13 +1493,6 @@ export type NewsAndEventsArchiveReference = {
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "newsAndEventsArchive";
-};
-
-export type PageReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "page";
 };
 
 export type SeminarArchiveReference = {
@@ -1018,34 +1563,6 @@ export type JobOpeningReference = {
   [internalGroqTypeReferenceTo]?: "jobOpening";
 };
 
-export type SiteSettingsReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "siteSettings";
-};
-
-export type MenuSettingsReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "menuSettings";
-};
-
-export type FooterSettingsReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "footerSettings";
-};
-
-export type MetadataSettingsReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "metadataSettings";
-};
-
 export type InternationalizedArrayReferenceValue = {
   _type: "internationalizedArrayReferenceValue";
   value?:
@@ -1070,298 +1587,7 @@ export type InternationalizedArrayReferenceValue = {
     | ClientReference
     | ClientArchiveReference
     | PersonReference
-    | JobOpeningReference
-    | SiteSettingsReference
-    | MenuSettingsReference
-    | FooterSettingsReference
-    | MetadataSettingsReference;
-};
-
-export type MetadataSettings = {
-  _id: string;
-  _type: "metadataSettings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  metadata?: {
-    title?: string;
-    desc?: string;
-    image?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      changed?: boolean;
-      _type: "image";
-    };
-  };
-};
-
-export type FooterSettings = {
-  _id: string;
-  _type: "footerSettings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  footerLinks?: Array<
-    | {
-        internalLink: InternalLink;
-        customTitle?: string;
-        _type: "internalLinkObject";
-        _key: string;
-      }
-    | {
-        href: string;
-        customTitle?: string;
-        _type: "link";
-        _key: string;
-      }
-  >;
-  contactForm?: HubspotFormReference;
-  pageBuilder?: Array<
-    | ({
-        _key: string;
-      } & ImagesAndTextBlock)
-    | ({
-        _key: string;
-      } & LogoCloudBlock)
-    | ({
-        _key: string;
-      } & ImageGalleryBlock)
-    | ({
-        _key: string;
-      } & QuotesBlock)
-    | ({
-        _key: string;
-      } & PeopleBlock)
-    | ({
-        _key: string;
-      } & CardsBlock)
-    | ({
-        _key: string;
-      } & ImagesWithBannerBlock)
-    | ({
-        _key: string;
-      } & ImageCarouselBlock)
-    | ({
-        _key: string;
-      } & JobOpeningsBlock)
-    | ({
-        _key: string;
-      } & ContentBlock)
-  >;
-  info?: string;
-};
-
-export type MenuSettings = {
-  _id: string;
-  _type: "menuSettings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  mainMenu?: Array<
-    | {
-        internalLink: InternalLink;
-        customTitle?: string;
-        _type: "internalLinkObject";
-        _key: string;
-      }
-    | {
-        href: string;
-        customTitle?: string;
-        _type: "link";
-        _key: string;
-      }
-    | {
-        title: string;
-        menuType: "default" | "knowledge" | "newsAndEvents" | "contact";
-        links?: {
-          mainLinks?: Array<
-            | {
-                internalLink: InternalLink;
-                customTitle?: string;
-                _type: "internalLinkObject";
-                _key: string;
-              }
-            | {
-                href: string;
-                customTitle?: string;
-                _type: "link";
-                _key: string;
-              }
-          >;
-          secondaryLinks?: Array<
-            | {
-                internalLink: InternalLink;
-                customTitle?: string;
-                _type: "internalLinkObject";
-                _key: string;
-              }
-            | {
-                href: string;
-                customTitle?: string;
-                _type: "link";
-                _key: string;
-              }
-          >;
-        };
-        linkGroups?: Array<{
-          title: string;
-          links?: Array<
-            | {
-                internalLink: InternalLink;
-                customTitle?: string;
-                _type: "internalLinkObject";
-                _key: string;
-              }
-            | {
-                href: string;
-                customTitle?: string;
-                _type: "link";
-                _key: string;
-              }
-          >;
-          _type: "linkGroup";
-          _key: string;
-        }>;
-        contactForm?: HubspotFormReference;
-        image?: {
-          asset?: SanityImageAssetReference;
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          changed?: boolean;
-          _type: "image";
-        };
-        _type: "linkGroup";
-        _key: string;
-      }
-  >;
-  secondaryMenu?: Array<
-    | {
-        internalLink: InternalLink;
-        customTitle?: string;
-        _type: "internalLinkObject";
-        _key: string;
-      }
-    | {
-        href: string;
-        customTitle?: string;
-        _type: "link";
-        _key: string;
-      }
-    | {
-        title: string;
-        menuType: "default" | "knowledge" | "newsAndEvents" | "contact";
-        links?: {
-          mainLinks?: Array<
-            | {
-                internalLink: InternalLink;
-                customTitle?: string;
-                _type: "internalLinkObject";
-                _key: string;
-              }
-            | {
-                href: string;
-                customTitle?: string;
-                _type: "link";
-                _key: string;
-              }
-          >;
-          secondaryLinks?: Array<
-            | {
-                internalLink: InternalLink;
-                customTitle?: string;
-                _type: "internalLinkObject";
-                _key: string;
-              }
-            | {
-                href: string;
-                customTitle?: string;
-                _type: "link";
-                _key: string;
-              }
-          >;
-        };
-        linkGroups?: Array<{
-          title: string;
-          links?: Array<
-            | {
-                internalLink: InternalLink;
-                customTitle?: string;
-                _type: "internalLinkObject";
-                _key: string;
-              }
-            | {
-                href: string;
-                customTitle?: string;
-                _type: "link";
-                _key: string;
-              }
-          >;
-          _type: "linkGroup";
-          _key: string;
-        }>;
-        contactForm?: HubspotFormReference;
-        image?: {
-          asset?: SanityImageAssetReference;
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          changed?: boolean;
-          _type: "image";
-        };
-        _type: "linkGroup";
-        _key: string;
-      }
-  >;
-};
-
-export type SiteSettings = {
-  _id: string;
-  _type: "siteSettings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  frontPage: FrontPageReference;
-  privacyPolicyPage: PageReference;
-  banner?: {
-    showBanner?: boolean;
-    content?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal";
-      listItem?: never;
-      markDefs?: Array<
-        | {
-            internalLink: InternalLink;
-            _type: "internalLinkObject";
-            _key: string;
-          }
-        | {
-            href: string;
-            _type: "link";
-            _key: string;
-          }
-        | {
-            file: DownloadLinkObjectFile;
-            _type: "downloadLinkObject";
-            _key: string;
-          }
-      >;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
-  };
+    | JobOpeningReference;
 };
 
 export type TechnologyReference = {
@@ -3387,6 +3613,12 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | StringTranslations
+  | FrontPageReference
+  | PageReference
+  | SiteSettings
+  | MetadataSettings
+  | MenuSettings
+  | FooterSettings
   | Technology
   | Quote
   | LogoReference
@@ -3422,12 +3654,10 @@ export type AllSanitySchemaTypes =
   | ConversionPageReference
   | EBookArchiveReference
   | EBookReference
-  | FrontPageReference
   | KnowledgeArticleArchiveReference
   | KnowledgeArticleReference
   | KnowledgeHubReference
   | NewsAndEventsArchiveReference
-  | PageReference
   | SeminarArchiveReference
   | SeminarReference
   | ServicesArchiveReference
@@ -3436,15 +3666,7 @@ export type AllSanitySchemaTypes =
   | TranslationMetadata
   | InternationalizedArrayReference
   | JobOpeningReference
-  | SiteSettingsReference
-  | MenuSettingsReference
-  | FooterSettingsReference
-  | MetadataSettingsReference
   | InternationalizedArrayReferenceValue
-  | MetadataSettings
-  | FooterSettings
-  | MenuSettings
-  | SiteSettings
   | TechnologyReference
   | JobOpening
   | Page
@@ -5478,1011 +5700,7 @@ export type EventSlugsQueryResult = Array<{
 // Source: src/server/queries/documents/front-page.query.ts
 // Variable: frontPageQuery
 // Query: *[_type == "siteSettings" && language == $locale][0].frontPage-> {    _id,      pageBuilder[]{       _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}    }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}    },  images[] {    _key,    _type,    mediaType,    "image": figure {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    videoUrl  }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "cards.block" => {  _type,  _key,  heading,  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  manualSelection,  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type in ["service", "subService"]] | order(_createdAt desc) [0...6] {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) [0...6] {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) [0...6] {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" => *[_type == "event"] | order(_createdAt desc) [0...6] {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) [0...6] {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    }  )},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}    },  images[] {    _key,    _type,    mediaType,    "image": figure {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    video {      asset-> {        _id,        playbackId      }    }  }}  )  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
-export type FrontPageQueryResult = {
-  _id: string;
-  pageBuilder: Array<
-    | {
-        _type: "cards.block";
-        _key: string;
-        heading: string | null;
-        content: Array<{
-          _key: string;
-          _ts: "PortableTextInnerQuery";
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?: "normal";
-          listItem?: never;
-          markDefs: Array<
-            | {
-                file: DownloadLinkObjectFile;
-                _type: "downloadLinkObject";
-                _key: string;
-                _ts: "DownloadLinkObjectInPortableTextQuery";
-                url: string | null;
-              }
-            | {
-                internalLink:
-                  | {
-                      _type: "caseStudy";
-                      slug: string;
-                    }
-                  | {
-                      _type: "caseStudyArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "client";
-                      slug: null;
-                    }
-                  | {
-                      _type: "clientArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "conversionPage";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBook";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBookArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "event";
-                      slug: string;
-                    }
-                  | {
-                      _type: "frontPage";
-                      slug: null;
-                    }
-                  | {
-                      _type: "knowledgeArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "knowledgeArticleArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "knowledgeHub";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsAndEventsArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "page";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminar";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminarArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "service";
-                      slug: string;
-                    }
-                  | {
-                      _type: "servicesArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "subService";
-                      slug: string;
-                    };
-                _type: "internalLinkObject";
-                _key: string;
-                _ts: "InternalLinkObjectInPortableTextQuery";
-              }
-            | {
-                href: string;
-                _type: "link";
-                _key: string;
-                _ts: "LinkInPortableTextQuery";
-                url: string;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-        }> | null;
-        contentType:
-          | "caseStudy"
-          | "client"
-          | "event"
-          | "newsArticle"
-          | "services";
-        manualSelection: boolean | null;
-        items:
-          | Array<{
-              _id: string;
-              _type: "caseStudy";
-              title: string;
-              slug: string;
-              image: null;
-            }>
-          | Array<{
-              _id: string;
-              _type: "client";
-              title: string;
-              slug: null;
-              image: {
-                crop: SanityImageCrop | null;
-                hotspot: SanityImageHotspot | null;
-                asset: {
-                  _id: string;
-                  title: string | null;
-                  altText: string | null;
-                  description: string | null;
-                  metadata: {
-                    lqip: string | null;
-                    dimensions: {
-                      aspectRatio: number;
-                      width: number;
-                      height: number;
-                    } | null;
-                  } | null;
-                } | null;
-              } | null;
-              description: string;
-              industries: Array<string> | null;
-            }>
-          | Array<{
-              _id: string;
-              _type: "event";
-              title: string;
-              slug: string;
-              image: null;
-            }>
-          | Array<{
-              _id: string;
-              _type: "newsArticle";
-              title: string;
-              slug: string;
-              image: null;
-            }>
-          | Array<
-              | {
-                  _id: string;
-                  _type: "service";
-                  title: string;
-                  slug: string;
-                  image: null;
-                }
-              | {
-                  _id: string;
-                  _type: "subService";
-                  title: string;
-                  slug: string;
-                  image: null;
-                }
-            >
-          | null;
-      }
-    | {
-        _type: "content.block";
-        _key: string;
-        content: Array<
-          | {
-              _key: string;
-              _ts: "PortableTextInnerQuery";
-              children?: Array<{
-                marks?: Array<string>;
-                text?: string;
-                _type: "span";
-                _key: string;
-              }>;
-              style?: "h2" | "h3" | "h4" | "normal";
-              listItem?: "bullet" | "check" | "dash" | "number";
-              markDefs: Array<
-                | {
-                    file: DownloadLinkObjectFile;
-                    _type: "downloadLinkObject";
-                    _key: string;
-                    _ts: "DownloadLinkObjectInPortableTextQuery";
-                    url: string | null;
-                  }
-                | {
-                    internalLink:
-                      | {
-                          _type: "caseStudy";
-                          slug: string;
-                        }
-                      | {
-                          _type: "caseStudyArchive";
-                          slug: string | null;
-                        }
-                      | {
-                          _type: "client";
-                          slug: null;
-                        }
-                      | {
-                          _type: "clientArchive";
-                          slug: string | null;
-                        }
-                      | {
-                          _type: "conversionPage";
-                          slug: string;
-                        }
-                      | {
-                          _type: "eBook";
-                          slug: string;
-                        }
-                      | {
-                          _type: "eBookArchive";
-                          slug: string | null;
-                        }
-                      | {
-                          _type: "event";
-                          slug: string;
-                        }
-                      | {
-                          _type: "frontPage";
-                          slug: null;
-                        }
-                      | {
-                          _type: "knowledgeArticle";
-                          slug: string;
-                        }
-                      | {
-                          _type: "knowledgeArticleArchive";
-                          slug: string | null;
-                        }
-                      | {
-                          _type: "knowledgeHub";
-                          slug: string | null;
-                        }
-                      | {
-                          _type: "newsAndEventsArchive";
-                          slug: string | null;
-                        }
-                      | {
-                          _type: "newsArticle";
-                          slug: string;
-                        }
-                      | {
-                          _type: "page";
-                          slug: string;
-                        }
-                      | {
-                          _type: "seminar";
-                          slug: string;
-                        }
-                      | {
-                          _type: "seminarArchive";
-                          slug: string | null;
-                        }
-                      | {
-                          _type: "service";
-                          slug: string;
-                        }
-                      | {
-                          _type: "servicesArchive";
-                          slug: string | null;
-                        }
-                      | {
-                          _type: "subService";
-                          slug: string;
-                        };
-                    _type: "internalLinkObject";
-                    _key: string;
-                    _ts: "InternalLinkObjectInPortableTextQuery";
-                  }
-                | {
-                    href: string;
-                    _type: "link";
-                    _key: string;
-                    _ts: "LinkInPortableTextQuery";
-                    url: string;
-                  }
-              > | null;
-              level?: number;
-              _type: "block";
-            }
-          | {
-              _key: string;
-            }
-        > | null;
-      }
-    | {
-        _type: "imageCarousel.block";
-        _key: string;
-      }
-    | {
-        _type: "imageGallery.block";
-        _key: string;
-      }
-    | {
-        _type: "imagesAndText.block";
-        _key: string;
-        heading: string | null;
-        content: Array<{
-          _key: string;
-          _ts: "PortableTextInnerQuery";
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?: "normal";
-          listItem?: "bullet" | "check" | "dash" | "number";
-          markDefs: Array<
-            | {
-                file: DownloadLinkObjectFile;
-                _type: "downloadLinkObject";
-                _key: string;
-                _ts: "DownloadLinkObjectInPortableTextQuery";
-                url: string | null;
-              }
-            | {
-                internalLink:
-                  | {
-                      _type: "caseStudy";
-                      slug: string;
-                    }
-                  | {
-                      _type: "caseStudyArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "client";
-                      slug: null;
-                    }
-                  | {
-                      _type: "clientArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "conversionPage";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBook";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBookArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "event";
-                      slug: string;
-                    }
-                  | {
-                      _type: "frontPage";
-                      slug: null;
-                    }
-                  | {
-                      _type: "knowledgeArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "knowledgeArticleArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "knowledgeHub";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsAndEventsArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "page";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminar";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminarArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "service";
-                      slug: string;
-                    }
-                  | {
-                      _type: "servicesArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "subService";
-                      slug: string;
-                    };
-                _type: "internalLinkObject";
-                _key: string;
-                _ts: "InternalLinkObjectInPortableTextQuery";
-              }
-            | {
-                href: string;
-                _type: "link";
-                _key: string;
-                _ts: "LinkInPortableTextQuery";
-                url: string;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-        }> | null;
-        links: Array<
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "caseStudy";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "caseStudyArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: null;
-              _type: "client";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "clientArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "conversionPage";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "eBook";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "eBookArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "event";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: null;
-              _type: "frontPage";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "knowledgeArticle";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "knowledgeArticleArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "knowledgeHub";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "newsAndEventsArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "newsArticle";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "page";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "seminar";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "seminarArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "service";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "servicesArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "subService";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "download";
-              title: string | null;
-              url: string | null;
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "external";
-              title: string;
-              url: string;
-              description: null;
-            }
-        > | null;
-        images: Array<{
-          _key: string;
-          _type: "figureOrVideo";
-          mediaType: "figure" | "video";
-          image: {
-            crop: SanityImageCrop | null;
-            hotspot: SanityImageHotspot | null;
-            asset: {
-              _id: string;
-              title: string | null;
-              altText: string | null;
-              description: string | null;
-              metadata: {
-                lqip: string | null;
-                dimensions: {
-                  aspectRatio: number;
-                  width: number;
-                  height: number;
-                } | null;
-              } | null;
-            } | null;
-          } | null;
-          videoUrl: string | null;
-        }>;
-      }
-    | {
-        _type: "imagesWithBanner.block";
-        _key: string;
-        heading: string;
-        content: Array<{
-          _key: string;
-          _ts: "PortableTextInnerQuery";
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?: "normal";
-          listItem?: "bullet" | "check" | "dash" | "number";
-          markDefs: Array<
-            | {
-                file: DownloadLinkObjectFile;
-                _type: "downloadLinkObject";
-                _key: string;
-                _ts: "DownloadLinkObjectInPortableTextQuery";
-                url: string | null;
-              }
-            | {
-                internalLink:
-                  | {
-                      _type: "caseStudy";
-                      slug: string;
-                    }
-                  | {
-                      _type: "caseStudyArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "client";
-                      slug: null;
-                    }
-                  | {
-                      _type: "clientArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "conversionPage";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBook";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBookArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "event";
-                      slug: string;
-                    }
-                  | {
-                      _type: "frontPage";
-                      slug: null;
-                    }
-                  | {
-                      _type: "knowledgeArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "knowledgeArticleArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "knowledgeHub";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsAndEventsArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "page";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminar";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminarArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "service";
-                      slug: string;
-                    }
-                  | {
-                      _type: "servicesArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "subService";
-                      slug: string;
-                    };
-                _type: "internalLinkObject";
-                _key: string;
-                _ts: "InternalLinkObjectInPortableTextQuery";
-              }
-            | {
-                href: string;
-                _type: "link";
-                _key: string;
-                _ts: "LinkInPortableTextQuery";
-                url: string;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-        }> | null;
-        ctaType: "form" | "link" | null;
-        link: Array<
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "caseStudy";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "caseStudyArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: null;
-              _type: "client";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "clientArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "conversionPage";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "eBook";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "eBookArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "event";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: null;
-              _type: "frontPage";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "knowledgeArticle";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "knowledgeArticleArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "knowledgeHub";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "newsAndEventsArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "newsArticle";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "page";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "seminar";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "seminarArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "service";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string | null;
-              _type: "servicesArchive";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string;
-              slug: string;
-              _type: "subService";
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "download";
-              title: string | null;
-              url: string | null;
-              description: null;
-            }
-          | {
-              _key: string;
-              linkType: "external";
-              title: string;
-              url: string;
-              description: null;
-            }
-        > | null;
-        images: Array<{
-          _key: string;
-          _type: "figureOrVideo";
-          mediaType: "figure" | "video";
-          image: {
-            crop: SanityImageCrop | null;
-            hotspot: SanityImageHotspot | null;
-            asset: {
-              _id: string;
-              title: string | null;
-              altText: string | null;
-              description: string | null;
-              metadata: {
-                lqip: string | null;
-                dimensions: {
-                  aspectRatio: number;
-                  width: number;
-                  height: number;
-                } | null;
-              } | null;
-            } | null;
-          } | null;
-          video: null;
-        }>;
-      }
-    | {
-        _type: "jobOpenings.block";
-        _key: string;
-      }
-    | {
-        _type: "logoCloud.block";
-        _key: string;
-      }
-    | {
-        _type: "people.block";
-        _key: string;
-      }
-    | {
-        _type: "quotes.block";
-        _key: string;
-      }
-  > | null;
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
-} | null;
+export type FrontPageQueryResult = null;
 
 // Source: src/server/queries/documents/knowledge-article.query.ts
 // Variable: knowledgeArticleQuery
@@ -10152,13 +9370,7 @@ export type SitemapQueryResult = {
         title: null;
       }
   >;
-  frontPage: {
-    _id: string;
-    _updatedAt: string;
-    _type: "frontPage";
-    slug: null;
-    title: string;
-  } | null;
+  frontPage: null;
 };
 
 // Source: src/server/queries/portable-text/portable-text.query.ts
@@ -10303,1056 +9515,1300 @@ export type FullPortableTextQueryTypeResult = {
   > | null;
 } | null;
 
+// Source: src/server/queries/settings/footer-settings.query.ts
+// Variable: footerSettingsQuery
+// Query: *[_id == "footerSettings"][0] {    "footerLinks": select(      $locale == "no" => footerLinks_no,      $locale == "en" => footerLinks_en    )[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      },    illustration {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }    }  }
+export type FooterSettingsQueryResult =
+  | {
+      footerLinks: null;
+      illustration: null;
+    }
+  | {
+      footerLinks: null;
+      illustration: {
+        crop: null;
+        hotspot: null;
+        asset: null;
+      };
+    }
+  | {
+      footerLinks: null;
+      illustration: {
+        crop: null;
+        hotspot: null;
+        asset: null;
+      } | null;
+    }
+  | {
+      footerLinks: null;
+      illustration: {
+        crop: SanityImageCrop | null;
+        hotspot: SanityImageHotspot | null;
+        asset: {
+          _id: string;
+          title: string | null;
+          altText: string | null;
+          description: string | null;
+          metadata: {
+            lqip: string | null;
+            dimensions: {
+              aspectRatio: number;
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }
+  | {
+      footerLinks: Array<
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "caseStudy";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "caseStudyArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: null;
+            _type: "client";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "clientArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "conversionPage";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "eBook";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "eBookArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "event";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: null;
+            _type: "frontPage";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "knowledgeArticle";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "knowledgeArticleArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "knowledgeHub";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "newsAndEventsArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "newsArticle";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "page";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "seminar";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "seminarArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "service";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "servicesArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "subService";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "external";
+            title: string;
+            url: string;
+            description: null;
+          }
+      > | null;
+      illustration: {
+        crop: SanityImageCrop | null;
+        hotspot: SanityImageHotspot | null;
+        asset: {
+          _id: string;
+          title: string | null;
+          altText: string | null;
+          description: string | null;
+          metadata: {
+            lqip: string | null;
+            dimensions: {
+              aspectRatio: number;
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+    }
+  | null;
+
 // Source: src/server/queries/settings/menu-settings.query.ts
 // Variable: menuSettingsQuery
-// Query: *[_type == "menuSettings" && language == $locale][0] {    mainMenu[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      },    secondaryMenu[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      }  }
-export type MenuSettingsQueryResult = {
-  mainMenu: Array<
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "caseStudy";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "caseStudyArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: null;
-        _type: "client";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "clientArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "conversionPage";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "eBook";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "eBookArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "event";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: null;
-        _type: "frontPage";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "knowledgeArticle";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "knowledgeArticleArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "knowledgeHub";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "newsAndEventsArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "newsArticle";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "page";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "seminar";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "seminarArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "service";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "servicesArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "subService";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "external";
-        title: string;
-        url: string;
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "linkGroup";
-        title: string;
-        menuType: "contact" | "default" | "knowledge" | "newsAndEvents";
-        links: {
-          mainLinks: Array<
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "caseStudy";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "caseStudyArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: null;
-                _type: "client";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "clientArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "conversionPage";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "eBook";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "eBookArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "event";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: null;
-                _type: "frontPage";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "knowledgeArticle";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "knowledgeArticleArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "knowledgeHub";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "newsAndEventsArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "newsArticle";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "page";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "seminar";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "seminarArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "service";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "servicesArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "subService";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "external";
-                title: string;
-                url: string;
-                description: null;
-              }
-          > | null;
-          secondaryLinks: Array<
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "caseStudy";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "caseStudyArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: null;
-                _type: "client";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "clientArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "conversionPage";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "eBook";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "eBookArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "event";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: null;
-                _type: "frontPage";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "knowledgeArticle";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "knowledgeArticleArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "knowledgeHub";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "newsAndEventsArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "newsArticle";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "page";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "seminar";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "seminarArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "service";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "servicesArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "subService";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "external";
-                title: string;
-                url: string;
-                description: null;
-              }
-          > | null;
-        } | null;
-      }
-  > | null;
-  secondaryMenu: Array<
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "caseStudy";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "caseStudyArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: null;
-        _type: "client";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "clientArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "conversionPage";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "eBook";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "eBookArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "event";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: null;
-        _type: "frontPage";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "knowledgeArticle";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "knowledgeArticleArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "knowledgeHub";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "newsAndEventsArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "newsArticle";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "page";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "seminar";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "seminarArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "service";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string | null;
-        _type: "servicesArchive";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "internal";
-        title: string;
-        slug: string;
-        _type: "subService";
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "external";
-        title: string;
-        url: string;
-        description: null;
-      }
-    | {
-        _key: string;
-        linkType: "linkGroup";
-        title: string;
-        menuType: "contact" | "default" | "knowledge" | "newsAndEvents";
-        links: {
-          mainLinks: Array<
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "caseStudy";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "caseStudyArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: null;
-                _type: "client";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "clientArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "conversionPage";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "eBook";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "eBookArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "event";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: null;
-                _type: "frontPage";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "knowledgeArticle";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "knowledgeArticleArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "knowledgeHub";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "newsAndEventsArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "newsArticle";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "page";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "seminar";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "seminarArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "service";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "servicesArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "subService";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "external";
-                title: string;
-                url: string;
-                description: null;
-              }
-          > | null;
-          secondaryLinks: Array<
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "caseStudy";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "caseStudyArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: null;
-                _type: "client";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "clientArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "conversionPage";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "eBook";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "eBookArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "event";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: null;
-                _type: "frontPage";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "knowledgeArticle";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "knowledgeArticleArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "knowledgeHub";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "newsAndEventsArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "newsArticle";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "page";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "seminar";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "seminarArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "service";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string | null;
-                _type: "servicesArchive";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "internal";
-                title: string;
-                slug: string;
-                _type: "subService";
-                description: null;
-              }
-            | {
-                _key: string;
-                linkType: "external";
-                title: string;
-                url: string;
-                description: null;
-              }
-          > | null;
-        } | null;
-      }
-  > | null;
-} | null;
+// Query: *[_id == "menuSettings"][0] {    "mainMenu": select(      $locale == "no" => mainMenu_no,      $locale == "en" => mainMenu_en    )[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      },    "secondaryMenu": select(      $locale == "no" => secondaryMenu_no,      $locale == "en" => secondaryMenu_en    )[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      }  }
+export type MenuSettingsQueryResult =
+  | {
+      mainMenu: null;
+      secondaryMenu: null;
+    }
+  | {
+      mainMenu: Array<
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "caseStudy";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "caseStudyArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: null;
+            _type: "client";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "clientArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "conversionPage";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "eBook";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "eBookArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "event";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: null;
+            _type: "frontPage";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "knowledgeArticle";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "knowledgeArticleArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "knowledgeHub";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "newsAndEventsArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "newsArticle";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "page";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "seminar";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "seminarArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "service";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "servicesArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "subService";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "external";
+            title: string;
+            url: string;
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "linkGroup";
+            title: string;
+            menuType: "contact" | "default" | "knowledge" | "newsAndEvents";
+            links: {
+              mainLinks: Array<
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "caseStudy";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "caseStudyArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: null;
+                    _type: "client";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "clientArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "conversionPage";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "eBook";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "eBookArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "event";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: null;
+                    _type: "frontPage";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "knowledgeArticle";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "knowledgeArticleArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "knowledgeHub";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "newsAndEventsArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "newsArticle";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "page";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "seminar";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "seminarArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "service";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "servicesArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "subService";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "external";
+                    title: string;
+                    url: string;
+                    description: null;
+                  }
+              > | null;
+              secondaryLinks: Array<
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "caseStudy";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "caseStudyArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: null;
+                    _type: "client";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "clientArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "conversionPage";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "eBook";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "eBookArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "event";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: null;
+                    _type: "frontPage";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "knowledgeArticle";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "knowledgeArticleArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "knowledgeHub";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "newsAndEventsArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "newsArticle";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "page";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "seminar";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "seminarArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "service";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "servicesArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "subService";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "external";
+                    title: string;
+                    url: string;
+                    description: null;
+                  }
+              > | null;
+            } | null;
+          }
+      > | null;
+      secondaryMenu: Array<
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "caseStudy";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "caseStudyArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: null;
+            _type: "client";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "clientArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "conversionPage";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "eBook";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "eBookArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "event";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: null;
+            _type: "frontPage";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "knowledgeArticle";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "knowledgeArticleArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "knowledgeHub";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "newsAndEventsArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "newsArticle";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "page";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "seminar";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "seminarArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "service";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string | null;
+            _type: "servicesArchive";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "internal";
+            title: string;
+            slug: string;
+            _type: "subService";
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "external";
+            title: string;
+            url: string;
+            description: null;
+          }
+        | {
+            _key: string;
+            linkType: "linkGroup";
+            title: string;
+            menuType: "contact" | "default" | "knowledge" | "newsAndEvents";
+            links: {
+              mainLinks: Array<
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "caseStudy";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "caseStudyArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: null;
+                    _type: "client";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "clientArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "conversionPage";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "eBook";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "eBookArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "event";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: null;
+                    _type: "frontPage";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "knowledgeArticle";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "knowledgeArticleArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "knowledgeHub";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "newsAndEventsArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "newsArticle";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "page";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "seminar";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "seminarArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "service";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "servicesArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "subService";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "external";
+                    title: string;
+                    url: string;
+                    description: null;
+                  }
+              > | null;
+              secondaryLinks: Array<
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "caseStudy";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "caseStudyArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: null;
+                    _type: "client";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "clientArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "conversionPage";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "eBook";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "eBookArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "event";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: null;
+                    _type: "frontPage";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "knowledgeArticle";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "knowledgeArticleArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "knowledgeHub";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "newsAndEventsArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "newsArticle";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "page";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "seminar";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "seminarArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "service";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string | null;
+                    _type: "servicesArchive";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "internal";
+                    title: string;
+                    slug: string;
+                    _type: "subService";
+                    description: null;
+                  }
+                | {
+                    _key: string;
+                    linkType: "external";
+                    title: string;
+                    url: string;
+                    description: null;
+                  }
+              > | null;
+            } | null;
+          }
+      > | null;
+    }
+  | null;
 
 // Source: src/server/queries/settings/metadata-settings.query.ts
 // Variable: metadataSettingsQuery
-// Query: *[_type == "metadataSettings" && language == $locale][0] {      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  }  }
+// Query: *[_type == "metadataSettings"][0] {    "metadata": select(      $locale == "no" => metadata_no,      $locale == "en" => metadata_en    ) {        "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  }    }  }
 export type MetadataSettingsQueryResult = {
   metadata: {
-    title: string | null;
-    desc: string | null;
-    image: {
-      id: string;
-      altText: null;
+    metadata: {
+      title: string | null;
+      desc: null;
+      image: {
+        id: string;
+        altText: null;
+      };
+      tags: null;
+      noIndex: null;
     };
-    tags: null;
-    noIndex: null;
-  };
+  } | null;
 } | null;
 
 // Source: src/server/queries/settings/news-events-count.query.ts
@@ -11360,9 +10816,63 @@ export type MetadataSettingsQueryResult = {
 // Query: count(*[_type == "newsArticle" && publishDate < now() && language == $locale]) + count(*[_type == "event" && timeAndDate.startTime > now() && language == $locale])
 export type NewsEventsCountQueryResult = number;
 
+// Source: src/server/queries/settings/organisation-settings.query.ts
+// Variable: organisationSettingsQuery
+// Query: *[_id == "organisationSettings"][0] {    address {      street,      city,      zipCode    },    phoneNumber,    email,    socialMediaLinks[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      },    certifications[] {      _key,      title,      logo-> {        title,        image {            crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }        }      }    }  }
+export type OrganisationSettingsQueryResult =
+  | {
+      address: null;
+      phoneNumber: null;
+      email: null;
+      socialMediaLinks: null;
+      certifications: null;
+    }
+  | {
+      address: {
+        street: string | null;
+        city: string | null;
+        zipCode: string | null;
+      } | null;
+      phoneNumber: string | null;
+      email: string | null;
+      socialMediaLinks: Array<{
+        _key: string;
+        linkType: "external";
+        title: string;
+        url: string;
+        description: null;
+      }> | null;
+      certifications: Array<{
+        _key: string;
+        title: string | null;
+        logo: {
+          title: string;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      }> | null;
+    }
+  | null;
+
 // Source: src/server/queries/settings/settings.query.ts
 // Variable: settingsQuery
-// Query: {  "siteSettings":   *[_type == "siteSettings" && language == $locale][0] {    privacyPolicyPage-> {      "slug": slug.current,      title    },    banner.showBanner == true => {      "bannerContent": banner.content[] {          "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }      }    }  },  "menuSettings":   *[_type == "menuSettings" && language == $locale][0] {    mainMenu[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      },    secondaryMenu[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      }  },  "metadataSettings":   *[_type == "metadataSettings" && language == $locale][0] {      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  }  },  "newsEventsCount":   count(*[_type == "newsArticle" && publishDate < now() && language == $locale]) + count(*[_type == "event" && timeAndDate.startTime > now() && language == $locale]),  "stringTranslations":   *[_type == "stringTranslations" && language == $locale][0] {    skipToMain,    languageLabel,    notFound,    navHome,    navArticles,    navServices  }}
+// Query: {  "siteSettings":   *[_type == "siteSettings"][0] {    "privacyPolicyPage": select(      $locale == "no" => privacyPolicyPage_no,      $locale == "en" => privacyPolicyPage_en    )-> {      "slug": slug.current,      title    },    "banner": select(      $locale == "no" => banner_no,      $locale == "en" => banner_en    ),    select(      $locale == "no" => banner_no.showBanner == true,      $locale == "en" => banner_en.showBanner == true    ) => {      "bannerContent": select(        $locale == "no" => banner_no.content,        $locale == "en" => banner_en.content      )[] {          "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }      }    }  },  "menuSettings":   *[_id == "menuSettings"][0] {    "mainMenu": select(      $locale == "no" => mainMenu_no,      $locale == "en" => mainMenu_en    )[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      },    "secondaryMenu": select(      $locale == "no" => secondaryMenu_no,      $locale == "en" => secondaryMenu_en    )[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      }  },  "metadataSettings":   *[_type == "metadataSettings"][0] {    "metadata": select(      $locale == "no" => metadata_no,      $locale == "en" => metadata_en    ) {        "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  }    }  },  "newsEventsCount":   count(*[_type == "newsArticle" && publishDate < now() && language == $locale]) + count(*[_type == "event" && timeAndDate.startTime > now() && language == $locale]),  "stringTranslations":   *[_type == "stringTranslations"][0] {    "skipToMain": select(      $locale == "no" => skipToMain_no,      $locale == "en" => skipToMain_en    ),    "languageLabel": select(      $locale == "no" => languageLabel_no,      $locale == "en" => languageLabel_en    ),    "notFound": select(      $locale == "no" => notFound_no,      $locale == "en" => notFound_en    ),    "navHome": select(      $locale == "no" => navHome_no,      $locale == "en" => navHome_en    ),    "navArticles": select(      $locale == "no" => navArticles_no,      $locale == "en" => navArticles_en    ),    "navServices": select(      $locale == "no" => navServices_no,      $locale == "en" => navServices_en    )  },  "footerSettings":   *[_id == "footerSettings"][0] {    "footerLinks": select(      $locale == "no" => footerLinks_no,      $locale == "en" => footerLinks_en    )[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      },    illustration {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }    }  },  "organisationSettings":   *[_id == "organisationSettings"][0] {    address {      street,      city,      zipCode    },    phoneNumber,    email,    socialMediaLinks[] {        _key,  _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  ...(internalLink-> {    "title": coalesce(      ^.customTitle,      title,      name    ),    "slug": slug.current,    _type  }),  description},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description}    }  }}      },    certifications[] {      _key,      title,      logo-> {        title,        image {            crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }        }      }    }  }}
 export type SettingsQueryResult = {
   siteSettings:
     | {
@@ -11370,6 +10880,39 @@ export type SettingsQueryResult = {
           slug: string;
           title: string;
         };
+        banner: {
+          showBanner?: boolean;
+          content?: Array<{
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: "span";
+              _key: string;
+            }>;
+            style?: "normal";
+            listItem?: never;
+            markDefs?: Array<
+              | {
+                  file: DownloadLinkObjectFile;
+                  _type: "downloadLinkObject";
+                  _key: string;
+                }
+              | {
+                  internalLink: InternalLink;
+                  _type: "internalLinkObject";
+                  _key: string;
+                }
+              | {
+                  href: string;
+                  _type: "link";
+                  _key: string;
+                }
+            >;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }>;
+        } | null;
         bannerContent: Array<{
           _ts: "PortableTextInnerQuery";
           children?: Array<{
@@ -11492,1051 +11035,1092 @@ export type SettingsQueryResult = {
           slug: string;
           title: string;
         };
+        banner: {
+          showBanner?: boolean;
+          content?: Array<{
+            children?: Array<{
+              marks?: Array<string>;
+              text?: string;
+              _type: "span";
+              _key: string;
+            }>;
+            style?: "normal";
+            listItem?: never;
+            markDefs?: Array<
+              | {
+                  file: DownloadLinkObjectFile;
+                  _type: "downloadLinkObject";
+                  _key: string;
+                }
+              | {
+                  internalLink: InternalLink;
+                  _type: "internalLinkObject";
+                  _key: string;
+                }
+              | {
+                  href: string;
+                  _type: "link";
+                  _key: string;
+                }
+            >;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }>;
+        } | null;
       }
     | null;
-  menuSettings: {
-    mainMenu: Array<
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "caseStudy";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "caseStudyArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: null;
-          _type: "client";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "clientArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "conversionPage";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "eBook";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "eBookArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "event";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: null;
-          _type: "frontPage";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "knowledgeArticle";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "knowledgeArticleArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "knowledgeHub";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "newsAndEventsArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "newsArticle";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "page";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "seminar";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "seminarArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "service";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "servicesArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "subService";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "external";
-          title: string;
-          url: string;
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "linkGroup";
-          title: string;
-          menuType: "contact" | "default" | "knowledge" | "newsAndEvents";
-          links: {
-            mainLinks: Array<
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "caseStudy";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "caseStudyArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: null;
-                  _type: "client";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "clientArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "conversionPage";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "eBook";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "eBookArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "event";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: null;
-                  _type: "frontPage";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "knowledgeArticle";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "knowledgeArticleArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "knowledgeHub";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "newsAndEventsArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "newsArticle";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "page";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "seminar";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "seminarArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "service";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "servicesArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "subService";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "external";
-                  title: string;
-                  url: string;
-                  description: null;
-                }
-            > | null;
-            secondaryLinks: Array<
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "caseStudy";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "caseStudyArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: null;
-                  _type: "client";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "clientArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "conversionPage";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "eBook";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "eBookArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "event";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: null;
-                  _type: "frontPage";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "knowledgeArticle";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "knowledgeArticleArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "knowledgeHub";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "newsAndEventsArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "newsArticle";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "page";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "seminar";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "seminarArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "service";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "servicesArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "subService";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "external";
-                  title: string;
-                  url: string;
-                  description: null;
-                }
-            > | null;
-          } | null;
-        }
-    > | null;
-    secondaryMenu: Array<
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "caseStudy";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "caseStudyArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: null;
-          _type: "client";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "clientArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "conversionPage";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "eBook";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "eBookArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "event";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: null;
-          _type: "frontPage";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "knowledgeArticle";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "knowledgeArticleArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "knowledgeHub";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "newsAndEventsArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "newsArticle";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "page";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "seminar";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "seminarArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "service";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string | null;
-          _type: "servicesArchive";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "internal";
-          title: string;
-          slug: string;
-          _type: "subService";
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "external";
-          title: string;
-          url: string;
-          description: null;
-        }
-      | {
-          _key: string;
-          linkType: "linkGroup";
-          title: string;
-          menuType: "contact" | "default" | "knowledge" | "newsAndEvents";
-          links: {
-            mainLinks: Array<
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "caseStudy";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "caseStudyArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: null;
-                  _type: "client";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "clientArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "conversionPage";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "eBook";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "eBookArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "event";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: null;
-                  _type: "frontPage";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "knowledgeArticle";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "knowledgeArticleArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "knowledgeHub";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "newsAndEventsArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "newsArticle";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "page";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "seminar";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "seminarArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "service";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "servicesArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "subService";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "external";
-                  title: string;
-                  url: string;
-                  description: null;
-                }
-            > | null;
-            secondaryLinks: Array<
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "caseStudy";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "caseStudyArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: null;
-                  _type: "client";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "clientArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "conversionPage";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "eBook";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "eBookArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "event";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: null;
-                  _type: "frontPage";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "knowledgeArticle";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "knowledgeArticleArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "knowledgeHub";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "newsAndEventsArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "newsArticle";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "page";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "seminar";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "seminarArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "service";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string | null;
-                  _type: "servicesArchive";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "internal";
-                  title: string;
-                  slug: string;
-                  _type: "subService";
-                  description: null;
-                }
-              | {
-                  _key: string;
-                  linkType: "external";
-                  title: string;
-                  url: string;
-                  description: null;
-                }
-            > | null;
-          } | null;
-        }
-    > | null;
-  } | null;
+  menuSettings:
+    | {
+        mainMenu: null;
+        secondaryMenu: null;
+      }
+    | {
+        mainMenu: Array<
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "caseStudy";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "caseStudyArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: null;
+              _type: "client";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "clientArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "conversionPage";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "eBook";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "eBookArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "event";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: null;
+              _type: "frontPage";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "knowledgeArticle";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "knowledgeArticleArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "knowledgeHub";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "newsAndEventsArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "newsArticle";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "page";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "seminar";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "seminarArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "service";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "servicesArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "subService";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "external";
+              title: string;
+              url: string;
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "linkGroup";
+              title: string;
+              menuType: "contact" | "default" | "knowledge" | "newsAndEvents";
+              links: {
+                mainLinks: Array<
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "caseStudy";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "caseStudyArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: null;
+                      _type: "client";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "clientArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "conversionPage";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "eBook";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "eBookArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "event";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: null;
+                      _type: "frontPage";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "knowledgeArticle";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "knowledgeArticleArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "knowledgeHub";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "newsAndEventsArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "newsArticle";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "page";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "seminar";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "seminarArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "service";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "servicesArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "subService";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "external";
+                      title: string;
+                      url: string;
+                      description: null;
+                    }
+                > | null;
+                secondaryLinks: Array<
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "caseStudy";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "caseStudyArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: null;
+                      _type: "client";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "clientArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "conversionPage";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "eBook";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "eBookArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "event";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: null;
+                      _type: "frontPage";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "knowledgeArticle";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "knowledgeArticleArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "knowledgeHub";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "newsAndEventsArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "newsArticle";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "page";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "seminar";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "seminarArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "service";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "servicesArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "subService";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "external";
+                      title: string;
+                      url: string;
+                      description: null;
+                    }
+                > | null;
+              } | null;
+            }
+        > | null;
+        secondaryMenu: Array<
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "caseStudy";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "caseStudyArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: null;
+              _type: "client";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "clientArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "conversionPage";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "eBook";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "eBookArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "event";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: null;
+              _type: "frontPage";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "knowledgeArticle";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "knowledgeArticleArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "knowledgeHub";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "newsAndEventsArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "newsArticle";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "page";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "seminar";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "seminarArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "service";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "servicesArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "subService";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "external";
+              title: string;
+              url: string;
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "linkGroup";
+              title: string;
+              menuType: "contact" | "default" | "knowledge" | "newsAndEvents";
+              links: {
+                mainLinks: Array<
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "caseStudy";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "caseStudyArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: null;
+                      _type: "client";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "clientArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "conversionPage";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "eBook";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "eBookArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "event";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: null;
+                      _type: "frontPage";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "knowledgeArticle";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "knowledgeArticleArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "knowledgeHub";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "newsAndEventsArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "newsArticle";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "page";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "seminar";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "seminarArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "service";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "servicesArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "subService";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "external";
+                      title: string;
+                      url: string;
+                      description: null;
+                    }
+                > | null;
+                secondaryLinks: Array<
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "caseStudy";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "caseStudyArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: null;
+                      _type: "client";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "clientArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "conversionPage";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "eBook";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "eBookArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "event";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: null;
+                      _type: "frontPage";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "knowledgeArticle";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "knowledgeArticleArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "knowledgeHub";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "newsAndEventsArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "newsArticle";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "page";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "seminar";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "seminarArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "service";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string | null;
+                      _type: "servicesArchive";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "internal";
+                      title: string;
+                      slug: string;
+                      _type: "subService";
+                      description: null;
+                    }
+                  | {
+                      _key: string;
+                      linkType: "external";
+                      title: string;
+                      url: string;
+                      description: null;
+                    }
+                > | null;
+              } | null;
+            }
+        > | null;
+      }
+    | null;
   metadataSettings: {
     metadata: {
-      title: string | null;
-      desc: string | null;
-      image: {
-        id: string;
-        altText: null;
+      metadata: {
+        title: string | null;
+        desc: null;
+        image: {
+          id: string;
+          altText: null;
+        };
+        tags: null;
+        noIndex: null;
       };
-      tags: null;
-      noIndex: null;
-    };
+    } | null;
   } | null;
   newsEventsCount: number;
   stringTranslations: {
@@ -12547,17 +12131,332 @@ export type SettingsQueryResult = {
     navArticles: string | null;
     navServices: string | null;
   } | null;
+  footerSettings:
+    | {
+        footerLinks: null;
+        illustration: null;
+      }
+    | {
+        footerLinks: null;
+        illustration: {
+          crop: null;
+          hotspot: null;
+          asset: null;
+        };
+      }
+    | {
+        footerLinks: null;
+        illustration: {
+          crop: null;
+          hotspot: null;
+          asset: null;
+        } | null;
+      }
+    | {
+        footerLinks: null;
+        illustration: {
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            title: string | null;
+            altText: string | null;
+            description: string | null;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                aspectRatio: number;
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      }
+    | {
+        footerLinks: Array<
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "caseStudy";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "caseStudyArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: null;
+              _type: "client";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "clientArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "conversionPage";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "eBook";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "eBookArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "event";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: null;
+              _type: "frontPage";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "knowledgeArticle";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "knowledgeArticleArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "knowledgeHub";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "newsAndEventsArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "newsArticle";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "page";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "seminar";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "seminarArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "service";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string | null;
+              _type: "servicesArchive";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "internal";
+              title: string;
+              slug: string;
+              _type: "subService";
+              description: null;
+            }
+          | {
+              _key: string;
+              linkType: "external";
+              title: string;
+              url: string;
+              description: null;
+            }
+        > | null;
+        illustration: {
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            title: string | null;
+            altText: string | null;
+            description: string | null;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                aspectRatio: number;
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      }
+    | null;
+  organisationSettings:
+    | {
+        address: null;
+        phoneNumber: null;
+        email: null;
+        socialMediaLinks: null;
+        certifications: null;
+      }
+    | {
+        address: {
+          street: string | null;
+          city: string | null;
+          zipCode: string | null;
+        } | null;
+        phoneNumber: string | null;
+        email: string | null;
+        socialMediaLinks: Array<{
+          _key: string;
+          linkType: "external";
+          title: string;
+          url: string;
+          description: null;
+        }> | null;
+        certifications: Array<{
+          _key: string;
+          title: string | null;
+          logo: {
+            title: string;
+            image: {
+              crop: SanityImageCrop | null;
+              hotspot: SanityImageHotspot | null;
+              asset: {
+                _id: string;
+                title: string | null;
+                altText: string | null;
+                description: string | null;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    aspectRatio: number;
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        }> | null;
+      }
+    | null;
 };
 
 // Source: src/server/queries/settings/site-settings.query.ts
 // Variable: siteSettingsQuery
-// Query: *[_type == "siteSettings" && language == $locale][0] {    privacyPolicyPage-> {      "slug": slug.current,      title    },    banner.showBanner == true => {      "bannerContent": banner.content[] {          "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }      }    }  }
+// Query: *[_type == "siteSettings"][0] {    "privacyPolicyPage": select(      $locale == "no" => privacyPolicyPage_no,      $locale == "en" => privacyPolicyPage_en    )-> {      "slug": slug.current,      title    },    "banner": select(      $locale == "no" => banner_no,      $locale == "en" => banner_en    ),    select(      $locale == "no" => banner_no.showBanner == true,      $locale == "en" => banner_en.showBanner == true    ) => {      "bannerContent": select(        $locale == "no" => banner_no.content,        $locale == "en" => banner_en.content      )[] {          "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }      }    }  }
 export type SiteSettingsQueryResult =
   | {
       privacyPolicyPage: {
         slug: string;
         title: string;
       };
+      banner: {
+        showBanner?: boolean;
+        content?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal";
+          listItem?: never;
+          markDefs?: Array<
+            | {
+                file: DownloadLinkObjectFile;
+                _type: "downloadLinkObject";
+                _key: string;
+              }
+            | {
+                internalLink: InternalLink;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+      } | null;
       bannerContent: Array<{
         _ts: "PortableTextInnerQuery";
         children?: Array<{
@@ -12680,12 +12579,45 @@ export type SiteSettingsQueryResult =
         slug: string;
         title: string;
       };
+      banner: {
+        showBanner?: boolean;
+        content?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal";
+          listItem?: never;
+          markDefs?: Array<
+            | {
+                file: DownloadLinkObjectFile;
+                _type: "downloadLinkObject";
+                _key: string;
+              }
+            | {
+                internalLink: InternalLink;
+                _type: "internalLinkObject";
+                _key: string;
+              }
+            | {
+                href: string;
+                _type: "link";
+                _key: string;
+              }
+          >;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+      } | null;
     }
   | null;
 
 // Source: src/server/queries/settings/string-translations.query.ts
 // Variable: stringTranslationsQuery
-// Query: *[_type == "stringTranslations" && language == $locale][0] {    skipToMain,    languageLabel,    notFound,    navHome,    navArticles,    navServices  }
+// Query: *[_type == "stringTranslations"][0] {    "skipToMain": select(      $locale == "no" => skipToMain_no,      $locale == "en" => skipToMain_en    ),    "languageLabel": select(      $locale == "no" => languageLabel_no,      $locale == "en" => languageLabel_en    ),    "notFound": select(      $locale == "no" => notFound_no,      $locale == "en" => notFound_en    ),    "navHome": select(      $locale == "no" => navHome_no,      $locale == "en" => navHome_en    ),    "navArticles": select(      $locale == "no" => navArticles_no,      $locale == "en" => navArticles_en    ),    "navServices": select(      $locale == "no" => navServices_no,      $locale == "en" => navServices_en    )  }
 export type StringTranslationsQueryResult = {
   skipToMain: string | null;
   languageLabel: string | null;
@@ -13353,12 +13285,14 @@ declare module "@sanity/client" {
     '\n  *[_type == "page"][0].pageBuilder[] {\n   \n   _type,\n  _key,\n  ...select(\n    _type == "callToAction.block" => {\n  _type,\n  _key,\n  heading,\n  \n  content[] {\n    _key,\n    _type == "block" => {\n      \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n    }\n  }\n,\n  links[]{\n    \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n  }\n},\n    _type == "imageAndText.block" => {\n  _type,\n  _key,\n  heading,\n  \n  content[] {\n    _key,\n    _type == "block" => {\n      \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n    }\n  }\n,\n  links[] {\n    \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n  },\n  image {\n    \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n\n  },\n  options {\n    imagePosition\n  }\n},\n    _type == "imagesAndText.block" => {\n  _type,\n  _key,\n  heading,\n  "content": content[] {\n    _key,\n    _type == "block" => {\n      \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n    }\n  },\n  links[] {\n    \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n  },\n  images[] {\n    _key,\n    _type,\n    mediaType,\n    "image": figure { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n },\n    videoUrl\n  }\n},\n    _type == "content.block" => {\n  _type,\n  _key,\n  \n  content[] {\n    _key,\n    _type == "block" => {\n      \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n    }\n  }\n\n},\n    _type == "cards.block" => {\n  _type,\n  _key,\n  heading,\n  "content": excerpt[] {\n    _key,\n    _type == "block" => {\n      \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n    }\n  },\n  contentType,\n  manualSelection,\n  "items": select(\n    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n }\n    },\n    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n }\n    },\n    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n }\n    },\n    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n }\n    },\n    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {\n      _id,\n      _type,\n      "title": name,\n      "slug": slug.current,\n      "image": logo->image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n },\n      "description": pt::text(description),\n      "industries": industries[]->title\n    },\n    contentType == "services" => *[_type in ["service", "subService"]] | order(_createdAt desc) [0...6] {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n }\n    },\n    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) [0...6] {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n }\n    },\n    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) [0...6] {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n }\n    },\n    contentType == "event" => *[_type == "event"] | order(_createdAt desc) [0...6] {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n }\n    },\n    contentType == "client" => *[_type == "client"] | order(_createdAt desc) [0...6] {\n      _id,\n      _type,\n      "title": name,\n      "slug": slug.current,\n      "image": logo->image { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n },\n      "description": pt::text(description),\n      "industries": industries[]->title\n    }\n  )\n},\n    _type == "imagesWithBanner.block" => {\n  _type,\n  _key,\n  heading,\n  "content": text[] {\n    _key,\n    _type == "block" => {\n      \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n    }\n  },\n  ctaType,\n  link[] {\n    \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n  },\n  images[] {\n    _key,\n    _type,\n    mediaType,\n    "image": figure { \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n },\n    video {\n      asset-> {\n        _id,\n        playbackId\n      }\n    }\n  }\n}\n  )\n\n  }\n': PageBuilderTypegenQueryResult;
     '{\n  "pages": *[_type in $routeTypes && _id != *[_type == "siteSettings"][0].frontPage._ref] {\n    \n  _id,\n  _updatedAt,\n  _type,\n  "slug": slug.current,\n  title\n\n  },\n  "frontPage": *[_type == "siteSettings"][0].frontPage-> {\n    \n  _id,\n  _updatedAt,\n  _type,\n  "slug": slug.current,\n  title\n\n  }\n}': SitemapQueryResult;
     '\n  *[_type == "newsArticle"][0]{\n    "_ts": "FullPortableTextQuery",\n    \n  content[] {\n    _key,\n    ...select(\n      _type == "block" => {\n        \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n      },\n      _type == "imageAndText.block" => {\n        \n  _type,\n  _key,\n  heading,\n  \n  content[] {\n    _key,\n    _type == "block" => {\n      \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n    }\n  }\n,\n  links[] {\n    \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n  },\n  image {\n    \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n\n  },\n  options {\n    imagePosition\n  }\n\n      },\n      _type == "callToAction.block" => {\n        \n  _type,\n  _key,\n  heading,\n  \n  content[] {\n    _key,\n    _type == "block" => {\n      \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n    }\n  }\n,\n  links[]{\n    \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n  }\n\n      },\n      _type == "figure" => {\n        \n  _type,\n  _key,\n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n\n      },\n      _type == "accordion.block" => {\n        "_type": "accordion.block",\n        heading\n      }\n    )\n  }\n\n  }\n': FullPortableTextQueryTypeResult;
-    '\n  *[_type == "menuSettings" && language == $locale][0] {\n    mainMenu[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    },\n    secondaryMenu[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    }\n  }\n': MenuSettingsQueryResult;
-    '\n  *[_type == "metadataSettings" && language == $locale][0] {\n    \n  "metadata": {\n    "title": coalesce(metadata.title, title, name),\n    "desc": coalesce(metadata.desc, excerpt),\n    "image": select(\n      defined(metadata.image.asset._ref) => metadata.image {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(image.asset._ref) => image {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(coverImage.asset._ref) => coverImage {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(hero.image.asset._ref) => hero.image {\n        \n  "id": asset._ref,\n  altText\n\n      }\n    ),\n    "tags": metadata.tags,\n    "noIndex": metadata.noIndex\n  }\n\n  }\n': MetadataSettingsQueryResult;
+    '\n  *[_id == "footerSettings"][0] {\n    "footerLinks": select(\n      $locale == "no" => footerLinks_no,\n      $locale == "en" => footerLinks_en\n    )[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    },\n    illustration {\n      \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n    }\n  }\n': FooterSettingsQueryResult;
+    '\n  *[_id == "menuSettings"][0] {\n    "mainMenu": select(\n      $locale == "no" => mainMenu_no,\n      $locale == "en" => mainMenu_en\n    )[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    },\n    "secondaryMenu": select(\n      $locale == "no" => secondaryMenu_no,\n      $locale == "en" => secondaryMenu_en\n    )[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    }\n  }\n': MenuSettingsQueryResult;
+    '\n  *[_type == "metadataSettings"][0] {\n    "metadata": select(\n      $locale == "no" => metadata_no,\n      $locale == "en" => metadata_en\n    ) {\n      \n  "metadata": {\n    "title": coalesce(metadata.title, title, name),\n    "desc": coalesce(metadata.desc, excerpt),\n    "image": select(\n      defined(metadata.image.asset._ref) => metadata.image {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(image.asset._ref) => image {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(coverImage.asset._ref) => coverImage {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(hero.image.asset._ref) => hero.image {\n        \n  "id": asset._ref,\n  altText\n\n      }\n    ),\n    "tags": metadata.tags,\n    "noIndex": metadata.noIndex\n  }\n\n    }\n  }\n': MetadataSettingsQueryResult;
     '\n  count(*[_type == "newsArticle" && publishDate < now() && language == $locale]) + count(*[_type == "event" && timeAndDate.startTime > now() && language == $locale])\n': NewsEventsCountQueryResult;
-    '{\n  "siteSettings": \n  *[_type == "siteSettings" && language == $locale][0] {\n    privacyPolicyPage-> {\n      "slug": slug.current,\n      title\n    },\n    banner.showBanner == true => {\n      "bannerContent": banner.content[] {\n        \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n      }\n    }\n  }\n,\n  "menuSettings": \n  *[_type == "menuSettings" && language == $locale][0] {\n    mainMenu[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    },\n    secondaryMenu[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    }\n  }\n,\n  "metadataSettings": \n  *[_type == "metadataSettings" && language == $locale][0] {\n    \n  "metadata": {\n    "title": coalesce(metadata.title, title, name),\n    "desc": coalesce(metadata.desc, excerpt),\n    "image": select(\n      defined(metadata.image.asset._ref) => metadata.image {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(image.asset._ref) => image {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(coverImage.asset._ref) => coverImage {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(hero.image.asset._ref) => hero.image {\n        \n  "id": asset._ref,\n  altText\n\n      }\n    ),\n    "tags": metadata.tags,\n    "noIndex": metadata.noIndex\n  }\n\n  }\n,\n  "newsEventsCount": \n  count(*[_type == "newsArticle" && publishDate < now() && language == $locale]) + count(*[_type == "event" && timeAndDate.startTime > now() && language == $locale])\n,\n  "stringTranslations": \n  *[_type == "stringTranslations" && language == $locale][0] {\n    skipToMain,\n    languageLabel,\n    notFound,\n    navHome,\n    navArticles,\n    navServices\n  }\n\n}': SettingsQueryResult;
-    '\n  *[_type == "siteSettings" && language == $locale][0] {\n    privacyPolicyPage-> {\n      "slug": slug.current,\n      title\n    },\n    banner.showBanner == true => {\n      "bannerContent": banner.content[] {\n        \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n      }\n    }\n  }\n': SiteSettingsQueryResult;
-    '\n  *[_type == "stringTranslations" && language == $locale][0] {\n    skipToMain,\n    languageLabel,\n    notFound,\n    navHome,\n    navArticles,\n    navServices\n  }\n': StringTranslationsQueryResult;
+    '\n  *[_id == "organisationSettings"][0] {\n    address {\n      street,\n      city,\n      zipCode\n    },\n    phoneNumber,\n    email,\n    socialMediaLinks[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    },\n    certifications[] {\n      _key,\n      title,\n      logo-> {\n        title,\n        image {\n          \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n        }\n      }\n    }\n  }\n': OrganisationSettingsQueryResult;
+    '{\n  "siteSettings": \n  *[_type == "siteSettings"][0] {\n    "privacyPolicyPage": select(\n      $locale == "no" => privacyPolicyPage_no,\n      $locale == "en" => privacyPolicyPage_en\n    )-> {\n      "slug": slug.current,\n      title\n    },\n    "banner": select(\n      $locale == "no" => banner_no,\n      $locale == "en" => banner_en\n    ),\n    select(\n      $locale == "no" => banner_no.showBanner == true,\n      $locale == "en" => banner_en.showBanner == true\n    ) => {\n      "bannerContent": select(\n        $locale == "no" => banner_no.content,\n        $locale == "en" => banner_en.content\n      )[] {\n        \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n      }\n    }\n  }\n,\n  "menuSettings": \n  *[_id == "menuSettings"][0] {\n    "mainMenu": select(\n      $locale == "no" => mainMenu_no,\n      $locale == "en" => mainMenu_en\n    )[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    },\n    "secondaryMenu": select(\n      $locale == "no" => secondaryMenu_no,\n      $locale == "en" => secondaryMenu_en\n    )[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    }\n  }\n,\n  "metadataSettings": \n  *[_type == "metadataSettings"][0] {\n    "metadata": select(\n      $locale == "no" => metadata_no,\n      $locale == "en" => metadata_en\n    ) {\n      \n  "metadata": {\n    "title": coalesce(metadata.title, title, name),\n    "desc": coalesce(metadata.desc, excerpt),\n    "image": select(\n      defined(metadata.image.asset._ref) => metadata.image {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(image.asset._ref) => image {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(coverImage.asset._ref) => coverImage {\n        \n  "id": asset._ref,\n  altText\n\n      },\n      defined(hero.image.asset._ref) => hero.image {\n        \n  "id": asset._ref,\n  altText\n\n      }\n    ),\n    "tags": metadata.tags,\n    "noIndex": metadata.noIndex\n  }\n\n    }\n  }\n,\n  "newsEventsCount": \n  count(*[_type == "newsArticle" && publishDate < now() && language == $locale]) + count(*[_type == "event" && timeAndDate.startTime > now() && language == $locale])\n,\n  "stringTranslations": \n  *[_type == "stringTranslations"][0] {\n    "skipToMain": select(\n      $locale == "no" => skipToMain_no,\n      $locale == "en" => skipToMain_en\n    ),\n    "languageLabel": select(\n      $locale == "no" => languageLabel_no,\n      $locale == "en" => languageLabel_en\n    ),\n    "notFound": select(\n      $locale == "no" => notFound_no,\n      $locale == "en" => notFound_en\n    ),\n    "navHome": select(\n      $locale == "no" => navHome_no,\n      $locale == "en" => navHome_en\n    ),\n    "navArticles": select(\n      $locale == "no" => navArticles_no,\n      $locale == "en" => navArticles_en\n    ),\n    "navServices": select(\n      $locale == "no" => navServices_no,\n      $locale == "en" => navServices_en\n    )\n  }\n,\n  "footerSettings": \n  *[_id == "footerSettings"][0] {\n    "footerLinks": select(\n      $locale == "no" => footerLinks_no,\n      $locale == "en" => footerLinks_en\n    )[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    },\n    illustration {\n      \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n    }\n  }\n,\n  "organisationSettings": \n  *[_id == "organisationSettings"][0] {\n    address {\n      street,\n      city,\n      zipCode\n    },\n    phoneNumber,\n    email,\n    socialMediaLinks[] {\n      \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n    },\n    certifications[] {\n      _key,\n      title,\n      logo-> {\n        title,\n        image {\n          \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n        }\n      }\n    }\n  }\n\n}': SettingsQueryResult;
+    '\n  *[_type == "siteSettings"][0] {\n    "privacyPolicyPage": select(\n      $locale == "no" => privacyPolicyPage_no,\n      $locale == "en" => privacyPolicyPage_en\n    )-> {\n      "slug": slug.current,\n      title\n    },\n    "banner": select(\n      $locale == "no" => banner_no,\n      $locale == "en" => banner_en\n    ),\n    select(\n      $locale == "no" => banner_no.showBanner == true,\n      $locale == "en" => banner_en.showBanner == true\n    ) => {\n      "bannerContent": select(\n        $locale == "no" => banner_no.content,\n        $locale == "en" => banner_en.content\n      )[] {\n        \n  "_ts": "PortableTextInnerQuery",\n  ...,\n  markDefs[] {\n    ...,\n    _type == "link" => {\n      \n  "_ts": "LinkInPortableTextQuery",\n  "url": href\n\n    },\n    _type == "internalLinkObject" => {\n      \n  "_ts": "InternalLinkObjectInPortableTextQuery",\n  internalLink-> {\n    _type,\n    "slug": slug.current\n  }\n\n    },\n    _type == "downloadLinkObject" => {\n      \n  "_ts": "DownloadLinkObjectInPortableTextQuery",\n  "url": file.asset->url\n\n    }\n  }\n\n      }\n    }\n  }\n': SiteSettingsQueryResult;
+    '\n  *[_type == "stringTranslations"][0] {\n    "skipToMain": select(\n      $locale == "no" => skipToMain_no,\n      $locale == "en" => skipToMain_en\n    ),\n    "languageLabel": select(\n      $locale == "no" => languageLabel_no,\n      $locale == "en" => languageLabel_en\n    ),\n    "notFound": select(\n      $locale == "no" => notFound_no,\n      $locale == "en" => notFound_en\n    ),\n    "navHome": select(\n      $locale == "no" => navHome_no,\n      $locale == "en" => navHome_en\n    ),\n    "navArticles": select(\n      $locale == "no" => navArticles_no,\n      $locale == "en" => navArticles_en\n    ),\n    "navServices": select(\n      $locale == "no" => navServices_no,\n      $locale == "en" => navServices_en\n    )\n  }\n': StringTranslationsQueryResult;
     '\n    *[_type == "newsArticle"][0]{\n      \n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n\n    }\n  ': ArticleTeaserTypegenQueryResult;
     '*[_type == "typegenSettings"][0]{\n  image{\n    \n  \n  crop,\n  hotspot,\n  asset-> {\n    _id,\n    title,\n    altText,\n    description,\n    metadata {\n      lqip,\n      dimensions {\n        aspectRatio,\n        width,\n        height\n      }\n    }\n  }\n\n\n  }\n}': ImageTypegenQueryResult;
     '*[_type == "typegenSettings"][0]{\n  fullLinks[]{\n    \n  _key,\n  _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n  _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n},\n  _type == "downloadLinkObject" => {\n  "linkType": "download",\n  "title": coalesce(\n      customTitle,\n      file.asset->originalFilename\n    ),\n  "url": file.asset->url,\n  description\n},\n  _type == "linkGroup" => {\n  "linkType": "linkGroup",\n  title,\n  menuType,\n  links {\n    mainLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    },\n    secondaryLinks[] {\n      _key,\n      _type == "internalLinkObject" => {\n  "linkType": "internal",\n  ...(internalLink-> {\n    "title": coalesce(\n      ^.customTitle,\n      title,\n      name\n    ),\n    "slug": slug.current,\n    _type\n  }),\n  description\n},\n      _type == "link" => {\n  "linkType": "external",\n  "title": coalesce(\n    customTitle,\n    href\n  ),\n  "url": href,\n  description\n}\n    }\n  }\n}\n  \n\n  }\n}': FullLinksTypegenQueryResult;

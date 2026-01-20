@@ -1,5 +1,5 @@
-import { referenceField } from "../generator-fields/reference.field";
 import { Quote } from "lucide-react";
+import { referenceField } from "../generator-fields/reference.field";
 import { defineBlock } from "../utils/define-block.util";
 
 export const quotesBlockSchema = defineBlock({
@@ -9,11 +9,11 @@ export const quotesBlockSchema = defineBlock({
   scope: ["pageBuilder", "portableText"],
   fields: [
     referenceField({
-                title: "Quotes",
-                name: "quotes",
-                to: [{ type: "quote" }],
-                allowMultiple: true,
-            }),
+      title: "Quotes",
+      name: "quotes",
+      to: [{ type: "quote" }],
+      allowMultiple: true,
+    }),
   ],
   preview: {
     prepare() {

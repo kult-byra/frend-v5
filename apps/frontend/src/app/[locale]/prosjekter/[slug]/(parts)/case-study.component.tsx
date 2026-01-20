@@ -22,9 +22,7 @@ export function CaseStudy({ title, subtitle, client, keyResults }: Props) {
       <H1 className="mb-4">{title}</H1>
       {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
 
-      {client?.name && (
-        <p className="text-lg mb-8">Kunde: {client.name}</p>
-      )}
+      {client?.name && <p className="text-lg mb-8">Kunde: {client.name}</p>}
 
       {keyResults && keyResults.length > 0 && (
         <section className="mt-8">

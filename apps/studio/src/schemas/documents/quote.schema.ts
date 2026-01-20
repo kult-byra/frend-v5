@@ -1,7 +1,6 @@
 import { Quote } from "lucide-react";
-import { stringField } from "../generator-fields/string.field";
 import { defineField, defineType } from "sanity";
-
+import { stringField } from "../generator-fields/string.field";
 
 export const quoteSchema = defineType({
   name: "quote",
@@ -17,21 +16,21 @@ export const quoteSchema = defineType({
       validation: (Rule) => Rule.required().error("Quote is required"),
     }),
     defineField({
-        title: "Source",
-        name: "source",
-        type: "object",
-        fields: [
-            stringField({
-                title: "Name",
-                name: "name",
-                validation: (Rule) => Rule.required().error("Name is required"),
-            }),
-            stringField({
-                title: "Role",
-                name: "role",
-                validation: (Rule) => Rule.required().error("Role is required"),
-            }),
-        ],
+      title: "Source",
+      name: "source",
+      type: "object",
+      fields: [
+        stringField({
+          title: "Name",
+          name: "name",
+          validation: (Rule) => Rule.required().error("Name is required"),
+        }),
+        stringField({
+          title: "Role",
+          name: "role",
+          validation: (Rule) => Rule.required().error("Role is required"),
+        }),
+      ],
     }),
   ],
   preview: {

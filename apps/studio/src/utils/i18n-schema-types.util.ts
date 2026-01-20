@@ -30,10 +30,7 @@ export const I18N_SCHEMA_TYPES = [
   "clientArchive",
   "person",
   "jobOpening",
-  "siteSettings",
-  "menuSettings",
-  "footerSettings",
-  "metadataSettings",
+  // Settings use field-level translations (language fieldsets) instead of document-level i18n
 ] as const;
 
 export type I18nSchemaType = (typeof I18N_SCHEMA_TYPES)[number];

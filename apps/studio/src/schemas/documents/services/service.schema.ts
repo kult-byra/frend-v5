@@ -37,7 +37,7 @@ export const serviceSchema = defineType({
       required: true,
     }),
 
-    ...connectionsFields({service: false}),
+    ...connectionsFields({ service: false }),
 
     //CONTENT
     portableTextField({
@@ -60,7 +60,7 @@ export const serviceSchema = defineType({
       icon: Bot,
       group: ["content"],
     }),
-    metadataField ()
+    metadataField(),
   ],
   preview: {
     select: {

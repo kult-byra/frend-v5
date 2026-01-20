@@ -1,9 +1,9 @@
 import type { StructureBuilder, StructureResolver } from "sanity/structure";
 import { articlesStructure } from "@/structure/articles.structure";
-import { settingsStructure } from "@/structure/settings.structure";
 import { servicesStructure } from "@/structure/services.structure";
-import { knowledgeHubStructure } from "./knowledge-hub.structure";
+import { settingsStructure } from "@/structure/settings.structure";
 import { clientsStructure } from "./clients.structure";
+import { knowledgeHubStructure } from "./knowledge-hub.structure";
 import { organisationStructure } from "./organisation.structure";
 
 /**
@@ -17,7 +17,7 @@ export const filteredDocumentListItem = (
   typeName: string,
   title: string,
   languageId?: string,
-  i18nSchemaTypes?: string[]
+  i18nSchemaTypes?: string[],
 ) => {
   // If this type supports i18n and we have a language filter, filter by language
   // Also include documents without a language set (orphans) so they appear in both views
@@ -29,8 +29,8 @@ export const filteredDocumentListItem = (
         S.documentList()
           .title(title)
           .schemaType(typeName)
-          .filter('_type == $type && (language == $language || !defined(language))')
-          .params({ type: typeName, language: languageId })
+          .filter("_type == $type && (language == $language || !defined(language))")
+          .params({ type: typeName, language: languageId }),
       );
   }
   // Otherwise, show all documents of this type
@@ -43,19 +43,25 @@ export const filteredDocumentListItem = (
  */
 export const createLanguageStructure = (
   languageId: string,
-  i18nSchemaTypes: string[]
+  i18nSchemaTypes: string[],
 ): StructureResolver => {
   return (S) =>
     S.list()
       .title("Content")
       .items([
-        settingsStructure(S, languageId, i18nSchemaTypes),
+        settingsStructure(S),
 
         S.divider(),
 
         filteredDocumentListItem(S, "frontPage", "Front page", languageId, i18nSchemaTypes),
         filteredDocumentListItem(S, "page", "Pages", languageId, i18nSchemaTypes),
-        filteredDocumentListItem(S, "conversionPage", "Conversion pages", languageId, i18nSchemaTypes),
+        filteredDocumentListItem(
+          S,
+          "conversionPage",
+          "Conversion pages",
+          languageId,
+          i18nSchemaTypes,
+        ),
 
         S.divider(),
 

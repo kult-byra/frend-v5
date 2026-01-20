@@ -1,9 +1,12 @@
 import { z } from "zod";
-import { KnowledgeArticle } from "./(parts)/knowledge-article.component";
-import { knowledgeArticleQuery, knowledgeArticleSlugsQuery } from "@/server/queries/documents/knowledge-article.query";
+import {
+  knowledgeArticleQuery,
+  knowledgeArticleSlugsQuery,
+} from "@/server/queries/documents/knowledge-article.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
 import { formatMetadata } from "@/utils/format-metadata.util";
+import { KnowledgeArticle } from "./(parts)/knowledge-article.component";
 
 const { Page, generateMetadata, generateStaticParams } = createPage({
   params: z.object({

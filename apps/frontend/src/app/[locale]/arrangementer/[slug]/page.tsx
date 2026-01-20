@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { Event } from "./(parts)/event.component";
 import { eventQuery, eventSlugsQuery } from "@/server/queries/documents/event.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
 import { formatMetadata } from "@/utils/format-metadata.util";
+import { Event } from "./(parts)/event.component";
 
 const { Page, generateMetadata, generateStaticParams } = createPage({
   params: z.object({

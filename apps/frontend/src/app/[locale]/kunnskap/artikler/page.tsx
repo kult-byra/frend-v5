@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
-import type { KnowledgeArticleArchiveSettingsQueryResult, KnowledgeArticleListQueryResult } from "@/sanity-types";
-import { knowledgeArticleArchiveSettingsQuery, knowledgeArticleListQuery } from "@/server/queries/documents/knowledge-article.query";
+import type {
+  KnowledgeArticleArchiveSettingsQueryResult,
+  KnowledgeArticleListQueryResult,
+} from "@/sanity-types";
+import {
+  knowledgeArticleArchiveSettingsQuery,
+  knowledgeArticleListQuery,
+} from "@/server/queries/documents/knowledge-article.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
 
@@ -40,10 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function KnowledgeArticlesArchivePage({ params }: Props) {
   const { locale } = await params;
-  const [settings, articles] = await Promise.all([
-    getArchiveSettings(locale),
-    getArticles(locale),
-  ]);
+  const [settings, articles] = await Promise.all([getArchiveSettings(locale), getArticles(locale)]);
 
   return (
     <Container className="py-12">

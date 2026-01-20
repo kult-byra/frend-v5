@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { Client } from "./(parts)/client.component";
 import { clientQuery, clientSlugsQuery } from "@/server/queries/documents/client.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
 import { formatMetadata } from "@/utils/format-metadata.util";
+import { Client } from "./(parts)/client.component";
 
 const { Page, generateMetadata, generateStaticParams } = createPage({
   params: z.object({

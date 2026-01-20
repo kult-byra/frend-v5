@@ -1,12 +1,11 @@
 import { Book } from "lucide-react";
 import { defineField, defineType } from "sanity";
-
+import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
 import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
+import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
-import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
-import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 
 export const knowledgeArticleSchema = defineType({
   name: "knowledgeArticle",
@@ -30,11 +29,11 @@ export const knowledgeArticleSchema = defineType({
     }),
     ...connectionsFields(),
     portableTextField({
-        title: "Summary",
-        name: "summary",
-        group: "content",
-        includeLists: true,
-        noContent: true,
+      title: "Summary",
+      name: "summary",
+      group: "content",
+      includeLists: true,
+      noContent: true,
     }),
     portableTextWithBlocksField({
       group: "content",

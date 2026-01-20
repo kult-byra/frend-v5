@@ -33,4 +33,3 @@ export const eBookArchiveSchema = defineType({
     metadataField(),
   ],
 });
-

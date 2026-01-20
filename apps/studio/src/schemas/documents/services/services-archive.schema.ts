@@ -1,9 +1,9 @@
 import { Bot, LayoutPanelTop } from "lucide-react";
 import { defineField, defineType } from "sanity";
+import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { infoField } from "@/schemas/generator-fields/info.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
-import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 
 export const servicesArchiveSchema = defineType({
   name: "servicesArchive",

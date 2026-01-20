@@ -1,6 +1,6 @@
 import { Grid2x2 } from "lucide-react";
-import { defineBlock } from "@/schemas/utils/define-block.util";
 import { defineField } from "sanity";
+import { defineBlock } from "@/schemas/utils/define-block.util";
 
 export const logoCloudBlockSchema = defineBlock({
   name: "logoCloud",
@@ -9,10 +9,10 @@ export const logoCloudBlockSchema = defineBlock({
   scope: ["pageBuilder", "portableText"],
   fields: [
     defineField({
-        title: "Logos",
-        name: "logos",
-        type: "array",
-        of: [{ type: "reference", to: [{ type: "logo" }] }],
+      title: "Logos",
+      name: "logos",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "logo" }] }],
     }),
   ],
   preview: {

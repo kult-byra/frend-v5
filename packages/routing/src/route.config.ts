@@ -53,27 +53,27 @@ export type RootPath = (typeof ROOT_PATHS)[number];
 
 export const routeTranslations = {
   no: {
-    artikler: 'artikler',
-    nyheter: 'nyheter',
-    arrangementer: 'arrangementer',
-    tjenester: 'tjenester',
-    kunnskap: 'kunnskap',
-    seminarer: 'seminarer',
-    prosjekter: 'prosjekter',
-    kunder: 'kunder',
-    'e-boker': 'e-boker',
+    artikler: "artikler",
+    nyheter: "nyheter",
+    arrangementer: "arrangementer",
+    tjenester: "tjenester",
+    kunnskap: "kunnskap",
+    seminarer: "seminarer",
+    prosjekter: "prosjekter",
+    kunder: "kunder",
+    "e-boker": "e-boker",
   },
   en: {
-    artikler: 'articles',
-    nyheter: 'news',
-    arrangementer: 'events',
-    tjenester: 'services',
-    kunnskap: 'knowledge',
-    seminarer: 'seminars',
-    prosjekter: 'projects',
-    kunder: 'clients',
-    'e-boker': 'ebooks',
+    artikler: "articles",
+    nyheter: "news",
+    arrangementer: "events",
+    tjenester: "services",
+    kunnskap: "knowledge",
+    seminarer: "seminars",
+    prosjekter: "projects",
+    kunder: "clients",
+    "e-boker": "ebooks",
   },
-} as const
+} as const;
 
-export type Locale = keyof typeof routeTranslations
+export type Locale = keyof typeof routeTranslations;

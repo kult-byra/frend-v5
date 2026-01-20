@@ -11,28 +11,64 @@ export const siteSettingsSchema = defineType({
   options: {
     singleton: true,
   },
+  groups: [
+    { name: "no", title: "Norsk 🇧🇻", default: true },
+    { name: "en", title: "English 🇬🇧" },
+  ],
   fields: [
-    defineField({
-      name: "language",
-      type: "string",
-      readOnly: true,
-      hidden: true,
-    }),
+    // Norwegian
     referenceField({
-      name: "frontPage",
+      name: "frontPage_no",
       title: "Front page",
+      group: "no",
       to: [{ type: "frontPage" }],
       required: true,
     }),
     referenceField({
-      name: "privacyPolicyPage",
+      name: "privacyPolicyPage_no",
       title: "Page for privacy policy",
+      group: "no",
       to: [{ type: "page" }],
       required: true,
     }),
     defineField({
-      name: "banner",
+      name: "banner_no",
       title: "Banner",
+      group: "no",
+      description:
+        "Shown at the top of the website, on all pages. Useful for campaigns or important information.",
+      type: "object",
+      fields: [
+        defineField({
+          name: "showBanner",
+          title: "Show banner",
+          type: "boolean",
+        }),
+        portableTextField({
+          hidden: ({ parent }) => !parent?.showBanner,
+        }),
+      ],
+    }),
+
+    // English
+    referenceField({
+      name: "frontPage_en",
+      title: "Front page",
+      group: "en",
+      to: [{ type: "frontPage" }],
+      required: true,
+    }),
+    referenceField({
+      name: "privacyPolicyPage_en",
+      title: "Page for privacy policy",
+      group: "en",
+      to: [{ type: "page" }],
+      required: true,
+    }),
+    defineField({
+      name: "banner_en",
+      title: "Banner",
+      group: "en",
       description:
         "Shown at the top of the website, on all pages. Useful for campaigns or important information.",
       type: "object",

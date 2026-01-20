@@ -6,9 +6,7 @@ import { I18N_SCHEMA_TYPES } from "@/utils/i18n-schema-types.util";
  * For i18n document types, adds a "No language set" warning to the subtitle
  * when the document has no language assigned.
  */
-export const enhanceWithI18nPreview = (
-  schemas: SchemaTypeDefinition[]
-): SchemaTypeDefinition[] => {
+export const enhanceWithI18nPreview = (schemas: SchemaTypeDefinition[]): SchemaTypeDefinition[] => {
   return schemas.map((schema) => {
     // Only enhance i18n document types
     if (!(I18N_SCHEMA_TYPES as readonly string[]).includes(schema.name)) {

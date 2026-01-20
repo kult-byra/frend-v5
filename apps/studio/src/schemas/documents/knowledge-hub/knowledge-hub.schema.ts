@@ -25,7 +25,8 @@ export const knowledgeHubSchema = defineType({
     ...heroFields({ isStatic: true, includeCoverImage: false }),
     infoField({
       title: "Automatically generated content",
-      description: "All published case studies, articles, seminars and e-books are displayed automatically.",
+      description:
+        "All published case studies, articles, seminars and e-books are displayed automatically.",
       tone: "positive",
       icon: Bot,
       group: ["key", "content"],

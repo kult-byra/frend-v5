@@ -40,10 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EBooksPage({ params }: Props) {
   const { locale } = await params;
-  const [settings, eBooks] = await Promise.all([
-    getArchiveSettings(locale),
-    getEBooks(locale),
-  ]);
+  const [settings, eBooks] = await Promise.all([getArchiveSettings(locale), getEBooks(locale)]);
 
   return (
     <Container className="py-12">

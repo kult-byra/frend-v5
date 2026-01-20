@@ -8,8 +8,8 @@ import { internalLinkObjectField } from "@/schemas/generator-fields/internal-lin
 import { stringField } from "@/schemas/generator-fields/string.field";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 import { booleanField } from "./boolean.field";
-import { referenceField } from "./reference.field";
 import { figureField } from "./figure.field";
+import { referenceField } from "./reference.field";
 
 type LinksFieldProps = Omit<FieldDef<ArrayDefinition>, "of" | "validation"> & {
   includeInternal?: boolean;
@@ -151,7 +151,8 @@ const linkGroup = (props: LinksFieldProps) => {
       stringField({
         name: "menuType",
         title: "Menu type",
-        description: "Use default for standard menu items, or other options for links to latest content.",
+        description:
+          "Use default for standard menu items, or other options for links to latest content.",
         options: {
           list: [
             { title: "Default", value: "default" },
@@ -243,7 +244,7 @@ const linkGroup = (props: LinksFieldProps) => {
         };
         return {
           title,
-          subtitle: menuType ? menuTypeMap[menuType] ?? menuType : "Default",
+          subtitle: menuType ? (menuTypeMap[menuType] ?? menuType) : "Default",
         };
       },
     },

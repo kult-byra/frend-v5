@@ -33,7 +33,6 @@ const languages = [
 const getPlugins = (languageId: string) => [
   structureTool({ structure: createLanguageStructure(languageId, [...I18N_SCHEMA_TYPES]) }),
   media(),
-  
 
   /** Sanity  */
   presentationTool({
@@ -91,8 +90,6 @@ const formConfig = {
 
 // Document configuration factory for each language workspace
 const getDocumentConfig = (languageId: string) => ({
-  
-  
   // Badges for i18n documents
   badges: (prev: DocumentBadgeComponent[], context: { schemaType: string }) => {
     if ((I18N_SCHEMA_TYPES as readonly string[]).includes(context.schemaType)) {

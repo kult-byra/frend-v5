@@ -1,7 +1,7 @@
 import { defineQuery } from "next-sanity";
+import { pageBuilderQuery } from "@/server/queries/page-builder/page-builder-full.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
-import { pageBuilderQuery } from "@/server/queries/page-builder/page-builder-full.query";
 
 export const caseStudyArchiveSettingsQuery = defineQuery(`
   *[_type == "caseStudyArchive" && language == $locale][0] {

@@ -3,7 +3,10 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
 import type { CaseStudyArchiveSettingsQueryResult, CaseStudyListQueryResult } from "@/sanity-types";
-import { caseStudyArchiveSettingsQuery, caseStudyListQuery } from "@/server/queries/documents/case-study.query";
+import {
+  caseStudyArchiveSettingsQuery,
+  caseStudyListQuery,
+} from "@/server/queries/documents/case-study.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
 

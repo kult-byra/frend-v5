@@ -3,8 +3,8 @@ import { defineField, defineType } from "sanity";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
-import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
 import { linksField } from "../generator-fields/links.field";
+import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
 
 export const frontPageSchema = defineType({
   name: "frontPage",

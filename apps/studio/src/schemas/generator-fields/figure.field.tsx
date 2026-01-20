@@ -26,10 +26,10 @@ export const figureField = (
       options: {
         hotspot: {
           previews: [
-            {title: '3:2', aspectRatio: 3 / 2},
-            {title: '3:4', aspectRatio: 3 / 4},
-            {title: '1:1', aspectRatio: 1 / 1},
-          ]
+            { title: "3:2", aspectRatio: 3 / 2 },
+            { title: "3:4", aspectRatio: 3 / 4 },
+            { title: "1:1", aspectRatio: 1 / 1 },
+          ],
         },
         required,
       },

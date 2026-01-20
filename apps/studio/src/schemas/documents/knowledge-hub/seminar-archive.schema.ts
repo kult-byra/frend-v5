@@ -33,4 +33,3 @@ export const seminarArchiveSchema = defineType({
     metadataField(),
   ],
 });
-

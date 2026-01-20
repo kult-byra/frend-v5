@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { Service } from "./(parts)/service.component";
 import { serviceQuery, serviceSlugsQuery } from "@/server/queries/documents/service.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
 import { formatMetadata } from "@/utils/format-metadata.util";
+import { Service } from "./(parts)/service.component";
 
 const { Page, generateMetadata, generateStaticParams } = createPage({
   params: z.object({

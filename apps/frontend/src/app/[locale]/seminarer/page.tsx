@@ -4,7 +4,10 @@ import { toPlainText } from "next-sanity";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
 import type { SeminarArchiveSettingsQueryResult, SeminarListQueryResult } from "@/sanity-types";
-import { seminarArchiveSettingsQuery, seminarListQuery } from "@/server/queries/documents/seminar.query";
+import {
+  seminarArchiveSettingsQuery,
+  seminarListQuery,
+} from "@/server/queries/documents/seminar.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
 
@@ -41,10 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function SeminarsPage({ params }: Props) {
   const { locale } = await params;
-  const [settings, seminars] = await Promise.all([
-    getArchiveSettings(locale),
-    getSeminars(locale),
-  ]);
+  const [settings, seminars] = await Promise.all([getArchiveSettings(locale), getSeminars(locale)]);
 
   return (
     <Container className="py-12">

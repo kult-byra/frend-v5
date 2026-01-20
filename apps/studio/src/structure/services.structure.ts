@@ -1,27 +1,29 @@
 import { Package } from "lucide-react";
 import type { StructureBuilder } from "sanity/structure";
-import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
+import { env } from "@/env";
 import { servicesArchiveSchema } from "@/schemas/documents";
 import { subServiceSchema } from "@/schemas/documents/services/sub-service.schema";
-import { env } from "@/env";
+import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
 
 const title = "Services";
 
 export const servicesStructure = (
   S: StructureBuilder,
   languageId?: string,
-  i18nSchemaTypes?: string[]
+  i18nSchemaTypes?: string[],
 ) => {
   // Build language filter for GROQ queries
   // Include documents without a language set (orphans) so they appear in both language views
-  const languageFilter = languageId && i18nSchemaTypes?.includes("service")
-    ? ' && (language == $language || !defined(language))'
-    : '';
+  const languageFilter =
+    languageId && i18nSchemaTypes?.includes("service")
+      ? " && (language == $language || !defined(language))"
+      : "";
   const languageParams = languageId ? { language: languageId } : {};
 
-  const subServiceLanguageFilter = languageId && i18nSchemaTypes?.includes("subService")
-    ? ' && (language == $language || !defined(language))'
-    : '';
+  const subServiceLanguageFilter =
+    languageId && i18nSchemaTypes?.includes("subService")
+      ? " && (language == $language || !defined(language))"
+      : "";
 
   return S.listItem()
     .title(title)
@@ -47,9 +49,7 @@ export const servicesStructure = (
                       S.documentListItem()
                         .id(serviceId)
                         .schemaType("service")
-                        .child(
-                          S.document().documentId(serviceId).schemaType("service"),
-                        ),
+                        .child(S.document().documentId(serviceId).schemaType("service")),
 
                       S.divider(),
 

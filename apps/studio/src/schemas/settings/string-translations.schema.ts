@@ -9,67 +9,91 @@ export const stringTranslationsSchema = defineType({
   options: {
     singleton: true,
   },
-  fieldsets: [
-    {
-      name: "common",
-      title: "Common",
-      description: "Common strings used across the site",
-    },
-    {
-      name: "nav",
-      title: "Navigation",
-      description: "Navigation labels",
-    },
+  groups: [
+    { name: "no", title: "Norsk 🇧🇻", default: true },
+    { name: "en", title: "English 🇬🇧" },
   ],
   fields: [
+    // Norwegian
     defineField({
-      name: "language",
-      type: "string",
-      readOnly: true,
-      hidden: true,
-    }),
-
-    // Common strings
-    defineField({
-      name: "skipToMain",
+      name: "skipToMain_no",
       title: "Skip to main content",
       description: "Accessibility link to skip navigation",
       type: "string",
-      fieldset: "common",
+      group: "no",
     }),
     defineField({
-      name: "languageLabel",
+      name: "languageLabel_no",
       title: "Language",
       description: "Label for language selector",
       type: "string",
-      fieldset: "common",
+      group: "no",
     }),
     defineField({
-      name: "notFound",
+      name: "notFound_no",
       title: "Not found",
       description: "404 page title",
       type: "string",
-      fieldset: "common",
+      group: "no",
     }),
-
-    // Navigation strings
     defineField({
-      name: "navHome",
+      name: "navHome_no",
       title: "Home",
       type: "string",
-      fieldset: "nav",
+      group: "no",
     }),
     defineField({
-      name: "navArticles",
+      name: "navArticles_no",
       title: "Articles",
       type: "string",
-      fieldset: "nav",
+      group: "no",
     }),
     defineField({
-      name: "navServices",
+      name: "navServices_no",
       title: "Services",
       type: "string",
-      fieldset: "nav",
+      group: "no",
+    }),
+
+    // English
+    defineField({
+      name: "skipToMain_en",
+      title: "Skip to main content",
+      description: "Accessibility link to skip navigation",
+      type: "string",
+      group: "en",
+    }),
+    defineField({
+      name: "languageLabel_en",
+      title: "Language",
+      description: "Label for language selector",
+      type: "string",
+      group: "en",
+    }),
+    defineField({
+      name: "notFound_en",
+      title: "Not found",
+      description: "404 page title",
+      type: "string",
+      group: "en",
+    }),
+    defineField({
+      name: "navHome_en",
+      title: "Home",
+      type: "string",
+      group: "en",
+    }),
+    defineField({
+      name: "navArticles_en",
+      title: "Articles",
+      type: "string",
+      group: "en",
+    }),
+    defineField({
+      name: "navServices_en",
+      title: "Services",
+      type: "string",
+      group: "en",
     }),
   ],
   preview: {

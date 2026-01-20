@@ -33,4 +33,3 @@ export const knowledgeArticleArchiveSchema = defineType({
     metadataField(),
   ],
 });
-

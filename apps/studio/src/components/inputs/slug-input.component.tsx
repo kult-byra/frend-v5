@@ -1,7 +1,7 @@
 import { Box, Button, Card, Flex, Text, useToast } from "@sanity/ui";
 import type { LinkableType } from "@workspace/routing/src/linkable-types";
 import { resolvePath } from "@workspace/routing/src/resolve-path";
-import { getRoutePath } from "@workspace/routing/src/route.config";
+import type { Locale } from "@workspace/routing/src/route.config";
 import { Copy, SquareArrowOutUpRight } from "lucide-react";
 import { type SlugInputProps, useFormValue } from "sanity";
 import { env } from "@/env";
@@ -17,15 +17,17 @@ export const SlugInput = (
   const toast = useToast();
 
   const documentType = useFormValue(["_type"]) as string;
+  const language = useFormValue(["language"]) as Locale | undefined;
 
   const path = resolvePath(
     documentType as LinkableType,
     value?.current ? { slug: value.current } : {},
+    language,
   );
 
-  const url = `${env.SANITY_STUDIO_FRONTEND_URL}${path}`;
+  const url = `${env.SANITY_STUDIO_FRONTEND_URL}${language === "en" ? "/en" : ""}${path}`;
 
-  const routePath = getRoutePath(documentType as LinkableType).replace(":slug", "");
+  const routePath = resolvePath(documentType as LinkableType, { slug: "" }, language);
 
   return (
     <Flex gap={1} className="slug-input-container">

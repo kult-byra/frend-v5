@@ -1,4 +1,3 @@
-
 import { Tag } from "lucide-react";
 import { defineType } from "sanity";
 import { stringField } from "@/schemas/generator-fields/string.field";

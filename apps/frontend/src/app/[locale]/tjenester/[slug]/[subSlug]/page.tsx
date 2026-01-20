@@ -1,9 +1,12 @@
 import { z } from "zod";
-import { SubService } from "./(parts)/sub-service.component";
-import { subServiceQuery, subServiceSlugsQuery } from "@/server/queries/documents/sub-service.query";
+import {
+  subServiceQuery,
+  subServiceSlugsQuery,
+} from "@/server/queries/documents/sub-service.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
 import { formatMetadata } from "@/utils/format-metadata.util";
+import { SubService } from "./(parts)/sub-service.component";
 
 const { Page, generateMetadata, generateStaticParams } = createPage({
   params: z.object({

@@ -3,15 +3,16 @@ import { Settings, Tag } from "lucide-react";
 import type { StructureBuilder } from "sanity/structure";
 
 import { hubspotFormSchema } from "@/schemas/documents/hubspot-form.schema";
-import { menuSettingsSchema, metadataSettingsSchema, siteSettingsSchema, stringTranslationsSchema } from "@/schemas/settings";
-import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
+import {
+  menuSettingsSchema,
+  metadataSettingsSchema,
+  siteSettingsSchema,
+  stringTranslationsSchema,
+} from "@/schemas/settings";
 import { footerSettingsSchema } from "@/schemas/settings/footer-settings.schema";
+import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
 
-export const settingsStructure = (
-  S: StructureBuilder,
-  languageId?: string,
-  i18nSchemaTypes?: string[]
-) => {
+export const settingsStructure = (S: StructureBuilder) => {
   return S.listItem()
     .title("Settings")
     .icon(Settings)
@@ -19,17 +20,17 @@ export const settingsStructure = (
       S.list()
         .title("Settings")
         .items([
-          singletonListItem(S, siteSettingsSchema, languageId, i18nSchemaTypes),
+          singletonListItem(S, siteSettingsSchema),
 
-          singletonListItem(S, menuSettingsSchema, languageId, i18nSchemaTypes),
+          singletonListItem(S, menuSettingsSchema),
 
-          singletonListItem(S, footerSettingsSchema, languageId, i18nSchemaTypes),
+          singletonListItem(S, footerSettingsSchema),
 
           S.divider(),
 
-          singletonListItem(S, metadataSettingsSchema, languageId, i18nSchemaTypes),
+          singletonListItem(S, metadataSettingsSchema),
 
-          singletonListItem(S, stringTranslationsSchema, languageId, i18nSchemaTypes),
+          singletonListItem(S, stringTranslationsSchema),
 
           S.divider(),
 
@@ -42,13 +43,13 @@ export const settingsStructure = (
               ),
             ),
 
-            S.divider(),
+          S.divider(),
 
-            S.documentTypeListItem("quote").title("Quotes"),
+          S.documentTypeListItem("quote").title("Quotes"),
 
-            S.divider(),
+          S.divider(),
 
-            S.listItem()
+          S.listItem()
             .title("Tags")
             .icon(Tag)
             .child(

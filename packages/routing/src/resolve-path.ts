@@ -1,5 +1,5 @@
 import type { LinkableType } from "./linkable-types";
-import { routeConfig, routeTranslations, type Locale } from "./route.config";
+import { type Locale, routeConfig, routeTranslations } from "./route.config";
 
 // Helper type to extract path parameters
 type ExtractPathParams<T extends string> = T extends `${string}:${infer Param}/${infer Rest}`
@@ -35,16 +35,13 @@ const translatePath = (path: string, locale: Locale): string => {
 export function resolvePath<T extends LinkableType>(
   type: T,
   params: ExtractPathParams<Routes[T]>,
-  locale?: Locale
+  locale?: Locale,
 ): string;
-export function resolvePath<T extends LinkableType>(
-  type: T,
-  locale?: Locale
-): string;
+export function resolvePath<T extends LinkableType>(type: T, locale?: Locale): string;
 export function resolvePath<T extends LinkableType>(
   type: T,
   paramsOrLocale?: ExtractPathParams<Routes[T]> | Locale,
-  locale?: Locale
+  locale?: Locale,
 ): string {
   let path = routeConfig[type] as string;
   let finalLocale: Locale | undefined;

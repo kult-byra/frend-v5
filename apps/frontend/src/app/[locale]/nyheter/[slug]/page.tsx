@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { NewsArticle } from "./(parts)/news-article.component";
 import { articleQuery, articleSlugsQuery } from "@/server/queries/documents/article.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
 import { formatMetadata } from "@/utils/format-metadata.util";
+import { NewsArticle } from "./(parts)/news-article.component";
 
 const { Page, generateMetadata, generateStaticParams } = createPage({
   params: z.object({

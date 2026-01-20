@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { EBook } from "./(parts)/e-book.component";
 import { eBookQuery, eBookSlugsQuery } from "@/server/queries/documents/e-book.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
 import { formatMetadata } from "@/utils/format-metadata.util";
+import { EBook } from "./(parts)/e-book.component";
 
 const { Page, generateMetadata, generateStaticParams } = createPage({
   params: z.object({

@@ -1,16 +1,15 @@
 import { Calendar, Newspaper } from "lucide-react";
 import { defineField, defineType } from "sanity";
-
+import { colorField } from "@/schemas/generator-fields/color.field";
+import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
+import { datetimeField } from "@/schemas/generator-fields/datetime.field";
 import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
-import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
-import { defaultGroups } from "@/schemas/utils/default-groups.util";
-import { datetimeField } from "@/schemas/generator-fields/datetime.field";
-import { stringField } from "@/schemas/generator-fields/string.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
+import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
-import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
-import { colorField } from "@/schemas/generator-fields/color.field";
+import { stringField } from "@/schemas/generator-fields/string.field";
+import { defaultGroups } from "@/schemas/utils/default-groups.util";
 
 export const eventSchema = defineType({
   name: "event",
@@ -31,40 +30,40 @@ export const eventSchema = defineType({
     //KEY
     ...heroFields(),
     defineField({
-        title: "Time and date",
-        name: "timeAndDate",
-        type: "object",
-        group: "key",
-        fields: [
-            datetimeField({
-                name: "startTime",
-                title: "Start time",
-                validation: (Rule) => Rule.required().error("Start time is required"),
-            }),
-            datetimeField({
-                name: "endTime",
-                title: "End time",
-            }),
-        ],
+      title: "Time and date",
+      name: "timeAndDate",
+      type: "object",
+      group: "key",
+      fields: [
+        datetimeField({
+          name: "startTime",
+          title: "Start time",
+          validation: (Rule) => Rule.required().error("Start time is required"),
+        }),
+        datetimeField({
+          name: "endTime",
+          title: "End time",
+        }),
+      ],
     }),
     stringField({
-        name: "location",
-        title: "Location",
-        group: "key",
-        validation: (Rule) => Rule.required().error("Location is required"),
+      name: "location",
+      title: "Location",
+      group: "key",
+      validation: (Rule) => Rule.required().error("Location is required"),
     }),
     stringField({
-        name: "price",
-        title: "Price",
-        group: "key",
-        validation: (Rule) => Rule.required().error("Price is required"),
+      name: "price",
+      title: "Price",
+      group: "key",
+      validation: (Rule) => Rule.required().error("Price is required"),
     }),
     referenceField({
-        title: "Signup form",
-        name: "signupForm",
-        to: [{ type: "hubspotForm" }],
-        group: "key",
-        validation: (Rule) => Rule.required().error("Signup form is required"),
+      title: "Signup form",
+      name: "signupForm",
+      to: [{ type: "hubspotForm" }],
+      group: "key",
+      validation: (Rule) => Rule.required().error("Signup form is required"),
     }),
 
     //CONNECTIONS
@@ -72,33 +71,33 @@ export const eventSchema = defineType({
 
     //CONTENT
     stringField({
-        title: "Layout",
-        name: "layout",
-        group: "content",
-        options: {
-            list: [
-                { title: "Default", value: "default" },
-                { title: "Submersive", value: "submersive" },
-            ],
-            layout: "radio",
-            direction: "horizontal",
-        },
-        initialValue: "default",
-        validation: (Rule) => Rule.required().error("Layout is required"),
+      title: "Layout",
+      name: "layout",
+      group: "content",
+      options: {
+        list: [
+          { title: "Default", value: "default" },
+          { title: "Submersive", value: "submersive" },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
+      initialValue: "default",
+      validation: (Rule) => Rule.required().error("Layout is required"),
     }),
     colorField({
-        title: "Color",
-        name: "color",
-        group: "content",
-        colors: ["white", "yellow"],
-        initialValue: "white",
-        hidden: ({ parent }) => parent?.layout === "default",
+      title: "Color",
+      name: "color",
+      group: "content",
+      colors: ["white", "yellow"],
+      initialValue: "white",
+      hidden: ({ parent }) => parent?.layout === "default",
     }),
     portableTextField({
-        title: "Description",
-        name: "description",
-        group: "content",
-        noContent: true,
+      title: "Description",
+      name: "description",
+      group: "content",
+      noContent: true,
     }),
     portableTextWithBlocksField({
       group: "content",

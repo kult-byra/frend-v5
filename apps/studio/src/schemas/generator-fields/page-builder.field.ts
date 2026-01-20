@@ -7,14 +7,15 @@ import { camelToKebab } from "@/utils/string.util";
 
 export const pageBuilderField = (
   props?: Omit<FieldDef<ArrayDefinition>, "of" | "name" | "group"> & {
+    name?: string;
     group?: string | false;
   },
 ) => {
-  const { options, title, required, group } = props ?? {};
+  const { options, title, required, group, name } = props ?? {};
 
   return defineField({
     ...props,
-    name: "pageBuilder",
+    name: name ?? "pageBuilder",
     title: title ?? "Page builder",
     type: "array",
     group: group === false ? undefined : (group ?? ["key", "content"]),

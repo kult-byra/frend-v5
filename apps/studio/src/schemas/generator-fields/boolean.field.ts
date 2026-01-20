@@ -18,4 +18,3 @@ export const booleanField = (props: FieldDef<BooleanDefinition>) => {
         },
   });
 };
-

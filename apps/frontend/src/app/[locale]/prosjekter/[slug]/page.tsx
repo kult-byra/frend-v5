@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { CaseStudy } from "./(parts)/case-study.component";
 import { caseStudyQuery, caseStudySlugsQuery } from "@/server/queries/documents/case-study.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
 import { formatMetadata } from "@/utils/format-metadata.util";
+import { CaseStudy } from "./(parts)/case-study.component";
 
 const { Page, generateMetadata, generateStaticParams } = createPage({
   params: z.object({

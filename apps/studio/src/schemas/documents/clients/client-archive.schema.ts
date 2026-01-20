@@ -23,9 +23,9 @@ export const clientArchiveSchema = defineType({
       hidden: true,
     }),
     ...heroFields({
-        isStatic: true,
-        includeExcerpt: true,
-        includeCoverImage: false,
+      isStatic: true,
+      includeExcerpt: true,
+      includeCoverImage: false,
     }),
     infoField({
       title: "Automatically generated content",

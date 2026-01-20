@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { defineField, defineType } from "sanity";
+import { defineType } from "sanity";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 
 export const metadataSettingsSchema = defineType({
@@ -10,14 +10,16 @@ export const metadataSettingsSchema = defineType({
   options: {
     singleton: true,
   },
+  groups: [
+    { name: "no", title: "Norsk 🇧🇻", default: true },
+    { name: "en", title: "English 🇬🇧" },
+  ],
   fields: [
-    defineField({
-      name: "language",
-      type: "string",
-      readOnly: true,
-      hidden: true,
-    }),
-    metadataField({ isDefault: true, group: false }),
+    // Norwegian
+    metadataField({ name: "metadata_no", isDefault: true, group: "no" }),
+
+    // English
+    metadataField({ name: "metadata_en", isDefault: true, group: "en" }),
   ],
   preview: {
     prepare() {

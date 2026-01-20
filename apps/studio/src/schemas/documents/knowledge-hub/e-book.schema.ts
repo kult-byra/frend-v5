@@ -1,13 +1,12 @@
 import { Book, BookOpen } from "lucide-react";
 import { defineField, defineType } from "sanity";
-
+import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
 import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
+import { linksField } from "@/schemas/generator-fields/links.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
+import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
-import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
-import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
-import { linksField } from "@/schemas/generator-fields/links.field";
 
 export const eBookSchema = defineType({
   name: "eBook",
@@ -27,12 +26,12 @@ export const eBookSchema = defineType({
     }),
     ...heroFields(),
     linksField({
-        title: "Upload file",
-        name: "uploadFile",
-        includeDownload: true,
-        includeInternal: false,
-        max: 1,
-        group: "key",
+      title: "Upload file",
+      name: "uploadFile",
+      includeDownload: true,
+      includeInternal: false,
+      max: 1,
+      group: "key",
     }),
     ...connectionsFields(),
     portableTextWithBlocksField({

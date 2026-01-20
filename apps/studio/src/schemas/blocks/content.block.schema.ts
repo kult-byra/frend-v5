@@ -1,4 +1,3 @@
-
 import { TextInitial } from "lucide-react";
 import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
 import { defineBlock } from "../utils/define-block.util";

@@ -3,7 +3,10 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
 import type { ClientArchiveSettingsQueryResult, ClientListQueryResult } from "@/sanity-types";
-import { clientArchiveSettingsQuery, clientListQuery } from "@/server/queries/documents/client.query";
+import {
+  clientArchiveSettingsQuery,
+  clientListQuery,
+} from "@/server/queries/documents/client.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
 
@@ -40,10 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ClientsPage({ params }: Props) {
   const { locale } = await params;
-  const [settings, clients] = await Promise.all([
-    getArchiveSettings(locale),
-    getClients(locale),
-  ]);
+  const [settings, clients] = await Promise.all([getArchiveSettings(locale), getClients(locale)]);
 
   return (
     <Container className="py-12">

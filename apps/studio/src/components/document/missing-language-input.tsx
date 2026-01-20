@@ -12,8 +12,7 @@ import { I18N_SCHEMA_TYPES } from "@/utils/i18n-schema-types.util";
  */
 export const MissingLanguageInput = (props: InputProps) => {
   // Only apply to root document input (id === "root") for i18n document types
-  const isRootDocument =
-    props.id === "root" && props.schemaType.type?.name === "document";
+  const isRootDocument = props.id === "root" && props.schemaType.type?.name === "document";
   const isI18nType = (I18N_SCHEMA_TYPES as readonly string[]).includes(props.schemaType.name);
 
   if (!isRootDocument || !isI18nType) {
@@ -41,8 +40,8 @@ export const MissingLanguageInput = (props: InputProps) => {
               No language set
             </Text>
             <Text size={1} muted>
-              This document has no language assigned. Click the "Translations"
-              button in the top right corner to select a language.
+              This document has no language assigned. Click the "Translations" button in the top
+              right corner to select a language.
             </Text>
           </Stack>
         </Flex>

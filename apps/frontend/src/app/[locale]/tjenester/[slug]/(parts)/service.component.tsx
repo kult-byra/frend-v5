@@ -11,12 +11,8 @@ export const Service = (props: Props) => {
   return (
     <Container className="py-12">
       <H1 className="mb-4">{title}</H1>
-      {subtitle && (
-        <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>
-      )}
-      {excerpt && (
-        <p className="text-muted-foreground mb-8">{toPlainText(excerpt)}</p>
-      )}
+      {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
+      {excerpt && <p className="text-muted-foreground mb-8">{toPlainText(excerpt)}</p>}
     </Container>
   );
 };

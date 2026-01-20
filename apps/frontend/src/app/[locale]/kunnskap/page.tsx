@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
 import { H1, H2 } from "@/components/layout/heading.component";
-import type { KnowledgeHubSettingsQueryResult, KnowledgeHubContentQueryResult } from "@/sanity-types";
-import { knowledgeHubSettingsQuery, knowledgeHubContentQuery } from "@/server/queries/documents/knowledge-hub.query";
+import type {
+  KnowledgeHubContentQueryResult,
+  KnowledgeHubSettingsQueryResult,
+} from "@/sanity-types";
+import {
+  knowledgeHubContentQuery,
+  knowledgeHubSettingsQuery,
+} from "@/server/queries/documents/knowledge-hub.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
 
@@ -40,10 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function KnowledgeHubPage({ params }: Props) {
   const { locale } = await params;
-  const [settings, content] = await Promise.all([
-    getHubSettings(locale),
-    getHubContent(locale),
-  ]);
+  const [settings, content] = await Promise.all([getHubSettings(locale), getHubContent(locale)]);
 
   return (
     <Container className="py-12">
