@@ -5,8 +5,38 @@ import { media, mediaAssetSource } from "sanity-plugin-media";
 import "./styles.css";
 
 const languages = [
-  { id: "no", title: "Norwegian" },
-  { id: "en", title: "English" },
+  { id: "no", title: "Norsk 🇧🇻" },
+  { id: "en", title: "English 🇬🇧" },
+] as const;
+
+// Document types that support internationalization
+const i18nSchemaTypes = [
+  "page",
+  "frontPage",
+  "conversionPage",
+  "newsArticle",
+  "event",
+  "newsAndEventsArchive",
+  "knowledgeArticle",
+  "knowledgeHub",
+  "knowledgeArticleArchive",
+  "service",
+  "subService",
+  "servicesArchive",
+  "seminar",
+  "seminarArchive",
+  "caseStudy",
+  "caseStudyArchive",
+  "eBook",
+  "eBookArchive",
+  "client",
+  "clientArchive",
+  "person",
+  "jobOpening",
+  "siteSettings",
+  "menuSettings",
+  "footerSettings",
+  "metadataSettings",
 ];
 
 import type { Tool } from "sanity";
@@ -18,7 +48,7 @@ import { env } from "@/env";
 import { initialValueTemplates } from "@/initial-value-templates";
 import { presentationLocations, presentationMainRoutes } from "@/presentation/presentation-helpers";
 import { schemaTypes } from "@/schemas";
-import { structure } from "@/structure/structure";
+import { createLanguageStructure } from "@/structure/structure";
 import { brandGuidelinesTool } from "@/tools/brand-guidelines-tool/brand-guidelines.tool";
 import { fathomTool } from "@/tools/fathom/fathom.tool";
 import { hubspotTool } from "@/tools/hubspot";
@@ -26,88 +56,76 @@ import { kultDashboardTool } from "@/tools/kult-dashboard/kult-dashboard.tool";
 import { kultResourcesDashboardTool } from "@/tools/kult-dashboard/kult-resources.tool";
 import { STUDIO_BASE_PATH } from "@/utils/studio-base-path.util";
 
-const config = defineConfig({
-  basePath: `/${STUDIO_BASE_PATH}`,
-  title: env.SANITY_STUDIO_SITE_TITLE,
-  dataset: env.SANITY_STUDIO_DATASET,
-  projectId: env.SANITY_STUDIO_PROJECT_ID,
-  schema: {
-    types: schemaTypes,
-    templates: initialValueTemplates,
-  },
-  icon: StudioIcon,
-
-  plugins: [
-    structureTool({ structure }),
-    media(),
-    ...(process.env.NODE_ENV === "development" ? [visionTool()] : []),
-    documentInternationalization({
-      supportedLanguages: languages,
-      schemaTypes: [
-        "page",
-        "frontPage",
-        "conversionPage",
-        "newsArticle",
-        "event",
-        "newsAndEventsArchive",
-        "knowledgeArticle",
-        "knowledgeHub",
-        "knowledgeArticleArchive",
-        "service",
-        "subService",
-        "servicesArchive",
-        "seminar",
-        "seminarArchive",
-        "caseStudy",
-        "caseStudyArchive",
-        "eBook",
-        "eBookArchive",
-        "client",
-        "clientArchive",
-        "person",
-        "jobOpening",
-        "siteSettings",
-        "menuSettings",
-        "footerSettings",
-        "metadataSettings",
-      ],
-    }),
-    presentationTool({
-      previewUrl: {
-        draftMode: {
-          enable: `${env.SANITY_STUDIO_FRONTEND_URL}/api/draft`,
-        },
+// Shared configuration for plugins
+const getPlugins = (languageId: string) => [
+  structureTool({ structure: createLanguageStructure(languageId, i18nSchemaTypes) }),
+  media(),
+  ...(process.env.NODE_ENV === "development" ? [visionTool()] : []),
+  documentInternationalization({
+    supportedLanguages: [...languages],
+    schemaTypes: i18nSchemaTypes,
+  }),
+  presentationTool({
+    previewUrl: {
+      draftMode: {
+        enable: `${env.SANITY_STUDIO_FRONTEND_URL}/api/draft`,
       },
-      resolve: {
-        mainDocuments: defineDocuments([...presentationMainRoutes]),
-        locations: {
-          ...presentationLocations,
-        },
+    },
+    resolve: {
+      mainDocuments: defineDocuments([...presentationMainRoutes]),
+      locations: {
+        ...presentationLocations,
       },
-    }),
-  ],
-  tools: [
-    fathomTool(),
-    hubspotTool(),
-    ...(env.SANITY_STUDIO_BRAND_GUIDELINES_URL
-      ? [brandGuidelinesTool({ locale: "no", type: "brand" })]
-      : []),
-    ...(env.SANITY_STUDIO_KULT_DASHBOARD_URL ? [kultDashboardTool()] : []),
-    ...(env.SANITY_STUDIO_KULT_DASHBOARD_RESOURCES_URL ? [kultResourcesDashboardTool()] : []),
-  ] as Tool[],
+    },
+  }),
+];
 
-  form: {
-    components: {
-      field: WrapperField,
-    },
+// Shared tools configuration
+const getTools = (languageId: (typeof languages)[number]["id"]) => {
+  const tools: Tool[] = [fathomTool(), hubspotTool()];
 
-    image: {
-      assetSources: () => [mediaAssetSource],
-    },
-    file: {
-      assetSources: () => [mediaAssetSource],
-    },
+  const brandTool = brandGuidelinesTool({ locale: languageId, type: "brand" });
+  if (brandTool) tools.push(brandTool);
+
+  const kultTool = kultDashboardTool();
+  if (kultTool) tools.push(kultTool);
+
+  const kultResourcesTool = kultResourcesDashboardTool();
+  if (kultResourcesTool) tools.push(kultResourcesTool);
+
+  return tools;
+};
+
+// Shared form configuration
+const formConfig = {
+  components: {
+    field: WrapperField,
   },
-});
+  image: {
+    assetSources: () => [mediaAssetSource],
+  },
+  file: {
+    assetSources: () => [mediaAssetSource],
+  },
+};
+
+// Generate workspace configs for each language
+const config = defineConfig(
+  languages.map((language) => ({
+    name: language.id,
+    basePath: `/${STUDIO_BASE_PATH}/${language.id}`,
+    title: `${env.SANITY_STUDIO_SITE_TITLE} | ${language.title}`,
+    dataset: env.SANITY_STUDIO_DATASET,
+    projectId: env.SANITY_STUDIO_PROJECT_ID,
+    schema: {
+      types: schemaTypes,
+      templates: initialValueTemplates,
+    },
+    icon: StudioIcon,
+    plugins: getPlugins(language.id),
+    tools: getTools(language.id),
+    form: formConfig,
+  }))
+);
 
 export default config;

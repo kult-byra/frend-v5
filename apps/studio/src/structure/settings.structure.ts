@@ -7,7 +7,11 @@ import { menuSettingsSchema, metadataSettingsSchema, siteSettingsSchema, stringT
 import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
 import { footerSettingsSchema } from "@/schemas/settings/footer-settings.schema";
 
-export const settingsStructure = (S: StructureBuilder) => {
+export const settingsStructure = (
+  S: StructureBuilder,
+  languageId?: string,
+  i18nSchemaTypes?: string[]
+) => {
   return S.listItem()
     .title("Settings")
     .icon(Settings)
@@ -15,17 +19,17 @@ export const settingsStructure = (S: StructureBuilder) => {
       S.list()
         .title("Settings")
         .items([
-          singletonListItem(S, siteSettingsSchema),
+          singletonListItem(S, siteSettingsSchema, languageId, i18nSchemaTypes),
 
-          singletonListItem(S, menuSettingsSchema),
+          singletonListItem(S, menuSettingsSchema, languageId, i18nSchemaTypes),
 
-          singletonListItem(S, footerSettingsSchema),
+          singletonListItem(S, footerSettingsSchema, languageId, i18nSchemaTypes),
 
           S.divider(),
 
-          singletonListItem(S, metadataSettingsSchema),
+          singletonListItem(S, metadataSettingsSchema, languageId, i18nSchemaTypes),
 
-          singletonListItem(S, stringTranslationsSchema),
+          singletonListItem(S, stringTranslationsSchema, languageId, i18nSchemaTypes),
 
           S.divider(),
 
