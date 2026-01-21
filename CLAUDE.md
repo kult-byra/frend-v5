@@ -74,8 +74,78 @@ To add a translatable string:
 
 - `referenceField()` - Single or multiple references with filtering
 - `portableTextField()` - Rich text with configurable blocks
-- `figureField()` - Images with alt text and caption
+- `mediaField()` - Composite media field (see Media Fields section below)
+- `imageField()` - Standalone image with alt text and caption
+- `videoField()` - Video URL field with validation
+- `illustrationField()` - SVG illustration picker
 - `slugField()` - URL slugs with auto-generation
+
+### Media Fields
+
+The media system uses a composite `mediaField()` that combines image, video, and illustration options.
+
+**Schema usage** (`apps/studio/src/schemas/generator-fields/media.field.tsx`):
+
+```typescript
+import { mediaField } from "@/schemas/generator-fields/media.field";
+
+// Image only (default)
+mediaField({ name: "media" })
+
+// Image + video
+mediaField({ name: "media", video: true })
+
+// Image + illustration (e.g., for services)
+mediaField({ name: "media", illustration: true })
+
+// All options
+mediaField({ name: "media", video: true, illustration: true, required: true })
+```
+
+**Data structure** stored in Sanity:
+
+```typescript
+{
+  mediaType: "image" | "video" | "illustration",
+  image: { asset, crop, hotspot, altText, caption },  // when mediaType === "image"
+  videoUrl: string,                                    // when mediaType === "video"
+  illustration: string                                 // when mediaType === "illustration"
+}
+```
+
+**Query pattern** (GROQ):
+
+```groq
+"media": {
+  "mediaType": media.mediaType,
+  "image": media.image { ${imageQuery} },
+  "videoUrl": media.videoUrl,
+  "illustration": media.illustration
+}
+```
+
+**Frontend rendering**:
+
+```tsx
+import { Img } from "@/components/utils/img.component";
+import { Illustration, type IllustrationName } from "@/components/illustration.component";
+
+// Render based on mediaType
+{media?.mediaType === "image" && media.image && (
+  <Img {...media.image} sizes={{ md: "third" }} />
+)}
+{media?.mediaType === "video" && media.videoUrl && (
+  <Video url={media.videoUrl} />
+)}
+{media?.mediaType === "illustration" && media.illustration && (
+  <Illustration name={media.illustration as IllustrationName} />
+)}
+```
+
+**Deprecated aliases** (for backward compatibility):
+
+- `figureField()` → use `imageField()` instead
+- `figureOrVideoField()` → use `mediaField({ video: true })` instead
 
 **Settings** are per-language singletons queried together via `fetchSettings(locale)`:
 

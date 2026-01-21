@@ -1,10 +1,9 @@
 import { defineField, type FieldDefinition } from "sanity";
 
 import { datetimeField } from "@/schemas/generator-fields/datetime.field";
-import { figureField } from "@/schemas/generator-fields/figure.field";
+import { mediaField } from "@/schemas/generator-fields/media.field";
 import { slugField } from "@/schemas/generator-fields/slug.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
-import { figureOrVideoField } from "./figure-or-video-field";
 import { linksField } from "./links.field";
 import { portableTextField } from "./portable-text/portable-text.field";
 import { referenceField } from "./reference.field";
@@ -66,9 +65,10 @@ export const heroFields = (options?: {
               name: "coverImages",
               type: "array",
               of: [
-                figureOrVideoField({
-                  name: "figureOrVideo",
+                mediaField({
+                  name: "media",
                   title: "Main images/videos",
+                  video: true,
                 }),
               ],
               group: "key",
@@ -79,10 +79,11 @@ export const heroFields = (options?: {
             }),
           ]
         : [
-            figureOrVideoField({
-              name: "figureOrVideo",
+            mediaField({
+              name: "media",
               title: "Main image/video",
               group: "key",
+              video: true,
             }),
           ]
       : []),

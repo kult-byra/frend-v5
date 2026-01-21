@@ -1,5 +1,5 @@
 import { defineField, type ObjectDefinition } from "sanity";
-import { figureField } from "@/schemas/generator-fields/figure.field";
+import { imageField } from "@/schemas/generator-fields/image.field";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 
 export const metadataField = (
@@ -35,7 +35,7 @@ export const metadataField = (
             "The description exceeds 150 characters and may me truncated (...)",
           ),
       }),
-      figureField({
+      imageField({
         name: "image",
         title: "Image for sharing on social media",
         description: "Anbefalt størrelse: 1200x630 (PNG eller JPG)",

@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { fullPortableTextQuery } from "../portable-text/portable-text.query";
+import { imageQuery } from "../utils/image.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
@@ -10,14 +11,22 @@ export const serviceQuery = defineQuery(`
     subtitle,
     excerpt,
     "slug": slug.current,
-    "illustration": illustration->illustration.asset->url,
+    "media": {
+      "mediaType": media.mediaType,
+      "image": media.image { ${imageQuery} },
+      "illustration": media.illustration
+    },
     subServicesDescription,
     "subServices": *[_type == "subService" && references(^._id) && language == $locale] | order(title asc) {
       _id,
       title,
       "slug": slug.current,
       excerpt,
-      "illustration": illustration->illustration.asset->url
+      "media": {
+        "mediaType": media.mediaType,
+        "image": media.image { ${imageQuery} },
+        "illustration": media.illustration
+      }
     },
     ${fullPortableTextQuery},
     ${metadataQuery},

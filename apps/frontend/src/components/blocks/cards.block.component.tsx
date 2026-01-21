@@ -1,24 +1,42 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { toPlainText } from "next-sanity";
+import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { BlockContainer } from "@/components/layout/block-container.component";
 import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
-import { Img } from "@/components/utils/img.component";
+import { Img, type ImgProps } from "@/components/utils/img.component";
 import { cn } from "@/utils/cn.util";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
 type CardsBlockProps = PageBuilderBlockProps<"cards.block">;
-type CardItem = NonNullable<CardsBlockProps["items"]>[number];
-type ClientCardItem = CardItem & {
-  industries?: string[] | null;
-  description?: string | null;
+
+type ServiceMedia = {
+  mediaType: "image" | "illustration" | null;
+  image: ImgProps | null;
+  illustration: string | null;
 };
 
-type ServiceCardItem = CardItem & {
+type ServiceCardItem = {
+  _id: string;
+  _type: string;
+  title: string | null;
+  slug: string | null;
   excerpt?: unknown;
-  illustration?: string | null;
+  media?: ServiceMedia | null;
+};
+
+type ImageCardItem = {
+  _id: string;
+  _type: string;
+  title: string | null;
+  slug: string | null;
+  image?: ImgProps | null;
+};
+
+type ClientCardItem = ImageCardItem & {
+  industries?: string[] | null;
+  description?: string | null;
 };
 
 const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
@@ -28,6 +46,8 @@ const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
       const excerptText = item.excerpt
         ? toPlainText(item.excerpt as Parameters<typeof toPlainText>[0])
         : null;
+
+      const media = item.media;
 
       return (
         <Link
@@ -40,12 +60,16 @@ const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
         >
           {/* Illustration - spacing-md (40px) bottom padding per design system */}
           <div className="flex items-center justify-center px-4 pt-4 pb-10">
-            {item.illustration && (
-              <Image
-                src={item.illustration}
-                alt=""
-                width={120}
-                height={120}
+            {media?.mediaType === "image" && media.image && (
+              <Img
+                {...media.image}
+                sizes={{ md: "third" }}
+                className="size-[120px] object-contain"
+              />
+            )}
+            {media?.mediaType === "illustration" && media.illustration && (
+              <Illustration
+                name={media.illustration as IllustrationName}
                 className="size-[120px] object-contain"
               />
             )}
@@ -71,7 +95,7 @@ const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
   </div>
 );
 
-const NewsArticleCards = ({ items }: { items: CardItem[] }) => (
+const NewsArticleCards = ({ items }: { items: ImageCardItem[] }) => (
   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {items.map((item) => (
       <article
@@ -93,7 +117,7 @@ const NewsArticleCards = ({ items }: { items: CardItem[] }) => (
   </div>
 );
 
-const CaseStudyCards = ({ items }: { items: CardItem[] }) => (
+const CaseStudyCards = ({ items }: { items: ImageCardItem[] }) => (
   <div className="grid gap-8 sm:grid-cols-2">
     {items.map((item) => (
       <div key={item._id} className="group relative overflow-hidden rounded-xl bg-gray-900">
@@ -112,7 +136,7 @@ const CaseStudyCards = ({ items }: { items: CardItem[] }) => (
   </div>
 );
 
-const EventCards = ({ items }: { items: CardItem[] }) => (
+const EventCards = ({ items }: { items: ImageCardItem[] }) => (
   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     {items.map((item) => (
       <div key={item._id} className="flex gap-4 rounded-lg border border-gray-200 bg-white p-4">
@@ -194,15 +218,15 @@ export const CardsBlock = (props: CardsBlockProps) => {
   const renderCards = () => {
     switch (contentType) {
       case "services":
-        return <ServicesCards items={items} />;
+        return <ServicesCards items={items as ServiceCardItem[]} />;
       case "newsArticle":
-        return <NewsArticleCards items={items} />;
+        return <NewsArticleCards items={items as ImageCardItem[]} />;
       case "caseStudy":
-        return <CaseStudyCards items={items} />;
+        return <CaseStudyCards items={items as ImageCardItem[]} />;
       case "event":
-        return <EventCards items={items} />;
+        return <EventCards items={items as ImageCardItem[]} />;
       case "client":
-        return <ClientCards items={items} />;
+        return <ClientCards items={items as ClientCardItem[]} />;
       default:
         return <div>Card type not implemented: {contentType}</div>;
     }

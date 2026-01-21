@@ -8,7 +8,7 @@ import { internalLinkObjectField } from "@/schemas/generator-fields/internal-lin
 import { stringField } from "@/schemas/generator-fields/string.field";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 import { booleanField } from "./boolean.field";
-import { figureField } from "./figure.field";
+import { imageField } from "./image.field";
 import { referenceField } from "./reference.field";
 
 type LinksFieldProps = Omit<FieldDef<ArrayDefinition>, "of" | "validation"> & {
@@ -225,7 +225,7 @@ const linkGroup = (props: LinksFieldProps) => {
         to: [{ type: "hubspotForm" }],
         hidden: ({ parent }) => parent?.menuType !== "contact",
       }),
-      figureField({
+      imageField({
         title: "Image",
         name: "image",
         hidden: ({ parent }) => parent?.menuType !== "contact",

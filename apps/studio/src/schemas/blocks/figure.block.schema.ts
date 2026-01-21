@@ -1,6 +1,7 @@
-import { figureOrVideoField } from "@/schemas/generator-fields/figure-or-video-field";
+import { mediaField } from "@/schemas/generator-fields/media.field";
 
-export const figureBlockSchema = figureOrVideoField({
+export const figureBlockSchema = mediaField({
   name: "figure",
   scope: ["portableText"],
+  video: true,
 });

@@ -5,12 +5,12 @@ import { defineQuery } from "next-sanity";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
 import { Img } from "@/components/utils/img.component";
-import { imageQuery } from "@/server/queries/utils/image.query";
+import { imageQuery, type ImageQueryProps } from "@/server/queries/utils/image.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 
 const imageOnlyQuery =
   defineQuery(`*[_type == "newsArticle" && _id == "b0aaa3a1-5a60-4555-a956-09ec63450c91"][0] {
-    "coverImage": coverImages[0].figure{
+    "coverImage": coverImages[0].media.image{
         ${imageQuery}
     }
 }`);
@@ -20,7 +20,7 @@ export default async function ImageTest() {
     query: imageOnlyQuery,
   }).then((data) => data.data);
 
-  const image = article?.coverImage;
+  const image = article?.coverImage as ImageQueryProps | null;
 
   if (!image) return null;
 

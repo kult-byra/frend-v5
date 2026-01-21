@@ -12,7 +12,7 @@
             "of": [
               {
                 "type": "string",
-                "value": "figure"
+                "value": "image"
               },
               {
                 "type": "string",
@@ -22,11 +22,11 @@
           },
           "optional": false
         },
-        "figure": {
+        "image": {
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "media.figure"
+            "name": "media.image"
           },
           "optional": true
         },
@@ -72,7 +72,7 @@
   },
   {
     "type": "type",
-    "name": "media.figure",
+    "name": "media.image",
     "value": {
       "type": "object",
       "attributes": {
@@ -88,7 +88,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "figure.media"
+            "name": "image.media"
           },
           "optional": true
         },
@@ -205,7 +205,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "image.media"
+            "name": "callToAction.image.media"
           },
           "optional": true
         },
@@ -244,7 +244,7 @@
   },
   {
     "type": "type",
-    "name": "figureOrVideo",
+    "name": "figureOrVideo.media",
     "value": {
       "type": "object",
       "attributes": {
@@ -255,7 +255,7 @@
             "of": [
               {
                 "type": "string",
-                "value": "figure"
+                "value": "image"
               },
               {
                 "type": "string",
@@ -265,11 +265,11 @@
           },
           "optional": false
         },
-        "figure": {
+        "image": {
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "figureOrVideo.figure"
+            "name": "figureOrVideo.media.image"
           },
           "optional": true
         },
@@ -285,7 +285,7 @@
   },
   {
     "type": "type",
-    "name": "figureOrVideo.figure",
+    "name": "figureOrVideo.media.image",
     "value": {
       "type": "object",
       "attributes": {
@@ -301,7 +301,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "figureOrVideo.figure.media"
+            "name": "media.image.media"
           },
           "optional": true
         },
@@ -340,7 +340,7 @@
   },
   {
     "type": "type",
-    "name": "images.figureOrVideo.figure",
+    "name": "images.media.image",
     "value": {
       "type": "object",
       "attributes": {
@@ -356,7 +356,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "images.figureOrVideo.figure.media"
+            "name": "images.media.image.media"
           },
           "optional": true
         },
@@ -395,7 +395,7 @@
   },
   {
     "type": "type",
-    "name": "figureOrVideo.figureOrVideo",
+    "name": "images.figureOrVideo.media",
     "value": {
       "type": "object",
       "attributes": {
@@ -406,7 +406,7 @@
             "of": [
               {
                 "type": "string",
-                "value": "figure"
+                "value": "image"
               },
               {
                 "type": "string",
@@ -416,11 +416,11 @@
           },
           "optional": false
         },
-        "figure": {
+        "image": {
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "figureOrVideo.figureOrVideo.figure"
+            "name": "images.figureOrVideo.media.image"
           },
           "optional": true
         },
@@ -436,7 +436,7 @@
   },
   {
     "type": "type",
-    "name": "figureOrVideo.figureOrVideo.figure",
+    "name": "images.figureOrVideo.media.image",
     "value": {
       "type": "object",
       "attributes": {
@@ -452,7 +452,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "figureOrVideo.figureOrVideo.figure.media"
+            "name": "figureOrVideo.media.image.media"
           },
           "optional": true
         },
@@ -491,7 +491,7 @@
   },
   {
     "type": "type",
-    "name": "imagesAndText.block.images.figureOrVideo.figure",
+    "name": "imagesAndText.block.images.media.image",
     "value": {
       "type": "object",
       "attributes": {
@@ -507,7 +507,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "imagesAndText.block.images.figureOrVideo.figure.media"
+            "name": "imagesAndText.block.images.media.image.media"
           },
           "optional": true
         },
@@ -5348,6 +5348,104 @@
     }
   },
   {
+    "name": "isometricIllustration",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "isometricIllustration"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "illustration": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "asset": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "sanity.imageAsset.reference"
+              },
+              "optional": true
+            },
+            "media": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "unknown"
+              },
+              "optional": true
+            },
+            "hotspot": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "sanity.imageHotspot"
+              },
+              "optional": true
+            },
+            "crop": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "sanity.imageCrop"
+              },
+              "optional": true
+            },
+            "changed": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            },
+            "_type": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string",
+                "value": "image"
+              }
+            }
+          }
+        },
+        "optional": true
+      }
+    }
+  },
+  {
     "name": "industry",
     "type": "document",
     "attributes": {
@@ -6150,11 +6248,11 @@
             "of": {
               "type": "object",
               "attributes": {
-                "figureOrVideo": {
+                "media": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "inline",
-                    "name": "figureOrVideo.figureOrVideo"
+                    "name": "images.figureOrVideo.media"
                   },
                   "optional": true
                 },
@@ -6615,7 +6713,7 @@
                     "of": [
                       {
                         "type": "string",
-                        "value": "figure"
+                        "value": "image"
                       },
                       {
                         "type": "string",
@@ -6625,11 +6723,11 @@
                   },
                   "optional": false
                 },
-                "figure": {
+                "image": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "inline",
-                    "name": "images.figureOrVideo.figure"
+                    "name": "images.media.image"
                   },
                   "optional": true
                 },
@@ -6644,7 +6742,7 @@
                   "type": "objectAttribute",
                   "value": {
                     "type": "string",
-                    "value": "figureOrVideo"
+                    "value": "media"
                   }
                 }
               },
@@ -7773,11 +7871,11 @@
             "of": {
               "type": "object",
               "attributes": {
-                "figureOrVideo": {
+                "media": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "inline",
-                    "name": "figureOrVideo"
+                    "name": "figureOrVideo.media"
                   },
                   "optional": true
                 },
@@ -8304,7 +8402,7 @@
             "of": [
               {
                 "type": "string",
-                "value": "figure"
+                "value": "image"
               },
               {
                 "type": "string",
@@ -8314,7 +8412,7 @@
           },
           "optional": false
         },
-        "figure": {
+        "image": {
           "type": "objectAttribute",
           "value": {
             "type": "object",
@@ -9042,7 +9140,7 @@
                     "of": [
                       {
                         "type": "string",
-                        "value": "figure"
+                        "value": "image"
                       },
                       {
                         "type": "string",
@@ -9052,11 +9150,11 @@
                   },
                   "optional": false
                 },
-                "figure": {
+                "image": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "inline",
-                    "name": "imagesAndText.block.images.figureOrVideo.figure"
+                    "name": "imagesAndText.block.images.media.image"
                   },
                   "optional": true
                 },
@@ -9071,7 +9169,7 @@
                   "type": "objectAttribute",
                   "value": {
                     "type": "string",
-                    "value": "figureOrVideo"
+                    "value": "media"
                   }
                 }
               },
@@ -10763,7 +10861,7 @@
         },
         "optional": false
       },
-      "figureOrVideo": {
+      "media": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -10775,7 +10873,7 @@
                 "of": [
                   {
                     "type": "string",
-                    "value": "figure"
+                    "value": "image"
                   },
                   {
                     "type": "string",
@@ -10785,7 +10883,7 @@
               },
               "optional": false
             },
-            "figure": {
+            "image": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",
@@ -12442,7 +12540,7 @@
         },
         "optional": true
       },
-      "figureOrVideo": {
+      "media": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -12454,7 +12552,7 @@
                 "of": [
                   {
                     "type": "string",
-                    "value": "figure"
+                    "value": "image"
                   },
                   {
                     "type": "string",
@@ -12464,7 +12562,7 @@
               },
               "optional": false
             },
-            "figure": {
+            "image": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",
@@ -12802,7 +12900,7 @@
         },
         "optional": false
       },
-      "figureOrVideo": {
+      "media": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -12814,7 +12912,7 @@
                 "of": [
                   {
                     "type": "string",
-                    "value": "figure"
+                    "value": "image"
                   },
                   {
                     "type": "string",
@@ -12824,7 +12922,7 @@
               },
               "optional": false
             },
-            "figure": {
+            "image": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",
@@ -13591,7 +13689,7 @@
         },
         "optional": false
       },
-      "figureOrVideo": {
+      "media": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -13603,7 +13701,7 @@
                 "of": [
                   {
                     "type": "string",
-                    "value": "figure"
+                    "value": "image"
                   },
                   {
                     "type": "string",
@@ -13613,7 +13711,7 @@
               },
               "optional": false
             },
-            "figure": {
+            "image": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",
@@ -14851,7 +14949,7 @@
         },
         "optional": false
       },
-      "figureOrVideo": {
+      "media": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -14863,7 +14961,7 @@
                 "of": [
                   {
                     "type": "string",
-                    "value": "figure"
+                    "value": "image"
                   },
                   {
                     "type": "string",
@@ -14873,7 +14971,7 @@
               },
               "optional": false
             },
-            "figure": {
+            "image": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",
@@ -15850,7 +15948,7 @@
                   "of": [
                     {
                       "type": "string",
-                      "value": "figure"
+                      "value": "image"
                     },
                     {
                       "type": "string",
@@ -15860,7 +15958,7 @@
                 },
                 "optional": false
               },
-              "figure": {
+              "image": {
                 "type": "objectAttribute",
                 "value": {
                   "type": "object",
@@ -15925,7 +16023,7 @@
                 "type": "objectAttribute",
                 "value": {
                   "type": "string",
-                  "value": "figureOrVideo"
+                  "value": "media"
                 }
               }
             },
@@ -17459,36 +17557,6 @@
     }
   },
   {
-    "type": "type",
-    "name": "isometricIllustration.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "isometricIllustration"
-    }
-  },
-  {
     "name": "service",
     "type": "document",
     "attributes": {
@@ -17771,13 +17839,290 @@
         },
         "optional": true
       },
-      "illustration": {
+      "media": {
         "type": "objectAttribute",
         "value": {
-          "type": "inline",
-          "name": "isometricIllustration.reference"
+          "type": "object",
+          "attributes": {
+            "mediaType": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "image"
+                  },
+                  {
+                    "type": "string",
+                    "value": "illustration"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            "image": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "object",
+                "attributes": {
+                  "asset": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageAsset.reference"
+                    },
+                    "optional": true
+                  },
+                  "media": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "unknown"
+                    },
+                    "optional": true
+                  },
+                  "hotspot": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageHotspot"
+                    },
+                    "optional": true
+                  },
+                  "crop": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageCrop"
+                    },
+                    "optional": true
+                  },
+                  "changed": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "boolean"
+                    },
+                    "optional": true
+                  },
+                  "_type": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string",
+                      "value": "image"
+                    }
+                  }
+                }
+              },
+              "optional": true
+            },
+            "illustration": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "light-bubbles-01"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-bubbles-02"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-choices"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-collaboration"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-competition-01"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-competition-02"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-confused"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-confused-team"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-cooperation"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-direction"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-growth"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-idea"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-meeting-01"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-meeting-02"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-pie-chart"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-strategy-card"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-strategy-chess"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-victorys"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-icon-award"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-icon-chess"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-icon-chessboard"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-icon-hourglass"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-icon-light-bulb"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-icon-timer"
+                  },
+                  {
+                    "type": "string",
+                    "value": "light-icon-trophy"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-bubbles-01"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-bubbles-02"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-choices"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-collaboration"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-competition-01"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-competition-02"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-confused"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-confused-team"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-cooperation"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-direction"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-growth"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-idea"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-meeting-01"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-meeting-02"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-pie-chart"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-strategy-card"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-strategy-chess"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-victorys"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-icon-award"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-icon-chess"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-icon-chessboard"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-icon-hourglass"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-icon-timer"
+                  },
+                  {
+                    "type": "string",
+                    "value": "dark-icon-trophy"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          }
         },
-        "optional": false
+        "optional": true
       },
       "industries": {
         "type": "objectAttribute",
@@ -18885,7 +19230,7 @@
         },
         "optional": true
       },
-      "figureOrVideo": {
+      "media": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -18897,7 +19242,7 @@
                 "of": [
                   {
                     "type": "string",
-                    "value": "figure"
+                    "value": "image"
                   },
                   {
                     "type": "string",
@@ -18907,7 +19252,7 @@
               },
               "optional": false
             },
-            "figure": {
+            "image": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",
@@ -19358,11 +19703,79 @@
         },
         "optional": true
       },
-      "illustration": {
+      "media": {
         "type": "objectAttribute",
         "value": {
-          "type": "inline",
-          "name": "isometricIllustration.reference"
+          "type": "object",
+          "attributes": {
+            "mediaType": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "image"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            "image": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "object",
+                "attributes": {
+                  "asset": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageAsset.reference"
+                    },
+                    "optional": true
+                  },
+                  "media": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "unknown"
+                    },
+                    "optional": true
+                  },
+                  "hotspot": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageHotspot"
+                    },
+                    "optional": true
+                  },
+                  "crop": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageCrop"
+                    },
+                    "optional": true
+                  },
+                  "changed": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "boolean"
+                    },
+                    "optional": true
+                  },
+                  "_type": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string",
+                      "value": "image"
+                    }
+                  }
+                }
+              },
+              "optional": true
+            }
+          }
         },
         "optional": true
       },
@@ -19960,104 +20373,6 @@
     }
   },
   {
-    "name": "isometricIllustration",
-    "type": "document",
-    "attributes": {
-      "_id": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_type": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string",
-          "value": "isometricIllustration"
-        }
-      },
-      "_createdAt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_updatedAt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_rev": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "title": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "illustration": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "object",
-          "attributes": {
-            "asset": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageAsset.reference"
-              },
-              "optional": true
-            },
-            "media": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "unknown"
-              },
-              "optional": true
-            },
-            "hotspot": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageHotspot"
-              },
-              "optional": true
-            },
-            "crop": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageCrop"
-              },
-              "optional": true
-            },
-            "changed": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
-            },
-            "_type": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string",
-                "value": "image"
-              }
-            }
-          }
-        },
-        "optional": true
-      }
-    }
-  },
-  {
     "name": "slug",
     "type": "type",
     "value": {
@@ -20304,7 +20619,7 @@
         },
         "optional": true
       },
-      "figureOrVideo": {
+      "media": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -20316,7 +20631,7 @@
                 "of": [
                   {
                     "type": "string",
-                    "value": "figure"
+                    "value": "image"
                   },
                   {
                     "type": "string",
@@ -20326,7 +20641,7 @@
               },
               "optional": false
             },
-            "figure": {
+            "image": {
               "type": "objectAttribute",
               "value": {
                 "type": "object",

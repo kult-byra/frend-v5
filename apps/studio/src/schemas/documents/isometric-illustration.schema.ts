@@ -1,6 +1,6 @@
 import { Box } from "lucide-react";
 import { defineType } from "sanity";
-import { figureField } from "../generator-fields/figure.field";
+import { imageField } from "../generator-fields/image.field";
 import { stringField } from "../generator-fields/string.field";
 
 export const isometricIllustrationSchema = defineType({
@@ -14,7 +14,7 @@ export const isometricIllustrationSchema = defineType({
       title: "Title",
       description: "Only visible in Sanity",
     }),
-    figureField({
+    imageField({
       name: "illustration",
       title: "Illustration",
       required: true,

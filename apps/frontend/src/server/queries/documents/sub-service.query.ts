@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { fullPortableTextQuery } from "../portable-text/portable-text.query";
+import { imageQuery } from "../utils/image.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
@@ -10,7 +11,11 @@ export const subServiceQuery = defineQuery(`
     subtitle,
     excerpt,
     "slug": slug.current,
-    "illustration": illustration->illustration.asset->url,
+    "media": {
+      "mediaType": media.mediaType,
+      "image": media.image { ${imageQuery} },
+      "illustration": media.illustration
+    },
     "parentService": service->{
       _id,
       title,

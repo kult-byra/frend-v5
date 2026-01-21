@@ -1,8 +1,7 @@
 import { ImagePlus } from "lucide-react";
 import { defineField } from "sanity";
-import { figureField } from "../generator-fields/figure.field";
-import { figureOrVideoField } from "../generator-fields/figure-or-video-field";
 import { linksField } from "../generator-fields/links.field";
+import { mediaField } from "../generator-fields/media.field";
 import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
 import { referenceField } from "../generator-fields/reference.field";
 import { stringField } from "../generator-fields/string.field";
@@ -57,9 +56,10 @@ export const imagesWithBannerBlockSchema = defineBlock({
       name: "images",
       type: "array",
       of: [
-        figureOrVideoField({
-          name: "figureOrVideo",
+        mediaField({
+          name: "media",
           title: "Image or Video",
+          video: true,
         }),
       ],
       validation: (Rule) =>

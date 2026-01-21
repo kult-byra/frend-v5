@@ -4,7 +4,7 @@ import { linksField } from "@/schemas/generator-fields/links.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defineBlock } from "@/schemas/utils/define-block.util";
-import { figureField } from "../generator-fields/figure.field";
+import { imageField } from "../generator-fields/image.field";
 
 export const callToActionBlockSchema = defineBlock({
   name: "callToAction",
@@ -27,7 +27,7 @@ export const callToActionBlockSchema = defineBlock({
               title: "Overskrift",
               required: true,
             }),
-            figureField({
+            imageField({
               name: "image",
               title: "Image",
             }),

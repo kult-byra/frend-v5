@@ -1,4 +1,5 @@
 import { defineQuery } from "next-sanity";
+import { imageQuery } from "../utils/image.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
@@ -19,6 +20,10 @@ export const servicesListQuery = defineQuery(`
     title,
     "slug": slug.current,
     excerpt,
-    "illustration": illustration->illustration.asset->url
+    "media": {
+      "mediaType": media.mediaType,
+      "image": media.image { ${imageQuery} },
+      "illustration": media.illustration
+    }
   }
 `);

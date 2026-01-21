@@ -10,7 +10,7 @@ import { cn } from "@/utils/cn.util";
 
 type ImageSize = "half" | "full" | "third";
 
-type ImgProps = ImageQueryProps & {
+export type ImgProps = ImageQueryProps & {
   width?: number;
   height?: number;
   sizes: {

@@ -5,7 +5,7 @@ import { imageQuery } from "./image.query";
 // @sanity-typegen-ignore
 const mediaQuery = defineQuery(`
   mediaType,
-  "image": figure { ${imageQuery} },
+  image { ${imageQuery} },
   videoUrl
 `);
 
@@ -34,7 +34,7 @@ const _heroTypegenQuery = defineQuery(`
       heroText,
       media {
         mediaType,
-        "image": figure { ${imageQuery} },
+        image { ${imageQuery} },
         videoUrl
       },
       form-> {

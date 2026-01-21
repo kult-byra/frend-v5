@@ -1,7 +1,7 @@
 import { LayoutTemplate } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
-import { figureOrVideoField } from "@/schemas/generator-fields/figure-or-video-field";
+import { mediaField } from "@/schemas/generator-fields/media.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 
@@ -21,10 +21,11 @@ export const mediaAndFormHeroSchema = defineType({
       description: "The main heading displayed in the hero section (replaces front page title)",
       required: true,
     }),
-    figureOrVideoField({
+    mediaField({
       name: "media",
       title: "Media",
       required: true,
+      video: true,
     }),
     referenceField({
       name: "form",
@@ -36,7 +37,7 @@ export const mediaAndFormHeroSchema = defineType({
   preview: {
     select: {
       heroText: "heroText",
-      media: "media.figure.asset",
+      media: "media.image.asset",
     },
     prepare({ heroText, media }) {
       return {

@@ -10,11 +10,11 @@ import { env } from "@/env";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 import type { BlockDefinition } from "@/schemas/utils/define-block.util";
 
-export const figureField = (
-  props: FieldDef<ImageDefinition> & {
-    scope?: BlockDefinition["scope"];
-  },
-) => {
+export type ImageFieldOptions = FieldDef<ImageDefinition> & {
+  scope?: BlockDefinition["scope"];
+};
+
+export const imageField = (props: ImageFieldOptions) => {
   const { required, validation, fields } = props;
 
   return defineField(
@@ -93,3 +93,6 @@ export const imageMetaValidationRule = (Rule: ImageRule) =>
     }
     return true;
   });
+
+/** @deprecated Use imageField instead */
+export const figureField = imageField;

@@ -1,11 +1,10 @@
 import { Columns2 } from "lucide-react";
 import { defineField } from "sanity";
-import { figureField } from "@/schemas/generator-fields/figure.field";
 import { linksField } from "@/schemas/generator-fields/links.field";
+import { mediaField } from "@/schemas/generator-fields/media.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defineBlock } from "@/schemas/utils/define-block.util";
-import { figureOrVideoField } from "../generator-fields/figure-or-video-field";
 
 export const imagesAndTextBlockSchema = defineBlock({
   name: "imagesAndText",
@@ -32,9 +31,10 @@ export const imagesAndTextBlockSchema = defineBlock({
       name: "images",
       type: "array",
       of: [
-        figureOrVideoField({
-          name: "figureOrVideo",
+        mediaField({
+          name: "media",
           title: "Image/video",
+          video: true,
         }),
       ],
       validation: (Rule) =>

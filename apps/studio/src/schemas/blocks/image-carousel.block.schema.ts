@@ -1,7 +1,7 @@
 import { Images } from "lucide-react";
 import { defineField } from "sanity";
 import { defineBlock } from "@/schemas/utils/define-block.util";
-import { figureOrVideoField } from "../generator-fields/figure-or-video-field";
+import { mediaField } from "../generator-fields/media.field";
 import { imageFormatField } from "../generator-fields/image-format.field";
 
 export const imageCarouselBlockSchema = defineBlock({
@@ -20,26 +20,27 @@ export const imageCarouselBlockSchema = defineBlock({
           name: "figureOrVideo",
           type: "object",
           fields: [
-            figureOrVideoField({
-              name: "figureOrVideo",
+            mediaField({
+              name: "media",
               title: "Image/video",
+              video: true,
             }),
             imageFormatField(),
           ],
           preview: {
             select: {
-              mediaType: "figureOrVideo.mediaType",
+              mediaType: "media.mediaType",
               imageFormat: "imageFormat",
-              figure: "figureOrVideo.figure",
+              image: "media.image",
             },
-            prepare({ mediaType, imageFormat, figure }) {
+            prepare({ mediaType, imageFormat, image }) {
               const mediaTypeLabel =
-                mediaType === "figure" ? "Image" : mediaType === "video" ? "Video" : "Media";
+                mediaType === "image" ? "Image" : mediaType === "video" ? "Video" : "Media";
               const formatLabel = imageFormat || "3:2";
 
               return {
                 title: `${mediaTypeLabel} - ${formatLabel}`,
-                media: figure,
+                media: image,
               };
             },
           },

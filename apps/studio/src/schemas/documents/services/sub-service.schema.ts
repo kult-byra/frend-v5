@@ -3,8 +3,8 @@ import { defineField, defineType } from "sanity";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
 import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { infoField } from "@/schemas/generator-fields/info.field";
+import { mediaField } from "@/schemas/generator-fields/media.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
-import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
@@ -29,10 +29,9 @@ export const subServiceSchema = defineType({
       includeExcerpt: true,
       includeCoverImage: false,
     }),
-    referenceField({
+    mediaField({
       title: "Illustration",
-      name: "illustration",
-      to: [{ type: "isometricIllustration" }],
+      name: "media",
       group: "key",
     }),
     referenceField({
@@ -63,7 +62,7 @@ export const subServiceSchema = defineType({
   preview: {
     select: {
       title: "title",
-      media: "illustration.illustration",
+      media: "media.image",
     },
   },
 });

@@ -1,8 +1,15 @@
+import type { ImgProps } from "@/components/utils/img.component";
 import type { ServicesListQueryResult } from "@/sanity-types";
 import { ServiceCard } from "./service-card.component";
 
 type Props = {
   services: ServicesListQueryResult;
+};
+
+type ServiceMedia = {
+  mediaType: "image" | "illustration" | null;
+  image: ImgProps | null;
+  illustration: string | null;
 };
 
 export function ServicesList({ services }: Props) {
@@ -18,7 +25,7 @@ export function ServicesList({ services }: Props) {
           title={service.title ?? ""}
           slug={service.slug ?? ""}
           excerpt={service.excerpt}
-          illustration={service.illustration}
+          media={service.media as ServiceMedia | null}
           colorVariant={index % 2 === 0 ? "purple" : "red"}
         />
       ))}

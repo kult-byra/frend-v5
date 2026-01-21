@@ -22,8 +22,11 @@ export const cardsBlockQuery = defineQuery(`
       title,
       "slug": slug.current,
       excerpt,
-      "illustration": illustration->illustration.asset->url,
-      image { ${imageQuery} }
+      "media": {
+        "mediaType": media.mediaType,
+        "image": media.image { ${imageQuery} },
+        "illustration": media.illustration
+      }
     },
     contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {
       _id,
@@ -61,8 +64,11 @@ export const cardsBlockQuery = defineQuery(`
       title,
       "slug": slug.current,
       excerpt,
-      "illustration": illustration->illustration.asset->url,
-      image { ${imageQuery} }
+      "media": {
+        "mediaType": media.mediaType,
+        "image": media.image { ${imageQuery} },
+        "illustration": media.illustration
+      }
     },
     contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) [0...6] {
       _id,

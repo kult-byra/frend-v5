@@ -1,7 +1,7 @@
 import { User } from "lucide-react";
 import { defineField, defineType } from "sanity";
 import { stringField } from "@/schemas/generator-fields/string.field";
-import { figureField } from "../generator-fields/figure.field";
+import { imageField } from "../generator-fields/image.field";
 
 export const personSchema = defineType({
   name: "person",
@@ -18,7 +18,7 @@ export const personSchema = defineType({
       title: "Name",
       required: true,
     }),
-    figureField({
+    imageField({
       name: "image",
       title: "Image",
     }),

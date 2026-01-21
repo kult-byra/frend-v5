@@ -21,13 +21,8 @@ export const imagesWithBannerBlockQuery = defineQuery(`
   images[] {
     _key,
     _type,
-    mediaType,
-    "image": figure { ${imageQuery} },
-    video {
-      asset-> {
-        _id,
-        playbackId
-      }
-    }
+    "mediaType": media.mediaType,
+    "image": media.image { ${imageQuery} },
+    "videoUrl": media.videoUrl
   }
 `);

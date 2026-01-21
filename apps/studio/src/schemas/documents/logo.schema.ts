@@ -1,7 +1,7 @@
 import { Image } from "lucide-react";
 import { defineType } from "sanity";
 import { stringField } from "@/schemas/generator-fields/string.field";
-import { figureField } from "../generator-fields/figure.field";
+import { imageField } from "../generator-fields/image.field";
 
 export const logoSchema = defineType({
   name: "logo",
@@ -15,7 +15,7 @@ export const logoSchema = defineType({
       required: true,
       description: "Only visible in Sanity",
     }),
-    figureField({
+    imageField({
       name: "image",
       title: "Image",
       required: true,

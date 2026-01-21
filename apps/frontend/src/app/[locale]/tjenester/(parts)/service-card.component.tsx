@@ -1,17 +1,24 @@
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { toPlainText } from "next-sanity";
+import { Illustration, type IllustrationName } from "@/components/illustration.component";
+import { Img, type ImgProps } from "@/components/utils/img.component";
 import type { ServicesListQueryResult } from "@/sanity-types";
 import { cn } from "@/utils/cn.util";
 
 type ServiceItem = ServicesListQueryResult[number];
 
+type ServiceMedia = {
+  mediaType: "image" | "illustration" | null;
+  image: ImgProps | null;
+  illustration: string | null;
+};
+
 type ServiceCardProps = {
   title: string;
   slug: string;
   excerpt: ServiceItem["excerpt"] | null;
-  illustration: string | null;
+  media: ServiceMedia | null;
   colorVariant: "purple" | "red";
 };
 
@@ -19,7 +26,7 @@ export function ServiceCard({
   title,
   slug,
   excerpt,
-  illustration,
+  media,
   colorVariant,
 }: ServiceCardProps) {
   return (
@@ -32,12 +39,16 @@ export function ServiceCard({
     >
       {/* Illustration */}
       <div className="pt-(--gutter) px-(--gutter) pb-10 flex items-center justify-center">
-        {illustration && (
-          <Image
-            src={illustration}
-            alt=""
-            width={120}
-            height={120}
+        {media?.mediaType === "image" && media.image && (
+          <Img
+            {...media.image}
+            sizes={{ md: "third" }}
+            className="size-[120px] object-contain"
+          />
+        )}
+        {media?.mediaType === "illustration" && media.illustration && (
+          <Illustration
+            name={media.illustration as IllustrationName}
             className="size-[120px] object-contain"
           />
         )}
