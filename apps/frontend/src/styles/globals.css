@@ -316,6 +316,9 @@ a.skip-main:active {
   --color-button-primary-fill: var(--button-primary-fill);
   --color-button-primary-text: var(--button-primary-text);
   --color-button-primary-hover: var(--button-primary-hover);
+  --color-button-primary-inverted-fill: var(--button-primary-inverted-fill);
+  --color-button-primary-inverted-hover: var(--button-primary-inverted-hover);
+  --color-button-primary-inverted-text: var(--button-primary-inverted-text);
   --color-button-secondary-stroke: var(--button-secondary-stroke);
   --color-button-secondary-stroke-hover: var(--button-secondary-stroke-hover);
   --color-button-secondary-text: var(--button-secondary-text);

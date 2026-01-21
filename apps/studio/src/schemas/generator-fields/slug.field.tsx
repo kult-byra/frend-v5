@@ -8,17 +8,18 @@ import { STUDIO_BASE_PATH } from "@/utils/studio-base-path.util";
 
 export const slugField = (
   props?: Omit<FieldDef<SlugDefinition>, "name" | "group"> & {
+    name?: string;
     source?: SlugOptions["source"];
     isUnique?: SlugIsUniqueValidator;
     group?: string | false;
     isStatic?: boolean;
   },
 ) => {
-  const { group, isUnique, source, isStatic } = props ?? {};
+  const { group, isUnique, source, isStatic, name } = props ?? {};
 
   return defineField({
     ...props,
-    name: "slug",
+    name: name ?? "slug",
     type: "slug",
     group: group === false ? undefined : (group ?? "key"),
     validation: (Rule) => {

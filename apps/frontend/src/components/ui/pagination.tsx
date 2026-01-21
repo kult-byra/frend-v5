@@ -1,5 +1,6 @@
-import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
+import { MoreHorizontalIcon } from "lucide-react";
 import type * as React from "react";
+import { Icon } from "@/components/icon.component";
 
 import { type Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -60,7 +61,7 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
       className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
       {...props}
     >
-      <ChevronLeftIcon />
+      <Icon name="chevron-left" />
       <span className="hidden sm:block">Previous</span>
     </PaginationLink>
   );
@@ -75,7 +76,7 @@ function PaginationNext({ className, ...props }: React.ComponentProps<typeof Pag
       {...props}
     >
       <span className="hidden sm:block">Next</span>
-      <ChevronRightIcon />
+      <Icon name="chevron-right" />
     </PaginationLink>
   );
 }

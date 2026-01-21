@@ -192,6 +192,37 @@ const url = urlForImageId(imageId, { width: 800, height: 600 });
 
 **Never** manually construct Sanity CDN URLs.
 
+### Icons
+
+The project uses a sprite-based icon system. Icons are rendered via the `Icon` component which references symbols in a generated SVG sprite.
+
+**Files:**
+
+- `apps/frontend/src/components/icon.component.tsx` - Icon component
+- `apps/frontend/public/icons/sprite.svg` - Generated SVG sprite
+- `apps/frontend/public/icons/name.d.ts` - Generated TypeScript types
+- `apps/frontend/svg-icons/` - Source SVG files
+
+**Usage:**
+
+```tsx
+import { Icon } from "@/components/icon.component";
+
+<Icon name="arrow-right" />
+<Icon name="chevron-down" size="sm" />
+<Icon name="close" label="Close menu" />  // Accessible label
+```
+
+**Available sizes:** `font` (default, inherits font size), `xs`, `sm`, `md`, `lg`, `xl`
+
+**Adding new icons:**
+
+1. Add SVG file to `apps/frontend/svg-icons/` (kebab-case naming, e.g., `arrow-right.svg`)
+2. Run `pnpm build:icons` to regenerate sprite and types
+3. Use via `<Icon name="arrow-right" />`
+
+**Note:** Do not use lucide-react or other icon packages in frontend components. The studio uses lucide for Sanity CMS UI only.
+
 ### Pre-commit Hooks
 
 Lefthook runs on pre-commit:

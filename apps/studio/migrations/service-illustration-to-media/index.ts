@@ -38,10 +38,9 @@ export default defineMigration({
 
       // Fetch if not cached
       if (!image) {
-        const result = await context.client.fetch(
-          `*[_id == $ref][0]{ "image": illustration }`,
-          { ref: illustrationRef._ref }
-        );
+        const result = await context.client.fetch(`*[_id == $ref][0]{ "image": illustration }`, {
+          ref: illustrationRef._ref,
+        });
         if (result?.image) {
           illustrationCache.set(illustrationRef._ref, result.image);
           image = result.image;
@@ -55,10 +54,7 @@ export default defineMigration({
 
       console.log(`Migrating ${doc._type}: ${doc.title || doc._id}`);
 
-      return [
-        at("media", set({ mediaType: "image", image: image })),
-        at("illustration", unset()),
-      ];
+      return [at("media", set({ mediaType: "image", image: image })), at("illustration", unset())];
     },
   },
 });

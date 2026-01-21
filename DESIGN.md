@@ -289,6 +289,36 @@ Pill-shaped buttons used for filters and categories:
 - Hover state: orange border
 - Active state: dark purple fill
 
+### CTA Arrow Buttons
+
+Small circular buttons with arrow icons, commonly used in cards and list items:
+
+| Variant  | Background  | Icon Color  | Hover Background | Hover Icon   | Usage                             |
+| -------- | ----------- | ----------- | ---------------- | ------------ | --------------------------------- |
+| Primary  | Dark purple | White       | Orange           | Dark purple  | Desktop cards, primary CTAs       |
+| Inverted | White       | Dark purple | Light tint       | Dark purple  | Mobile/list views, light contexts |
+
+**Sizing:** 32px (8 Tailwind units)
+
+**Implementation:**
+
+```tsx
+// Primary (dark background, white icon → orange background, dark icon on hover) - desktop cards
+<div className="flex size-8 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-button-primary-hover">
+  <Icon name="arrow-right" className="size-[10px] text-white transition-colors group-hover:text-button-primary-inverted-text" />
+</div>
+
+// Inverted (white background, dark icon) - mobile/list views
+<div className="flex size-8 items-center justify-center rounded-full bg-white group-hover:bg-container-tertiary-1">
+  <Icon name="arrow-right" className="size-[10px] text-text-primary" />
+</div>
+```
+
+**When to use which variant:**
+
+- **Primary**: On cards in grid view, darker contexts, or when the button should stand out
+- **Inverted**: On compact list items, mobile views, or lighter card designs where a softer button is preferred
+
 ### Media Controls
 
 Icon buttons for media navigation and playback:
@@ -411,4 +441,125 @@ import { Logo } from "@/components/logo.component";
 // Custom size
 <Logo width={200} height={67} />
 ```
+
+---
+
+## Icons & Illustrations
+
+### UI Icons
+
+Small functional icons used in UI components (buttons, navigation, forms).
+
+**Available icons:**
+
+| Name | Usage |
+|------|-------|
+| `arrow-right` | Link arrows, next actions |
+| `arrow-top-right` | External links |
+| `chevron-down` | Dropdowns, expand |
+| `chevron-up` | Collapse, scroll up |
+| `chevron-left` | Previous, back |
+| `chevron-right` | Next, forward |
+| `checkmark` | Checkboxes, success |
+| `close` | Close modals, dismiss |
+| `close-small` | Smaller close buttons |
+| `collapse` | Collapse sections |
+| `expand` | Expand sections |
+| `play` | Video play |
+| `pause` | Video pause |
+| `star` | Ratings, favorites |
+| `bullet` | List markers |
+
+**Usage:**
+
+```tsx
+import { Icon } from "@/components/icon.component";
+
+<Icon name="arrow-right" />
+<Icon name="chevron-down" size="sm" />
+<Icon name="close" size="md" label="Close" />
+```
+
+**Sizes:**
+
+| Size | Description |
+|------|-------------|
+| `font` | Inherits current font size (default) |
+| `xs` | 12px (0.75rem) |
+| `sm` | 16px (1rem) |
+| `md` | 20px (1.25rem) |
+| `lg` | 24px (1.5rem) |
+| `xl` | 28px (1.75rem) |
+
+**Files location:** `apps/frontend/svg-icons/` (source), `apps/frontend/public/icons/sprite.svg` (generated)
+
+---
+
+### Illustrations
+
+Frend's icons follow the general identity and contain elements and figures to help Frend explain processes and methods in an informative and graphic way. The style of icons and illustrations follows the visual style of the identity. All illustrations and icons are delivered in positive and negative color versions.
+
+### Types
+
+| Type | Description |
+|------|-------------|
+| `illustration` | Large, detailed graphics for hero sections and feature highlights |
+| `icon` | Simple, recognizable symbols for UI elements |
+| `area-icon` | Service area icons representing different business domains |
+
+### Background Modes
+
+All illustrations and icons come in variants for different background colors:
+
+| Mode | File Prefix | Structural Color | Best On |
+|------|-------------|------------------|---------|
+| `light` | `light-*` | Dark purple (`#0B0426`) | White/light backgrounds (`#FFFFFF`) |
+| `dark` | `dark-*` | Fresh purple (`#875EFF`) | Dark purple backgrounds (`#0B0426`) |
+
+### Color Palette in SVGs
+
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Orange | `#FF4F00` | Primary accent, always present |
+| Dark Purple | `#0B0426` | Structural elements (light mode) |
+| Fresh Purple | `#875EFF` | Structural elements (dark mode) |
+| Light Purple | `#EAC6FB` | Secondary accent, shadows |
+| Near Black | `#040022` | Outlines (dark mode area icons) |
+
+### Area Icons
+
+Area icons represent Frend's service categories. Each category has three variants for different backgrounds:
+
+| Suffix | Mode | Background |
+|--------|------|------------|
+| `-01` | `light` | Light backgrounds (`#FFFFFF`) |
+| `-02` | `dark` | Dark backgrounds (`#0B0426`) |
+| `-03` | `dark` | Dark backgrounds (`#0B0426`) - alternative style |
+
+**Categories:**
+
+| Category | Label |
+|----------|-------|
+| `crm` | CRM |
+| `ai` | Generativ AI |
+| `service` | Service |
+| `teknologi` | Teknologi |
+| `utvikler` | Utvikler |
+| `nocode` | No-code/Low-code |
+
+### Usage
+
+```tsx
+import { Illustration, type IllustrationName } from "@/components/illustration.component";
+
+// Render an illustration
+<Illustration name="light-collaboration" />
+
+// Area icon for a service
+<Illustration name="light-area-crm-01" />
+```
+
+**Files location:** `apps/frontend/public/illustrations/`
+
+**Configuration:** `apps/studio/src/utils/illustrations.const.ts`
 

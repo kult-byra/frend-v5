@@ -1,18 +1,32 @@
+/** Service area categories for area-icons */
+export type AreaCategory = "crm" | "ai" | "service" | "teknologi" | "utvikler" | "nocode";
+
+export const AREA_CATEGORY_LABELS: Record<AreaCategory, string> = {
+  crm: "CRM",
+  ai: "Generativ AI",
+  service: "Service",
+  teknologi: "Teknologi",
+  utvikler: "Utvikler",
+  nocode: "No-code/Low-code",
+} as const;
+
 type IllustrationMeta = {
   name: string;
   label: string;
   /**
-   * "dark" = light-colored SVG, use on DARK backgrounds
-   * "light" = dark-colored SVG, use on LIGHT backgrounds
+   * "light" = dark-colored SVG, use on LIGHT backgrounds (#FFFFFF)
+   * "dark" = light-colored SVG, use on DARK backgrounds (#0B0426)
    */
   mode: "light" | "dark";
-  type: "icon" | "illustration";
+  type: "icon" | "illustration" | "area-icon";
+  /** Only for area-icons: which service area this icon belongs to */
+  category?: AreaCategory;
 };
 
 /** Display labels for modes - clarifies usage context */
 export const MODE_LABELS = {
-  dark: "For dark backgrounds",
   light: "For light backgrounds",
+  dark: "For dark backgrounds",
 } as const;
 
 export const ILLUSTRATIONS = [
@@ -72,6 +86,131 @@ export const ILLUSTRATIONS = [
   { name: "dark-icon-hourglass", label: "Hourglass", mode: "dark", type: "icon" },
   { name: "dark-icon-timer", label: "Timer", mode: "dark", type: "icon" },
   { name: "dark-icon-trophy", label: "Trophy", mode: "dark", type: "icon" },
+
+  // Area Icons - organized by background type
+  // -01 variants: for LIGHT backgrounds (dark purple #0b0426 outlines)
+  // -02 variants: for DARK backgrounds (purple #955eff structural)
+  // -03 variants: for DARK backgrounds (near-black #040022 outlines, alternative style)
+
+  // CRM
+  { name: "light-area-crm-01", label: "CRM", mode: "light", type: "area-icon", category: "crm" },
+  { name: "light-area-crm-02", label: "CRM", mode: "dark", type: "area-icon", category: "crm" },
+  { name: "light-area-crm-03", label: "CRM", mode: "dark", type: "area-icon", category: "crm" },
+
+  // Service
+  {
+    name: "light-area-service-01",
+    label: "Service",
+    mode: "light",
+    type: "area-icon",
+    category: "service",
+  },
+  {
+    name: "light-area-service-02",
+    label: "Service",
+    mode: "dark",
+    type: "area-icon",
+    category: "service",
+  },
+  {
+    name: "light-area-service-03",
+    label: "Service",
+    mode: "dark",
+    type: "area-icon",
+    category: "service",
+  },
+
+  // Teknologi
+  {
+    name: "light-area-teknologi-01",
+    label: "Teknologi",
+    mode: "light",
+    type: "area-icon",
+    category: "teknologi",
+  },
+  {
+    name: "light-area-teknologi-02",
+    label: "Teknologi",
+    mode: "dark",
+    type: "area-icon",
+    category: "teknologi",
+  },
+  {
+    name: "light-area-teknologi-03",
+    label: "Teknologi",
+    mode: "dark",
+    type: "area-icon",
+    category: "teknologi",
+  },
+
+  // Utvikler
+  {
+    name: "light-area-utvikler-01",
+    label: "Utvikler",
+    mode: "light",
+    type: "area-icon",
+    category: "utvikler",
+  },
+  {
+    name: "light-area-utvikler-02",
+    label: "Utvikler",
+    mode: "dark",
+    type: "area-icon",
+    category: "utvikler",
+  },
+  {
+    name: "light-area-utvikler-03",
+    label: "Utvikler",
+    mode: "dark",
+    type: "area-icon",
+    category: "utvikler",
+  },
+
+  // No-code/Low-code
+  {
+    name: "light-area-nocode-01",
+    label: "No-code/Low-code",
+    mode: "light",
+    type: "area-icon",
+    category: "nocode",
+  },
+  {
+    name: "light-area-nocode-02",
+    label: "No-code/Low-code",
+    mode: "dark",
+    type: "area-icon",
+    category: "nocode",
+  },
+  {
+    name: "light-area-nocode-03",
+    label: "No-code/Low-code",
+    mode: "dark",
+    type: "area-icon",
+    category: "nocode",
+  },
+
+  // Generativ AI
+  {
+    name: "light-area-ai-01",
+    label: "Generativ AI",
+    mode: "light",
+    type: "area-icon",
+    category: "ai",
+  },
+  {
+    name: "light-area-ai-02",
+    label: "Generativ AI",
+    mode: "dark",
+    type: "area-icon",
+    category: "ai",
+  },
+  {
+    name: "light-area-ai-03",
+    label: "Generativ AI",
+    mode: "dark",
+    type: "area-icon",
+    category: "ai",
+  },
 ] as const satisfies IllustrationMeta[];
 
 export type IllustrationName = (typeof ILLUSTRATIONS)[number]["name"];

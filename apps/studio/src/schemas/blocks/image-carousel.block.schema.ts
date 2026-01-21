@@ -1,8 +1,8 @@
 import { Images } from "lucide-react";
 import { defineField } from "sanity";
 import { defineBlock } from "@/schemas/utils/define-block.util";
-import { mediaField } from "../generator-fields/media.field";
 import { imageFormatField } from "../generator-fields/image-format.field";
+import { mediaField } from "../generator-fields/media.field";
 
 export const imageCarouselBlockSchema = defineBlock({
   name: "imageCarousel",

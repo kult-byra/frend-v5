@@ -17,9 +17,8 @@ export const I18N_SCHEMA_TYPES = [
   "knowledgeArticle",
   "knowledgeHub",
   "knowledgeArticleArchive",
-  "service",
-  "subService",
   "servicesArchive",
+  // "service" and "subService" use field-level translations instead of document-level i18n
   "seminar",
   "seminarArchive",
   "caseStudy",

@@ -19,6 +19,7 @@ type LinksFieldProps = Omit<FieldDef<ArrayDefinition>, "of" | "validation"> & {
   includeCustomTitle?: boolean;
   includeDescription?: boolean;
   includeDescriptionInLinkGroup?: boolean;
+  includeButtonVariant?: boolean;
   max?: number;
 };
 
@@ -35,8 +36,22 @@ const descriptionField = defineField({
   rows: 2,
 });
 
+const buttonVariantField = defineField({
+  name: "buttonVariant",
+  title: "Button style",
+  type: "string",
+  options: {
+    list: [
+      { title: "Primary (filled)", value: "default" },
+      { title: "Secondary (outline)", value: "outline" },
+    ],
+    layout: "radio",
+  },
+  initialValue: "default",
+});
+
 const internalLink = (props: LinksFieldProps) => {
-  const { includeInternal, includeCustomTitle, includeDescription } = props;
+  const { includeInternal, includeCustomTitle, includeDescription, includeButtonVariant } = props;
 
   if (!includeInternal) return null;
 
@@ -48,6 +63,10 @@ const internalLink = (props: LinksFieldProps) => {
 
   if (includeDescription) {
     fields.push(descriptionField);
+  }
+
+  if (includeButtonVariant) {
+    fields.push(buttonVariantField);
   }
 
   return defineField({
@@ -69,7 +88,7 @@ const internalLink = (props: LinksFieldProps) => {
 };
 
 const externalLink = (props: LinksFieldProps) => {
-  const { includeExternal, includeCustomTitle, includeDescription } = props;
+  const { includeExternal, includeCustomTitle, includeDescription, includeButtonVariant } = props;
 
   if (!includeExternal) return null;
 
@@ -81,6 +100,10 @@ const externalLink = (props: LinksFieldProps) => {
 
   if (includeDescription) {
     fields.push(descriptionField);
+  }
+
+  if (includeButtonVariant) {
+    fields.push(buttonVariantField);
   }
 
   return defineField({
@@ -101,7 +124,7 @@ const externalLink = (props: LinksFieldProps) => {
 };
 
 const downloadLink = (props: LinksFieldProps) => {
-  const { includeDownload, includeCustomTitle, includeDescription } = props;
+  const { includeDownload, includeCustomTitle, includeDescription, includeButtonVariant } = props;
 
   if (!includeDownload) return null;
 
@@ -113,6 +136,10 @@ const downloadLink = (props: LinksFieldProps) => {
 
   if (includeDescription) {
     fields.push(descriptionField);
+  }
+
+  if (includeButtonVariant) {
+    fields.push(buttonVariantField);
   }
 
   return defineField({

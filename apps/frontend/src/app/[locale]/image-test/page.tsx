@@ -5,7 +5,7 @@ import { defineQuery } from "next-sanity";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
 import { Img } from "@/components/utils/img.component";
-import { imageQuery, type ImageQueryProps } from "@/server/queries/utils/image.query";
+import { type ImageQueryProps, imageQuery } from "@/server/queries/utils/image.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 
 const imageOnlyQuery =

@@ -14,10 +14,7 @@ const VIDEO_PATTERNS = {
   direct: /\.(mp4|webm|ogg|mov|avi|wmv|flv|mkv)(\?.*)?$/i,
 } as const;
 
-export const validateVideoUrl = (
-  value: string,
-  allowedSources?: VideoSource[],
-): true | string => {
+export const validateVideoUrl = (value: string, allowedSources?: VideoSource[]): true | string => {
   if (!value || value.trim() === "") return true;
 
   const sources = allowedSources ?? (["youtube", "vimeo", "direct"] as VideoSource[]);
@@ -38,13 +35,7 @@ export const validateVideoUrl = (
 };
 
 export const videoField = (props: VideoFieldOptions) => {
-  const {
-    required,
-    validation,
-    title = "Video URL",
-    allowedSources,
-    ...rest
-  } = props;
+  const { required, validation, title = "Video URL", allowedSources, ...rest } = props;
 
   return defineField({
     ...rest,
@@ -52,8 +43,7 @@ export const videoField = (props: VideoFieldOptions) => {
     type: "string",
     icon: Video,
     description:
-      props.description ??
-      "Enter a YouTube, Vimeo URL, or direct video file URL (MP4, WebM, etc.)",
+      props.description ?? "Enter a YouTube, Vimeo URL, or direct video file URL (MP4, WebM, etc.)",
     validation: validation
       ? validation
       : (Rule) => {

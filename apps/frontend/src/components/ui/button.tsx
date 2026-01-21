@@ -9,7 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-button-primary-fill text-button-primary-text hover:bg-button-primary-hover",
+        default:
+          "bg-button-primary-fill text-white hover:bg-button-primary-hover hover:text-button-primary-inverted-text",
         destructive: "bg-error text-white hover:bg-error/90",
         outline:
           "border-2 border-button-secondary-stroke bg-transparent text-button-secondary-text hover:border-button-secondary-stroke-hover hover:text-button-secondary-text-hover",
@@ -18,10 +19,10 @@ const buttonVariants = cva(
         link: "underline underline-offset-4 !p-0 !font-normal text-text-secondary hover:text-text-primary",
       },
       size: {
-        default: "px-4 py-2",
+        default: "px-4 py-2 text-base",
         xs: "px-2 py-0.5 text-xs",
         sm: "px-2.5 py-1 text-sm",
-        lg: "px-8 text-lg",
+        lg: "px-8 py-2 text-lg",
         icon: "size-[2em]",
       },
     },

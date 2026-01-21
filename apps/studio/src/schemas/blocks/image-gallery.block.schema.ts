@@ -1,8 +1,8 @@
 import { Image } from "lucide-react";
 import { defineField } from "sanity";
 import { defineBlock } from "@/schemas/utils/define-block.util";
-import { mediaField } from "../generator-fields/media.field";
 import { imageFormatField } from "../generator-fields/image-format.field";
+import { mediaField } from "../generator-fields/media.field";
 
 export const imageGalleryBlockSchema = defineBlock({
   name: "imageGallery",
@@ -34,7 +34,8 @@ export const imageGalleryBlockSchema = defineBlock({
               image: "media.image",
             },
             prepare({ mediaType, imageFormat, image }) {
-              const mediaTypeLabel = mediaType === "image" ? "Image" : mediaType === "video" ? "Video" : "Media";
+              const mediaTypeLabel =
+                mediaType === "image" ? "Image" : mediaType === "video" ? "Video" : "Media";
               const formatLabel = imageFormat || "3:2";
 
               return {

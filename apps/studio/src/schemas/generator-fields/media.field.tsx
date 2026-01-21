@@ -1,13 +1,12 @@
 import { Image } from "lucide-react";
 import { defineField, type FieldDefinition, type ObjectDefinition } from "sanity";
-
+import { env } from "@/env";
+import { illustrationField } from "@/schemas/generator-fields/illustration.field";
+import { imageField } from "@/schemas/generator-fields/image.field";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
+import { validateVideoUrl, videoField } from "@/schemas/generator-fields/video.field";
 import type { BlockDefinition } from "@/schemas/utils/define-block.util";
 import type { IllustrationMode, IllustrationType } from "@/utils/illustrations.const";
-
-import { imageField } from "@/schemas/generator-fields/image.field";
-import { illustrationField } from "@/schemas/generator-fields/illustration.field";
-import { validateVideoUrl, videoField } from "@/schemas/generator-fields/video.field";
 
 export type MediaType = "image" | "video" | "illustration";
 
@@ -180,6 +179,43 @@ export const mediaField = (props: MediaFieldOptions) => {
     options: {
       collapsible: true,
       collapsed: false,
+    },
+    preview: {
+      select: {
+        mediaType: "mediaType",
+        image: "image",
+        illustration: "illustration",
+        videoUrl: "videoUrl",
+      },
+      prepare({ mediaType, image, illustration, videoUrl }) {
+        if (mediaType === "illustration" && illustration) {
+          return {
+            title: illustration,
+            subtitle: "Illustration",
+            media: (
+              <img
+                src={`${env.SANITY_STUDIO_FRONTEND_URL}/illustrations/${illustration}.svg`}
+                alt={illustration}
+                style={{ objectFit: "contain" }}
+              />
+            ),
+          };
+        }
+
+        if (mediaType === "video" && videoUrl) {
+          return {
+            title: "Video",
+            subtitle: videoUrl,
+          };
+        }
+
+        // Default: image (Sanity handles image preview automatically)
+        return {
+          title: image?.altText || "Image",
+          subtitle: "Image",
+          media: image,
+        };
+      },
     },
   });
 };

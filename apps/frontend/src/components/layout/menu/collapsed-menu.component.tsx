@@ -1,9 +1,9 @@
 "use client";
 
 import { resolvePath } from "@workspace/routing/src/resolve-path";
-import { X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { Icon } from "@/components/icon.component";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { LinkGroupProps, MainMenuProps, SecondaryMenuProps } from "./menu.types";
 import { NavBadge } from "./nav-badge.component";
@@ -77,7 +77,7 @@ export const CollapsedMenu = (props: CollapsedMenuProps) => {
                 aria-label="Lukk meny"
                 className="size-8 flex items-center justify-center"
               >
-                <X className="size-5" />
+                <Icon name="close" className="size-5" />
               </button>
             </div>
           </div>

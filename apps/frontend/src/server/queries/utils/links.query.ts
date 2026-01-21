@@ -13,7 +13,8 @@ const internalLinkQuery = defineQuery(`
     "slug": slug.current,
     _type
   }),
-  description
+  description,
+  buttonVariant
 `);
 // @sanity-typegen-ignore
 const externalLinkQuery = defineQuery(`
@@ -23,7 +24,8 @@ const externalLinkQuery = defineQuery(`
     href
   ),
   "url": href,
-  description
+  description,
+  buttonVariant
 `);
 
 // @sanity-typegen-ignore
@@ -34,7 +36,8 @@ const downloadLinkQuery = defineQuery(`
       file.asset->originalFilename
     ),
   "url": file.asset->url,
-  description
+  description,
+  buttonVariant
 `);
 
 // @sanity-typegen-ignore
@@ -76,7 +79,10 @@ type LinksTypeGen = NonNullable<NonNullable<FullLinksTypegenQueryResult>["fullLi
 
 type RemoveKeyFromUnion<T, K extends string> = T extends unknown ? Omit<T, K> : never;
 
-export type LinkProps = RemoveKeyFromUnion<LinksTypeGen, "_key" | "title" | "description">;
+export type LinkProps = RemoveKeyFromUnion<
+  LinksTypeGen,
+  "_key" | "title" | "description" | "buttonVariant"
+>;
 
 export type InternalLinkProps = Extract<LinkProps, { linkType: "internal" }>;
 export type ExternalLinkProps = Extract<LinkProps, { linkType: "external" }>;

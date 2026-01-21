@@ -6,12 +6,11 @@ import type { ServiceQueryResult } from "@/sanity-types";
 type Props = NonNullable<ServiceQueryResult>;
 
 export const Service = (props: Props) => {
-  const { title, subtitle, excerpt } = props;
+  const { title, excerpt } = props;
 
   return (
     <Container className="py-12">
       <H1 className="mb-4">{title}</H1>
-      {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
       {excerpt && <p className="text-muted-foreground mb-8">{toPlainText(excerpt)}</p>}
     </Container>
   );

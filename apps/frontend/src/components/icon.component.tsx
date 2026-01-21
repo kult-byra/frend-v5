@@ -8,12 +8,12 @@ const href = "/icons/sprite.svg";
 export type { IconName };
 
 const sizeClassName = {
-  font: "w-[1em] h-[1em]",
-  xs: "w-3 h-3",
-  sm: "w-4 h-4",
-  md: "w-5 h-5",
-  lg: "w-6 h-6",
-  xl: "w-7 h-7",
+  font: "w-[1em] h-[1em]", // Inherits font size
+  xs: "w-3 h-3", // 12px
+  sm: "w-4 h-4", // 16px
+  md: "w-5 h-5", // 20px
+  lg: "w-6 h-6", // 24px
+  xl: "w-7 h-7", // 28px
 } as const;
 
 const childrenSizeClassName = {

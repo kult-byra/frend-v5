@@ -1,12 +1,12 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { toPlainText } from "next-sanity";
+import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { BlockContainer } from "@/components/layout/block-container.component";
 import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
+import { ButtonGroup } from "@/components/ui/parts/button-group.component";
 import { Img, type ImgProps } from "@/components/utils/img.component";
-import { cn } from "@/utils/cn.util";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
 type CardsBlockProps = PageBuilderBlockProps<"cards.block">;
@@ -40,53 +40,74 @@ type ClientCardItem = ImageCardItem & {
 };
 
 const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
-  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {items.map((item, index) => {
-      // Extract plain text from excerpt if available
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-(--gutter)">
+    {items.map((item) => {
       const excerptText = item.excerpt
         ? toPlainText(item.excerpt as Parameters<typeof toPlainText>[0])
         : null;
 
       const media = item.media;
 
+      const MediaContent = ({ className }: { className?: string }) => (
+        <>
+          {media?.mediaType === "image" && media.image && (
+            <Img {...media.image} sizes={{ md: "third" }} className={className} />
+          )}
+          {media?.mediaType === "illustration" && media.illustration && (
+            <Illustration name={media.illustration as IllustrationName} className={className} />
+          )}
+        </>
+      );
+
       return (
         <Link
           key={item._id}
           href={`/tjenester/${item.slug}`}
-          className={cn(
-            "group flex flex-col rounded overflow-hidden",
-            index % 2 === 0 ? "bg-container-secondary" : "bg-container-tertiary-1",
-          )}
+          className="group flex h-full flex-col rounded bg-container-secondary transition-colors hover:bg-container-tertiary-1"
         >
-          {/* Illustration - spacing-md (40px) bottom padding per design system */}
-          <div className="flex items-center justify-center px-4 pt-4 pb-10">
-            {media?.mediaType === "image" && media.image && (
-              <Img
-                {...media.image}
-                sizes={{ md: "third" }}
-                className="size-[120px] object-contain"
-              />
-            )}
-            {media?.mediaType === "illustration" && media.illustration && (
-              <Illustration
-                name={media.illustration as IllustrationName}
-                className="size-[120px] object-contain"
-              />
-            )}
+          {/* Mobile/List layout (below lg) */}
+          <div className="flex flex-col lg:hidden">
+            {/* Top row: illustration + title */}
+            <div className="flex items-center gap-4 p-4">
+              <div className="size-20 shrink-0">
+                <MediaContent className="size-full object-contain" />
+              </div>
+              <h3 className="text-headline-3">{item.title}</h3>
+            </div>
+            {/* Bottom row: excerpt + arrow */}
+            <div className="flex items-end gap-10 p-4 pt-0">
+              {excerptText && (
+                <p className="flex-1 text-body-small text-text-secondary">{excerptText}</p>
+              )}
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white transition-colors group-hover:bg-container-tertiary-1">
+                <Icon name="arrow-right" className="size-[10px] text-text-primary" />
+              </div>
+            </div>
           </div>
 
-          {/* Text content - spacing-xs (16px) padding and gap */}
-          <div className="flex flex-1 flex-col gap-4 p-4">
-            <h3 className="text-[20px] font-semibold leading-[130%]">{item.title}</h3>
-            {excerptText && (
-              <p className="text-base leading-[145%] text-text-secondary">{excerptText}</p>
-            )}
-          </div>
+          {/* Desktop/Grid layout (lg and up) */}
+          <div className="hidden lg:flex lg:h-full lg:flex-col">
+            {/* Illustration - left aligned */}
+            <div className="px-4 pb-10 pt-4">
+              <div className="size-[120px]">
+                <MediaContent className="size-20 object-contain" />
+              </div>
+            </div>
 
-          {/* Arrow button - 32px desktop size per media controls spec */}
-          <div className="border-t border-stroke-soft p-4">
-            <div className="flex size-8 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-orange">
-              <ArrowRight className="size-4 text-white" />
+            {/* Text content */}
+            <div className="flex flex-1 flex-col gap-4 p-4">
+              <h3 className="text-headline-3">{item.title}</h3>
+              {excerptText && <p className="text-body text-text-secondary">{excerptText}</p>}
+            </div>
+
+            {/* Arrow button */}
+            <div className="border-t border-stroke-soft p-4">
+              <div className="flex size-8 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-button-primary-hover">
+                <Icon
+                  name="arrow-right"
+                  className="size-[10px] text-white transition-colors group-hover:text-button-primary-inverted-text"
+                />
+              </div>
             </div>
           </div>
         </Link>
@@ -190,7 +211,7 @@ const ClientCardHover = ({ item }: { item: ClientCardItem }) => {
       </div>
       {item.slug && (
         <div className="flex size-8 items-center justify-center rounded-full bg-orange">
-          <ArrowUpRight className="size-3 text-dark-purple" />
+          <Icon name="arrow-top-right" className="size-3 text-dark-purple" />
         </div>
       )}
     </div>
@@ -212,6 +233,10 @@ const ClientCardHover = ({ item }: { item: ClientCardItem }) => {
 
 export const CardsBlock = (props: CardsBlockProps) => {
   const { heading, content, items, contentType } = props;
+  // links field exists in query but types not regenerated yet
+  const links = (
+    props as CardsBlockProps & { links?: Parameters<typeof ButtonGroup>[0]["buttons"] }
+  ).links;
 
   if (!items?.length) return null;
 
@@ -232,10 +257,28 @@ export const CardsBlock = (props: CardsBlockProps) => {
     }
   };
 
+  const hasServicesHeader = contentType === "services" && (content || links?.length);
+  const hasDefaultHeader = contentType !== "services" && (heading || content);
+
   return (
     <BlockContainer>
-      {heading && <H2 className="mb-4">{heading}</H2>}
-      {content && <PortableText content={content} className="mb-8" />}
+      {/* Services layout: content and button right-aligned (half-width) */}
+      {hasServicesHeader && (
+        <div className="mb-20 flex gap-4">
+          <div className="hidden flex-1 tablet:block" />
+          <div className="flex flex-1 flex-col gap-4 tablet:pr-10">
+            {content && <PortableText content={content} className="text-body-large" />}
+            {links && <ButtonGroup buttons={links} />}
+          </div>
+        </div>
+      )}
+      {/* Default layout for other content types */}
+      {hasDefaultHeader && (
+        <div className="mb-8">
+          {heading && <H2 className="mb-4">{heading}</H2>}
+          {content && <PortableText content={content} />}
+        </div>
+      )}
       {renderCards()}
     </BlockContainer>
   );

@@ -22,10 +22,13 @@ const { Page, generateMetadata, generateStaticParams } = createPage({
       stega: false,
     });
 
-    return (data ?? []).filter(
-      (item): item is { slug: string; subSlug: string; locale: string } =>
-        item.slug !== null && item.locale !== null && item.subSlug !== null,
-    );
+    // Flatten the slugs array from each document into a single array
+    return (data ?? [])
+      .flatMap((doc) => doc.slugs ?? [])
+      .filter(
+        (item) =>
+          item !== null && item.slug !== null && item.locale !== null && item.subSlug !== null,
+      );
   },
 
   loader: async ({ params }) => {

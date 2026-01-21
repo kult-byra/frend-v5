@@ -20,8 +20,8 @@ export const imagesAndTextBlockQuery = defineQuery(`
   images[] {
     _key,
     _type,
-    "mediaType": media.mediaType,
-    "image": media.image { ${imageQuery} },
-    "videoUrl": media.videoUrl
+    mediaType,
+    image { ${imageQuery} },
+    videoUrl
   }
 `);

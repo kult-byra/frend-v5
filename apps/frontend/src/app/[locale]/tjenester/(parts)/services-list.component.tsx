@@ -18,15 +18,14 @@ export function ServicesList({ services }: Props) {
   }
 
   return (
-    <div className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-(--gutter)">
-      {services.map((service, index) => (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-(--gutter)">
+      {services.map((service) => (
         <ServiceCard
           key={service._id}
           title={service.title ?? ""}
           slug={service.slug ?? ""}
           excerpt={service.excerpt}
           media={service.media as ServiceMedia | null}
-          colorVariant={index % 2 === 0 ? "purple" : "red"}
         />
       ))}
     </div>

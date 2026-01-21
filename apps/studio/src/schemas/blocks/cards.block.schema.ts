@@ -1,6 +1,7 @@
 import { Building, Calendar, LayoutGrid, Newspaper, Package, Settings, Star } from "lucide-react";
 import { booleanField } from "@/schemas/generator-fields/boolean.field";
 import { infoField } from "@/schemas/generator-fields/info.field";
+import { linksField } from "@/schemas/generator-fields/links.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
@@ -111,6 +112,16 @@ export const cardsBlockSchema = defineBlock({
       allowMultiple: true,
       to: [{ type: "client" }],
       hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "client",
+    }),
+    // Links (only for services)
+    linksField({
+      name: "links",
+      title: "Links",
+      description: "Add a link to all services or other relevant pages.",
+      includeExternal: true,
+      includeButtonVariant: true,
+      max: 1,
+      hidden: ({ parent }) => parent.contentType !== "services",
     }),
   ],
   preview: {
