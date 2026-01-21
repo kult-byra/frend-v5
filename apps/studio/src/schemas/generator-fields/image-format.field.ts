@@ -13,9 +13,9 @@ export const imageFormatField = (props?: Partial<FieldDef<StringDefinition>> & {
     type: "string",
     options: {
       list: [
-        { title: "3:2", value: "3:2" },
-        { title: "3:4", value: "3:4" },
-        { title: "1:1", value: "1:1" },
+        { title: "3:2 (horizontalt)", value: "3:2" },
+        { title: "3:4 (vertikalt)", value: "3:4" },
+        { title: "1:1 (kvadratisk)", value: "1:1" },
       ],
       layout: "radio",
       direction: "horizontal",

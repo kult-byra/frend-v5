@@ -26,6 +26,22 @@ export const imageGalleryBlockSchema = defineBlock({
             }),
             imageFormatField(),
           ],
+          preview: {
+            select: {
+              mediaType: "figureOrVideo.mediaType",
+              imageFormat: "imageFormat",
+              figure: "figureOrVideo.figure",
+            },
+            prepare({ mediaType, imageFormat, figure }) {
+              const mediaTypeLabel = mediaType === "figure" ? "Image" : mediaType === "video" ? "Video" : "Media";
+              const formatLabel = imageFormat || "3:2";
+              
+              return {
+                title: `${mediaTypeLabel} - ${formatLabel}`,
+                media: figure,
+              };
+            },
+          },
         }),
       ],
       validation: (Rule) => Rule.required().min(1).max(3).error("At least one image/video is required and at most three are allowed"),
