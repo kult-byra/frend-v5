@@ -14,9 +14,9 @@ export const routeConfig = {
   servicesArchive: "/tjenester",
   service: "/tjenester/:slug",
   subService: "/tjenester/:parentSlug/:slug",
-  knowledgeHub: "/kunnskapsarkiv",
-  knowledgeArticle: "/kunnskapsarkiv/:slug",
-  knowledgeArticleArchive: "/kunnskapsarkiv/artikler",
+  knowledgeHub: "/kunnskap",
+  knowledgeArticle: "/kunnskap/:slug",
+  knowledgeArticleArchive: "/kunnskap/artikler",
   seminar: "/seminarer/:slug",
   seminarArchive: "/seminarer",
   caseStudy: "/prosjekter/:slug",
@@ -50,3 +50,30 @@ export const ROOT_PATHS = [
 
 // Infer the type of rootPaths
 export type RootPath = (typeof ROOT_PATHS)[number];
+
+export const routeTranslations = {
+  no: {
+    artikler: "artikler",
+    nyheter: "nyheter",
+    arrangementer: "arrangementer",
+    tjenester: "tjenester",
+    kunnskap: "kunnskap",
+    seminarer: "seminarer",
+    prosjekter: "prosjekter",
+    kunder: "kunder",
+    "e-boker": "e-boker",
+  },
+  en: {
+    artikler: "articles",
+    nyheter: "news",
+    arrangementer: "events",
+    tjenester: "services",
+    kunnskap: "knowledge",
+    seminarer: "seminars",
+    prosjekter: "projects",
+    kunder: "clients",
+    "e-boker": "ebooks",
+  },
+} as const;
+
+export type Locale = keyof typeof routeTranslations;

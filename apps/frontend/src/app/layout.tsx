@@ -3,12 +3,8 @@ import "@total-typescript/ts-reset";
 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { draftMode } from "next/headers";
-import { VisualEditing } from "next-sanity/visual-editing";
 import { preconnect, prefetchDNS } from "react-dom";
 import { env } from "@/env";
-import { SanityLive } from "@/server/sanity/sanity-live";
-import { cn } from "@/utils/cn.util";
 
 const mabry = localFont({
   src: [
@@ -25,6 +21,8 @@ const mabry = localFont({
   ],
   variable: "--font-mabry",
 });
+
+export { mabry };
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
@@ -66,18 +64,8 @@ const RootLayout = async ({
 }>) => {
   preconnect("https://cdn.sanity.io");
   prefetchDNS("https://cdn.sanity.io");
-  return (
-    <html className={cn(mabry.variable, "font-sans")} lang={"no"}>
-      <body>
-        <a className="skip-main" href="#main" aria-label="Hopp til hovedinnhold">
-          Hopp til hovedinnhold
-        </a>
-        {children}
-        {(await draftMode()).isEnabled && <VisualEditing />}
-        <SanityLive />
-      </body>
-    </html>
-  );
+
+  return children;
 };
 
 export default RootLayout;

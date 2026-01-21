@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Img } from "@/components/utils/img.component";
 import { LinkResolver } from "@/components/utils/link-resolver.component";
-import type { _fullPortableTextQueryTypeResult } from "@/sanity-types";
+import type { FullPortableTextQueryTypeResult } from "@/sanity-types";
 import { cn } from "@/utils/cn.util";
 import { ImageAndTextBlock } from "../blocks/image-and-text.block.component";
 import type {
@@ -142,14 +142,10 @@ const list = (options: PortableTextOptions): ListStyleRendererMap => {
       <ol className={cn(pSize, listStyle, "list-decimal")}>{children}</ol>
     ),
     dash: ({ children }: PropsWithChildren) => (
-      <ul className={cn(pSize, listStyle, "list-none")}>
-        {children}
-      </ul>
+      <ul className={cn(pSize, listStyle, "list-none")}>{children}</ul>
     ),
     check: ({ children }: PropsWithChildren) => (
-      <ul className={cn(pSize, listStyle, "list-none")}>
-        {children}
-      </ul>
+      <ul className={cn(pSize, listStyle, "list-none")}>{children}</ul>
     ),
   } as ListStyleRendererMap;
 };
@@ -167,7 +163,12 @@ const listItem = (options: PortableTextOptions): ListLevelRenderMap => {
       <li className={cn(level && level > 1 && subLevelListItemStyle)}>{children}</li>
     ),
     dash: ({ children, value: { level } }: PropsWithChildren & { value: { level?: number } }) => (
-      <li className={cn(level && level > 1 && subLevelListItemStyle, "before:content-['-'] before:mr-2")}>
+      <li
+        className={cn(
+          level && level > 1 && subLevelListItemStyle,
+          "before:content-['-'] before:mr-2",
+        )}
+      >
         {children}
       </li>
     ),
@@ -208,7 +209,7 @@ const components = (options: PortableTextOptions) => {
 };
 
 export const PortableText = (props: {
-  content: NonNullable<_fullPortableTextQueryTypeResult>["content"] | null;
+  content: NonNullable<FullPortableTextQueryTypeResult>["content"] | null;
   className?: string;
   options?: PortableTextOptions;
 }) => {
@@ -218,7 +219,8 @@ export const PortableText = (props: {
 
   return (
     <div className={cn(className)}>
-      <PortableTextComponent components={components(options)} value={content} />
+      {/* biome-ignore lint/suspicious/noExplicitAny: content type matches portable text structure but generated types may lack _type */}
+      <PortableTextComponent components={components(options)} value={content as any} />
     </div>
   );
 };

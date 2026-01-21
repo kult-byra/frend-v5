@@ -1,5 +1,5 @@
 import { defineQuery } from "next-sanity";
-import type { _fullLinksTypegenQueryResult } from "@/sanity-types";
+import type { FullLinksTypegenQueryResult } from "@/sanity-types";
 
 // @sanity-typegen-ignore
 const internalLinkQuery = defineQuery(`
@@ -41,10 +41,18 @@ const downloadLinkQuery = defineQuery(`
 const linkGroupQuery = defineQuery(`
   "linkType": "linkGroup",
   title,
-  links[] {
-    _key,
-    _type == "internalLinkObject" => {${internalLinkQuery}},
-    _type == "link" => {${externalLinkQuery}}
+  menuType,
+  links {
+    mainLinks[] {
+      _key,
+      _type == "internalLinkObject" => {${internalLinkQuery}},
+      _type == "link" => {${externalLinkQuery}}
+    },
+    secondaryLinks[] {
+      _key,
+      _type == "internalLinkObject" => {${internalLinkQuery}},
+      _type == "link" => {${externalLinkQuery}}
+    }
   }
 `);
 
@@ -64,7 +72,7 @@ const _fullLinksTypegenQuery = defineQuery(`*[_type == "typegenSettings"][0]{
   }
 }`);
 
-type LinksTypeGen = NonNullable<NonNullable<_fullLinksTypegenQueryResult>["fullLinks"]>[number];
+type LinksTypeGen = NonNullable<NonNullable<FullLinksTypegenQueryResult>["fullLinks"]>[number];
 
 type RemoveKeyFromUnion<T, K extends string> = T extends unknown ? Omit<T, K> : never;
 

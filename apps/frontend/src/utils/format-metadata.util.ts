@@ -1,10 +1,31 @@
 import type { Metadata } from "next";
-import { stegaClean } from "next-sanity";
+import { stegaClean, toPlainText } from "next-sanity";
 import type { MetaDataQuery } from "@/server/queries/utils/metadata.query";
 import { urlForImageId } from "@/server/sanity/sanity-image";
 
+// Type for metadata input - accepts full MetaDataQuery or partial metadata from queries
+type MetadataInput =
+  | MetaDataQuery
+  | {
+      title?: string | null;
+      desc?: MetaDataQuery["desc"] | null;
+      image?: { id: string; altText?: string | null } | null;
+      tags?: string[] | null;
+      noIndex?: boolean | null;
+    };
+
+// Convert description to string - handles both string and portable text array
+const getDescriptionString = (
+  desc: MetaDataQuery["desc"] | null | undefined,
+): string | undefined => {
+  if (!desc) return undefined;
+  if (typeof desc === "string") return desc;
+  if (Array.isArray(desc)) return toPlainText(desc);
+  return undefined;
+};
+
 export const formatMetadata = (
-  metadata: MetaDataQuery | undefined,
+  metadata: MetadataInput | undefined | null,
   noIndex?: boolean,
 ): Metadata => {
   if (!metadata) return {};
@@ -14,14 +35,15 @@ export const formatMetadata = (
   const { title, desc, image, tags, noIndex: metadataNoIndex } = cleanedMetadata || {};
 
   const imageAlt = image?.altText ?? "";
+  const description = getDescriptionString(desc);
 
   return {
     title,
-    ...(desc ? { description: desc } : {}),
+    ...(description ? { description } : {}),
     ...(tags ? { keywords: tags } : {}),
     openGraph: {
       title: title ?? undefined,
-      ...(desc ? { description: desc } : {}),
+      ...(description ? { description } : {}),
       ...(image?.id
         ? {
             images: [

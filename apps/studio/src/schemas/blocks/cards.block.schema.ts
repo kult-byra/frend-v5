@@ -1,18 +1,10 @@
+import { Building, Calendar, LayoutGrid, Newspaper, Package, Settings, Star } from "lucide-react";
 import { booleanField } from "@/schemas/generator-fields/boolean.field";
 import { infoField } from "@/schemas/generator-fields/info.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
-import { defineBlock } from "../utils/define-block.util";
-import {
-  Building,
-  Calendar,
-  LayoutGrid,
-  Newspaper,
-  Package,
-  Settings,
-  Star,
-} from "lucide-react";
 import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
+import { defineBlock } from "../utils/define-block.util";
 
 const contentTypeOptions = [
   { title: "Services", value: "services", icon: Package },
@@ -33,9 +25,9 @@ export const cardsBlockSchema = defineBlock({
       title: "Heading",
     }),
     portableTextField({
-        title: "Excerpt",
-        name: "excerpt",
-        noContent: true,
+      title: "Excerpt",
+      name: "excerpt",
+      noContent: true,
     }),
     stringField({
       name: "contentType",
@@ -60,7 +52,8 @@ export const cardsBlockSchema = defineBlock({
     infoField({
       name: "automaticInfo",
       title: "Automatic content",
-      description: "The last published documents of the selected type will be displayed automatically.",
+      description:
+        "The last published documents of the selected type will be displayed automatically.",
       icon: Settings,
       tone: "positive",
       hidden: ({ parent }) => parent.manualSelection !== false,
@@ -80,8 +73,7 @@ export const cardsBlockSchema = defineBlock({
       description: "Select which services or sub-services should be displayed in the cards.",
       allowMultiple: true,
       to: [{ type: "service" }, { type: "subService" }],
-      hidden: ({ parent }) =>
-        parent.manualSelection !== true || parent.contentType !== "services",
+      hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "services",
     }),
     // News articles
     referenceField({
@@ -100,8 +92,7 @@ export const cardsBlockSchema = defineBlock({
       description: "Select which case studies should be displayed in the cards.",
       allowMultiple: true,
       to: [{ type: "caseStudy" }],
-      hidden: ({ parent }) =>
-        parent.manualSelection !== true || parent.contentType !== "caseStudy",
+      hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "caseStudy",
     }),
     // Events
     referenceField({
@@ -110,8 +101,7 @@ export const cardsBlockSchema = defineBlock({
       description: "Select which events should be displayed in the cards.",
       allowMultiple: true,
       to: [{ type: "event" }],
-      hidden: ({ parent }) =>
-        parent.manualSelection !== true || parent.contentType !== "event",
+      hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "event",
     }),
     // Clients
     referenceField({
@@ -120,8 +110,7 @@ export const cardsBlockSchema = defineBlock({
       description: "Select which clients should be displayed in the cards.",
       allowMultiple: true,
       to: [{ type: "client" }],
-      hidden: ({ parent }) =>
-        parent.manualSelection !== true || parent.contentType !== "client",
+      hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "client",
     }),
   ],
   preview: {

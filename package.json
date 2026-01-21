@@ -10,12 +10,13 @@
     "format": "biome format . --write",
     "studio": "pnpm --filter studio",
     "frontend": "pnpm --filter frontend",
-    "typegen": "pnpm frontend typegen && node scripts/prepare-types.js",
+    "typegen": "SKIP_VALIDATION=true pnpm --filter studio exec sanity schema extract --workspace no --path ../frontend/schema.json --enforce-required-fields && pnpm --filter frontend exec sanity typegen generate && node scripts/prepare-types.js",
     "typecheck": "pnpm frontend typecheck && pnpm studio typecheck",
     "remove-all": "rm -rf node_modules && rm -rf pnpm-lock.yaml && rm -rf .turbo && rm -rf apps/*/node_modules && rm -rf apps/*/pnpm-lock.yaml && rm -rf packages/*/node_modules && rm -rf packages/*/pnpm-lock.yaml"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
+    "@sanity/cli": "^5.4.0",
     "@workspace/typescript-config": "workspace:*",
     "lefthook": "^2.0.14",
     "turbo": "^2.7.4",

@@ -15,10 +15,10 @@ const sitemapFields = defineQuery(`
 const routeTypes = Object.keys(routeConfig) as LinkableType[];
 
 const sitemapQuery = defineQuery(`{
-  "pages": *[_type in $routeTypes && _id != *[_type == "siteSettings"][0].frontPage._ref] {
+  "pages": *[_type in $routeTypes && !(_id in [*[_type == "siteSettings"][0].frontPage_no._ref, *[_type == "siteSettings"][0].frontPage_en._ref])] {
     ${sitemapFields}
   },
-  "frontPage": *[_type == "siteSettings"][0].frontPage-> {
+  "frontPage": *[_type == "siteSettings"][0].frontPage_no-> {
     ${sitemapFields}
   }
 }`);

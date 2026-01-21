@@ -7,11 +7,7 @@ export const connectionsFields = (options?: {
   industry?: boolean;
   technology?: boolean;
 }): FieldDefinition[] => {
-  const {
-    service = true,
-    industry = true,
-    technology = true,
-  } = options ?? {};
+  const { service = true, industry = true, technology = true } = options ?? {};
 
   return [
     ...(service
@@ -49,4 +45,3 @@ export const connectionsFields = (options?: {
       : []),
   ];
 };
-

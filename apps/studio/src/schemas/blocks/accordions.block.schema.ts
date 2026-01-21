@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
+import { defineField } from "sanity";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defineBlock } from "@/schemas/utils/define-block.util";
-import { defineField } from "sanity";
 import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
 
 export const accordionsBlockSchema = defineBlock({
@@ -10,7 +10,7 @@ export const accordionsBlockSchema = defineBlock({
   icon: Plus,
   scope: ["portableText"],
   fields: [
-   defineField({
+    defineField({
       title: "Accordions",
       name: "accordions",
       type: "array",

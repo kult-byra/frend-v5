@@ -1,6 +1,6 @@
+import groq from "groq";
 import type { SlugValidationContext } from "sanity";
 import { env } from "@/env";
-import groq from "groq";
 
 /**
  * Generic slug uniqueness validator for service-related documents.
@@ -34,4 +34,3 @@ export const createServiceSlugIsUnique = (documentType: string) => {
 
 // Specific validator for service pages
 export const subServiceSlugIsUnique = createServiceSlugIsUnique("subService");
-

@@ -44,11 +44,11 @@ const LinkGroup = (props: LinkGroupProps) => {
   return (
     <>
       {/* DESKTOP (dropdown in shared viewport) */}
-      <NavigationMenuTrigger className="hidden menu:flex">{title}</NavigationMenuTrigger>
-      <LinkGroupContent className="hidden menu:block" {...props} />
+      <NavigationMenuTrigger className="hidden laptop:flex">{title}</NavigationMenuTrigger>
+      <LinkGroupContent className="hidden laptop:block" {...props} />
 
       {/* MOBILE (dropdown inside item) */}
-      <NavigationMenu orientation="vertical" className="menu:hidden flex-col items-start">
+      <NavigationMenu orientation="vertical" className="laptop:hidden flex-col items-start">
         <NavigationMenuTrigger>{title}</NavigationMenuTrigger>
 
         <LinkGroupContent {...props} />
@@ -60,17 +60,21 @@ const LinkGroup = (props: LinkGroupProps) => {
 const LinkGroupContent = (props: LinkGroupProps & { className?: string }) => {
   const { links, className } = props;
 
+  const mainLinks = links?.mainLinks ?? [];
+
+  if (mainLinks.length === 0) return null;
+
   return (
     <NavigationMenuContent className={className}>
-      <ul className="menu:p-[0.5em] grid md:grid-cols-2 gap-1 rounded-md">
-        {links?.map((link) => (
+      <ul className="laptop:p-[0.5em] grid md:grid-cols-2 gap-1 rounded-md">
+        {mainLinks.map((link) => (
           <li key={link._key}>
             <NavigationMenuLink asChild>
               <LinkResolver
                 {...link}
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "flex-col gap-y-[0.25em] items-start w-full h-full justify-start px-[1em] menu:px-[1.35em] menu:py-[1em]",
+                  "flex-col gap-y-[0.25em] items-start w-full h-full justify-start px-[1em] laptop:px-[1.35em] laptop:py-[1em]",
                 )}
               >
                 <span className="font-medium">{link.title}</span>

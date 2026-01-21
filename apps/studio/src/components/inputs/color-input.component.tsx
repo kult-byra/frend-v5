@@ -1,9 +1,8 @@
-import { COLORS, type ColorName } from "@/utils/colors.const";
 import { Box, Inline } from "@sanity/ui";
-
 import { useCallback } from "react";
 import type { StringInputProps } from "sanity";
 import { set, unset } from "sanity";
+import { COLORS, type ColorName } from "@/utils/colors.const";
 
 export type ColorInputProps = {
   colors: ColorName[];

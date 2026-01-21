@@ -3,7 +3,9 @@ import { defineField } from "sanity";
 
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 
-export const imageFormatField = (props?: Partial<FieldDef<StringDefinition>> & { name?: string }) => {
+export const imageFormatField = (
+  props?: Partial<FieldDef<StringDefinition>> & { name?: string },
+) => {
   const { required, validation, name = "imageFormat", title = "Image Format" } = props ?? {};
 
   return defineField({
@@ -30,4 +32,3 @@ export const imageFormatField = (props?: Partial<FieldDef<StringDefinition>> & {
         },
   });
 };
-

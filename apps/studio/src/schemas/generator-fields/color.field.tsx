@@ -1,8 +1,7 @@
 import type { StringDefinition } from "sanity";
 import { defineField } from "sanity";
-
+import { ColorInput, type ColorInputProps } from "@/components/inputs/color-input.component";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
-import { type ColorInputProps, ColorInput } from "@/components/inputs/color-input.component";
 
 export const colorField = (
   props: FieldDef<Omit<StringDefinition, "name" | "initialValue">> &

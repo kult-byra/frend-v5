@@ -3,29 +3,14 @@ import type {
   PortableTextListItemComponent,
   PortableTextMarkComponent,
 } from "@portabletext/react";
-import type { _fullPortableTextQueryTypeResult } from "@/sanity-types";
+import type { FullPortableTextQueryTypeResult } from "@/sanity-types";
 
-type NonNullableContent = NonNullable<NonNullable<_fullPortableTextQueryTypeResult>["content"]>;
+type NonNullableContent = NonNullable<NonNullable<FullPortableTextQueryTypeResult>["content"]>;
 
-// Setup block types
-type PortableTextBlockTypes = Exclude<NonNullableContent[number], { _type: "block" }>;
-
-export type PortableTextBlockTypeUnion = PortableTextBlockTypes["_type"];
-
-export type PTBlockProps<BlockType extends PortableTextBlockTypeUnion> = Extract<
-  PortableTextBlockTypes,
-  { _type: BlockType }
->;
-
-// Create a mapping from _type strings to their corresponding types
-type BlockTypeMap = {
-  [T in PortableTextBlockTypes as T["_type"]]: T;
-};
-
-// Define the renderer map using the inferred BlockTypeMap
-export type BlockTypeRendererMap = {
-  [K in keyof BlockTypeMap]: (props: { value: BlockTypeMap[K] }) => React.ReactNode;
-};
+// Block types for custom renderers - using Record since the generated types
+// may not include all block types depending on actual content in the database
+// biome-ignore lint/suspicious/noExplicitAny: custom block value types vary
+export type BlockTypeRendererMap = Record<string, (props: { value: any }) => React.ReactNode>;
 
 type PortableTextBlockType = Extract<NonNullableContent[number], { _type: "block" }>;
 

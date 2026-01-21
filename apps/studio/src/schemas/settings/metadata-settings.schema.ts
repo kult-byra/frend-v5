@@ -10,7 +10,17 @@ export const metadataSettingsSchema = defineType({
   options: {
     singleton: true,
   },
-  fields: [metadataField({ isDefault: true, group: false })],
+  groups: [
+    { name: "no", title: "Norsk 🇧🇻", default: true },
+    { name: "en", title: "English 🇬🇧" },
+  ],
+  fields: [
+    // Norwegian
+    metadataField({ name: "metadata_no", isDefault: true, group: "no" }),
+
+    // English
+    metadataField({ name: "metadata_en", isDefault: true, group: "en" }),
+  ],
   preview: {
     prepare() {
       return {

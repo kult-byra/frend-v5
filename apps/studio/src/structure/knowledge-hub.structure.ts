@@ -1,15 +1,20 @@
 import { Book, BookOpen, Star, Video } from "lucide-react";
 import type { StructureBuilder } from "sanity/structure";
-import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
-import { knowledgeHubSchema } from "@/schemas/documents/knowledge-hub/knowledge-hub.schema";
-import { knowledgeArticleArchiveSchema } from "@/schemas/documents/knowledge-hub/knowledge-article-archive.schema";
 import { caseStudyArchiveSchema } from "@/schemas/documents/knowledge-hub/case-study-archive.schema";
-import { seminarArchiveSchema } from "@/schemas/documents/knowledge-hub/seminar-archive.schema";
 import { eBookArchiveSchema } from "@/schemas/documents/knowledge-hub/e-book-archive.schema";
+import { knowledgeArticleArchiveSchema } from "@/schemas/documents/knowledge-hub/knowledge-article-archive.schema";
+import { knowledgeHubSchema } from "@/schemas/documents/knowledge-hub/knowledge-hub.schema";
+import { seminarArchiveSchema } from "@/schemas/documents/knowledge-hub/seminar-archive.schema";
+import { filteredDocumentListItem } from "@/structure/structure";
+import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
 
 const title = "Knowledge hub";
 
-export const knowledgeHubStructure = (S: StructureBuilder) => {
+export const knowledgeHubStructure = (
+  S: StructureBuilder,
+  languageId?: string,
+  i18nSchemaTypes?: string[],
+) => {
   return S.listItem()
     .title(title)
     .icon(BookOpen)
@@ -24,9 +29,15 @@ export const knowledgeHubStructure = (S: StructureBuilder) => {
               S.list()
                 .title("Knowledge articles")
                 .items([
-                  S.documentTypeListItem("knowledgeArticle").title("Knowledge articles"),
+                  filteredDocumentListItem(
+                    S,
+                    "knowledgeArticle",
+                    "Knowledge articles",
+                    languageId,
+                    i18nSchemaTypes,
+                  ),
                   S.divider(),
-                  singletonListItem(S, knowledgeArticleArchiveSchema),
+                  singletonListItem(S, knowledgeArticleArchiveSchema, languageId, i18nSchemaTypes),
                 ]),
             ),
 
@@ -37,9 +48,15 @@ export const knowledgeHubStructure = (S: StructureBuilder) => {
               S.list()
                 .title("Case studies")
                 .items([
-                  S.documentTypeListItem("caseStudy").title("Case studies"),
+                  filteredDocumentListItem(
+                    S,
+                    "caseStudy",
+                    "Case studies",
+                    languageId,
+                    i18nSchemaTypes,
+                  ),
                   S.divider(),
-                  singletonListItem(S, caseStudyArchiveSchema),
+                  singletonListItem(S, caseStudyArchiveSchema, languageId, i18nSchemaTypes),
                 ]),
             ),
 
@@ -50,9 +67,9 @@ export const knowledgeHubStructure = (S: StructureBuilder) => {
               S.list()
                 .title("Seminars")
                 .items([
-                  S.documentTypeListItem("seminar").title("Seminars"),
+                  filteredDocumentListItem(S, "seminar", "Seminars", languageId, i18nSchemaTypes),
                   S.divider(),
-                  singletonListItem(S, seminarArchiveSchema),
+                  singletonListItem(S, seminarArchiveSchema, languageId, i18nSchemaTypes),
                 ]),
             ),
 
@@ -63,15 +80,15 @@ export const knowledgeHubStructure = (S: StructureBuilder) => {
               S.list()
                 .title("E-books")
                 .items([
-                  S.documentTypeListItem("eBook").title("E-books"),
+                  filteredDocumentListItem(S, "eBook", "E-books", languageId, i18nSchemaTypes),
                   S.divider(),
-                  singletonListItem(S, eBookArchiveSchema),
+                  singletonListItem(S, eBookArchiveSchema, languageId, i18nSchemaTypes),
                 ]),
             ),
 
           S.divider(),
 
-          singletonListItem(S, knowledgeHubSchema),
+          singletonListItem(S, knowledgeHubSchema, languageId, i18nSchemaTypes),
         ]),
     );
 };

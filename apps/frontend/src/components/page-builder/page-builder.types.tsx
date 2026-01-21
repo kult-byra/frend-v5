@@ -1,6 +1,6 @@
-import type { _pageBuilderTypegenQueryResult } from "@/sanity-types";
+import type { PageBuilderTypegenQueryResult } from "@/sanity-types";
 
-export type PageBuilderType = NonNullable<_pageBuilderTypegenQueryResult>;
+export type PageBuilderType = NonNullable<PageBuilderTypegenQueryResult>;
 
 export type SingePageBuilderBlockType = NonNullable<PageBuilderType>[number];
 

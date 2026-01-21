@@ -3,9 +3,14 @@ import { Settings, Tag } from "lucide-react";
 import type { StructureBuilder } from "sanity/structure";
 
 import { hubspotFormSchema } from "@/schemas/documents/hubspot-form.schema";
-import { menuSettingsSchema, metadataSettingsSchema, siteSettingsSchema } from "@/schemas/settings";
-import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
+import {
+  menuSettingsSchema,
+  metadataSettingsSchema,
+  siteSettingsSchema,
+  stringTranslationsSchema,
+} from "@/schemas/settings";
 import { footerSettingsSchema } from "@/schemas/settings/footer-settings.schema";
+import { singletonListItem } from "@/structure/utils/singleton-list-item.desk";
 
 export const settingsStructure = (S: StructureBuilder) => {
   return S.listItem()
@@ -25,6 +30,8 @@ export const settingsStructure = (S: StructureBuilder) => {
 
           singletonListItem(S, metadataSettingsSchema),
 
+          singletonListItem(S, stringTranslationsSchema),
+
           S.divider(),
 
           S.listItem()
@@ -36,13 +43,13 @@ export const settingsStructure = (S: StructureBuilder) => {
               ),
             ),
 
-            S.divider(),
+          S.divider(),
 
-            S.documentTypeListItem("quote").title("Quotes"),
+          S.documentTypeListItem("quote").title("Quotes"),
 
-            S.divider(),
+          S.divider(),
 
-            S.listItem()
+          S.listItem()
             .title("Tags")
             .icon(Tag)
             .child(

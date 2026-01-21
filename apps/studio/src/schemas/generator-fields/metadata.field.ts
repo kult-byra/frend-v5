@@ -4,15 +4,16 @@ import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 
 export const metadataField = (
   props?: Omit<FieldDef<ObjectDefinition>, "title" | "name" | "fields" | "group"> & {
+    name?: string;
     group?: string | false;
     isDefault?: boolean;
   },
 ) => {
-  const { group, isDefault } = props ?? {};
+  const { group, isDefault, name } = props ?? {};
 
   return defineField({
     ...props,
-    name: "metadata",
+    name: name ?? "metadata",
     title: isDefault ? "Standard SEO & metadata" : "SEO & metadata",
     type: "object",
     group: group === false ? undefined : (group ?? "meta"),

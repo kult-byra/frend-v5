@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "@sanity/assist": "^5.0.3",
+    "@sanity/document-internationalization": "^4.1.1",
     "@sanity/icons": "^3.7.4",
     "@sanity/locale-nb-no": "^1.1.29",
     "@sanity/studio-secrets": "^3.0.3",

@@ -8,21 +8,37 @@ export const personSchema = defineType({
   title: "Person",
   type: "document",
   icon: User,
+  groups: [
+    { name: "no", title: "Norsk 🇧🇻", default: true },
+    { name: "en", title: "English 🇬🇧" },
+  ],
   fields: [
     stringField({
       name: "name",
-      title: "Navn",
+      title: "Name",
       required: true,
     }),
     figureField({
       name: "image",
-      title: "Bilde",
+      title: "Image",
     }),
+
+    // Norwegian
     stringField({
-      name: "role",
-      title: "Rolle",
+      name: "role_no",
+      title: "Role",
+      group: "no",
       required: true,
     }),
+
+    // English
+    stringField({
+      name: "role_en",
+      title: "Role",
+      group: "en",
+      required: true,
+    }),
+
     defineField({
       title: "Works outside of Frend",
       name: "externalPerson",
@@ -35,4 +51,11 @@ export const personSchema = defineType({
       hidden: ({ parent }) => parent?.externalPerson === false,
     }),
   ],
+  preview: {
+    select: {
+      title: "name",
+      subtitle: "role_no",
+      media: "image",
+    },
+  },
 });

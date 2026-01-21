@@ -1,5 +1,5 @@
 import { Bot, LayoutPanelTop } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { infoField } from "@/schemas/generator-fields/info.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
@@ -16,6 +16,12 @@ export const knowledgeArticleArchiveSchema = defineType({
     linkable: true,
   },
   fields: [
+    defineField({
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
     ...heroFields({ isStatic: true, includeCoverImage: false }),
     infoField({
       title: "Automatically generated content",
@@ -27,4 +33,3 @@ export const knowledgeArticleArchiveSchema = defineType({
     metadataField(),
   ],
 });
-

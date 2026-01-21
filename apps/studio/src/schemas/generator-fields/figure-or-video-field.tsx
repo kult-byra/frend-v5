@@ -16,17 +16,17 @@ export const figureOrVideoField = (
   // Validation function to check if either figure or video URL is provided
   const validateFigureOrVideo = (Rule: any) => {
     const rules = [];
-    
+
     if (required) {
       rules.push(
         Rule.custom((value: any) => {
           const hasFigure = value?.figure?.asset;
           const hasVideoUrl = value?.videoUrl && value.videoUrl.trim() !== "";
-          
+
           if (!hasFigure && !hasVideoUrl) {
             return "Either an image or a video URL is required";
           }
-          
+
           return true;
         }),
       );
@@ -37,14 +37,14 @@ export const figureOrVideoField = (
       Rule.custom((value: any) => {
         const videoUrl = value?.videoUrl;
         if (!videoUrl || videoUrl.trim() === "") return true;
-        
+
         const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
         const vimeoRegex = /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/;
-        
+
         if (!youtubeRegex.test(videoUrl) && !vimeoRegex.test(videoUrl)) {
           return "Video URL must be a valid YouTube or Vimeo URL";
         }
-        
+
         return true;
       }),
     );
@@ -91,10 +91,10 @@ export const figureOrVideoField = (
                 if (!value || value.trim() === "") {
                   return "Video URL is required when media type is video";
                 }
-                
+
                 const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
                 const vimeoRegex = /^(https?:\/\/)?(www\.)?vimeo\.com\/.+$/;
-                
+
                 if (!youtubeRegex.test(value) && !vimeoRegex.test(value)) {
                   return "Video URL must be a valid YouTube or Vimeo URL";
                 }
@@ -112,4 +112,3 @@ export const figureOrVideoField = (
     },
   });
 };
-

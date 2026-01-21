@@ -18,7 +18,7 @@ export const MenuToggle = ({
     aria-label={"Meny"}
     className={cn(
       className,
-      "menu:hidden group flex items-center gap-[0.7em] text-xs sm:text-base",
+      "laptop:hidden group flex items-center gap-[0.7em] text-sm sm:text-base",
     )}
     onClick={() => setIsOpen(!isOpen)}
   >
