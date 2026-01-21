@@ -81,9 +81,15 @@ export type ImagesFigureOrVideoFigure = {
   _type: "image";
 };
 
-export type ImageCarouselBlockImagesFigureOrVideoFigure = {
+export type FigureOrVideoFigureOrVideo = {
+  mediaType: "figure" | "video";
+  figure?: FigureOrVideoFigureOrVideoFigure;
+  videoUrl?: string;
+};
+
+export type FigureOrVideoFigureOrVideoFigure = {
   asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "imageCarousel.block.images.figureOrVideo.figure.media" in schema
+  media?: unknown; // Unable to locate the referenced type "figureOrVideo.figureOrVideo.figure.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   changed?: boolean;
@@ -1024,9 +1030,8 @@ export type JobOpeningsBlock = {
 export type ImageCarouselBlock = {
   _type: "imageCarousel.block";
   images?: Array<{
-    mediaType: "figure" | "video";
-    figure?: ImageCarouselBlockImagesFigureOrVideoFigure;
-    videoUrl?: string;
+    figureOrVideo?: FigureOrVideoFigureOrVideo;
+    imageFormat?: "3:2" | "3:4" | "1:1";
     _type: "figureOrVideo";
     _key: string;
   }>;
@@ -3627,7 +3632,8 @@ export type AllSanitySchemaTypes =
   | FigureOrVideo
   | FigureOrVideoFigure
   | ImagesFigureOrVideoFigure
-  | ImageCarouselBlockImagesFigureOrVideoFigure
+  | FigureOrVideoFigureOrVideo
+  | FigureOrVideoFigureOrVideoFigure
   | ImagesAndTextBlockImagesFigureOrVideoFigure
   | HubspotFormReference
   | TypegenSettings

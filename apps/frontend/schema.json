@@ -395,7 +395,48 @@
   },
   {
     "type": "type",
-    "name": "imageCarousel.block.images.figureOrVideo.figure",
+    "name": "figureOrVideo.figureOrVideo",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "mediaType": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "figure"
+              },
+              {
+                "type": "string",
+                "value": "video"
+              }
+            ]
+          },
+          "optional": false
+        },
+        "figure": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "figureOrVideo.figureOrVideo.figure"
+          },
+          "optional": true
+        },
+        "videoUrl": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "figureOrVideo.figureOrVideo.figure",
     "value": {
       "type": "object",
       "attributes": {
@@ -411,7 +452,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "imageCarousel.block.images.figureOrVideo.figure.media"
+            "name": "figureOrVideo.figureOrVideo.figure.media"
           },
           "optional": true
         },
@@ -6109,35 +6150,32 @@
             "of": {
               "type": "object",
               "attributes": {
-                "mediaType": {
+                "figureOrVideo": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "inline",
+                    "name": "figureOrVideo.figureOrVideo"
+                  },
+                  "optional": true
+                },
+                "imageFormat": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "union",
                     "of": [
                       {
                         "type": "string",
-                        "value": "figure"
+                        "value": "3:2"
                       },
                       {
                         "type": "string",
-                        "value": "video"
+                        "value": "3:4"
+                      },
+                      {
+                        "type": "string",
+                        "value": "1:1"
                       }
                     ]
-                  },
-                  "optional": false
-                },
-                "figure": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "inline",
-                    "name": "imageCarousel.block.images.figureOrVideo.figure"
-                  },
-                  "optional": true
-                },
-                "videoUrl": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
                   },
                   "optional": true
                 },
