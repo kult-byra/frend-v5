@@ -48,35 +48,35 @@ Two grid configurations based on viewport size:
 
 ## Spacing
 
-Semantic spacing scale with corresponding pixel values:
+Semantic spacing scale registered as Tailwind theme variables. Use directly as `p-xs`, `gap-md`, `mt-2xl`, etc.
 
-| Token         | Value   | Pixels |
-| ------------- | ------- | ------ |
-| `spacing-3xs` | `spacing-4`   | 4px    |
-| `spacing-2xs` | `spacing-8`   | 8px    |
-| `spacing-xs`  | `spacing-16`  | 16px   |
-| `spacing-sm`  | `spacing-24`  | 24px   |
-| `spacing-md`  | `spacing-40`  | 40px   |
-| `spacing-lg`  | `spacing-56`  | 56px   |
-| `spacing-xl`  | `spacing-80`  | 80px   |
-| `spacing-2xl` | `spacing-120` | 120px  |
-| `spacing-3xl` | `spacing-160` | 160px  |
-| `spacing-4xl` | `spacing-240` | 240px  |
+| Token         | Tailwind Class | Pixels |
+| ------------- | -------------- | ------ |
+| `spacing-3xs` | `p-3xs` / `gap-3xs` | 4px    |
+| `spacing-2xs` | `p-2xs` / `gap-2xs` | 8px    |
+| `spacing-xs`  | `p-xs` / `gap-xs`   | 16px   |
+| `spacing-sm`  | `p-sm` / `gap-sm`   | 24px   |
+| `spacing-md`  | `p-md` / `gap-md`   | 40px   |
+| `spacing-lg`  | `p-lg` / `gap-lg`   | 56px   |
+| `spacing-xl`  | `p-xl` / `gap-xl`   | 80px   |
+| `spacing-2xl` | `p-2xl` / `gap-2xl` | 120px  |
+| `spacing-3xl` | `p-3xl` / `gap-3xl` | 160px  |
+| `spacing-4xl` | `p-4xl` / `gap-4xl` | 240px  |
 
-### Tailwind Mapping
+### Usage Examples
 
-| Token         | Tailwind Class |
-| ------------- | -------------- |
-| `spacing-3xs` | `p-1` / `gap-1` (4px) |
-| `spacing-2xs` | `p-2` / `gap-2` (8px) |
-| `spacing-xs`  | `p-4` / `gap-4` (16px) |
-| `spacing-sm`  | `p-6` / `gap-6` (24px) |
-| `spacing-md`  | `p-10` / `gap-10` (40px) |
-| `spacing-lg`  | `p-14` / `gap-14` (56px) |
-| `spacing-xl`  | `p-20` / `gap-20` (80px) |
-| `spacing-2xl` | `p-[120px]` / `gap-[120px]` |
-| `spacing-3xl` | `p-[160px]` / `gap-[160px]` |
-| `spacing-4xl` | `p-[240px]` / `gap-[240px]` |
+```tsx
+// Padding
+<div className="p-xs">          {/* 16px padding */}
+<div className="px-sm py-md">   {/* 24px horizontal, 40px vertical */}
+
+// Margin
+<section className="mt-2xl">    {/* 120px top margin */}
+
+// Gap
+<div className="flex gap-xs">   {/* 16px gap */}
+<div className="grid gap-sm">   {/* 24px gap */}
+```
 
 ### Usage Guidelines
 

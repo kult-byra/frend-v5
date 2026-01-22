@@ -44,6 +44,18 @@
   --breakpoint-desktop: 1440px;
   --breakpoint-wide: 1920px;
 
+  /* ===== SPACING ===== */
+  --spacing-3xs: 4px;
+  --spacing-2xs: 8px;
+  --spacing-xs: 16px;
+  --spacing-sm: 24px;
+  --spacing-md: 40px;
+  --spacing-lg: 56px;
+  --spacing-xl: 80px;
+  --spacing-2xl: 120px;
+  --spacing-3xl: 160px;
+  --spacing-4xl: 240px;
+
   /* ===== FONT SIZES ===== */
   --text-2xs: 0.583rem;
   --text-xs: 0.666rem;
@@ -157,8 +169,7 @@ a.skip-main:active {
   --leading-145: 1.45;
   --leading-150: 1.5;
 
-  /* ===== SPACING ===== */
-  --space-30: 30px;
+  /* ===== GRID ===== */
   --gutter: 16px;
   --margin: 16px;
 

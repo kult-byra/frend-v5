@@ -41,6 +41,12 @@ export const cardsBlockQuery = defineQuery(`
   _type,
   _key,
   heading,
+  "featuredLabel": *[_type == "stringTranslations"][0] {
+    "label": select(
+      $locale == "no" => featured_no,
+      $locale == "en" => featured_en
+    )
+  }.label,
   "content": excerpt[] {
     _key,
     _type == "block" => {

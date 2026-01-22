@@ -4,6 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Important Workflow Notes
 
+### Keep Documentation Updated
+
+**This file (`CLAUDE.md`) must be kept up to date with structural changes to the project.**
+
+When making changes that affect project architecture, patterns, or conventions, update this documentation accordingly. This includes:
+
+- New routing patterns or route additions
+- Changes to folder structure or file organization
+- New shared utilities, components, or patterns
+- Updates to build processes or commands
+- Changes to internationalization setup
+- New Sanity schema patterns or field generators
+
+The goal is to ensure this file accurately reflects how the project works, so future development sessions have correct context.
+
 ### Type Generation After Schema Changes
 
 After modifying any `.schema.ts` or `.query.ts` files, you MUST run:
@@ -19,6 +34,7 @@ This generates TypeScript types from Sanity schemas and GROQ queries. Type gener
 **Always read and follow [DESIGN.md](./DESIGN.md) when working on any styling or UI components.**
 
 This file contains the complete design system including:
+
 - Grid configurations and breakpoints
 - Spacing scale and usage guidelines
 - Color tokens (primitives and semantic roles)
@@ -32,6 +48,7 @@ When implementing UI, refer to DESIGN.md for the correct tokens, sizes, and patt
 ### Dev Server Assumptions
 
 The development server (`pnpm dev`) is typically already running. When testing or verifying changes:
+
 1. Assume the dev server is active
 2. If you get connection errors or no response, prompt: "The dev server doesn't appear to be running. Please start it with `pnpm dev`."
 
@@ -41,7 +58,7 @@ This project has several MCP (Model Context Protocol) servers configured:
 
 | Server | Purpose |
 |--------|---------|
-| **Sanity** | Query/mutate Sanity content, manage schemas, releases, and documents |
+| **Sanity** | Query/mutate Sanity content, manage schemas, releases, and documents. Use this to search for documentation for everything sanity related |
 | **Figma** | Get design context from Figma files for UI implementation |
 | **Playwright** | Browser automation for testing and verification |
 | **Next.js DevTools** | Query running Next.js dev server, get errors, route info |
@@ -84,7 +101,48 @@ pnpm remove-all && pnpm install -r   # Clean reinstall if stuff breaks
 
 **Locales**: `no` (default), `en`
 
-**Route translations** are defined in `packages/routing/src/route.config.ts`. Norwegian paths are canonical, English paths are translated (e.g., `/tjenester` → `/services`).
+#### Route System (English-Based)
+
+Routes use **English as the internal/code base** while Norwegian remains the default locale. Configuration is in `packages/routing/src/route.config.ts`.
+
+**How it works:**
+
+| User URL                  | Locale | Internal Path (File System)        |
+| ------------------------- | ------ | ---------------------------------- |
+| `/tjenester`              | `no`   | `app/[locale]/services/`           |
+| `/en/services`            | `en`   | `app/[locale]/services/`           |
+| `/kunnskap/artikler`      | `no`   | `app/[locale]/knowledge/articles/` |
+| `/en/knowledge/articles`  | `en`   | `app/[locale]/knowledge/articles/` |
+
+**Key files:**
+
+- `packages/routing/src/route.config.ts` - Route definitions and translations
+  - `routeConfig` - English internal paths (e.g., `/services/:slug`)
+  - `routeTranslations` - Maps English → Norwegian (e.g., `services` → `tjenester`)
+  - `pathnames` - next-intl config for URL localization
+- `apps/frontend/src/i18n/routing.ts` - next-intl routing setup
+- `apps/frontend/middleware.ts` - Handles URL translation
+
+**Using routes in components:**
+
+```tsx
+// Always use English paths in code - middleware handles translation
+<Link href="/services">Services</Link>
+<Link href={`/projects/${slug}`}>Project</Link>
+
+// For programmatic navigation with locale awareness, use resolvePath:
+import { resolvePath } from "@workspace/routing";
+const url = resolvePath("service", { slug: "consulting" }, "no"); // → "/tjenester/consulting"
+```
+
+**Adding a new route:**
+
+1. Add to `routeConfig` with English path
+2. Add translation to `routeTranslations` (both `no` and `en` keys)
+3. Add to `pathnames` with locale-specific URLs
+4. Create folder in `apps/frontend/src/app/[locale]/` using English name
+
+#### UI String Translations
 
 **UI string translations** are managed in Sanity (NOT static JSON files):
 

@@ -22,9 +22,25 @@ This project uses Claude Code's recommended configuration structure. All detaile
 
 ## Essential Rules
 
+### Keep Documentation Updated
+
+**The `.claude/CLAUDE.md` file must be kept up to date with structural changes to the project.**
+
+When making changes that affect project architecture, patterns, or conventions, update the documentation accordingly. This includes:
+
+- New routing patterns or route additions
+- Changes to folder structure or file organization
+- New shared utilities, components, or patterns
+- Updates to build processes or commands
+- Changes to internationalization setup
+- New Sanity schema patterns or field generators
+
+**The `design.md` file must also be kept updated for new global variables and tailwind configuration**
+
 ### Always Read DESIGN.md for UI Work
 
 When implementing any styling or UI components, **always read `.claude/DESIGN.md`** first. It contains:
+
 - Grid configurations and breakpoints
 - Spacing scale and usage guidelines
 - Color tokens (primitives and semantic roles)
@@ -88,7 +104,34 @@ pnpm remove-all && pnpm install -r   # Clean reinstall if stuff breaks
 
 **Locales**: `no` (default), `en`
 
-**Route translations** are defined in `packages/routing/src/route.config.ts`. Norwegian paths are canonical, English paths are translated (e.g., `/tjenester` → `/services`).
+**Routing principle**: Internal paths (code, file system) use **English**. URLs are localized per locale.
+
+**Route configuration** is defined in `packages/routing/src/route.config.ts`:
+
+- `routeConfig` - Internal paths in English (e.g., `/services`, `/knowledge`)
+- `routeTranslations` - Maps English segments to localized segments
+- `pathnames` - next-intl configuration for URL localization
+
+**URL structure**:
+
+| Internal Path     | Norwegian URL (`no`) | English URL (`en`)   |
+| ----------------- | -------------------- | -------------------- |
+| `/services`       | `/tjenester`         | `/en/services`       |
+| `/services/:slug` | `/tjenester/:slug`   | `/en/services/:slug` |
+| `/knowledge`      | `/kunnskap`          | `/en/knowledge`      |
+| `/articles`       | `/artikler`          | `/en/articles`       |
+
+**Generating URLs programmatically**:
+
+```typescript
+import { resolvePath } from "@workspace/routing";
+
+// Returns "/tjenester/konsulenter" for Norwegian
+const url = resolvePath("service", { slug: "konsulenter" }, "no");
+
+// Returns "/en/services/consultants" for English
+const url = resolvePath("service", { slug: "consultants" }, "en");
+```
 
 **UI string translations** are managed in Sanity (NOT static JSON files):
 

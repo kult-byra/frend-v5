@@ -38,9 +38,15 @@ export function resolvePath<T extends LinkableType>(
   locale?: Locale,
 ): string;
 export function resolvePath<T extends LinkableType>(type: T, locale?: Locale): string;
+// Dynamic overload for runtime use when params type is unknown
+export function resolvePath(
+  type: LinkableType,
+  params: Record<string, string>,
+  locale: Locale,
+): string;
 export function resolvePath<T extends LinkableType>(
   type: T,
-  paramsOrLocale?: ExtractPathParams<Routes[T]> | Locale,
+  paramsOrLocale?: ExtractPathParams<Routes[T]> | Locale | Record<string, string>,
   locale?: Locale,
 ): string {
   let path = routeConfig[type] as string;

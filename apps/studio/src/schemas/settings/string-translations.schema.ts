@@ -54,6 +54,13 @@ export const stringTranslationsSchema = defineType({
       type: "string",
       group: "no",
     }),
+    defineField({
+      name: "featured_no",
+      title: "Featured",
+      description: "Label for 'featured' filter option (e.g., client cards)",
+      type: "string",
+      group: "no",
+    }),
 
     // English
     defineField({
@@ -92,6 +99,13 @@ export const stringTranslationsSchema = defineType({
     defineField({
       name: "navServices_en",
       title: "Services",
+      type: "string",
+      group: "en",
+    }),
+    defineField({
+      name: "featured_en",
+      title: "Featured",
+      description: "Label for 'featured' filter option (e.g., client cards)",
       type: "string",
       group: "en",
     }),

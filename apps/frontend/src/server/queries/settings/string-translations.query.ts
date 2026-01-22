@@ -26,6 +26,10 @@ export const stringTranslationsQuery = defineQuery(`
     "navServices": select(
       $locale == "no" => navServices_no,
       $locale == "en" => navServices_en
+    ),
+    "featured": select(
+      $locale == "no" => featured_no,
+      $locale == "en" => featured_en
     )
   }
 `);

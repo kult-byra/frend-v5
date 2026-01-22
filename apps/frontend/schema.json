@@ -1379,6 +1379,13 @@
         },
         "optional": true
       },
+      "featured_no": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "skipToMain_en": {
         "type": "objectAttribute",
         "value": {
@@ -1415,6 +1422,13 @@
         "optional": true
       },
       "navServices_en": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "featured_en": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
