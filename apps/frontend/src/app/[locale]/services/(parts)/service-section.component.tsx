@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
+import { TechnologyPill } from "@/components/technology-pill.component";
 import { Img } from "@/components/utils/img.component";
 import type { ServicesListQueryResult } from "@/sanity-types";
 
@@ -13,6 +14,7 @@ type ServiceSectionProps = {
   slug: string;
   excerpt: ServiceItem["excerpt"] | null;
   media: ServiceItem["media"] | null;
+  technologies?: ServiceItem["technologies"];
   isLast?: boolean;
 };
 
@@ -40,25 +42,30 @@ function ServiceIllustration({ media }: { media: ServiceItem["media"] | null }) 
   );
 }
 
+/**
+ * ServiceSection - Mobile-only layout for individual service items.
+ * Desktop layout is handled by ServicesDesktopLayout component.
+ */
 export function ServiceSection({
   id,
   title,
   slug,
   excerpt,
   media,
+  technologies,
   isLast = false,
 }: ServiceSectionProps) {
   return (
-    <section id={id} className="bg-container-primary">
+    <section id={id} className="bg-container-primary lg:hidden">
       {/* Mobile layout */}
-      <div className="flex flex-col px-(--margin) lg:hidden">
+      <div className="flex flex-col px-(--margin)">
         {/* Illustration area */}
-        <div className="flex items-center justify-center py-(--spacing-xl)">
+        <div className="flex items-center justify-center py-xl">
           <ServiceIllustration media={media} />
         </div>
 
         {/* Content area */}
-        <div className="flex flex-col gap-(--spacing-sm) pb-(--spacing-md)">
+        <div className="flex flex-col gap-sm pb-md">
           <div className="flex flex-col gap-4">
             <h2 className="text-headline-2 text-text-primary">{title}</h2>
             {excerpt && (
@@ -80,47 +87,19 @@ export function ServiceSection({
           >
             <Icon name="arrow-right" className="size-[10px] text-text-primary transition-colors" />
           </Link>
+
+          {/* Technology pills */}
+          {technologies && technologies.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2 pt-md">
+              {technologies.map((tech) => (
+                <TechnologyPill key={tech._id} technology={tech} />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Separator line (not on last item) */}
         {!isLast && <div className="h-px w-full bg-stroke-soft" />}
-      </div>
-
-      {/* Desktop layout */}
-      <div className="hidden gap-(--gutter) px-(--margin) lg:grid lg:grid-cols-2">
-        {/* Left column - sticky illustration */}
-        <div className="relative h-[830px]">
-          <div className="sticky top-0 flex h-screen items-center justify-center">
-            <ServiceIllustration media={media} />
-          </div>
-        </div>
-
-        {/* Right column - scrollable content */}
-        <div className="flex flex-col gap-(--spacing-md) pb-(--spacing-xl) pl-0 pr-(--spacing-md) pt-[160px]">
-          <div className="flex flex-col gap-4">
-            <h2 className="max-w-[540px] text-headline-2 text-text-primary">{title}</h2>
-            {excerpt && (
-              <div className="max-w-[540px]">
-                <PortableText
-                  content={excerpt}
-                  options={{
-                    pSize: "text-body-large",
-                    checklistIcon: <Icon name="checkmark" className="size-[10px]" />,
-                  }}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* CTA Arrow */}
-          <Link
-            href={`/services/${slug}`}
-            className="group flex size-8 items-center justify-center rounded-full bg-button-primary-hover transition-colors"
-            aria-label={`Read more about ${title}`}
-          >
-            <Icon name="arrow-right" className="size-[10px] text-text-primary transition-colors" />
-          </Link>
-        </div>
       </div>
     </section>
   );

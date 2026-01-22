@@ -18,7 +18,10 @@ type PortableTextBlockType = Extract<NonNullableContent[number], { _type: "block
 type BlockStyles = NonNullable<PortableTextBlockType["style"]>;
 
 export type BlockStylesRendererMap = {
-  [K in BlockStyles]: (props: { children?: React.ReactNode }) => React.ReactNode;
+  [K in BlockStyles]: (props: {
+    children?: React.ReactNode;
+    value?: { _key?: string };
+  }) => React.ReactNode;
 };
 
 // Extract MarkDef Types

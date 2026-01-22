@@ -2,12 +2,21 @@ import Link from "next/link";
 import { toPlainText } from "next-sanity";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
+import { TechnologyPill } from "@/components/technology-pill.component";
 import { Img, type ImgProps } from "@/components/utils/img.component";
 
 type ServiceMedia = {
   mediaType: "image" | "illustration" | null;
   image: ImgProps | null;
   illustration: string | null;
+};
+
+type Technology = {
+  _id: string;
+  title: string;
+  logo: {
+    asset: { _id: string } | null;
+  } | null;
 };
 
 export type ServiceCardItem = {
@@ -17,17 +26,19 @@ export type ServiceCardItem = {
   slug: string | null;
   excerpt?: unknown;
   media?: ServiceMedia | null;
+  technologies?: Technology[] | null;
 };
 
 export const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
-  <div className="@container">
-    <ul className="grid grid-cols-1 gap-(--gutter) @lg:grid-cols-2 @2xl:grid-cols-3">
+  <div>
+    <ul className="grid grid-cols-1 gap-(--gutter) lg:grid-cols-3">
       {items.map((item) => {
         const excerptText = item.excerpt
           ? toPlainText(item.excerpt as Parameters<typeof toPlainText>[0])
           : null;
 
         const media = item.media;
+        const technologies = item.technologies;
 
         const MediaContent = ({ className }: { className?: string }) => (
           <>
@@ -41,43 +52,53 @@ export const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
         );
 
         return (
-          <li key={item._id} className="@container/card">
+          <li key={item._id}>
             <article className="group relative flex h-full flex-col rounded bg-container-secondary transition-colors hover:bg-container-tertiary-1">
-              {/* Compact layout (small container) */}
-              <div className="flex flex-col @sm/card:hidden">
-                {/* Top row: illustration + title */}
+              {/* Compact layout (mobile) */}
+              <div className="flex flex-col lg:hidden">
+                {/* Row 1: illustration + title */}
                 <div className="flex items-center gap-4 p-4">
-                  <div className="size-20 shrink-0">
+                  <div className="w-20 shrink-0">
                     <MediaContent className="size-full object-contain" />
                   </div>
-                  <h3 className="text-headline-3">
+                  <h3 className="flex-1 text-headline-3">
                     <Link href={`/services/${item.slug}`} className="after:absolute after:inset-0">
                       {item.title}
                     </Link>
                   </h3>
                 </div>
-                {/* Bottom row: excerpt + arrow */}
-                <div className="flex items-end gap-10 p-4 pt-0">
+
+                {/* Row 2: excerpt + arrow */}
+                <div className="flex items-end justify-end gap-10 p-4 pt-0">
                   {excerptText && (
                     <p className="flex-1 text-body-small text-text-secondary">{excerptText}</p>
                   )}
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white transition-colors group-hover:bg-container-tertiary-1">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-container-primary">
                     <Icon name="arrow-right" className="size-[10px] text-text-primary" />
                   </div>
                 </div>
+
+                {/* Row 3: Technology pills */}
+                {technologies && technologies.length > 0 && (
+                  <div className="flex items-center gap-2 border-t border-stroke-soft p-4">
+                    {technologies.map((tech) => (
+                      <TechnologyPill key={tech._id} technology={tech} />
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* Expanded layout (larger container) */}
-              <div className="hidden @sm/card:flex @sm/card:h-full @sm/card:flex-col">
+              {/* Expanded layout (desktop) */}
+              <div className="hidden lg:flex lg:h-full lg:flex-col">
                 {/* Illustration - left aligned */}
                 <div className="px-4 pb-10 pt-4">
-                  <div className="size-[120px]">
+                  <div className="size-2xl">
                     <MediaContent className="size-20 object-contain" />
                   </div>
                 </div>
 
                 {/* Text content */}
-                <div className="flex flex-1 flex-col gap-4 p-4">
+                <div className="flex flex-col gap-4 p-4">
                   <h3 className="text-headline-3">
                     <Link href={`/services/${item.slug}`} className="after:absolute after:inset-0">
                       {item.title}
@@ -86,14 +107,27 @@ export const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
                   {excerptText && <p className="text-body text-text-secondary">{excerptText}</p>}
                 </div>
 
-                {/* Arrow button */}
-                <div className="border-t border-stroke-soft p-4">
-                  <div className="flex size-8 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-button-primary-hover">
+                {/* Spacer grows to push footer to bottom */}
+                <div className="flex-1" />
+
+                {/* Footer: Arrow button + Technology pills */}
+                <div className="flex items-center gap-4 border-t border-stroke-soft p-4">
+                  {/* Arrow button - primary variant */}
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-button-primary-hover">
                     <Icon
                       name="arrow-right"
-                      className="size-[10px] text-white transition-colors group-hover:text-button-primary-inverted-text"
+                      className="size-[10px] text-text-white-primary transition-colors group-hover:text-text-primary"
                     />
                   </div>
+
+                  {/* Technology pills - right aligned */}
+                  {technologies && technologies.length > 0 && (
+                    <div className="flex flex-1 items-center justify-end gap-2 overflow-hidden">
+                      {technologies.map((tech) => (
+                        <TechnologyPill key={tech._id} technology={tech} />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </article>

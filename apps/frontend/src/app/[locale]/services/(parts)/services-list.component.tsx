@@ -26,6 +26,7 @@ export function ServicesList({ services }: Props) {
           slug={service.slug ?? ""}
           excerpt={service.excerpt}
           media={service.media as ServiceMedia | null}
+          technologies={service.technologies}
         />
       ))}
     </div>

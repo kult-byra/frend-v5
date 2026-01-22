@@ -41,6 +41,11 @@ export const servicesListQuery = defineQuery(`
       "mediaType": media.mediaType,
       "image": media.image { ${imageQuery} },
       "illustration": media.illustration
+    },
+    "technologies": technologies[]-> {
+      _id,
+      title,
+      "logo": logo->image { ${imageQuery} }
     }
   }
 `);

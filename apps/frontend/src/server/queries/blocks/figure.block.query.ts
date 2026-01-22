@@ -7,5 +7,6 @@ export const figureBlockQuery = defineQuery(`
   _key,
   mediaType,
   image { ${imageQuery} },
-  videoUrl
+  videoUrl,
+  illustration
 `);

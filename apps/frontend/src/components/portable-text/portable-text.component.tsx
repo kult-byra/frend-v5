@@ -1,6 +1,7 @@
 import { PortableText as PortableTextComponent } from "@portabletext/react";
 import type { PropsWithChildren } from "react";
 import { CallToActionBlock } from "@/components/blocks/call-to-action.block.component";
+import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import {
   Heading,
   type HeadingLevel,
@@ -31,11 +32,16 @@ export type PortableTextOptions = {
 const block = (options: PortableTextOptions): BlockStylesRendererMap => {
   const { pSize, topHLevel = 2, topHSize } = options ?? {};
 
-  const headingStyle = "mb-[0.5em] mt-[2em] first:mt-0 last:mb-0";
+  const headingStyle = "mb-[0.5em] mt-[2em] first:mt-0 last:mb-0 scroll-mt-24";
 
   return {
-    h2: ({ children }) => (
-      <Heading level={topHLevel} size={topHSize ?? topHLevel} className={headingStyle}>
+    h2: ({ children, value }) => (
+      <Heading
+        level={topHLevel}
+        size={topHSize ?? topHLevel}
+        className={headingStyle}
+        id={value?._key ? `chapter-${value._key}` : undefined}
+      >
         {children}
       </Heading>
     ),
@@ -133,6 +139,7 @@ const list = (options: PortableTextOptions): ListStyleRendererMap => {
   const { pSize } = options ?? {};
 
   const listStyle = "w-full mb-[2em] mt-[1em] space-y-[0.35em] first:mt-0 last:mb-0 pl-[1.75em]";
+  const checkListStyle = "w-full mb-[2em] mt-[1em] space-y-3xs first:mt-0 last:mb-0";
 
   return {
     bullet: ({ children }: PropsWithChildren) => (
@@ -145,7 +152,7 @@ const list = (options: PortableTextOptions): ListStyleRendererMap => {
       <ul className={cn(pSize, listStyle, "list-none")}>{children}</ul>
     ),
     check: ({ children }: PropsWithChildren) => (
-      <ul className={cn(pSize, listStyle, "list-none")}>{children}</ul>
+      <ul className={cn(pSize, checkListStyle, "list-none")}>{children}</ul>
     ),
   } as ListStyleRendererMap;
 };
@@ -173,9 +180,9 @@ const listItem = (options: PortableTextOptions): ListLevelRenderMap => {
       </li>
     ),
     check: ({ children, value: { level } }: PropsWithChildren & { value: { level?: number } }) => (
-      <li className={cn(level && level > 1 && subLevelListItemStyle, "flex items-start gap-2")}>
-        <span className="mt-0.5 flex-shrink-0">{checkIcon}</span>
-        <span>{children}</span>
+      <li className={cn(level && level > 1 && subLevelListItemStyle, "flex items-start gap-2xs")}>
+        <span className="flex shrink-0 items-center py-2xs">{checkIcon}</span>
+        <span className="pt-0.5">{children}</span>
       </li>
     ),
   } as ListLevelRenderMap;
@@ -187,7 +194,22 @@ const types = (): BlockTypeRendererMap => {
       return <CallToActionBlock {...value} />;
     },
     figure: ({ value }) => {
-      return <Img {...value} sizes={{ md: "full" }} showCaption />;
+      const { mediaType, image, illustration } = value ?? {};
+
+      if (mediaType === "illustration" && illustration) {
+        return (
+          <div className="aspect-3/2 rounded bg-container-secondary flex items-end justify-center">
+            <Illustration name={illustration as IllustrationName} className="w-1/3 h-auto" />
+          </div>
+        );
+      }
+
+      // Default to image (includes mediaType === "image" and legacy data without mediaType)
+      if (image) {
+        return <Img {...image} sizes={{ md: "full" }} showCaption />;
+      }
+
+      return null;
     },
     "accordion.block": () => {
       return <p>Implement me</p>;

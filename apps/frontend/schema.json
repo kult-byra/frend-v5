@@ -5116,6 +5116,36 @@
     }
   },
   {
+    "type": "type",
+    "name": "logo.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "logo"
+    }
+  },
+  {
     "name": "technology",
     "type": "document",
     "attributes": {
@@ -5156,6 +5186,14 @@
           "type": "string"
         },
         "optional": false
+      },
+      "logo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "logo.reference"
+        },
+        "optional": true
       }
     }
   },
@@ -5224,36 +5262,6 @@
         },
         "optional": true
       }
-    }
-  },
-  {
-    "type": "type",
-    "name": "logo.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "logo"
     }
   },
   {
@@ -8735,6 +8743,10 @@
               {
                 "type": "string",
                 "value": "video"
+              },
+              {
+                "type": "string",
+                "value": "illustration"
               }
             ]
           },
@@ -8798,6 +8810,283 @@
           "type": "objectAttribute",
           "value": {
             "type": "string"
+          },
+          "optional": true
+        },
+        "illustration": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "light-bubbles-01"
+              },
+              {
+                "type": "string",
+                "value": "light-bubbles-02"
+              },
+              {
+                "type": "string",
+                "value": "light-choices"
+              },
+              {
+                "type": "string",
+                "value": "light-collaboration"
+              },
+              {
+                "type": "string",
+                "value": "light-competition-01"
+              },
+              {
+                "type": "string",
+                "value": "light-competition-02"
+              },
+              {
+                "type": "string",
+                "value": "light-confused"
+              },
+              {
+                "type": "string",
+                "value": "light-confused-team"
+              },
+              {
+                "type": "string",
+                "value": "light-cooperation"
+              },
+              {
+                "type": "string",
+                "value": "light-direction"
+              },
+              {
+                "type": "string",
+                "value": "light-growth"
+              },
+              {
+                "type": "string",
+                "value": "light-idea"
+              },
+              {
+                "type": "string",
+                "value": "light-meeting-01"
+              },
+              {
+                "type": "string",
+                "value": "light-meeting-02"
+              },
+              {
+                "type": "string",
+                "value": "light-pie-chart"
+              },
+              {
+                "type": "string",
+                "value": "light-strategy-card"
+              },
+              {
+                "type": "string",
+                "value": "light-strategy-chess"
+              },
+              {
+                "type": "string",
+                "value": "light-victorys"
+              },
+              {
+                "type": "string",
+                "value": "light-icon-award"
+              },
+              {
+                "type": "string",
+                "value": "light-icon-chess"
+              },
+              {
+                "type": "string",
+                "value": "light-icon-chessboard"
+              },
+              {
+                "type": "string",
+                "value": "light-icon-hourglass"
+              },
+              {
+                "type": "string",
+                "value": "light-icon-light-bulb"
+              },
+              {
+                "type": "string",
+                "value": "light-icon-timer"
+              },
+              {
+                "type": "string",
+                "value": "light-icon-trophy"
+              },
+              {
+                "type": "string",
+                "value": "dark-bubbles-01"
+              },
+              {
+                "type": "string",
+                "value": "dark-bubbles-02"
+              },
+              {
+                "type": "string",
+                "value": "dark-choices"
+              },
+              {
+                "type": "string",
+                "value": "dark-collaboration"
+              },
+              {
+                "type": "string",
+                "value": "dark-competition-01"
+              },
+              {
+                "type": "string",
+                "value": "dark-competition-02"
+              },
+              {
+                "type": "string",
+                "value": "dark-confused"
+              },
+              {
+                "type": "string",
+                "value": "dark-confused-team"
+              },
+              {
+                "type": "string",
+                "value": "dark-cooperation"
+              },
+              {
+                "type": "string",
+                "value": "dark-direction"
+              },
+              {
+                "type": "string",
+                "value": "dark-growth"
+              },
+              {
+                "type": "string",
+                "value": "dark-idea"
+              },
+              {
+                "type": "string",
+                "value": "dark-meeting-01"
+              },
+              {
+                "type": "string",
+                "value": "dark-meeting-02"
+              },
+              {
+                "type": "string",
+                "value": "dark-pie-chart"
+              },
+              {
+                "type": "string",
+                "value": "dark-strategy-card"
+              },
+              {
+                "type": "string",
+                "value": "dark-strategy-chess"
+              },
+              {
+                "type": "string",
+                "value": "dark-victorys"
+              },
+              {
+                "type": "string",
+                "value": "dark-icon-award"
+              },
+              {
+                "type": "string",
+                "value": "dark-icon-chess"
+              },
+              {
+                "type": "string",
+                "value": "dark-icon-chessboard"
+              },
+              {
+                "type": "string",
+                "value": "dark-icon-hourglass"
+              },
+              {
+                "type": "string",
+                "value": "dark-icon-timer"
+              },
+              {
+                "type": "string",
+                "value": "dark-icon-trophy"
+              },
+              {
+                "type": "string",
+                "value": "light-area-crm-01"
+              },
+              {
+                "type": "string",
+                "value": "light-area-crm-02"
+              },
+              {
+                "type": "string",
+                "value": "light-area-crm-03"
+              },
+              {
+                "type": "string",
+                "value": "light-area-service-01"
+              },
+              {
+                "type": "string",
+                "value": "light-area-service-02"
+              },
+              {
+                "type": "string",
+                "value": "light-area-service-03"
+              },
+              {
+                "type": "string",
+                "value": "light-area-teknologi-01"
+              },
+              {
+                "type": "string",
+                "value": "light-area-teknologi-02"
+              },
+              {
+                "type": "string",
+                "value": "light-area-teknologi-03"
+              },
+              {
+                "type": "string",
+                "value": "light-area-utvikler-01"
+              },
+              {
+                "type": "string",
+                "value": "light-area-utvikler-02"
+              },
+              {
+                "type": "string",
+                "value": "light-area-utvikler-03"
+              },
+              {
+                "type": "string",
+                "value": "light-area-nocode-01"
+              },
+              {
+                "type": "string",
+                "value": "light-area-nocode-02"
+              },
+              {
+                "type": "string",
+                "value": "light-area-nocode-03"
+              },
+              {
+                "type": "string",
+                "value": "light-area-ai-01"
+              },
+              {
+                "type": "string",
+                "value": "light-area-ai-02"
+              },
+              {
+                "type": "string",
+                "value": "light-area-ai-03"
+              }
+            ]
           },
           "optional": true
         }

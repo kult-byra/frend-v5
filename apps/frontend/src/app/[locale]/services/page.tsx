@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { StickyBottomContainer } from "@/components/sticky-bottom-container.component";
 import type { ServicesArchiveSettingsQueryResult, ServicesListQueryResult } from "@/sanity-types";
 import {
   servicesArchiveSettingsQuery,
@@ -8,6 +9,7 @@ import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
 import { AnchorNavigation } from "./(parts)/anchor-navigation.component";
 import { ServiceSection } from "./(parts)/service-section.component";
+import { ServicesDesktopLayout } from "./(parts)/services-desktop-layout.component";
 import { ServicesHero } from "./(parts)/services-hero.component";
 
 type Props = {
@@ -53,36 +55,37 @@ export default async function ServicesPage({ params }: Props) {
 
   return (
     <>
-      {/* Hero section */}
+      {/* Hero section with mobile anchor nav */}
       <ServicesHero
         title={settings?.title ?? null}
         excerpt={settings?.excerpt ?? null}
         subtitle={settings?.subtitle ?? null}
         media={settings?.media ?? null}
+        mobileAnchorNav={<AnchorNavigation items={anchorItems} />}
       />
 
-      {/* Main content area with anchor nav and service sections */}
-      <div className="relative bg-container-primary">
-        {/* Desktop: Anchor navigation - fixed on page */}
-        <div className="fixed left-(--margin) top-[206px] z-10 hidden w-[443px] lg:block">
-          <AnchorNavigation items={anchorItems} />
-        </div>
+      {/* Main content area with service sections */}
+      <StickyBottomContainer
+        stickyContent={<AnchorNavigation items={anchorItems} />}
+        className="bg-container-primary"
+      >
+        {/* Mobile layout - individual sections */}
+        {services.map((service, index) => (
+          <ServiceSection
+            key={service._id}
+            id={`service-${index}`}
+            title={service.title ?? ""}
+            slug={service.slug ?? ""}
+            excerpt={service.excerpt}
+            media={service.media}
+            technologies={service.technologies}
+            isLast={index === services.length - 1}
+          />
+        ))}
 
-        {/* Service sections */}
-        <div>
-          {services.map((service, index) => (
-            <ServiceSection
-              key={service._id}
-              id={`service-${index}`}
-              title={service.title ?? ""}
-              slug={service.slug ?? ""}
-              excerpt={service.excerpt}
-              media={service.media}
-              isLast={index === services.length - 1}
-            />
-          ))}
-        </div>
-      </div>
+        {/* Desktop layout - single sticky illustration with scrolling content */}
+        <ServicesDesktopLayout services={services} />
+      </StickyBottomContainer>
     </>
   );
 }

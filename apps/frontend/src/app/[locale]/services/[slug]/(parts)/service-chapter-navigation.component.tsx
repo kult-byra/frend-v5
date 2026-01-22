@@ -4,33 +4,30 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/icon.component";
 import { cn } from "@/utils/cn.util";
 
-type AnchorItem = {
+export type ChapterItem = {
   id: string;
   title: string;
 };
 
-type AnchorNavigationProps = {
-  items: AnchorItem[];
+type ServiceChapterNavigationProps = {
+  items: ChapterItem[];
   label?: string;
 };
 
-export function AnchorNavigation({ items, label = "Services" }: AnchorNavigationProps) {
+export function ServiceChapterNavigation({
+  items,
+  label = "Chapters",
+}: ServiceChapterNavigationProps) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeId, setActiveId] = useState<string | null>(items[0]?.id ?? null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Track which section is in view (handles both mobile and desktop IDs)
+  // Track which chapter is in view
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
 
     for (const item of items) {
-      // On desktop, prefer desktop ID; on mobile, prefer mobile ID
-      const desktopElement = document.getElementById(`desktop-${item.id}`);
-      const mobileElement = document.getElementById(item.id);
-      const element = isDesktop
-        ? (desktopElement ?? mobileElement)
-        : (mobileElement ?? desktopElement);
+      const element = document.getElementById(item.id);
       if (!element) continue;
 
       const observer = new IntersectionObserver(
@@ -42,7 +39,7 @@ export function AnchorNavigation({ items, label = "Services" }: AnchorNavigation
           }
         },
         {
-          rootMargin: "-45% 0px -45% 0px",
+          rootMargin: "-20% 0px -70% 0px",
           threshold: 0,
         },
       );
@@ -59,17 +56,14 @@ export function AnchorNavigation({ items, label = "Services" }: AnchorNavigation
   }, [items]);
 
   const handleClick = (id: string) => {
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-    // Desktop uses "desktop-service-X" format, mobile uses "service-X" format
-    const desktopId = `desktop-${id}`;
-    const element = isDesktop
-      ? (document.getElementById(desktopId) ?? document.getElementById(id))
-      : (document.getElementById(id) ?? document.getElementById(desktopId));
+    const element = document.getElementById(id);
 
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  if (items.length === 0) return null;
 
   return (
     <div className="overflow-hidden rounded bg-container-secondary">

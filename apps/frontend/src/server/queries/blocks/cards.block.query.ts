@@ -33,6 +33,11 @@ const serviceFieldsQuery = `
     "mediaType": media.mediaType,
     "image": media.image { ${imageQuery} },
     "illustration": media.illustration
+  },
+  "technologies": technologies[]-> {
+    _id,
+    title,
+    "logo": logo->image { ${imageQuery} }
   }
 `;
 
@@ -100,7 +105,7 @@ export const cardsBlockQuery = defineQuery(`
       "description": pt::text(description),
       "industries": industries[]->title
     },
-    contentType == "services" => *[_type in ["service", "subService"] && select(
+    contentType == "services" => *[_type == "service" && select(
       $locale == "no" => defined(title_no) && defined(slug_no.current),
       $locale == "en" => defined(title_en) && defined(slug_en.current)
     )] | order(_createdAt desc) {

@@ -4,4 +4,5 @@ export const figureBlockSchema = mediaField({
   name: "figure",
   scope: ["portableText"],
   video: true,
+  illustration: true,
 });

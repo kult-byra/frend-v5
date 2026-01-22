@@ -89,9 +89,16 @@ Semantic spacing scale registered as Tailwind theme variables. Use directly as `
 
 ## Colors
 
-### Primitive Colors
+> **IMPORTANT: Always use semantic color tokens, NEVER use primitive colors directly.**
+>
+> When writing styles, use semantic roles like `text-primary`, `bg-container-brand-1`, `border-stroke-soft` instead of primitives like `text-black`, `bg-white`, or hex values. Semantic tokens ensure consistency and make theme changes easier.
+>
+> **Wrong:** `bg-black`, `text-white`, `bg-[#FC5000]`
+> **Correct:** `bg-container-brand-1`, `text-text-white-primary`, `bg-button-primary-hover`
 
-Base color palette with hex values:
+### Primitive Colors (Reference Only)
+
+Base color palette - **for reference only, do not use directly in code**:
 
 | Token                          | Hex       | Description              |
 | ------------------------------ | --------- | ------------------------ |
@@ -293,10 +300,10 @@ Pill-shaped buttons used for filters and categories:
 
 Small circular buttons with arrow icons, commonly used in cards and list items:
 
-| Variant  | Background  | Icon Color  | Hover Background | Hover Icon   | Usage                             |
-| -------- | ----------- | ----------- | ---------------- | ------------ | --------------------------------- |
-| Primary  | Dark purple | White       | Orange           | Dark purple  | Desktop cards, primary CTAs       |
-| Inverted | White       | Dark purple | Light tint       | Dark purple  | Mobile/list views, light contexts |
+| Variant  | Background           | Icon Color              | Hover Background         | Hover Icon        | Usage                             |
+| -------- | -------------------- | ----------------------- | ------------------------ | ----------------- | --------------------------------- |
+| Primary  | `container-brand-1`  | `text-white-primary`    | `button-primary-hover`   | `text-primary`    | Desktop cards, primary CTAs       |
+| Inverted | `container-primary`  | `text-primary`          | `container-tertiary-1`   | `text-primary`    | Mobile/list views, light contexts |
 
 **Sizing:** 32px (8 Tailwind units)
 
@@ -305,11 +312,11 @@ Small circular buttons with arrow icons, commonly used in cards and list items:
 ```tsx
 // Primary (dark background, white icon → orange background, dark icon on hover) - desktop cards
 <div className="flex size-8 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-button-primary-hover">
-  <Icon name="arrow-right" className="size-[10px] text-white transition-colors group-hover:text-button-primary-inverted-text" />
+  <Icon name="arrow-right" className="size-[10px] text-text-white-primary transition-colors group-hover:text-text-primary" />
 </div>
 
 // Inverted (white background, dark icon) - mobile/list views
-<div className="flex size-8 items-center justify-center rounded-full bg-white group-hover:bg-container-tertiary-1">
+<div className="flex size-8 items-center justify-center rounded-full bg-container-primary group-hover:bg-container-tertiary-1">
   <Icon name="arrow-right" className="size-[10px] text-text-primary" />
 </div>
 ```
