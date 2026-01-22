@@ -30,6 +30,10 @@ export const stringTranslationsQuery = defineQuery(`
     "featured": select(
       $locale == "no" => featured_no,
       $locale == "en" => featured_en
+    ),
+    "chapters": select(
+      $locale == "no" => chapters_no,
+      $locale == "en" => chapters_en
     )
   }
 `);

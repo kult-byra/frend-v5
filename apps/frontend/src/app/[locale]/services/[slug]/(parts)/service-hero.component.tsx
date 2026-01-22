@@ -10,7 +10,7 @@ type ServiceHeroProps = {
   title: string | null;
   excerpt: Service["excerpt"] | null;
   media: Service["media"] | null;
-  mobileChapterNav?: ReactNode;
+  mobileAnchorNav?: ReactNode;
 };
 
 function MediaCircle({ media }: { media: Service["media"] | null }) {
@@ -28,7 +28,7 @@ function MediaCircle({ media }: { media: Service["media"] | null }) {
   );
 }
 
-export function ServiceHero({ title, excerpt, media, mobileChapterNav }: ServiceHeroProps) {
+export function ServiceHero({ title, excerpt, media, mobileAnchorNav }: ServiceHeroProps) {
   const excerptText = excerpt ? toPlainText(excerpt) : null;
 
   return (
@@ -56,8 +56,8 @@ export function ServiceHero({ title, excerpt, media, mobileChapterNav }: Service
           </div>
         </div>
 
-        {/* Mobile: Chapter navigation below hero content */}
-        {mobileChapterNav && <div className="pt-md lg:hidden">{mobileChapterNav}</div>}
+        {/* Mobile: Anchor navigation below hero content */}
+        {mobileAnchorNav && <div className="pt-md lg:hidden">{mobileAnchorNav}</div>}
       </div>
     </section>
   );

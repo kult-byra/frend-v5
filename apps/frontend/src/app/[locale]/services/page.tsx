@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { AnchorNavigation } from "@/components/anchor-navigation.component";
 import { StickyBottomContainer } from "@/components/sticky-bottom-container.component";
 import type { ServicesArchiveSettingsQueryResult, ServicesListQueryResult } from "@/sanity-types";
 import {
   servicesArchiveSettingsQuery,
   servicesListQuery,
 } from "@/server/queries/documents/services-archive.query";
+import { fetchSettings } from "@/server/queries/settings/settings.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
-import { AnchorNavigation } from "./(parts)/anchor-navigation.component";
 import { ServiceSection } from "./(parts)/service-section.component";
 import { ServicesDesktopLayout } from "./(parts)/services-desktop-layout.component";
 import { ServicesHero } from "./(parts)/services-hero.component";
@@ -38,35 +39,41 @@ async function getServices(locale: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const settings = await getArchiveSettings(locale);
+  const archiveSettings = await getArchiveSettings(locale);
 
-  return formatMetadata(settings?.metadata);
+  return formatMetadata(archiveSettings?.metadata);
 }
 
 export default async function ServicesPage({ params }: Props) {
   const { locale } = await params;
-  const [settings, services] = await Promise.all([getArchiveSettings(locale), getServices(locale)]);
+  const [archiveSettings, services, settings] = await Promise.all([
+    getArchiveSettings(locale),
+    getServices(locale),
+    fetchSettings(locale),
+  ]);
+
+  const anchorLabel = settings?.stringTranslations?.navServices ?? "Services";
 
   // Create anchor items from services
   const anchorItems = services.map((service, index) => ({
-    id: `service-${index}`,
-    title: service.title ?? "",
+    anchorId: `service-${index}`,
+    label: service.title ?? "",
   }));
 
   return (
     <>
       {/* Hero section with mobile anchor nav */}
       <ServicesHero
-        title={settings?.title ?? null}
-        excerpt={settings?.excerpt ?? null}
-        subtitle={settings?.subtitle ?? null}
-        media={settings?.media ?? null}
-        mobileAnchorNav={<AnchorNavigation items={anchorItems} />}
+        title={archiveSettings?.title ?? null}
+        excerpt={archiveSettings?.excerpt ?? null}
+        subtitle={archiveSettings?.subtitle ?? null}
+        media={archiveSettings?.media ?? null}
+        mobileAnchorNav={<AnchorNavigation items={anchorItems} label={anchorLabel} />}
       />
 
       {/* Main content area with service sections */}
       <StickyBottomContainer
-        stickyContent={<AnchorNavigation items={anchorItems} />}
+        stickyContent={<AnchorNavigation items={anchorItems} label={anchorLabel} />}
         className="bg-container-primary"
       >
         {/* Mobile layout - individual sections */}

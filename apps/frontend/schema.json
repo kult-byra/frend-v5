@@ -1386,6 +1386,13 @@
         },
         "optional": true
       },
+      "chapters_no": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "skipToMain_en": {
         "type": "objectAttribute",
         "value": {
@@ -1429,6 +1436,13 @@
         "optional": true
       },
       "featured_en": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "chapters_en": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

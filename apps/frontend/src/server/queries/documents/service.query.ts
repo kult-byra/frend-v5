@@ -40,9 +40,18 @@ const serviceContentQuery = (lang: string) => `
       _type == "figure" => {
         ${figureBlockQuery}
       },
-      _type == "accordion.block" => {
-        "_type": "accordion.block",
-        heading
+      _type == "accordions.block" => {
+        "_type": "accordions.block",
+        accordions[] {
+          _key,
+          heading,
+          content[] {
+            _key,
+            _type == "block" => {
+              ${portableTextInnerQuery}
+            }
+          }
+        }
       }
     )
   }

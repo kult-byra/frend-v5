@@ -11,6 +11,21 @@ import type { ServicesListQueryResult } from "@/sanity-types";
 
 type ServiceItem = ServicesListQueryResult[number];
 
+/**
+ * Find the first visible element with the given ID.
+ * Handles duplicate IDs from mobile/desktop responsive layouts.
+ */
+function findVisibleElement(id: string): HTMLElement | null {
+  const elements = document.querySelectorAll(`#${CSS.escape(id)}`);
+  for (const el of elements) {
+    const style = window.getComputedStyle(el);
+    if (style.display !== "none" && style.visibility !== "hidden") {
+      return el as HTMLElement;
+    }
+  }
+  return null;
+}
+
 type ServicesDesktopLayoutProps = {
   services: ServicesListQueryResult;
 };
@@ -47,7 +62,7 @@ export function ServicesDesktopLayout({ services }: ServicesDesktopLayoutProps) 
     const observers: IntersectionObserver[] = [];
 
     for (let i = 0; i < services.length; i++) {
-      const element = document.getElementById(`desktop-service-${i}`);
+      const element = findVisibleElement(`service-${i}`);
       if (!element) continue;
 
       const observer = new IntersectionObserver(
@@ -91,7 +106,7 @@ export function ServicesDesktopLayout({ services }: ServicesDesktopLayoutProps) 
         {services.map((service, index) => (
           <div
             key={service._id}
-            id={`desktop-service-${index}`}
+            id={`service-${index}`}
             className="flex min-h-screen flex-col justify-center gap-md pb-xl pr-md"
           >
             <div className="flex flex-col gap-xs">

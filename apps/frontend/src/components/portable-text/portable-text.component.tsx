@@ -13,6 +13,7 @@ import { LinkResolver } from "@/components/utils/link-resolver.component";
 import type { FullPortableTextQueryTypeResult } from "@/sanity-types";
 import { cn } from "@/utils/cn.util";
 import { ImageAndTextBlock } from "../blocks/image-and-text.block.component";
+import { AccordionsBlock } from "./accordion.component";
 import type {
   BlockMarkRendererMap,
   BlockStylesRendererMap,
@@ -45,11 +46,12 @@ const block = (options: PortableTextOptions): BlockStylesRendererMap => {
         {children}
       </Heading>
     ),
-    h3: ({ children }) => (
+    h3: ({ children, value }) => (
       <Heading
         level={(topHLevel + 1) as HeadingLevel}
         size={topHSize ? ((topHSize + 1) as HeadingSize) : ((topHLevel + 1) as HeadingSize)}
         className={headingStyle}
+        id={value?._key ? `chapter-${value._key}` : undefined}
       >
         {children}
       </Heading>
@@ -211,8 +213,8 @@ const types = (): BlockTypeRendererMap => {
 
       return null;
     },
-    "accordion.block": () => {
-      return <p>Implement me</p>;
+    "accordions.block": ({ value }) => {
+      return <AccordionsBlock accordions={value?.accordions} />;
     },
     "imageAndText.block": ({ value }) => {
       return <ImageAndTextBlock {...value} />;

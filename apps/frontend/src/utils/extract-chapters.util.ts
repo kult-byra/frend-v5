@@ -1,5 +1,5 @@
 import { toPlainText } from "next-sanity";
-import type { ChapterItem } from "@/app/[locale]/services/[slug]/(parts)/service-chapter-navigation.component";
+import type { AnchorItem } from "@/components/anchor-navigation.component";
 
 type PortableTextBlock = {
   _key: string;
@@ -12,26 +12,27 @@ type PortableTextBlock = {
 };
 
 /**
- * Extracts h2 headings from portable text content to create chapter navigation items.
+ * Extracts h2 and h3 headings from portable text content to create anchor navigation items.
  * Uses the block's _key as a stable ID for anchor linking.
  */
-export function extractChaptersFromPortableText(
+export function extractAnchorsFromPortableText(
   content: PortableTextBlock[] | null | undefined,
-): ChapterItem[] {
+): AnchorItem[] {
   if (!content) return [];
 
-  return content
-    .filter((block): block is PortableTextBlock & { style: "h2" } => {
-      return block._type === "block" && block.style === "h2";
-    })
-    .map((block) => {
-      // Get the text from the block
-      const title = toPlainText([block]);
+  // Find all h2 and h3 heading blocks
+  const headingBlocks = content.filter(
+    (block): block is PortableTextBlock & { style: "h2" | "h3" } => {
+      return block._type === "block" && (block.style === "h2" || block.style === "h3");
+    },
+  );
 
-      return {
-        id: `chapter-${block._key}`,
-        title: title.trim(),
-      };
-    })
-    .filter((item) => item.title.length > 0);
+  if (headingBlocks.length === 0) return [];
+
+  return headingBlocks
+    .map((block) => ({
+      anchorId: `chapter-${block._key}`,
+      label: toPlainText([block]).trim(),
+    }))
+    .filter((item) => item.label.length > 0);
 }
