@@ -1,57 +1,53 @@
-# Frend Project - Claude Code Instructions
+# CLAUDE.md
 
-This project uses Claude Code's recommended configuration structure. All detailed instructions are in `.claude/`.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Configuration Structure
-
-```
-.claude/
-├── CLAUDE.md               # Main project instructions (commands, architecture, patterns)
-├── DESIGN.md               # Design system tokens and UI specifications - READ FOR ALL UI WORK
-└── rules/
-    ├── code-style.md       # Naming, file structure, TypeScript conventions
-    ├── sanity-schema.md    # Sanity schema development patterns
-    ├── tailwind-v4.md      # Tailwind CSS v4 specifics
-    ├── nextjs.md           # Next.js App Router and caching patterns
-    ├── accessibility.md    # WCAG 2.1 AA, SEO, card accessibility
-    ├── container-queries.md # Container query usage guidelines
-    ├── forms.md            # RHF + Zod + Server Actions patterns
-    ├── pagination.md       # SEO-friendly pagination
-    └── type-first.md       # Type generation workflow
-```
-
-## Essential Rules
-
-### Always Read DESIGN.md for UI Work
-
-When implementing any styling or UI components, **always read `.claude/DESIGN.md`** first. It contains:
-- Grid configurations and breakpoints
-- Spacing scale and usage guidelines
-- Color tokens (primitives and semantic roles)
-- Typography specifications
-- Button, link, and form element patterns
+## Important Workflow Notes
 
 ### Type Generation After Schema Changes
 
-After modifying any `.schema.ts` or `.query.ts` files:
+After modifying any `.schema.ts` or `.query.ts` files, you MUST run:
 
 ```bash
 pnpm typegen
 ```
 
+This generates TypeScript types from Sanity schemas and GROQ queries. Type generation also runs automatically on pre-commit, but running it manually ensures you have correct types immediately.
+
+### Design System Rules
+
+**Always read and follow [DESIGN.md](./DESIGN.md) when working on any styling or UI components.**
+
+This file contains the complete design system including:
+- Grid configurations and breakpoints
+- Spacing scale and usage guidelines
+- Color tokens (primitives and semantic roles)
+- Typography specifications
+- Button and link styles
+- Form element patterns
+- Icon and illustration usage
+
+When implementing UI, refer to DESIGN.md for the correct tokens, sizes, and patterns.
+
 ### Dev Server Assumptions
 
-The dev server (`pnpm dev`) is typically already running. If testing shows no response, prompt the user to start it.
+The development server (`pnpm dev`) is typically already running. When testing or verifying changes:
+1. Assume the dev server is active
+2. If you get connection errors or no response, prompt: "The dev server doesn't appear to be running. Please start it with `pnpm dev`."
 
 ### Available MCP Servers
 
+This project has several MCP (Model Context Protocol) servers configured:
+
 | Server | Purpose |
 |--------|---------|
-| **Sanity** | Query/mutate content, manage schemas and documents |
-| **Figma** | Get design context (user has usually already selected a node) |
-| **Playwright** | Browser automation for testing |
-| **Next.js DevTools** | Query running dev server for errors, routes |
-| **TailwindCSS** | Get utilities, colors, documentation |
+| **Sanity** | Query/mutate Sanity content, manage schemas, releases, and documents |
+| **Figma** | Get design context from Figma files for UI implementation |
+| **Playwright** | Browser automation for testing and verification |
+| **Next.js DevTools** | Query running Next.js dev server, get errors, route info |
+| **TailwindCSS** | Get Tailwind utilities, colors, and documentation |
+
+**Figma Usage**: When referencing Figma designs, the user has typically already selected a node in the Figma desktop app. Use `mcp__figma__get_design_context` to fetch the selected design.
 
 ---
 

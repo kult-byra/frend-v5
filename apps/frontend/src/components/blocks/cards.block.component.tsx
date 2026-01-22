@@ -86,139 +86,168 @@ const CategoryFilters = ({
 );
 
 const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
-  <div className="grid grid-cols-1 lg:grid-cols-3 gap-(--gutter)">
-    {items.map((item) => {
-      const excerptText = item.excerpt
-        ? toPlainText(item.excerpt as Parameters<typeof toPlainText>[0])
-        : null;
+  <div className="@container">
+    <ul className="grid grid-cols-1 gap-(--gutter) @lg:grid-cols-2 @2xl:grid-cols-3">
+      {items.map((item) => {
+        const excerptText = item.excerpt
+          ? toPlainText(item.excerpt as Parameters<typeof toPlainText>[0])
+          : null;
 
-      const media = item.media;
+        const media = item.media;
 
-      const MediaContent = ({ className }: { className?: string }) => (
-        <>
-          {media?.mediaType === "image" && media.image && (
-            <Img {...media.image} sizes={{ md: "third" }} className={className} />
-          )}
-          {media?.mediaType === "illustration" && media.illustration && (
-            <Illustration name={media.illustration as IllustrationName} className={className} />
-          )}
-        </>
-      );
+        const MediaContent = ({ className }: { className?: string }) => (
+          <>
+            {media?.mediaType === "image" && media.image && (
+              <Img {...media.image} sizes={{ md: "third" }} className={className} />
+            )}
+            {media?.mediaType === "illustration" && media.illustration && (
+              <Illustration name={media.illustration as IllustrationName} className={className} />
+            )}
+          </>
+        );
 
-      return (
-        <Link
-          key={item._id}
-          href={`/tjenester/${item.slug}`}
-          className="group flex h-full flex-col rounded bg-container-secondary transition-colors hover:bg-container-tertiary-1"
-        >
-          {/* Mobile/List layout (below lg) */}
-          <div className="flex flex-col lg:hidden">
-            {/* Top row: illustration + title */}
-            <div className="flex items-center gap-4 p-4">
-              <div className="size-20 shrink-0">
-                <MediaContent className="size-full object-contain" />
+        return (
+          <li key={item._id} className="@container/card">
+            <article className="group relative flex h-full flex-col rounded bg-container-secondary transition-colors hover:bg-container-tertiary-1">
+              {/* Compact layout (small container) */}
+              <div className="flex flex-col @sm/card:hidden">
+                {/* Top row: illustration + title */}
+                <div className="flex items-center gap-4 p-4">
+                  <div className="size-20 shrink-0">
+                    <MediaContent className="size-full object-contain" />
+                  </div>
+                  <h3 className="text-headline-3">
+                    <Link href={`/tjenester/${item.slug}`} className="after:absolute after:inset-0">
+                      {item.title}
+                    </Link>
+                  </h3>
+                </div>
+                {/* Bottom row: excerpt + arrow */}
+                <div className="flex items-end gap-10 p-4 pt-0">
+                  {excerptText && (
+                    <p className="flex-1 text-body-small text-text-secondary">{excerptText}</p>
+                  )}
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white transition-colors group-hover:bg-container-tertiary-1">
+                    <Icon name="arrow-right" className="size-[10px] text-text-primary" />
+                  </div>
+                </div>
               </div>
-              <h3 className="text-headline-3">{item.title}</h3>
-            </div>
-            {/* Bottom row: excerpt + arrow */}
-            <div className="flex items-end gap-10 p-4 pt-0">
-              {excerptText && (
-                <p className="flex-1 text-body-small text-text-secondary">{excerptText}</p>
-              )}
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white transition-colors group-hover:bg-container-tertiary-1">
-                <Icon name="arrow-right" className="size-[10px] text-text-primary" />
-              </div>
-            </div>
-          </div>
 
-          {/* Desktop/Grid layout (lg and up) */}
-          <div className="hidden lg:flex lg:h-full lg:flex-col">
-            {/* Illustration - left aligned */}
-            <div className="px-4 pb-10 pt-4">
-              <div className="size-[120px]">
-                <MediaContent className="size-20 object-contain" />
-              </div>
-            </div>
+              {/* Expanded layout (larger container) */}
+              <div className="hidden @sm/card:flex @sm/card:h-full @sm/card:flex-col">
+                {/* Illustration - left aligned */}
+                <div className="px-4 pb-10 pt-4">
+                  <div className="size-[120px]">
+                    <MediaContent className="size-20 object-contain" />
+                  </div>
+                </div>
 
-            {/* Text content */}
-            <div className="flex flex-1 flex-col gap-4 p-4">
-              <h3 className="text-headline-3">{item.title}</h3>
-              {excerptText && <p className="text-body text-text-secondary">{excerptText}</p>}
-            </div>
+                {/* Text content */}
+                <div className="flex flex-1 flex-col gap-4 p-4">
+                  <h3 className="text-headline-3">
+                    <Link href={`/tjenester/${item.slug}`} className="after:absolute after:inset-0">
+                      {item.title}
+                    </Link>
+                  </h3>
+                  {excerptText && <p className="text-body text-text-secondary">{excerptText}</p>}
+                </div>
 
-            {/* Arrow button */}
-            <div className="border-t border-stroke-soft p-4">
-              <div className="flex size-8 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-button-primary-hover">
-                <Icon
-                  name="arrow-right"
-                  className="size-[10px] text-white transition-colors group-hover:text-button-primary-inverted-text"
-                />
+                {/* Arrow button */}
+                <div className="border-t border-stroke-soft p-4">
+                  <div className="flex size-8 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-button-primary-hover">
+                    <Icon
+                      name="arrow-right"
+                      className="size-[10px] text-white transition-colors group-hover:text-button-primary-inverted-text"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </Link>
-      );
-    })}
+            </article>
+          </li>
+        );
+      })}
+    </ul>
   </div>
 );
 
 const NewsArticleCards = ({ items }: { items: ImageCardItem[] }) => (
-  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {items.map((item) => (
-      <article
-        key={item._id}
-        className="overflow-hidden rounded-lg border border-gray-200 bg-white"
-      >
-        {item.image && (
-          <Img
-            {...item.image}
-            sizes={{ md: "half" }}
-            className="aspect-[16/9] w-full object-cover"
-          />
-        )}
-        <div className="p-4">
-          <h3 className="font-semibold text-gray-900">{item.title}</h3>
-        </div>
-      </article>
-    ))}
+  <div className="@container">
+    <ul className="grid gap-6 @sm:grid-cols-2 @xl:grid-cols-3">
+      {items.map((item) => (
+        <li key={item._id}>
+          <article className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white">
+            {item.image && (
+              <Img
+                {...item.image}
+                sizes={{ md: "half" }}
+                className="aspect-video w-full object-cover"
+              />
+            )}
+            <div className="p-4">
+              <h3 className="font-semibold text-gray-900">
+                <Link href={`/aktuelt/${item.slug}`} className="after:absolute after:inset-0">
+                  {item.title}
+                </Link>
+              </h3>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
   </div>
 );
 
 const CaseStudyCards = ({ items }: { items: ImageCardItem[] }) => (
-  <div className="grid gap-8 sm:grid-cols-2">
-    {items.map((item) => (
-      <div key={item._id} className="group relative overflow-hidden rounded-xl bg-gray-900">
-        {item.image && (
-          <Img
-            {...item.image}
-            sizes={{ md: "half" }}
-            className="aspect-[4/3] w-full object-cover opacity-80 transition-opacity group-hover:opacity-60"
-          />
-        )}
-        <div className="absolute inset-0 flex items-end p-6">
-          <h3 className="text-xl font-bold text-white">{item.title}</h3>
-        </div>
-      </div>
-    ))}
+  <div className="@container">
+    <ul className="grid gap-8 @sm:grid-cols-2">
+      {items.map((item) => (
+        <li key={item._id}>
+          <article className="group relative overflow-hidden rounded-xl bg-gray-900">
+            {item.image && (
+              <Img
+                {...item.image}
+                sizes={{ md: "half" }}
+                className="aspect-4/3 w-full object-cover opacity-80 transition-opacity group-hover:opacity-60"
+              />
+            )}
+            <div className="absolute inset-0 flex items-end p-6">
+              <h3 className="text-xl font-bold text-white">
+                <Link href={`/case/${item.slug}`} className="after:absolute after:inset-0">
+                  {item.title}
+                </Link>
+              </h3>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
   </div>
 );
 
 const EventCards = ({ items }: { items: ImageCardItem[] }) => (
-  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {items.map((item) => (
-      <div key={item._id} className="flex gap-4 rounded-lg border border-gray-200 bg-white p-4">
-        {item.image && (
-          <Img
-            {...item.image}
-            sizes={{ md: "third" }}
-            className="h-20 w-20 shrink-0 rounded-lg object-cover"
-          />
-        )}
-        <div className="flex flex-col justify-center">
-          <h3 className="font-semibold text-gray-900">{item.title}</h3>
-        </div>
-      </div>
-    ))}
+  <div className="@container">
+    <ul className="grid gap-4 @sm:grid-cols-2 @xl:grid-cols-3">
+      {items.map((item) => (
+        <li key={item._id}>
+          <article className="group relative flex gap-4 rounded-lg border border-gray-200 bg-white p-4">
+            {item.image && (
+              <Img
+                {...item.image}
+                sizes={{ md: "third" }}
+                className="h-20 w-20 shrink-0 rounded-lg object-cover"
+              />
+            )}
+            <div className="flex flex-col justify-center">
+              <h3 className="font-semibold text-gray-900">
+                <Link href={`/arrangementer/${item.slug}`} className="after:absolute after:inset-0">
+                  {item.title}
+                </Link>
+              </h3>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
   </div>
 );
 
@@ -288,11 +317,11 @@ const ClientCards = ({
         </div>
       )}
       {/* Mobile/tablet layout: accordion list (below desktop) */}
-      <div className="flex flex-col desktop:hidden">
+      <ul className="flex flex-col desktop:hidden">
         {filteredItems.map((item) => {
           const isExpanded = expandedId === item._id;
           return (
-            <div key={item._id} className="flex flex-col">
+            <li key={item._id} className="flex flex-col">
               <button
                 type="button"
                 onClick={() => toggleExpand(item._id)}
@@ -326,15 +355,15 @@ const ClientCards = ({
                   <ClientCardExpandedContent item={item} />
                 </div>
               </div>
-            </div>
+            </li>
           );
         })}
-      </div>
+      </ul>
 
       {/* Desktop layout: hover grid (desktop and up) */}
-      <div className="hidden gap-4 desktop:grid desktop:grid-cols-4 wide:grid-cols-5">
+      <ul className="hidden gap-4 desktop:grid desktop:grid-cols-4 wide:grid-cols-5">
         {filteredItems.map((item) => (
-          <div
+          <li
             key={item._id}
             className="group relative flex aspect-168/148 items-center justify-center rounded"
           >
@@ -345,14 +374,14 @@ const ClientCards = ({
                   {...item.image}
                   sizes={{ md: "third" }}
                   cover={false}
-                  className="object-contain w-full"
+                  className="w-full object-contain"
                 />
               )}
             </div>
             <ClientCardHoverOverlay item={item} />
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </>
   );
 };
