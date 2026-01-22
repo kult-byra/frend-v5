@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { toPlainText } from "next-sanity";
+import { useMemo, useState } from "react";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { BlockContainer } from "@/components/layout/block-container.component";
@@ -7,6 +10,7 @@ import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { ButtonGroup } from "@/components/ui/parts/button-group.component";
 import { Img, type ImgProps } from "@/components/utils/img.component";
+import { cn } from "@/utils/cn.util";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
 type CardsBlockProps = PageBuilderBlockProps<"cards.block">;
@@ -38,6 +42,48 @@ type ClientCardItem = ImageCardItem & {
   industries?: string[] | null;
   description?: string | null;
 };
+
+type CategoryFiltersProps = {
+  industries: string[];
+  selectedIndustry: string | null;
+  onSelectIndustry: (industry: string | null) => void;
+};
+
+const CategoryFilters = ({
+  industries,
+  selectedIndustry,
+  onSelectIndustry,
+}: CategoryFiltersProps) => (
+  <div className="flex flex-wrap gap-2">
+    <button
+      type="button"
+      onClick={() => onSelectIndustry(null)}
+      className={cn(
+        "rounded border px-4 py-2 text-body-small transition-colors",
+        selectedIndustry === null
+          ? " bg-orange text-dark-purple"
+          : " bg-container-shade text-text-primary hover:bg-container-secondary",
+      )}
+    >
+      Utvalgte
+    </button>
+    {industries.map((industry) => (
+      <button
+        key={industry}
+        type="button"
+        onClick={() => onSelectIndustry(industry)}
+        className={cn(
+          "rounded border px-4 py-2 text-body-small transition-colors",
+          selectedIndustry === industry
+            ? " bg-orange text-dark-purple"
+            : "bg-transparent text-text-primary hover:bg-container-secondary",
+        )}
+      >
+        {industry}
+      </button>
+    ))}
+  </div>
+);
 
 const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-(--gutter)">
@@ -176,58 +222,190 @@ const EventCards = ({ items }: { items: ImageCardItem[] }) => (
   </div>
 );
 
-const ClientCards = ({ items }: { items: ClientCardItem[] }) => (
-  <div className="grid grid-cols-2 gap-4 lg:grid-cols-6">
-    {items.map((item) => (
-      <div
-        key={item._id}
-        className="group relative flex aspect-168/148 items-center justify-center rounded"
-      >
-        {/* Logo - visible by default, hidden on hover */}
-        <div className="flex size-[100px] items-center justify-center transition-opacity group-hover:opacity-0">
-          {item.image && (
-            <Img
-              {...item.image}
-              sizes={{ md: "third" }}
-              cover={false}
-              className="max-h-full max-w-full object-contain mix-blend-multiply"
-            />
-          )}
-        </div>
-        <ClientCardHover item={item} />
-      </div>
-    ))}
-  </div>
-);
+type ClientCardsProps = {
+  items: ClientCardItem[];
+  links?: Parameters<typeof ButtonGroup>[0]["buttons"];
+  heading?: string | null;
+  content?: unknown;
+  allIndustries?: string[] | null;
+};
 
-const ClientCardHover = ({ item }: { item: ClientCardItem }) => {
-  const content = (
-    <div className="flex h-full w-full flex-col justify-between overflow-hidden rounded bg-container-tertiary-1 p-4">
-      <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden">
-        <p className="shrink-0 text-sm font-semibold leading-[1.45] text-text-primary">
-          {item.title}
-        </p>
-        {item.description && (
-          <p className="line-clamp-4 text-xs leading-[1.45] text-text-primary">
-            {item.description}
-          </p>
-        )}
-        {item.industries && item.industries.length > 0 && (
-          <p className="shrink-0 text-xs leading-[1.45] text-text-secondary">
-            {item.industries.join(", ")}
-          </p>
-        )}
-      </div>
-      {item.slug && (
-        <div className="mt-4 flex size-8 shrink-0 items-center justify-center rounded-full bg-orange">
-          <Icon name="arrow-top-right" className="size-3 text-dark-purple" />
+const ClientCards = ({
+  items,
+  links,
+  heading,
+  content,
+  allIndustries: industriesFromQuery,
+}: ClientCardsProps) => {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
+
+  // Filter out null values and sort alphabetically
+  const allIndustries = useMemo(() => {
+    if (!industriesFromQuery) return [];
+    return industriesFromQuery.filter((i): i is string => i != null).sort();
+  }, [industriesFromQuery]);
+
+  const filteredItems = useMemo(() => {
+    if (!selectedIndustry) return items;
+    return items.filter((item) => item.industries?.includes(selectedIndustry));
+  }, [items, selectedIndustry]);
+
+  const toggleExpand = (id: string) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
+
+  const hasHeader = heading || content || allIndustries.length > 0;
+
+  return (
+    <>
+      {/* Header section with right-aligned content on desktop */}
+      {hasHeader && (
+        <div className="mb-12 flex flex-col gap-6 tablet:flex-row tablet:gap-4">
+          {/* Left spacer - hidden on mobile */}
+          <div className="hidden flex-1 tablet:block" />
+          {/* Right content - heading, excerpt, and filters */}
+          <div className="flex flex-1 flex-col gap-6">
+            {heading && <H2>{heading}</H2>}
+            <PortableText
+              content={content as Parameters<typeof PortableText>[0]["content"]}
+              className="text-body-large text-text-secondary"
+            />
+            {allIndustries.length > 0 && (
+              <CategoryFilters
+                industries={allIndustries}
+                selectedIndustry={selectedIndustry}
+                onSelectIndustry={setSelectedIndustry}
+              />
+            )}
+          </div>
         </div>
       )}
+      {/* Links - show if provided */}
+      {links && links.length > 0 && (
+        <div className="mb-8">
+          <ButtonGroup buttons={links} />
+        </div>
+      )}
+      {/* Mobile/tablet layout: accordion list (below desktop) */}
+      <div className="flex flex-col desktop:hidden">
+        {filteredItems.map((item) => {
+          const isExpanded = expandedId === item._id;
+          return (
+            <div key={item._id} className="flex flex-col">
+              <button
+                type="button"
+                onClick={() => toggleExpand(item._id)}
+                className={`flex w-full items-center justify-between bg-white px-4 py-4 ${
+                  isExpanded ? "" : "border-b border-stroke-soft"
+                }`}
+              >
+                <div className="flex size-20 shrink-0 items-center justify-center">
+                  {item.image && (
+                    <Img
+                      {...item.image}
+                      sizes={{ md: "third" }}
+                      cover={false}
+                      className="max-h-20 max-w-20 object-contain mix-blend-multiply"
+                    />
+                  )}
+                </div>
+                <div className="flex size-8 items-center justify-center">
+                  <Icon
+                    name={isExpanded ? "collapse" : "expand"}
+                    className="size-4 text-text-primary transition-transform duration-200"
+                  />
+                </div>
+              </button>
+              <div
+                className={`grid transition-all duration-300 ease-out ${
+                  isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <ClientCardExpandedContent item={item} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop layout: hover grid (desktop and up) */}
+      <div className="hidden gap-4 desktop:grid desktop:grid-cols-4 wide:grid-cols-5">
+        {filteredItems.map((item) => (
+          <div
+            key={item._id}
+            className="group relative flex aspect-168/148 items-center justify-center rounded"
+          >
+            {/* Logo - visible by default, hidden on hover */}
+            <div className="flex size-[100px] items-center justify-center transition-opacity group-hover:opacity-0">
+              {item.image && (
+                <Img
+                  {...item.image}
+                  sizes={{ md: "third" }}
+                  cover={false}
+                  className="object-contain w-full"
+                />
+              )}
+            </div>
+            <ClientCardHoverOverlay item={item} />
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+const ClientCardExpandedContent = ({ item }: { item: ClientCardItem }) => {
+  const content = (
+    <div className="flex flex-col gap-4 rounded bg-container-tertiary-1 p-4">
+      <div className="flex flex-col gap-2">
+        <p className="text-body-title text-text-primary">{item.title}</p>
+        {item.description && (
+          <p className="text-body-small text-text-primary">{item.description}</p>
+        )}
+        {item.industries && item.industries.length > 0 && (
+          <p className="text-body-small text-text-secondary">{item.industries.join(", ")}</p>
+        )}
+      </div>
+      <div className="flex size-8 items-center justify-center rounded-full bg-orange">
+        <Icon name="arrow-right" className="size-[10px] text-dark-purple" />
+      </div>
+    </div>
+  );
+
+  if (item.slug) {
+    return (
+      <Link href={`/kunder/${item.slug}`} className="block">
+        {content}
+      </Link>
+    );
+  }
+
+  return content;
+};
+
+const ClientCardHoverOverlay = ({ item }: { item: ClientCardItem }) => {
+  const content = (
+    <div className="flex w-full flex-col gap-4 rounded bg-container-tertiary-1 p-4">
+      <div className="flex flex-col gap-2">
+        <p className="text-body-title text-text-primary">{item.title}</p>
+        {item.description && (
+          <p className="text-body-small text-text-primary">{item.description}</p>
+        )}
+        {item.industries && item.industries.length > 0 && (
+          <p className="text-body-small text-text-secondary">{item.industries.join(", ")}</p>
+        )}
+      </div>
+      <div className="flex size-8 items-center justify-center rounded-full bg-orange">
+        <Icon name="arrow-right" className="size-[10px] text-dark-purple" />
+      </div>
     </div>
   );
 
   const baseClassName =
-    "absolute inset-0 z-10 pointer-events-none opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100";
+    "absolute left-0 top-0 z-10 w-full pointer-events-none opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100";
 
   if (item.slug) {
     return (
@@ -242,10 +420,12 @@ const ClientCardHover = ({ item }: { item: ClientCardItem }) => {
 
 export const CardsBlock = (props: CardsBlockProps) => {
   const { heading, content, items, contentType } = props;
-  // links field exists in query but types not regenerated yet
-  const links = (
-    props as CardsBlockProps & { links?: Parameters<typeof ButtonGroup>[0]["buttons"] }
-  ).links;
+  // links, clientLinks, and allIndustries fields exist in query but types not regenerated yet
+  const { links, clientLinks, allIndustries } = props as CardsBlockProps & {
+    links?: Parameters<typeof ButtonGroup>[0]["buttons"];
+    clientLinks?: Parameters<typeof ButtonGroup>[0]["buttons"];
+    allIndustries?: string[] | null;
+  };
 
   if (!items?.length) return null;
 
@@ -260,14 +440,23 @@ export const CardsBlock = (props: CardsBlockProps) => {
       case "event":
         return <EventCards items={items as ImageCardItem[]} />;
       case "client":
-        return <ClientCards items={items as ClientCardItem[]} />;
+        return (
+          <ClientCards
+            items={items as ClientCardItem[]}
+            links={clientLinks}
+            heading={heading}
+            content={content}
+            allIndustries={allIndustries}
+          />
+        );
       default:
         return <div>Card type not implemented: {contentType}</div>;
     }
   };
 
   const hasServicesHeader = contentType === "services" && (content || links?.length);
-  const hasDefaultHeader = contentType !== "services" && (heading || content);
+  const hasDefaultHeader =
+    contentType !== "services" && contentType !== "client" && (heading || content);
 
   return (
     <BlockContainer>

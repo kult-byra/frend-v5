@@ -52,6 +52,14 @@ export const cardsBlockQuery = defineQuery(`
   links[] {
     ${linksQuery}
   },
+  clientLinks[] {
+    ${linksQuery}
+  },
+  "allIndustries": select(
+    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),
+    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),
+    null
+  ),
   "items": select(
     contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {
       ${serviceFieldsQuery}

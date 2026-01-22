@@ -40,8 +40,8 @@ export const imagesAndTextBlockSchema = defineBlock({
       validation: (Rule) =>
         Rule.required()
           .min(1)
-          .max(3)
-          .error("At least one image is required and at most three are allowed"),
+          .max(2)
+          .error("At least one image is required and at most two are allowed"),
     }),
   ],
   preview: {

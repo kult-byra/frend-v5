@@ -250,9 +250,5 @@ const FooterNewsletterForm = ({
     return null;
   }
 
-  return (
-    <div className="flex max-w-[540px] flex-1 flex-col gap-4 ">
-      [form here]
-    </div>
-  );
+  return <div className="flex max-w-[540px] flex-1 flex-col gap-4 ">[form here]</div>;
 };

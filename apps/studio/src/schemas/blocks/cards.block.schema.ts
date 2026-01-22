@@ -43,6 +43,26 @@ export const cardsBlockSchema = defineBlock({
       },
       initialValue: "services",
     }),
+    // Links for services
+    linksField({
+      name: "links",
+      title: "Links",
+      description: "Add a link to all services or other relevant pages.",
+      includeExternal: true,
+      includeButtonVariant: true,
+      max: 1,
+      hidden: ({ parent }) => parent?.contentType !== "services",
+    }),
+    // Links for clients
+    linksField({
+      name: "clientLinks",
+      title: "Links",
+      description: "Add links above the client cards.",
+      includeExternal: true,
+      includeButtonVariant: true,
+      max: 2,
+      hidden: ({ parent }) => parent?.contentType !== "client",
+    }),
     booleanField({
       name: "manualSelection",
       title: "Manual selection",
@@ -112,16 +132,6 @@ export const cardsBlockSchema = defineBlock({
       allowMultiple: true,
       to: [{ type: "client" }],
       hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "client",
-    }),
-    // Links (only for services)
-    linksField({
-      name: "links",
-      title: "Links",
-      description: "Add a link to all services or other relevant pages.",
-      includeExternal: true,
-      includeButtonVariant: true,
-      max: 1,
-      hidden: ({ parent }) => parent.contentType !== "services",
     }),
   ],
   preview: {

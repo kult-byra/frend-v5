@@ -78,10 +78,7 @@ export function ServiceSection({
             className="group flex size-8 items-center justify-center rounded-full bg-button-primary-hover transition-colors"
             aria-label={`Read more about ${title}`}
           >
-            <Icon
-              name="arrow-right"
-              className="size-[10px] text-text-primary transition-colors"
-            />
+            <Icon name="arrow-right" className="size-[10px] text-text-primary transition-colors" />
           </Link>
         </div>
 
@@ -121,10 +118,7 @@ export function ServiceSection({
             className="group flex size-8 items-center justify-center rounded-full bg-button-primary-hover transition-colors"
             aria-label={`Read more about ${title}`}
           >
-            <Icon
-              name="arrow-right"
-              className="size-[10px] text-text-primary transition-colors"
-            />
+            <Icon name="arrow-right" className="size-[10px] text-text-primary transition-colors" />
           </Link>
         </div>
       </div>
