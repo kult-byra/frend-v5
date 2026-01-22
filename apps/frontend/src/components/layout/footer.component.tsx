@@ -1,6 +1,7 @@
 import { SanityImage } from "sanity-image";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { Container } from "@/components/layout/container.component";
+import { LanguageSwitcher } from "@/components/layout/language-switcher.component";
 import { Logo } from "@/components/logo.component";
 import { LinkResolver } from "@/components/utils/link-resolver.component";
 import { env } from "@/env";
@@ -21,6 +22,12 @@ export const Footer = (props: FooterProps) => {
 
   return (
     <footer className="bg-container-brand-1 text-text-white-primary">
+      {/* Language & Newsletter section */}
+      <Container className="flex items-start justify-between gap-4 pb-20 pt-4">
+        <LanguageSwitcher variant="footer" />
+        <FooterNewsletterForm contactForm={footerSettings?.contactForm} />
+      </Container>
+
       {/* Main footer content */}
       <Container className="py-4">
         {/* Links section */}
@@ -233,3 +240,19 @@ const ExternalLinkWithArrow = ({ href, title }: { href: string; title: string })
     </svg>
   </a>
 );
+
+const FooterNewsletterForm = ({
+  contactForm,
+}: {
+  contactForm?: { _id: string; title: string | null } | null;
+}) => {
+  if (!contactForm) {
+    return null;
+  }
+
+  return (
+    <div className="flex max-w-[540px] flex-1 flex-col gap-4 ">
+      [form here]
+    </div>
+  );
+};

@@ -8,6 +8,11 @@ export const servicesArchiveSettingsQuery = defineQuery(`
     title,
     subtitle,
     excerpt,
+    "media": {
+      "mediaType": media.mediaType,
+      "image": media.image { ${imageQuery} },
+      "videoUrl": media.videoUrl
+    },
     ${metadataQuery},
     ${translationsQuery}
   }

@@ -60,7 +60,7 @@ export default async function LocaleLayout({
 
               {(await draftMode()).isEnabled && <DraftmodeBanner />}
 
-              <main id="main" className="mb-auto">
+              <main id="main" className="mb-auto pt-14">
                 {children}
               </main>
 

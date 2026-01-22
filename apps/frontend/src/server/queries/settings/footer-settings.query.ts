@@ -10,6 +10,10 @@ export const footerSettingsQuery = defineQuery(`
     )[] {
       ${linksQuery}
     },
-    illustration
+    illustration,
+    contactForm->{
+      _id,
+      title
+    }
   }
 `);

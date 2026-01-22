@@ -7,9 +7,10 @@ import { cn } from "@/utils/cn.util";
 
 interface LanguageSwitcherProps {
   className?: string;
+  variant?: "default" | "footer";
 }
 
-export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ className, variant = "default" }: LanguageSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -17,6 +18,29 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   const switchLocale = (newLocale: string) => {
     router.replace(pathname, { locale: newLocale });
   };
+
+  if (variant === "footer") {
+    return (
+      <div className={cn("flex items-center gap-1", className)}>
+        {routing.locales.map((loc) => (
+          <button
+            key={loc}
+            type="button"
+            onClick={() => switchLocale(loc)}
+            className={cn(
+              "flex size-8 items-center justify-center rounded text-body transition-colors",
+              locale === loc
+                ? "bg-orange text-text-primary"
+                : "text-text-white-primary hover:text-orange",
+            )}
+            aria-current={locale === loc ? "page" : undefined}
+          >
+            {loc.toUpperCase()}
+          </button>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className={cn("flex items-center gap-2", className)}>

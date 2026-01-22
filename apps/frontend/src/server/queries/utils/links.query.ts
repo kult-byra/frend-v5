@@ -4,15 +4,13 @@ import type { FullLinksTypegenQueryResult } from "@/sanity-types";
 // @sanity-typegen-ignore
 const internalLinkQuery = defineQuery(`
   "linkType": "internal",
-  ...(internalLink-> {
-    "title": coalesce(
-      ^.customTitle,
-      title,
-      name
-    ),
-    "slug": slug.current,
-    _type
-  }),
+  "title": coalesce(
+    customTitle,
+    internalLink->title,
+    internalLink->name
+  ),
+  "slug": internalLink->slug.current,
+  "_type": internalLink->_type,
   description,
   buttonVariant
 `);

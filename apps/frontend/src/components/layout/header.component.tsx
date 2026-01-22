@@ -11,14 +11,14 @@ export const Header = (props: SettingsQueryResult) => {
   const { siteSettings, menuSettings, newsEventsCount } = props;
 
   return (
-    <header className="top-header">
+    <header className="fixed top-0 right-0 left-0 z-40">
       {siteSettings && <Banner {...siteSettings} />}
 
       <div className="flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-6">
           <Link
             href="/"
-            className="relative z-50 shrink-0"
+            className="shrink-0 rounded-lg bg-white/80 p-2 backdrop-blur-md"
             aria-label={`Til forsiden - ${env.NEXT_PUBLIC_SITE_TITLE}`}
           >
             <Logo color="dark" width={80} height={27} priority />

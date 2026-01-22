@@ -1,7 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { toPlainText } from "next-sanity";
-import { Button } from "@/components/ui/button";
 import type { ServicesArchiveSettingsQueryResult, ServicesListQueryResult } from "@/sanity-types";
 import {
   servicesArchiveSettingsQuery,
@@ -9,7 +6,9 @@ import {
 } from "@/server/queries/documents/services-archive.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
-import { ServicesList } from "./(parts)/services-list.component";
+import { AnchorNavigation } from "./(parts)/anchor-navigation.component";
+import { ServiceSection } from "./(parts)/service-section.component";
+import { ServicesHero } from "./(parts)/services-hero.component";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -46,27 +45,46 @@ export default async function ServicesPage({ params }: Props) {
   const { locale } = await params;
   const [settings, services] = await Promise.all([getArchiveSettings(locale), getServices(locale)]);
 
-  const excerptText = settings?.excerpt ? toPlainText(settings.excerpt) : settings?.subtitle;
+  // Create anchor items from services
+  const anchorItems = services.map((service, index) => ({
+    id: `service-${index}`,
+    title: service.title ?? "",
+  }));
 
   return (
-    <section className="bg-container-primary pb-(--spacing-xl) pt-0">
-      {/* Header section with excerpt and CTA */}
-      <div className="grid tablet:grid-cols-2 gap-(--gutter) px-(--margin) pb-(--spacing-xl)">
-        <div>{/* Empty left column */}</div>
-        <div className="flex flex-col gap-(--gutter)">
-          {excerptText && (
-            <p className="text-body-large text-text-primary max-w-[720px]">{excerptText}</p>
-          )}
-          <Button asChild>
-            <Link href="/tjenester">All services</Link>
-          </Button>
+    <>
+      {/* Hero section */}
+      <ServicesHero
+        title={settings?.title ?? null}
+        excerpt={settings?.excerpt ?? null}
+        subtitle={settings?.subtitle ?? null}
+        media={settings?.media ?? null}
+      />
+
+      {/* Main content area with anchor nav and service sections */}
+      <div className="relative bg-container-primary">
+        {/* Desktop: Anchor navigation - sticky in left column */}
+        <div className="absolute left-(--margin) top-[206px] z-10 hidden w-[443px] lg:block">
+          <div className="sticky top-4">
+            <AnchorNavigation items={anchorItems} />
+          </div>
+        </div>
+
+        {/* Service sections */}
+        <div>
+          {services.map((service, index) => (
+            <ServiceSection
+              key={service._id}
+              id={`service-${index}`}
+              title={service.title ?? ""}
+              slug={service.slug ?? ""}
+              excerpt={service.excerpt}
+              media={service.media}
+              isLast={index === services.length - 1}
+            />
+          ))}
         </div>
       </div>
-
-      {/* Services grid */}
-      <div className="px-(--margin)">
-        <ServicesList services={services} />
-      </div>
-    </section>
+    </>
   );
 }

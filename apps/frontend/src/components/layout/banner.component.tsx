@@ -11,7 +11,7 @@ export const Banner = (props: SiteSettingsQueryResult) => {
     <Container
       fullWidth
       aria-label="Viktig melding"
-      className="relative z-50 py-2 bg-slate-800 text-white flex justify-center text-center"
+      className="relative z-50 py-2 bg-slate-800/95 text-white flex justify-center text-center"
     >
       <PortableText content={bannerContent} options={{ pSize: "text-xs" }} />
     </Container>
