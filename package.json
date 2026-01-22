@@ -19,7 +19,7 @@
     "@sanity/cli": "^5.5.0",
     "@workspace/typescript-config": "workspace:*",
     "lefthook": "^2.0.14",
-    "turbo": "^2.7.4",
+    "turbo": "^2.7.5",
     "typescript": "5.9.3"
   },
   "packageManager": "pnpm@10.28.1",
