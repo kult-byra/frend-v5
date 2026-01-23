@@ -1,5 +1,6 @@
 import { User } from "lucide-react";
 import { defineField, defineType } from "sanity";
+import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { imageField } from "../generator-fields/image.field";
 
@@ -13,6 +14,7 @@ export const personSchema = defineType({
     { name: "en", title: "English 🇬🇧" },
   ],
   fields: [
+    sharedDocumentInfoField(),
     stringField({
       name: "name",
       title: "Name",

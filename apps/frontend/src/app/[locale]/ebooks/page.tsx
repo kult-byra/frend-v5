@@ -43,19 +43,19 @@ export default async function EBooksPage({ params }: Props) {
   const [settings, eBooks] = await Promise.all([getArchiveSettings(locale), getEBooks(locale)]);
 
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <H1 className="mb-4">{settings?.title ?? "E-bøker"}</H1>
       {settings?.subtitle && (
         <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
       )}
 
       {eBooks && eBooks.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">
           {eBooks.map((eBook) => (
             <Link
               key={eBook._id}
               href={`/ebooks/${eBook.slug}`}
-              className="group block p-6 border rounded-lg hover:border-primary transition-colors"
+              className="group block p-sm border rounded-lg hover:border-primary transition-colors"
             >
               <h2 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                 {eBook.title}

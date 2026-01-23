@@ -11,6 +11,7 @@ export const footerSettingsQuery = defineQuery(`
       ${linksQuery}
     },
     illustration,
+    "mobileIllustration": mobileIllustration.illustration,
     contactForm->{
       _id,
       title

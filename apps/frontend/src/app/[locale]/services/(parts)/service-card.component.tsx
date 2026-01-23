@@ -29,7 +29,7 @@ function TechnologyPill({ technology }: { technology: Technology }) {
   const logoId = technology.logo?.asset?._id;
 
   return (
-    <div className="flex h-8 w-[100px] items-center justify-center rounded-lg bg-container-shade px-4 py-2">
+    <div className="flex h-8 w-[100px] items-center justify-center rounded-lg bg-container-shade px-xs py-2xs">
       {logoId ? (
         <SanityImage
           id={logoId}
@@ -65,7 +65,7 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
       {/* Mobile/List layout (below lg) */}
       <div className="flex flex-col lg:hidden">
         {/* Row 1: illustration + title */}
-        <div className="flex items-center gap-4 p-4">
+        <div className="flex items-center gap-xs p-xs">
           <div className="w-20 shrink-0">
             <MediaContent className="size-full object-contain" />
           </div>
@@ -73,7 +73,7 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
         </div>
 
         {/* Row 2: excerpt + arrow */}
-        <div className="flex items-end justify-end gap-10 p-4 pt-0">
+        <div className="flex items-end justify-end gap-lg p-xs pt-0">
           {excerpt && (
             <p className="flex-1 text-body-small text-text-secondary">{toPlainText(excerpt)}</p>
           )}
@@ -84,7 +84,7 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
 
         {/* Row 3: Technology pills */}
         {technologies && technologies.length > 0 && (
-          <div className="flex items-center gap-2 border-t border-stroke-soft p-4">
+          <div className="flex items-center gap-2xs border-t border-stroke-soft p-xs">
             {technologies.map((tech) => (
               <TechnologyPill key={tech._id} technology={tech} />
             ))}
@@ -95,14 +95,14 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
       {/* Desktop/Grid layout (lg and up) */}
       <div className="hidden lg:flex lg:h-full lg:flex-col">
         {/* Illustration - left aligned */}
-        <div className="px-4 pb-10 pt-4">
+        <div className="px-xs pb-lg pt-xs">
           <div className="size-2xl">
             <MediaContent className="size-20 object-contain" />
           </div>
         </div>
 
         {/* Text */}
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-xs p-xs">
           <h3 className="text-headline-3">{title}</h3>
           {excerpt && <p className="text-body text-text-secondary">{toPlainText(excerpt)}</p>}
         </div>
@@ -111,7 +111,7 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
         <div className="flex-1" />
 
         {/* Footer: Arrow button + Technology pills */}
-        <div className="flex items-center gap-4 border-t border-stroke-soft p-4">
+        <div className="flex items-center gap-xs border-t border-stroke-soft p-xs">
           {/* Arrow button - left aligned, orange background */}
           <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-container-brand-2 transition-colors group-hover:bg-button-primary-hover">
             <Icon
@@ -122,7 +122,7 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
 
           {/* Technology pills - right aligned */}
           {technologies && technologies.length > 0 && (
-            <div className="flex flex-1 items-center justify-end gap-2 overflow-hidden">
+            <div className="flex flex-1 items-center justify-end gap-2xs overflow-hidden">
               {technologies.map((tech) => (
                 <TechnologyPill key={tech._id} technology={tech} />
               ))}

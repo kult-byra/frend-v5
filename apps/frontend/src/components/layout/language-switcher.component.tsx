@@ -38,14 +38,14 @@ export function LanguageSwitcher({ className, variant = "default" }: LanguageSwi
 
   if (variant === "footer") {
     return (
-      <div className={cn("flex items-center gap-1", className)}>
+      <div className={cn("flex items-center gap-3xs", className)}>
         {routing.locales.map((loc) => (
           <button
             key={loc}
             type="button"
             onClick={() => switchLocale(loc)}
             className={cn(
-              "flex size-8 items-center justify-center rounded text-body transition-colors",
+              "flex size-8 cursor-pointer items-center justify-center rounded text-body transition-colors",
               locale === loc
                 ? "bg-orange text-text-primary"
                 : "text-text-white-primary hover:text-orange",
@@ -60,14 +60,14 @@ export function LanguageSwitcher({ className, variant = "default" }: LanguageSwi
   }
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div className={cn("flex items-center gap-2xs", className)}>
       {routing.locales.map((loc) => (
         <button
           key={loc}
           type="button"
           onClick={() => switchLocale(loc)}
           className={cn(
-            "px-2 py-1 text-sm rounded transition-colors",
+            "cursor-pointer px-2xs py-3xs text-sm rounded transition-colors",
             locale === loc
               ? "font-bold text-purple bg-light-purple"
               : "text-gray-600 hover:text-purple",

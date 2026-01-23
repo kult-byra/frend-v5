@@ -30,6 +30,9 @@ export const MODE_LABELS = {
 } as const;
 
 export const ILLUSTRATIONS = [
+  // Standalone Illustrations
+  { name: "arrow-right-rotated", label: "Arrow Right Rotated", mode: "dark", type: "illustration" },
+
   // Light Mode - Illustrations
   { name: "light-bubbles-01", label: "Bubbles 1", mode: "light", type: "illustration" },
   { name: "light-bubbles-02", label: "Bubbles 2", mode: "light", type: "illustration" },

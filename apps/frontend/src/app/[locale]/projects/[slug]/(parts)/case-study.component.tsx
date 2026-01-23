@@ -11,7 +11,7 @@ type Props = {
 
 export function CaseStudy({ title, subtitle, client, keyResults }: Props) {
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <Link
         href="/projects"
         className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"

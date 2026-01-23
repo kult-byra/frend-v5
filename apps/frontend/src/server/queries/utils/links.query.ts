@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 import type { FullLinksTypegenQueryResult } from "@/sanity-types";
+import { imageInnerQuery } from "./image.query";
 
 // @sanity-typegen-ignore
 const internalLinkQuery = defineQuery(`
@@ -54,6 +55,23 @@ const linkGroupQuery = defineQuery(`
       _type == "internalLinkObject" => {${internalLinkQuery}},
       _type == "link" => {${externalLinkQuery}}
     }
+  },
+  linkGroups[] {
+    _key,
+    title,
+    links[] {
+      _key,
+      _type == "internalLinkObject" => {${internalLinkQuery}},
+      _type == "link" => {${externalLinkQuery}}
+    }
+  },
+  contactForm-> {
+    _id,
+    title,
+    formId
+  },
+  image {
+    ${imageInnerQuery}
   }
 `);
 

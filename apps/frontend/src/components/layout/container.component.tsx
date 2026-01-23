@@ -30,8 +30,8 @@ export const Container = <T extends ElementType = "div">({
       className={cn(
         "mx-auto w-full",
         !fullWidth && "max-w-[1750px]",
-        paddingX && "px-6 md:px-9",
-        paddingY && "py-6 md:py-9",
+        paddingX && "px-sm md:px-sm",
+        paddingY && "py-sm md:py-sm",
         className,
       )}
       {...props}

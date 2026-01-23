@@ -66,7 +66,7 @@ export function ServiceSection({
 
         {/* Content area */}
         <div className="flex flex-col gap-sm pb-md">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-xs">
             <h2 className="text-headline-2 text-text-primary">{title}</h2>
             {excerpt && (
               <PortableText
@@ -90,7 +90,7 @@ export function ServiceSection({
 
           {/* Technology pills */}
           {technologies && technologies.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 pt-md">
+            <div className="flex flex-wrap items-center gap-2xs pt-md">
               {technologies.map((tech) => (
                 <TechnologyPill key={tech._id} technology={tech} />
               ))}

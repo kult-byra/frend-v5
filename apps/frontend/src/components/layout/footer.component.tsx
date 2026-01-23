@@ -23,31 +23,61 @@ export const Footer = (props: FooterProps) => {
   return (
     <footer className="bg-container-brand-1 text-text-white-primary">
       {/* Language & Newsletter section */}
-      <Container className="flex items-start justify-between gap-4 pb-20 pt-4">
+      <Container className="flex flex-col gap-md pb-xl pt-xs lg:flex-row lg:items-start lg:justify-between lg:gap-xs">
         <LanguageSwitcher variant="footer" />
         <FooterNewsletterForm contactForm={footerSettings?.contactForm} />
       </Container>
 
       {/* Main footer content */}
-      <Container className="py-4">
+      <Container className="p-xs">
         {/* Links section */}
-        <div className="flex flex-col gap-4 border-t border-stroke-soft-inverted pt-4 md:flex-row md:gap-4">
-          {/* Contact column */}
-          <FooterContactSection organisationSettings={organisationSettings} />
+        <div className="flex flex-col gap-md border-t border-stroke-soft-inverted pt-xs">
+          {/* Contact & Links columns - 2 columns on mobile, 3 on desktop */}
+          <div className="flex gap-xs lg:gap-xs">
+            {/* Contact column */}
+            <FooterContactSection organisationSettings={organisationSettings} />
 
-          {/* Links column */}
-          <FooterLinksSection footerSettings={footerSettings} />
+            {/* Links column */}
+            <FooterLinksSection footerSettings={footerSettings} />
 
-          {/* Certifications column */}
-          <FooterCertificationsSection organisationSettings={organisationSettings} />
+            {/* Certifications column - desktop only */}
+            <div className="hidden flex-1 lg:block">
+              <FooterCertificationsSection
+                organisationSettings={organisationSettings}
+                layout="horizontal"
+              />
+            </div>
+          </div>
+
+          {/* Certifications - mobile only (full width below columns) */}
+          <div className="lg:hidden">
+            <FooterCertificationsSection
+              organisationSettings={organisationSettings}
+              layout="vertical"
+            />
+          </div>
         </div>
       </Container>
 
       {/* Legal section */}
-      <Container className="relative flex min-h-[423px] flex-col justify-end pb-0">
+      {/* Mobile illustration - full width, no padding, left aligned */}
+      {footerSettings?.illustration && (
+        <div className="pointer-events-none select-none lg:hidden">
+          <Illustration
+            name={
+              ((footerSettings as { mobileIllustration?: string }).mobileIllustration ??
+                footerSettings.illustration) as IllustrationName
+            }
+            className="h-auto w-full"
+          />
+        </div>
+      )}
+
+      {/* Legal bar - flex row with copyright | illustration | logo */}
+      <Container className="overflow-hidden pb-0">
         <div className="flex items-end justify-between">
           {/* Legal text */}
-          <div className="flex flex-col gap-1 p-4 text-body-small">
+          <div className="flex flex-col gap-3xs py-xs text-body-small">
             <p>
               Copyright &copy; {currentYear} {env.NEXT_PUBLIC_SITE_TITLE}
             </p>
@@ -63,9 +93,9 @@ export const Footer = (props: FooterProps) => {
             )}
           </div>
 
-          {/* Illustration - bottom center */}
+          {/* Desktop illustration - centered in row, hidden on mobile */}
           {footerSettings?.illustration && (
-            <div className="pointer-events-none absolute bottom-0 left-1/2 hidden -translate-x-1/2 select-none md:block">
+            <div className="pointer-events-none hidden shrink-0 select-none lg:block">
               <Illustration
                 name={footerSettings.illustration as IllustrationName}
                 className="h-auto w-[320px] lg:w-[423px]"
@@ -73,9 +103,16 @@ export const Footer = (props: FooterProps) => {
             </div>
           )}
 
-          {/* Logo - bottom right */}
-          <div className="hidden p-4 md:block">
-            <Logo color="orange" variant="angled2" width={423} height={466} />
+          {/* Logo - small on mobile, large on desktop */}
+          <div className="py-xs">
+            {/* Mobile logo */}
+            <div className="lg:hidden">
+              <Logo color="orange" variant="angled2" width={118} height={157} />
+            </div>
+            {/* Desktop logo */}
+            <div className="hidden lg:block">
+              <Logo color="orange" variant="angled2" width={244} height={325} />
+            </div>
           </div>
         </div>
       </Container>
@@ -89,10 +126,10 @@ const FooterContactSection = ({
   const { address, phoneNumber, email, socialMediaLinks } = organisationSettings ?? {};
 
   return (
-    <div className="flex flex-1 flex-col gap-10">
+    <div className="flex flex-1 flex-col gap-md">
       <p className="text-body-small text-text-white-secondary">Contact</p>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-xs lg:gap-sm">
         {/* Address */}
         {address && (
           <address className="text-body not-italic">
@@ -102,17 +139,30 @@ const FooterContactSection = ({
           </address>
         )}
 
-        {/* Email and phone */}
-        <div className="flex flex-col gap-2">
-          {email && <UnderlineLink href={`mailto:${email}`}>{email}</UnderlineLink>}
-          {phoneNumber && <UnderlineLink href={`tel:${phoneNumber}`}>{phoneNumber}</UnderlineLink>}
+        {/* Email and phone - 44px touch targets on mobile */}
+        <div className="flex flex-col">
+          {email && (
+            <UnderlineLink href={`mailto:${email}`} className="h-11 lg:h-auto">
+              {email}
+            </UnderlineLink>
+          )}
+          {phoneNumber && (
+            <UnderlineLink href={`tel:${phoneNumber}`} className="h-11 lg:h-auto">
+              {phoneNumber}
+            </UnderlineLink>
+          )}
         </div>
 
-        {/* Social media */}
+        {/* Social media - 44px touch targets on mobile */}
         {socialMediaLinks && socialMediaLinks.length > 0 && (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col">
             {socialMediaLinks.map((link) => (
-              <ExternalLinkWithArrow key={link._key} href={link.url} title={link.title} />
+              <ExternalLinkWithArrow
+                key={link._key}
+                href={link.url}
+                title={link.title}
+                className="h-11 lg:h-auto"
+              />
             ))}
           </div>
         )}
@@ -129,10 +179,10 @@ const FooterLinksSection = ({ footerSettings }: Pick<FooterProps, "footerSetting
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-10">
+    <div className="flex flex-1 flex-col gap-md">
       <p className="text-body-small text-text-white-secondary">Links</p>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col">
         {footerLinks.map((link) => {
           if (link.linkType === "internal" && link.slug) {
             return (
@@ -141,15 +191,24 @@ const FooterLinksSection = ({ footerSettings }: Pick<FooterProps, "footerSetting
                 linkType="internal"
                 slug={link.slug}
                 _type={link._type}
-                className="w-fit border-b border-stroke-soft-inverted text-body transition-colors hover:border-white"
+                className="flex h-11 w-fit items-center text-body transition-colors lg:h-auto"
               >
-                {link.title}
+                <span className="border-b border-stroke-soft-inverted transition-colors hover:border-white">
+                  {link.title}
+                </span>
               </LinkResolver>
             );
           }
 
           if (link.linkType === "external") {
-            return <ExternalLinkWithArrow key={link._key} href={link.url} title={link.title} />;
+            return (
+              <ExternalLinkWithArrow
+                key={link._key}
+                href={link.url}
+                title={link.title}
+                className="h-11 lg:h-auto"
+              />
+            );
           }
 
           return null;
@@ -159,9 +218,14 @@ const FooterLinksSection = ({ footerSettings }: Pick<FooterProps, "footerSetting
   );
 };
 
+type FooterCertificationsSectionProps = Pick<FooterProps, "organisationSettings"> & {
+  layout?: "horizontal" | "vertical";
+};
+
 const FooterCertificationsSection = ({
   organisationSettings,
-}: Pick<FooterProps, "organisationSettings">) => {
+  layout = "horizontal",
+}: FooterCertificationsSectionProps) => {
   const { certifications } = organisationSettings ?? {};
 
   if (!certifications || certifications.length === 0) {
@@ -169,12 +233,17 @@ const FooterCertificationsSection = ({
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-10">
+    <div className="flex flex-1 flex-col gap-md">
       <p className="text-body-small text-text-white-secondary">Certifications</p>
 
-      <div className="flex flex-wrap items-center gap-x-10 gap-y-2">
+      <div
+        className={cn(
+          "flex items-center",
+          layout === "horizontal" ? "flex-wrap gap-x-md gap-y-2xs" : "flex-col items-start gap-2xs",
+        )}
+      >
         {certifications.map((cert) => (
-          <div key={cert._key} className="flex items-center gap-2">
+          <div key={cert._key} className="flex items-center gap-2xs">
             {cert.logo?.image?.asset && (
               <SanityImage
                 id={cert.logo.image.asset._id}
@@ -203,31 +272,37 @@ const UnderlineLink = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <a
-    href={href}
-    className={cn(
-      "w-fit border-b border-stroke-soft-inverted text-body transition-colors hover:border-white",
-      className,
-    )}
-  >
-    {children}
+  <a href={href} className={cn("flex w-fit items-center text-body transition-colors", className)}>
+    <span className="border-b border-stroke-soft-inverted transition-colors hover:border-white">
+      {children}
+    </span>
   </a>
 );
 
-const ExternalLinkWithArrow = ({ href, title }: { href: string; title: string }) => (
+const ExternalLinkWithArrow = ({
+  href,
+  title,
+  className,
+}: {
+  href: string;
+  title: string;
+  className?: string;
+}) => (
   <a
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group flex w-fit items-center gap-1 border-b border-stroke-soft-inverted text-body transition-colors hover:border-white"
+    className={cn("group flex w-fit items-center gap-3xs text-body transition-colors", className)}
   >
-    {title}
+    <span className="border-b border-stroke-soft-inverted transition-colors group-hover:border-white">
+      {title}
+    </span>
     <svg
       width="10"
       height="10"
       viewBox="0 0 10 10"
       fill="none"
-      className="mt-1.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      className="mt-0.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
       aria-hidden="true"
     >
       <path
@@ -250,5 +325,5 @@ const FooterNewsletterForm = ({
     return null;
   }
 
-  return <div className="flex max-w-[540px] flex-1 flex-col gap-4 ">[form here]</div>;
+  return <div className="flex max-w-[540px] flex-1 flex-col gap-xs">[form here]</div>;
 };

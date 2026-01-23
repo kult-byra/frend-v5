@@ -3,8 +3,10 @@ import { defineType } from "sanity";
 import { linksField } from "@/schemas/generator-fields/links.field";
 import { illustrationField } from "../generator-fields/illustration.field";
 import { infoField } from "../generator-fields/info.field";
+import { mediaField } from "../generator-fields/media.field";
 import { pageBuilderField } from "../generator-fields/page-builder.field";
 import { referenceField } from "../generator-fields/reference.field";
+import { sharedDocumentInfoField } from "../generator-fields/shared-document-info.field";
 
 export const footerSettingsSchema = defineType({
   type: "document",
@@ -20,6 +22,8 @@ export const footerSettingsSchema = defineType({
     { name: "shared", title: "Shared" },
   ],
   fields: [
+    sharedDocumentInfoField({ groups: ["no", "en", "shared"] }),
+
     // Norwegian
     linksField({
       name: "footerLinks_no",
@@ -53,7 +57,16 @@ export const footerSettingsSchema = defineType({
       title: "Illustration",
       name: "illustration",
       group: "shared",
-      description: "Illustration displayed at the bottom center of the footer",
+      description: "Illustration displayed at the bottom center of the footer (desktop only)",
+    }),
+    mediaField({
+      title: "Mobile illustration",
+      name: "mobileIllustration",
+      group: "shared",
+      description:
+        "Illustration displayed at the bottom center of the footer on mobile devices only",
+      image: false,
+      illustration: true,
     }),
     referenceField({
       title: "Contact form",

@@ -1,5 +1,6 @@
 import { Languages } from "lucide-react";
 import { defineField, defineType } from "sanity";
+import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
 
 export const stringTranslationsSchema = defineType({
   type: "document",
@@ -14,6 +15,8 @@ export const stringTranslationsSchema = defineType({
     { name: "en", title: "English 🇬🇧" },
   ],
   fields: [
+    sharedDocumentInfoField(),
+
     // Norwegian
     defineField({
       name: "skipToMain_no",

@@ -1,11 +1,12 @@
 import { Menu } from "lucide-react";
 import { defineType } from "sanity";
 import { linksField } from "@/schemas/generator-fields/links.field";
+import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
 
 export const menuSettingsSchema = defineType({
   type: "document",
   name: "menuSettings",
-  title: "Menus",
+  title: "Header",
   icon: Menu,
   options: {
     singleton: true,
@@ -15,13 +16,15 @@ export const menuSettingsSchema = defineType({
     { name: "en", title: "English 🇬🇧" },
   ],
   fields: [
+    sharedDocumentInfoField(),
+
     // Norwegian
     linksField({
       name: "mainMenu_no",
       title: "Main menu (left)",
-      group: "no",
       includeExternal: true,
       includeLinkGroup: true,
+      group: "no",
     }),
     linksField({
       name: "secondaryMenu_no",
@@ -50,7 +53,7 @@ export const menuSettingsSchema = defineType({
   preview: {
     prepare() {
       return {
-        title: "Menus",
+        title: "Top menus",
       };
     },
   },

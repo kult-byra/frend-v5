@@ -8,7 +8,7 @@ type Props = {
 
 export function NewsArticle({ title }: Props) {
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <Link
         href="/articles"
         className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"

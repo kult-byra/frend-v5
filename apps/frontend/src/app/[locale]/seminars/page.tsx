@@ -47,19 +47,19 @@ export default async function SeminarsPage({ params }: Props) {
   const [settings, seminars] = await Promise.all([getArchiveSettings(locale), getSeminars(locale)]);
 
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <H1 className="mb-4">{settings?.title ?? "Seminarer"}</H1>
       {settings?.subtitle && (
         <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
       )}
 
       {seminars && seminars.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">
           {seminars.map((seminar) => (
             <Link
               key={seminar._id}
               href={`/seminars/${seminar.slug}`}
-              className="group block p-6 border rounded-lg hover:border-primary transition-colors"
+              className="group block p-sm border rounded-lg hover:border-primary transition-colors"
             >
               <h2 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                 {seminar.title}

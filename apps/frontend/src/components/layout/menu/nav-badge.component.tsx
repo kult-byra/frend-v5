@@ -8,21 +8,30 @@ type NavBadgeProps = {
   item: MenuItemProps;
   isActive?: boolean;
   onClick?: () => void;
+  onMouseEnter?: () => void;
   notificationCount?: number;
 };
 
 export const NavBadge = (props: NavBadgeProps) => {
-  const { item, isActive = false, onClick, notificationCount } = props;
+  const { item, isActive = false, onClick, onMouseEnter, notificationCount } = props;
 
   const baseClassName = cn(
-    "backdrop-blur-[5px] rounded-[4px] px-2 py-1 flex items-center gap-1 text-[16px] leading-[1.45] text-text-primary transition-colors",
-    isActive ? "bg-light-orange" : "bg-container-shade hover:bg-container-shade/80",
+    "cursor-pointer rounded-[4px] px-2 py-1 flex items-center gap-1 text-[16px] leading-[1.45] text-text-primary transition-colors",
+    isActive
+      ? "bg-light-orange"
+      : "bg-container-shade backdrop-blur-[5px] hover:bg-container-shade/80",
   );
 
   // For linkGroups, render as a button that triggers the panel
   if (item.linkType === "linkGroup") {
     return (
-      <button type="button" className={baseClassName} onClick={onClick} aria-expanded={isActive}>
+      <button
+        type="button"
+        className={baseClassName}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        aria-expanded={isActive}
+      >
         {item.title}
         {notificationCount !== undefined && notificationCount > 0 && (
           <NotificationBadge count={notificationCount} />

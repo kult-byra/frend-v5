@@ -322,6 +322,8 @@ a.skip-main:active {
   --color-container-brand-1: var(--container-brand-1);
   --color-container-brand-2: var(--container-brand-2);
   --color-container-shade: var(--container-shade);
+  --color-container-overlay-primary-1: var(--color-light-purple);
+  --color-container-overlay-primary-2: var(--color-light-orange);
 
   /* Button colors */
   --color-button-primary-fill: var(--button-primary-fill);

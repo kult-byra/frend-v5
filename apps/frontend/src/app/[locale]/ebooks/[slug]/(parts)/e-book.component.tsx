@@ -9,7 +9,7 @@ type Props = {
 
 export function EBook({ title, subtitle }: Props) {
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <Link
         href="/ebooks"
         className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"

@@ -2,6 +2,7 @@ import { Globe } from "lucide-react";
 import { defineField, defineType } from "sanity";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
+import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
 
 export const siteSettingsSchema = defineType({
   type: "document",
@@ -16,6 +17,8 @@ export const siteSettingsSchema = defineType({
     { name: "en", title: "English 🇬🇧" },
   ],
   fields: [
+    sharedDocumentInfoField(),
+
     // Norwegian
     referenceField({
       name: "frontPage_no",

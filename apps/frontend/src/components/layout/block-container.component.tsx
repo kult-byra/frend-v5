@@ -10,7 +10,7 @@ export const BlockContainer = (props: BlockContainerProps) => {
 
   if (bgColor) {
     return (
-      <Tag className={cn(bgColor, "py-16 md:py-20")}>
+      <Tag className={cn(bgColor, "py-xl md:py-xl")}>
         <Container {...rest} className={className}>
           {children}
         </Container>
@@ -19,7 +19,7 @@ export const BlockContainer = (props: BlockContainerProps) => {
   }
 
   return (
-    <Container as={Tag} {...rest} className={cn(className, "my-16 md:my-20")}>
+    <Container as={Tag} {...rest} className={cn(className, "my-xl md:my-xl")}>
       {children}
     </Container>
   );

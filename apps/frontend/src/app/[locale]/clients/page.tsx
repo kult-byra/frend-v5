@@ -46,19 +46,19 @@ export default async function ClientsPage({ params }: Props) {
   const [settings, clients] = await Promise.all([getArchiveSettings(locale), getClients(locale)]);
 
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <H1 className="mb-4">{settings?.title ?? "Kunder"}</H1>
       {settings?.subtitle && (
         <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
       )}
 
       {clients && clients.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-sm">
           {clients.map((client) => (
             <Link
               key={client._id}
               href={`/clients/${encodeURIComponent(client.name ?? "")}`}
-              className="group block p-6 border rounded-lg hover:border-primary transition-colors text-center"
+              className="group block p-sm border rounded-lg hover:border-primary transition-colors text-center"
             >
               <h2 className="font-semibold group-hover:text-primary transition-colors">
                 {client.name}

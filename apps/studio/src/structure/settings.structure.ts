@@ -21,19 +21,12 @@ export const settingsStructure = (S: StructureBuilder) => {
         .title("Settings")
         .items([
           singletonListItem(S, siteSettingsSchema),
-
+          S.divider(),
           singletonListItem(S, menuSettingsSchema),
-
           singletonListItem(S, footerSettingsSchema),
-
           S.divider(),
-
           singletonListItem(S, metadataSettingsSchema),
-
           singletonListItem(S, stringTranslationsSchema),
-
-          S.divider(),
-
           S.listItem()
             .title(hubspotFormSchema.title ?? "HubSpot forms")
             .icon(hubspotFormSchema.icon)

@@ -49,19 +49,19 @@ export default async function CaseStudiesPage({ params }: Props) {
   ]);
 
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <H1 className="mb-4">{settings?.title ?? "Prosjekter"}</H1>
       {settings?.subtitle && (
         <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
       )}
 
       {caseStudies && caseStudies.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">
           {caseStudies.map((caseStudy) => (
             <Link
               key={caseStudy._id}
               href={`/projects/${caseStudy.slug}`}
-              className="group block p-6 border rounded-lg hover:border-primary transition-colors"
+              className="group block p-sm border rounded-lg hover:border-primary transition-colors"
             >
               <h2 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                 {caseStudy.title}

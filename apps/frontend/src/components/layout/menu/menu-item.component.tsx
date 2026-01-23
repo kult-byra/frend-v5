@@ -65,7 +65,7 @@ const LinkGroupContent = (props: LinkGroupProps & { className?: string }) => {
 
   return (
     <NavigationMenuContent className={className}>
-      <ul className="laptop:p-[0.5em] grid md:grid-cols-2 gap-1 rounded-md">
+      <ul className="laptop:p-2xs grid md:grid-cols-2 gap-3xs rounded-md">
         {mainLinks.map((link) => (
           <li key={link._key}>
             <NavigationMenuLink asChild>

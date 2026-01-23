@@ -87,7 +87,7 @@ const { Page, generateMetadata } = createPage({
             id={group.title}
             className="grid grid-cols-3 border-t border-slate-200 items-start"
           >
-            <H2 className="py-2">{group.title}</H2>
+            <H2 className="py-2xs">{group.title}</H2>
 
             <ul className="col-span-2">
               {group.pages.map((page) => (
@@ -97,7 +97,7 @@ const { Page, generateMetadata } = createPage({
                     linkType="internal"
                     {...(page.slug && { slug: page.slug })}
                     {...(page._type && { _type: page._type as LinkableType })}
-                    className="block py-2 transition-colors border-b border-slate-200 hover:border-slate-800"
+                    className="block py-2xs transition-colors border-b border-slate-200 hover:border-slate-800"
                   >
                     {page.title}
                   </LinkResolver>

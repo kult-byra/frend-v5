@@ -8,7 +8,7 @@ type Props = NonNullable<SubServiceQueryResult>;
 
 export function SubService({ title, excerpt, parentService }: Props) {
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       {parentService && (
         <Link
           href={`/services/${parentService.slug}`}

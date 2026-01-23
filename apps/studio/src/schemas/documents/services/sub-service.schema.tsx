@@ -8,6 +8,7 @@ import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
+import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
 import { slugField } from "@/schemas/generator-fields/slug.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 
@@ -27,6 +28,10 @@ export const subServiceSchema = defineType({
     linkable: true,
   },
   fields: [
+    sharedDocumentInfoField({
+      groups: ["no", "en", "shared", "connections", "meta"],
+    }),
+
     // ===== NORWEGIAN =====
     stringField({
       name: "title_no",

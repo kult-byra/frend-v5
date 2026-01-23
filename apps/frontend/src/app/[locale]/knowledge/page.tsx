@@ -49,13 +49,13 @@ export default async function KnowledgeHubPage({ params }: Props) {
   const [settings, content] = await Promise.all([getHubSettings(locale), getHubContent(locale)]);
 
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <H1 className="mb-4">{settings?.title ?? "Kunnskap"}</H1>
       {settings?.subtitle && (
         <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-md mt-md">
         <section>
           <div className="flex items-center justify-between mb-4">
             <H2>Artikler</H2>
@@ -68,7 +68,7 @@ export default async function KnowledgeHubPage({ params }: Props) {
               <Link
                 key={article._id}
                 href={`/knowledge/${article.slug}`}
-                className="block p-4 border rounded-lg hover:border-primary transition-colors"
+                className="block p-xs border rounded-lg hover:border-primary transition-colors"
               >
                 <h3 className="font-medium">{article.title}</h3>
               </Link>
@@ -88,7 +88,7 @@ export default async function KnowledgeHubPage({ params }: Props) {
               <Link
                 key={caseStudy._id}
                 href={`/projects/${caseStudy.slug}`}
-                className="block p-4 border rounded-lg hover:border-primary transition-colors"
+                className="block p-xs border rounded-lg hover:border-primary transition-colors"
               >
                 <h3 className="font-medium">{caseStudy.title}</h3>
               </Link>
@@ -108,7 +108,7 @@ export default async function KnowledgeHubPage({ params }: Props) {
               <Link
                 key={seminar._id}
                 href={`/seminars/${seminar.slug}`}
-                className="block p-4 border rounded-lg hover:border-primary transition-colors"
+                className="block p-xs border rounded-lg hover:border-primary transition-colors"
               >
                 <h3 className="font-medium">{seminar.title}</h3>
               </Link>
@@ -128,7 +128,7 @@ export default async function KnowledgeHubPage({ params }: Props) {
               <Link
                 key={eBook._id}
                 href={`/ebooks/${eBook.slug}`}
-                className="block p-4 border rounded-lg hover:border-primary transition-colors"
+                className="block p-xs border rounded-lg hover:border-primary transition-colors"
               >
                 <h3 className="font-medium">{eBook.title}</h3>
               </Link>

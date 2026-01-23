@@ -15,7 +15,7 @@ type Props = {
 
 export function Event({ title, subtitle, timeAndDate, location, price }: Props) {
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <Link
         href="/articles"
         className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"
@@ -26,7 +26,7 @@ export function Event({ title, subtitle, timeAndDate, location, price }: Props) 
       <H1 className="mb-4">{title}</H1>
       {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
 
-      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-8">
+      <div className="flex flex-wrap gap-xs text-sm text-muted-foreground mb-8">
         {timeAndDate?.startTime && (
           <div>
             <span className="font-medium">Tid: </span>

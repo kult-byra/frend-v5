@@ -49,7 +49,7 @@ export default async function KnowledgeArticlesArchivePage({ params }: Props) {
   const [settings, articles] = await Promise.all([getArchiveSettings(locale), getArticles(locale)]);
 
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <Link
         href="/knowledge"
         className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"
@@ -60,12 +60,12 @@ export default async function KnowledgeArticlesArchivePage({ params }: Props) {
       <H1 className="mb-8">{settings?.title ?? "Kunnskapsartikler"}</H1>
 
       {articles && articles.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">
           {articles.map((article) => (
             <Link
               key={article._id}
               href={`/knowledge/${article.slug}`}
-              className="group block p-6 border rounded-lg hover:border-primary transition-colors"
+              className="group block p-sm border rounded-lg hover:border-primary transition-colors"
             >
               <h2 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
                 {article.title}

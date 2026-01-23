@@ -15,7 +15,7 @@ type Props = {
 
 export function KnowledgeArticle({ title, subtitle, publishDate, author }: Props) {
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <Link
         href="/knowledge"
         className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"
@@ -26,7 +26,7 @@ export function KnowledgeArticle({ title, subtitle, publishDate, author }: Props
       <H1 className="mb-4">{title}</H1>
       {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
 
-      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-8">
+      <div className="flex items-center gap-xs text-sm text-muted-foreground mb-8">
         {author?.name && <span>Av {author.name}</span>}
         {publishDate && (
           <time dateTime={publishDate}>

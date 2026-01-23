@@ -58,7 +58,7 @@ export default async function ArticlesPage({ params, searchParams }: Props) {
   const settings = await getArchiveSettings(locale);
 
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <H1 className="mb-8">{settings?.title ?? "Artikler"}</H1>
 
       {page > 1 && <p className="text-muted-foreground mb-6">Side {page} av artikler</p>}

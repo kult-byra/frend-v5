@@ -8,7 +8,7 @@ type Props = NonNullable<SeminarQueryResult>;
 
 export function Seminar({ title, subtitle, excerpt, client }: Props) {
   return (
-    <Container className="py-12">
+    <Container className="py-lg">
       <Link
         href="/seminars"
         className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"

@@ -9,16 +9,26 @@ type ExpandedMenuProps = {
   secondaryMenu: SecondaryMenuProps;
   activePanel: string | null;
   setActivePanel: Dispatch<SetStateAction<string | null>>;
+  isPinned: boolean;
+  setIsPinned: Dispatch<SetStateAction<boolean>>;
   newsEventsCount: number;
 };
 
 export const ExpandedMenu = (props: ExpandedMenuProps) => {
-  const { mainMenu, secondaryMenu, activePanel, setActivePanel, newsEventsCount } = props;
+  const {
+    mainMenu,
+    secondaryMenu,
+    activePanel,
+    setActivePanel,
+    isPinned,
+    setIsPinned,
+    newsEventsCount,
+  } = props;
 
   return (
-    <div className="hidden laptop:flex items-center">
-      {/* Main menu badges */}
-      <div className="flex items-center gap-2 shrink-0">
+    <>
+      {/* Main menu badges - inside panel area */}
+      <div className="hidden laptop:flex items-center gap-2xs shrink-0">
         {mainMenu?.map((item) => (
           <NavBadge
             key={item._key}
@@ -26,7 +36,20 @@ export const ExpandedMenu = (props: ExpandedMenuProps) => {
             isActive={activePanel === item._key}
             onClick={() => {
               if (item.linkType === "linkGroup") {
-                setActivePanel(activePanel === item._key ? null : item._key);
+                // If clicking on a different panel, open that one and pin it
+                if (activePanel !== item._key) {
+                  setActivePanel(item._key);
+                  setIsPinned(true);
+                } else {
+                  // Clicking on the same panel - just pin it (don't close)
+                  setIsPinned(true);
+                }
+              }
+            }}
+            onMouseEnter={() => {
+              // Don't open on hover if another panel is pinned
+              if (item.linkType === "linkGroup" && !isPinned) {
+                setActivePanel(item._key);
               }
             }}
             notificationCount={
@@ -38,14 +61,30 @@ export const ExpandedMenu = (props: ExpandedMenuProps) => {
         ))}
       </div>
 
-      {/* Secondary menu badges */}
+      {/* Secondary menu badges - right aligned, outside panel area */}
       {secondaryMenu && secondaryMenu.length > 0 && (
-        <div className="flex items-center gap-4 absolute right-4">
+        <div className="hidden laptop:flex items-center gap-xs fixed right-xs top-2xs z-40">
           {secondaryMenu.map((item) => (
-            <NavBadge key={item._key} item={item} />
+            <NavBadge
+              key={item._key}
+              item={item}
+              isActive={activePanel === item._key}
+              onClick={() => {
+                if (item.linkType === "linkGroup") {
+                  // If clicking on a different panel, open that one and pin it
+                  if (activePanel !== item._key) {
+                    setActivePanel(item._key);
+                    setIsPinned(true);
+                  } else {
+                    // Clicking on the same panel - just pin it (don't close)
+                    setIsPinned(true);
+                  }
+                }
+              }}
+            />
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 };
