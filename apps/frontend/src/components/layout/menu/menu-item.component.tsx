@@ -9,10 +9,9 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { LinkResolver } from "@/components/utils/link-resolver.component";
-
+import { useIsLinkTypeActive } from "@/hooks/use-is-link-active.hook";
 import { cn } from "@/utils/cn.util";
 import type { MenuItemProps } from "./menu.types";
-import { useIsLinkTypeActive } from "./use-is-link-active.hook";
 
 export const MenuItem = (props: MenuItemProps) => {
   const { linkType, title } = props;

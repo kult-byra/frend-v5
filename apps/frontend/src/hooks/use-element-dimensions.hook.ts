@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { useEventListener } from "@/utils/hooks/use-event-listener.hook";
+import { useEventListener } from "@/hooks/use-event-listener.hook";
 
 export const useElementDimensions = <T extends HTMLDivElement>() => {
   const ref = useRef<T>(null);

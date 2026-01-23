@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useEventListener } from "@/utils/hooks/use-event-listener.hook";
+import { useEventListener } from "@/hooks/use-event-listener.hook";
 
 export const useSelectorDimensions = (selector: string) => {
   const [dimensions, setDimensions] = useState<DOMRect | null>(null);
