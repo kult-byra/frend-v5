@@ -1,4 +1,4 @@
-import { pathnames } from "@workspace/routing";
+import { pathnames } from "@workspace/routing/pathnames";
 import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
