@@ -64,3 +64,24 @@ export const knowledgeHubContentQuery = defineQuery(`
     ${knowledgeTeaserFields}
   }
 `);
+
+// Get all services for filter pills
+export const knowledgeHubServicesQuery = defineQuery(`
+  *[_type == "service" && select(
+    $locale == "no" => defined(title_no),
+    $locale == "en" => defined(title_en)
+  )] | order(select(
+    $locale == "no" => title_no,
+    $locale == "en" => title_en
+  ) asc) {
+    _id,
+    "title": select(
+      $locale == "no" => title_no,
+      $locale == "en" => title_en
+    ),
+    "slug": select(
+      $locale == "no" => slug_no.current,
+      $locale == "en" => slug_en.current
+    )
+  }
+`);

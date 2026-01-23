@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { VisualEditing } from "next-sanity/visual-editing";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Suspense } from "react";
 
 import { ClientWrapper } from "@/components/client-wrapper.component";
@@ -43,38 +44,40 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={cn(mabry.variable, "font-sans")}>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          <a
-            className="skip-main"
-            href="#main"
-            aria-label={
-              (messages.common as Record<string, string>)?.skipToMain || "Skip to main content"
-            }
-          >
-            {(messages.common as Record<string, string>)?.skipToMain || "Skip to main content"}
-          </a>
-          <ClientWrapper>
-            <PreloadResources />
-            <div className="flex min-h-screen flex-col">
-              <Header {...settings} />
+        <NuqsAdapter>
+          <NextIntlClientProvider messages={messages}>
+            <a
+              className="skip-main"
+              href="#main"
+              aria-label={
+                (messages.common as Record<string, string>)?.skipToMain || "Skip to main content"
+              }
+            >
+              {(messages.common as Record<string, string>)?.skipToMain || "Skip to main content"}
+            </a>
+            <ClientWrapper>
+              <PreloadResources />
+              <div className="flex min-h-screen flex-col">
+                <Header {...settings} />
 
-              {(await draftMode()).isEnabled && <DraftmodeBanner />}
+                {(await draftMode()).isEnabled && <DraftmodeBanner />}
 
-              <main id="main" className="mb-auto pt-14">
-                {children}
-              </main>
+                <main id="main" className="mb-auto pt-14">
+                  {children}
+                </main>
 
-              <Footer {...settings} />
-            </div>
-            <TailwindIndicator />
+                <Footer {...settings} />
+              </div>
+              <TailwindIndicator />
 
-            <Suspense>
-              <FathomBase />
-            </Suspense>
-          </ClientWrapper>
-        </NextIntlClientProvider>
-        {(await draftMode()).isEnabled && <VisualEditing />}
-        <SanityLive />
+              <Suspense>
+                <FathomBase />
+              </Suspense>
+            </ClientWrapper>
+          </NextIntlClientProvider>
+          {(await draftMode()).isEnabled && <VisualEditing />}
+          <SanityLive />
+        </NuqsAdapter>
       </body>
     </html>
   );

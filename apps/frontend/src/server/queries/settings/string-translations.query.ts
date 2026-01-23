@@ -34,6 +34,30 @@ export const stringTranslationsQuery = defineQuery(`
     "chapters": select(
       $locale == "no" => chapters_no,
       $locale == "en" => chapters_en
+    ),
+    "all": select(
+      $locale == "no" => all_no,
+      $locale == "en" => all_en
+    ),
+    "filtersAndSort": select(
+      $locale == "no" => filtersAndSort_no,
+      $locale == "en" => filtersAndSort_en
+    ),
+    "caseStudies": select(
+      $locale == "no" => caseStudies_no,
+      $locale == "en" => caseStudies_en
+    ),
+    "articlesAndInsights": select(
+      $locale == "no" => articlesAndInsights_no,
+      $locale == "en" => articlesAndInsights_en
+    ),
+    "seminars": select(
+      $locale == "no" => seminars_no,
+      $locale == "en" => seminars_en
+    ),
+    "ebooks": select(
+      $locale == "no" => ebooks_no,
+      $locale == "en" => ebooks_en
     )
   }
 `);
