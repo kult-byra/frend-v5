@@ -49,9 +49,6 @@ export default async function SeminarsPage({ params }: Props) {
   return (
     <Container className="py-lg">
       <H1 className="mb-4">{settings?.title ?? "Seminarer"}</H1>
-      {settings?.subtitle && (
-        <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
-      )}
 
       {seminars && seminars.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">

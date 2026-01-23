@@ -1,41 +1,66 @@
 import { defineQuery } from "next-sanity";
-import { metadataQuery } from "../utils/metadata.query";
-import { translationsQuery } from "../utils/translations.query";
+import { imageQuery } from "../utils/image.query";
 
 export const knowledgeHubSettingsQuery = defineQuery(`
-  *[_type == "knowledgeHub" && language == $locale][0] {
-    title,
-    subtitle,
-    ${metadataQuery},
-    ${translationsQuery}
+  *[_type == "knowledgeHub"][0] {
+    "title": select(
+      $locale == "no" => title_no,
+      $locale == "en" => title_en
+    ),
+    "metadata": select(
+      $locale == "no" => {
+        "title": coalesce(metadata_no.title, title_no),
+        "desc": metadata_no.desc,
+        "image": select(
+          defined(metadata_no.image.asset._ref) => metadata_no.image {
+            "id": asset._ref,
+            altText
+          }
+        ),
+        "tags": metadata_no.tags,
+        "noIndex": metadata_no.noIndex
+      },
+      $locale == "en" => {
+        "title": coalesce(metadata_en.title, title_en),
+        "desc": metadata_en.desc,
+        "image": select(
+          defined(metadata_en.image.asset._ref) => metadata_en.image {
+            "id": asset._ref,
+            altText
+          }
+        ),
+        "tags": metadata_en.tags,
+        "noIndex": metadata_en.noIndex
+      }
+    )
   }
 `);
 
-// Get recent content from all knowledge hub types
-export const knowledgeHubContentQuery = defineQuery(`{
-  "articles": *[_type == "knowledgeArticle" && language == $locale] | order(publishDate desc) [0...6] {
-    _id,
-    _type,
-    title,
-    "slug": slug.current,
-    publishDate
+// Shared knowledge teaser fields for all content types
+// @sanity-typegen-ignore
+const knowledgeTeaserFields = `
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  "image": media.image {
+    ${imageQuery}
   },
-  "caseStudies": *[_type == "caseStudy" && language == $locale] | order(_createdAt desc) [0...6] {
+  "services": services[]-> {
     _id,
-    _type,
-    title,
-    "slug": slug.current
-  },
-  "seminars": *[_type == "seminar" && language == $locale] | order(_createdAt desc) [0...6] {
-    _id,
-    _type,
-    title,
-    "slug": slug.current
-  },
-  "eBooks": *[_type == "eBook" && language == $locale] | order(_createdAt desc) [0...6] {
-    _id,
-    _type,
-    title,
-    "slug": slug.current
+    "title": select(
+      ^.language == "no" => title_no,
+      ^.language == "en" => title_en
+    )
   }
-}`);
+`;
+
+// Get all knowledge content combined and sorted
+export const knowledgeHubContentQuery = defineQuery(`
+  *[
+    _type in ["knowledgeArticle", "caseStudy", "seminar", "eBook"]
+    && language == $locale
+  ] | order(coalesce(publishDate, _createdAt) desc) {
+    ${knowledgeTeaserFields}
+  }
+`);

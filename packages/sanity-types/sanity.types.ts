@@ -1865,19 +1865,11 @@ export type InternationalizedArrayReferenceValue = {
     | ConversionPageReference
     | NewsArticleReference
     | EventReference
-    | NewsAndEventsArchiveReference
     | KnowledgeArticleReference
-    | KnowledgeHubReference
-    | KnowledgeArticleArchiveReference
-    | ServicesArchiveReference
     | SeminarReference
-    | SeminarArchiveReference
     | CaseStudyReference
-    | CaseStudyArchiveReference
     | EBookReference
-    | EBookArchiveReference
     | ClientReference
-    | ClientArchiveReference
     | JobOpeningReference;
 };
 
@@ -2207,10 +2199,10 @@ export type ClientArchive = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title: string;
+  sharedDocumentInfo?: string;
   slug?: Slug;
-  excerpt?: Array<{
+  title_no: string;
+  excerpt_no?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -2240,8 +2232,7 @@ export type ClientArchive = {
     _type: "block";
     _key: string;
   }>;
-  info?: string;
-  metadata?: {
+  metadata_no?: {
     title?: string;
     desc?: string;
     image?: {
@@ -2255,6 +2246,52 @@ export type ClientArchive = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+  title_en: string;
+  excerpt_en?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number" | "dash" | "check";
+    markDefs?: Array<
+      | {
+          internalLink: InternalLink;
+          _type: "internalLinkObject";
+          _key: string;
+        }
+      | {
+          href: string;
+          _type: "link";
+          _key: string;
+        }
+      | {
+          file: DownloadLinkObjectFile;
+          _type: "downloadLinkObject";
+          _key: string;
+        }
+    >;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+  info?: string;
 };
 
 export type ConversionPage = {
@@ -3519,10 +3556,10 @@ export type ServicesArchive = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title: string;
+  sharedDocumentInfo?: string;
   slug?: Slug;
-  excerpt?: Array<{
+  title_no: string;
+  excerpt_no?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -3552,7 +3589,7 @@ export type ServicesArchive = {
     _type: "block";
     _key: string;
   }>;
-  media?: {
+  media_no?: {
     mediaType: "image" | "video";
     image?: {
       asset?: SanityImageAssetReference;
@@ -3564,8 +3601,7 @@ export type ServicesArchive = {
     };
     videoUrl?: string;
   };
-  info?: string;
-  metadata?: {
+  metadata_no?: {
     title?: string;
     desc?: string;
     image?: {
@@ -3579,6 +3615,64 @@ export type ServicesArchive = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+  title_en: string;
+  excerpt_en?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number" | "dash" | "check";
+    markDefs?: Array<
+      | {
+          internalLink: InternalLink;
+          _type: "internalLinkObject";
+          _key: string;
+        }
+      | {
+          href: string;
+          _type: "link";
+          _key: string;
+        }
+      | {
+          file: DownloadLinkObjectFile;
+          _type: "downloadLinkObject";
+          _key: string;
+        }
+    >;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  media_en?: {
+    mediaType: "image" | "video";
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    videoUrl?: string;
+  };
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+  info?: string;
 };
 
 export type SubService = {
@@ -3853,11 +3947,10 @@ export type SeminarArchive = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title: string;
+  sharedDocumentInfo?: string;
   slug?: Slug;
-  info?: string;
-  metadata?: {
+  title_no: string;
+  metadata_no?: {
     title?: string;
     desc?: string;
     image?: {
@@ -3871,6 +3964,22 @@ export type SeminarArchive = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+  title_en: string;
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+  info?: string;
 };
 
 export type NewsAndEventsArchive = {
@@ -3879,10 +3988,10 @@ export type NewsAndEventsArchive = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title: string;
+  sharedDocumentInfo?: string;
   slug?: Slug;
-  media?: {
+  title_no: string;
+  media_no?: {
     mediaType: "image" | "video";
     image?: {
       asset?: SanityImageAssetReference;
@@ -3894,8 +4003,7 @@ export type NewsAndEventsArchive = {
     };
     videoUrl?: string;
   };
-  info?: string;
-  metadata?: {
+  metadata_no?: {
     title?: string;
     desc?: string;
     image?: {
@@ -3909,6 +4017,34 @@ export type NewsAndEventsArchive = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+  title_en: string;
+  media_en?: {
+    mediaType: "image" | "video";
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    videoUrl?: string;
+  };
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+  info?: string;
 };
 
 export type KnowledgeHub = {
@@ -3917,11 +4053,10 @@ export type KnowledgeHub = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title: string;
+  sharedDocumentInfo?: string;
   slug?: Slug;
-  info?: string;
-  metadata?: {
+  title_no: string;
+  metadata_no?: {
     title?: string;
     desc?: string;
     image?: {
@@ -3935,6 +4070,22 @@ export type KnowledgeHub = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+  title_en: string;
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+  info?: string;
 };
 
 export type Person = {
@@ -3965,11 +4116,10 @@ export type KnowledgeArticleArchive = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title: string;
+  sharedDocumentInfo?: string;
   slug?: Slug;
-  info?: string;
-  metadata?: {
+  title_no: string;
+  metadata_no?: {
     title?: string;
     desc?: string;
     image?: {
@@ -3983,6 +4133,22 @@ export type KnowledgeArticleArchive = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+  title_en: string;
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+  info?: string;
 };
 
 export type HubspotForm = {
@@ -4001,11 +4167,10 @@ export type EBookArchive = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title: string;
+  sharedDocumentInfo?: string;
   slug?: Slug;
-  info?: string;
-  metadata?: {
+  title_no: string;
+  metadata_no?: {
     title?: string;
     desc?: string;
     image?: {
@@ -4019,6 +4184,22 @@ export type EBookArchive = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+  title_en: string;
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+  info?: string;
 };
 
 export type Logo = {
@@ -4044,11 +4225,10 @@ export type CaseStudyArchive = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: string;
-  title: string;
+  sharedDocumentInfo?: string;
   slug?: Slug;
-  info?: string;
-  metadata?: {
+  title_no: string;
+  metadata_no?: {
     title?: string;
     desc?: string;
     image?: {
@@ -4062,6 +4242,22 @@ export type CaseStudyArchive = {
     tags?: Array<string>;
     noIndex?: boolean;
   };
+  title_en: string;
+  metadata_en?: {
+    title?: string;
+    desc?: string;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      changed?: boolean;
+      _type: "image";
+    };
+    tags?: Array<string>;
+    noIndex?: boolean;
+  };
+  info?: string;
 };
 
 export type MediaTag = {
@@ -4320,11 +4516,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4340,11 +4531,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4366,11 +4552,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4386,11 +4567,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4412,11 +4588,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4432,11 +4603,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4458,11 +4624,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4478,11 +4639,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4504,11 +4660,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4524,11 +4675,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4550,11 +4696,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4570,11 +4711,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4596,11 +4732,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4616,11 +4747,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4642,11 +4768,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4662,11 +4783,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4688,11 +4804,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4708,11 +4819,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4734,11 +4840,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4754,11 +4855,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4780,11 +4876,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4800,11 +4891,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4826,11 +4912,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4846,11 +4927,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4872,11 +4948,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4892,11 +4963,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4918,11 +4984,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4938,11 +4999,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -4964,11 +5020,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -4984,11 +5035,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -5010,11 +5056,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -5030,11 +5071,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -5056,11 +5092,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -5076,11 +5107,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -5102,11 +5128,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -5122,11 +5143,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -5148,11 +5164,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -5168,11 +5179,6 @@ export type TranslatedUrlQueryResult =
           }
         | {
             slug: string;
-            parentSlug: null;
-            language: string | null;
-          }
-        | {
-            slug: string | null;
             parentSlug: null;
             language: string | null;
           }
@@ -5194,11 +5200,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -5217,11 +5218,6 @@ export type TranslatedUrlQueryResult =
             parentSlug: null;
             language: string | null;
           }
-        | {
-            slug: string | null;
-            parentSlug: null;
-            language: string | null;
-          }
         | null
       >;
     }
@@ -5229,7 +5225,7 @@ export type TranslatedUrlQueryResult =
 
 // Source: src/server/queries/documents/article-archive.query.ts
 // Variable: articleArchiveSettingsQuery
-// Query: *[_type == "newsAndEventsArchive" && language == $locale][0] {    title,      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "newsAndEventsArchive"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": metadata_no.desc,        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": metadata_en.desc,        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type ArticleArchiveSettingsQueryResult = {
   title: string;
   metadata: {
@@ -5242,26 +5238,11 @@ export type ArticleArchiveSettingsQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/article-archive.query.ts
 // Variable: articleArchiveQuery
-// Query: *[_type == "newsAndEventsArchive" && language == $locale][0] {    title,    "articles": *[_type == "newsArticle" && publishDate < now() && language == $locale] | order(publishDate desc) {        _id,  _type,  title,  "slug": slug.current,    },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "newsAndEventsArchive"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "articles": *[_type == "newsArticle" && publishDate < now() && language == $locale] | order(publishDate desc) {        _id,  _type,  title,  "slug": slug.current,    },    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": metadata_no.desc,        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": metadata_en.desc,        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type ArticleArchiveQueryResult = {
   title: string;
   articles: Array<never>;
@@ -5275,21 +5256,6 @@ export type ArticleArchiveQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/article.query.ts
@@ -5663,10 +5629,6 @@ export type ArticleQueryResult = {
         slug: string;
         language: string | null;
       }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
     | null
   >;
 } | null;
@@ -5681,10 +5643,9 @@ export type ArticleSlugsQueryResult = Array<{
 
 // Source: src/server/queries/documents/case-study.query.ts
 // Variable: caseStudyArchiveSettingsQuery
-// Query: *[_type == "caseStudyArchive" && language == $locale][0] {    title,    subtitle,      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "caseStudyArchive"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": metadata_no.desc,        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": metadata_en.desc,        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type CaseStudyArchiveSettingsQueryResult = {
   title: string;
-  subtitle: null;
   metadata: {
     title: string;
     desc: string | null;
@@ -5695,21 +5656,6 @@ export type CaseStudyArchiveSettingsQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/case-study.query.ts
@@ -6947,10 +6893,6 @@ export type CaseStudyQueryResult = {
         slug: string;
         language: string | null;
       }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
     | null
   >;
 } | null;
@@ -6965,10 +6907,39 @@ export type CaseStudySlugsQueryResult = Array<{
 
 // Source: src/server/queries/documents/client.query.ts
 // Variable: clientArchiveSettingsQuery
-// Query: *[_type == "clientArchive" && language == $locale][0] {    title,    subtitle,      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "clientArchive"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "excerpt": select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": coalesce(metadata_no.desc, excerpt_no),        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": coalesce(metadata_en.desc, excerpt_en),        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type ClientArchiveSettingsQueryResult = {
   title: string;
-  subtitle: null;
+  excerpt: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "check" | "dash" | "number";
+    markDefs?: Array<
+      | {
+          file: DownloadLinkObjectFile;
+          _type: "downloadLinkObject";
+          _key: string;
+        }
+      | {
+          internalLink: InternalLink;
+          _type: "internalLinkObject";
+          _key: string;
+        }
+      | {
+          href: string;
+          _type: "link";
+          _key: string;
+        }
+    >;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
   metadata: {
     title: string;
     desc:
@@ -7011,21 +6982,6 @@ export type ClientArchiveSettingsQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/client.query.ts
@@ -7096,10 +7052,6 @@ export type ClientQueryResult = {
         slug: string;
         language: string | null;
       }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
     | null
   >;
 } | null;
@@ -7114,10 +7066,9 @@ export type ClientSlugsQueryResult = Array<{
 
 // Source: src/server/queries/documents/e-book.query.ts
 // Variable: eBookArchiveSettingsQuery
-// Query: *[_type == "eBookArchive" && language == $locale][0] {    title,    subtitle,      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "eBookArchive"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": metadata_no.desc,        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": metadata_en.desc,        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type EBookArchiveSettingsQueryResult = {
   title: string;
-  subtitle: null;
   metadata: {
     title: string;
     desc: string | null;
@@ -7128,21 +7079,6 @@ export type EBookArchiveSettingsQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/e-book.query.ts
@@ -7533,10 +7469,6 @@ export type EBookQueryResult = {
       }
     | {
         slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
         language: string | null;
       }
     | null
@@ -7962,10 +7894,6 @@ export type EventQueryResult = {
         slug: string;
         language: string | null;
       }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
     | null
   >;
 } | null;
@@ -8386,10 +8314,6 @@ export type KnowledgeArticleQueryResult = {
         slug: string;
         language: string | null;
       }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
     | null
   >;
 } | null;
@@ -8404,10 +8328,9 @@ export type KnowledgeArticleSlugsQueryResult = Array<{
 
 // Source: src/server/queries/documents/knowledge-article.query.ts
 // Variable: knowledgeArticleArchiveSettingsQuery
-// Query: *[_type == "knowledgeArticleArchive" && language == $locale][0] {    title,    subtitle,      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "knowledgeArticleArchive"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": metadata_no.desc,        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": metadata_en.desc,        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type KnowledgeArticleArchiveSettingsQueryResult = {
   title: string;
-  subtitle: null;
   metadata: {
     title: string;
     desc: string | null;
@@ -8418,21 +8341,6 @@ export type KnowledgeArticleArchiveSettingsQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/knowledge-article.query.ts
@@ -8451,10 +8359,9 @@ export type KnowledgeArticleListQueryResult = Array<{
 
 // Source: src/server/queries/documents/knowledge-hub.query.ts
 // Variable: knowledgeHubSettingsQuery
-// Query: *[_type == "knowledgeHub" && language == $locale][0] {    title,    subtitle,      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "knowledgeHub"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": metadata_no.desc,        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": metadata_en.desc,        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type KnowledgeHubSettingsQueryResult = {
   title: string;
-  subtitle: null;
   metadata: {
     title: string;
     desc: string | null;
@@ -8465,53 +8372,108 @@ export type KnowledgeHubSettingsQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/knowledge-hub.query.ts
 // Variable: knowledgeHubContentQuery
-// Query: {  "articles": *[_type == "knowledgeArticle" && language == $locale] | order(publishDate desc) [0...6] {    _id,    _type,    title,    "slug": slug.current,    publishDate  },  "caseStudies": *[_type == "caseStudy" && language == $locale] | order(_createdAt desc) [0...6] {    _id,    _type,    title,    "slug": slug.current  },  "seminars": *[_type == "seminar" && language == $locale] | order(_createdAt desc) [0...6] {    _id,    _type,    title,    "slug": slug.current  },  "eBooks": *[_type == "eBook" && language == $locale] | order(_createdAt desc) [0...6] {    _id,    _type,    title,    "slug": slug.current  }}
-export type KnowledgeHubContentQueryResult = {
-  articles: Array<{
-    _id: string;
-    _type: "knowledgeArticle";
-    title: string;
-    slug: string;
-    publishDate: string;
-  }>;
-  caseStudies: Array<{
-    _id: string;
-    _type: "caseStudy";
-    title: string;
-    slug: string;
-  }>;
-  seminars: Array<{
-    _id: string;
-    _type: "seminar";
-    title: string;
-    slug: string;
-  }>;
-  eBooks: Array<{
-    _id: string;
-    _type: "eBook";
-    title: string;
-    slug: string;
-  }>;
-};
+// Query: *[    _type in ["knowledgeArticle", "caseStudy", "seminar", "eBook"]    && language == $locale  ] | order(coalesce(publishDate, _createdAt) desc) {      _id,  _type,  title,  "slug": slug.current,  "image": media.image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }  }
+export type KnowledgeHubContentQueryResult = Array<
+  | {
+      _id: string;
+      _type: "caseStudy";
+      title: string;
+      slug: string;
+      image: {
+        crop: SanityImageCrop | null;
+        hotspot: SanityImageHotspot | null;
+        asset: {
+          _id: string;
+          title: string | null;
+          altText: string | null;
+          description: string | null;
+          metadata: {
+            lqip: string | null;
+            dimensions: {
+              aspectRatio: number;
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+      services: Array<{
+        _id: string;
+        title: string | null;
+      }> | null;
+    }
+  | {
+      _id: string;
+      _type: "eBook";
+      title: string;
+      slug: string;
+      image: {
+        crop: SanityImageCrop | null;
+        hotspot: SanityImageHotspot | null;
+        asset: {
+          _id: string;
+          title: string | null;
+          altText: string | null;
+          description: string | null;
+          metadata: {
+            lqip: string | null;
+            dimensions: {
+              aspectRatio: number;
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+      services: Array<{
+        _id: string;
+        title: string | null;
+      }> | null;
+    }
+  | {
+      _id: string;
+      _type: "knowledgeArticle";
+      title: string;
+      slug: string;
+      image: {
+        crop: SanityImageCrop | null;
+        hotspot: SanityImageHotspot | null;
+        asset: {
+          _id: string;
+          title: string | null;
+          altText: string | null;
+          description: string | null;
+          metadata: {
+            lqip: string | null;
+            dimensions: {
+              aspectRatio: number;
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
+      } | null;
+      services: Array<{
+        _id: string;
+        title: string | null;
+      }> | null;
+    }
+  | {
+      _id: string;
+      _type: "seminar";
+      title: string;
+      slug: string;
+      image: null;
+      services: Array<{
+        _id: string;
+        title: string | null;
+      }> | null;
+    }
+>;
 
 // Source: src/server/queries/documents/page.query.ts
 // Variable: pageQuery
@@ -9725,10 +9687,6 @@ export type PageQueryResult = {
         slug: string;
         language: string | null;
       }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
     | null
   >;
 } | null;
@@ -9743,10 +9701,9 @@ export type PageSlugsQueryResult = Array<{
 
 // Source: src/server/queries/documents/seminar.query.ts
 // Variable: seminarArchiveSettingsQuery
-// Query: *[_type == "seminarArchive" && language == $locale][0] {    title,    subtitle,      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "seminarArchive"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": metadata_no.desc,        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": metadata_en.desc,        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type SeminarArchiveSettingsQueryResult = {
   title: string;
-  subtitle: null;
   metadata: {
     title: string;
     desc: string | null;
@@ -9757,21 +9714,6 @@ export type SeminarArchiveSettingsQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/seminar.query.ts
@@ -10252,10 +10194,6 @@ export type SeminarQueryResult = {
       }
     | {
         slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
         language: string | null;
       }
     | null
@@ -11516,10 +11454,9 @@ export type ServiceSlugsQueryResult = Array<{
 
 // Source: src/server/queries/documents/services-archive.query.ts
 // Variable: servicesArchiveSettingsQuery
-// Query: *[_type == "servicesArchive" && language == $locale][0] {    title,    subtitle,    excerpt,    "media": {      "mediaType": media.mediaType,      "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "videoUrl": media.videoUrl    },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "servicesArchive"][0] {    "title": select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    "excerpt": select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    "media": select(      $locale == "no" => {        "mediaType": media_no.mediaType,        "image": media_no.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },        "videoUrl": media_no.videoUrl      },      $locale == "en" => {        "mediaType": media_en.mediaType,        "image": media_en.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },        "videoUrl": media_en.videoUrl      }    ),    "metadata": select(      $locale == "no" => {        "title": coalesce(metadata_no.title, title_no),        "desc": coalesce(metadata_no.desc, excerpt_no),        "image": select(          defined(metadata_no.image.asset._ref) => metadata_no.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_no.tags,        "noIndex": metadata_no.noIndex      },      $locale == "en" => {        "title": coalesce(metadata_en.title, title_en),        "desc": coalesce(metadata_en.desc, excerpt_en),        "image": select(          defined(metadata_en.image.asset._ref) => metadata_en.image {            "id": asset._ref,            altText          }        ),        "tags": metadata_en.tags,        "noIndex": metadata_en.noIndex      }    )  }
 export type ServicesArchiveSettingsQueryResult = {
   title: string;
-  subtitle: null;
   excerpt: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -11614,21 +11551,6 @@ export type ServicesArchiveSettingsQueryResult = {
     tags: Array<string> | null;
     noIndex: boolean | null;
   };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | {
-        slug: string | null;
-        language: string | null;
-      }
-    | null
-  >;
 } | null;
 
 // Source: src/server/queries/documents/services-archive.query.ts
@@ -13905,7 +13827,7 @@ export type SitemapQueryResult = {
         _updatedAt: string;
         _type: "caseStudyArchive";
         slug: string | null;
-        title: string;
+        title: null;
       }
     | {
         _id: string;
@@ -13919,7 +13841,7 @@ export type SitemapQueryResult = {
         _updatedAt: string;
         _type: "clientArchive";
         slug: string | null;
-        title: string;
+        title: null;
       }
     | {
         _id: string;
@@ -13940,7 +13862,7 @@ export type SitemapQueryResult = {
         _updatedAt: string;
         _type: "eBookArchive";
         slug: string | null;
-        title: string;
+        title: null;
       }
     | {
         _id: string;
@@ -14010,14 +13932,14 @@ export type SitemapQueryResult = {
         _updatedAt: string;
         _type: "knowledgeArticleArchive";
         slug: string | null;
-        title: string;
+        title: null;
       }
     | {
         _id: string;
         _updatedAt: string;
         _type: "knowledgeHub";
         slug: string | null;
-        title: string;
+        title: null;
       }
     | {
         _id: string;
@@ -14052,7 +13974,7 @@ export type SitemapQueryResult = {
         _updatedAt: string;
         _type: "newsAndEventsArchive";
         slug: string | null;
-        title: string;
+        title: null;
       }
     | {
         _id: string;
@@ -14115,7 +14037,7 @@ export type SitemapQueryResult = {
         _updatedAt: string;
         _type: "seminarArchive";
         slug: string | null;
-        title: string;
+        title: null;
       }
     | {
         _id: string;
@@ -14129,7 +14051,7 @@ export type SitemapQueryResult = {
         _updatedAt: string;
         _type: "servicesArchive";
         slug: string | null;
-        title: string;
+        title: null;
       }
     | {
         _id: string;
@@ -16332,6 +16254,38 @@ export type ArticleTeaserTypegenQueryResult = {
   _type: "newsArticle";
   title: string;
   slug: string;
+} | null;
+
+// Source: src/server/queries/teasers/knowledge-teaser.query.ts
+// Variable: _knowledgeTeaserTypegenQuery
+// Query: *[_type == "knowledgeArticle"][0]{      _id,  _type,  title,  "slug": slug.current,  "image": media.image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }  }
+export type KnowledgeTeaserTypegenQueryResult = {
+  _id: string;
+  _type: "knowledgeArticle";
+  title: string;
+  slug: string;
+  image: {
+    crop: SanityImageCrop | null;
+    hotspot: SanityImageHotspot | null;
+    asset: {
+      _id: string;
+      title: string | null;
+      altText: string | null;
+      description: string | null;
+      metadata: {
+        lqip: string | null;
+        dimensions: {
+          aspectRatio: number;
+          width: number;
+          height: number;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+  services: Array<{
+    _id: string;
+    title: string | null;
+  }> | null;
 } | null;
 
 // Source: src/server/queries/utils/fathom-secrets.query.ts

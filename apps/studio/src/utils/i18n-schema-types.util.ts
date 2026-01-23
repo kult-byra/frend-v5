@@ -13,22 +13,14 @@ export const I18N_SCHEMA_TYPES = [
   "conversionPage",
   "newsArticle",
   "event",
-  "newsAndEventsArchive",
   "knowledgeArticle",
-  "knowledgeHub",
-  "knowledgeArticleArchive",
-  "servicesArchive",
   // "service" and "subService" use field-level translations instead of document-level i18n
   "seminar",
-  "seminarArchive",
   "caseStudy",
-  "caseStudyArchive",
   "eBook",
-  "eBookArchive",
   "client",
-  "clientArchive",
   "jobOpening",
-  // Settings use field-level translations (language fieldsets) instead of document-level i18n
+  // Archive/overview pages and settings use field-level translations (language fieldsets) instead of document-level i18n
 ] as const;
 
 export type I18nSchemaType = (typeof I18N_SCHEMA_TYPES)[number];

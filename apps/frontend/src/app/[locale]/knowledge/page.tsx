@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
-import { H1, H2 } from "@/components/layout/heading.component";
+import { H1 } from "@/components/layout/heading.component";
+import { KnowledgeTeaser, type KnowledgeTeaserData } from "@/components/teasers/knowledge.teaser";
 import type {
   KnowledgeHubContentQueryResult,
   KnowledgeHubSettingsQueryResult,
@@ -50,92 +50,15 @@ export default async function KnowledgeHubPage({ params }: Props) {
 
   return (
     <Container className="py-lg">
-      <H1 className="mb-4">{settings?.title ?? "Kunnskap"}</H1>
-      {settings?.subtitle && (
-        <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
-      )}
+      <H1 className="mb-md">{settings?.title ?? "Kunnskap"}</H1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-md mt-md">
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <H2>Artikler</H2>
-            <Link href="/knowledge/articles" className="text-sm text-primary hover:underline">
-              Se alle →
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {content?.articles?.map((article) => (
-              <Link
-                key={article._id}
-                href={`/knowledge/${article.slug}`}
-                className="block p-xs border rounded-lg hover:border-primary transition-colors"
-              >
-                <h3 className="font-medium">{article.title}</h3>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <H2>Prosjekter</H2>
-            <Link href="/projects" className="text-sm text-primary hover:underline">
-              Se alle →
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {content?.caseStudies?.map((caseStudy) => (
-              <Link
-                key={caseStudy._id}
-                href={`/projects/${caseStudy.slug}`}
-                className="block p-xs border rounded-lg hover:border-primary transition-colors"
-              >
-                <h3 className="font-medium">{caseStudy.title}</h3>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <H2>Seminarer</H2>
-            <Link href="/seminars" className="text-sm text-primary hover:underline">
-              Se alle →
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {content?.seminars?.map((seminar) => (
-              <Link
-                key={seminar._id}
-                href={`/seminars/${seminar.slug}`}
-                className="block p-xs border rounded-lg hover:border-primary transition-colors"
-              >
-                <h3 className="font-medium">{seminar.title}</h3>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <H2>E-bøker</H2>
-            <Link href="/ebooks" className="text-sm text-primary hover:underline">
-              Se alle →
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {content?.eBooks?.map((eBook) => (
-              <Link
-                key={eBook._id}
-                href={`/ebooks/${eBook.slug}`}
-                className="block p-xs border rounded-lg hover:border-primary transition-colors"
-              >
-                <h3 className="font-medium">{eBook.title}</h3>
-              </Link>
-            ))}
-          </div>
-        </section>
-      </div>
+      <ul className="grid grid-cols-1 gap-sm sm:grid-cols-2 lg:grid-cols-3">
+        {content?.map((item) => (
+          <li key={item._id}>
+            <KnowledgeTeaser item={item as KnowledgeTeaserData} />
+          </li>
+        ))}
+      </ul>
     </Container>
   );
 }

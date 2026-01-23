@@ -1,36 +1,49 @@
 import { Bot, LayoutPanelTop } from "lucide-react";
-import { defineField, defineType } from "sanity";
+import { defineType } from "sanity";
 import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { infoField } from "@/schemas/generator-fields/info.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
-import { defaultGroups } from "@/schemas/utils/default-groups.util";
+import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
+import { slugField } from "@/schemas/generator-fields/slug.field";
 
 export const knowledgeHubSchema = defineType({
   name: "knowledgeHub",
   title: "Knowledge hub overview",
   type: "document",
   icon: LayoutPanelTop,
-  groups: defaultGroups,
+  groups: [
+    { name: "no", title: "Norsk 🇧🇻", default: true },
+    { name: "en", title: "English 🇬🇧" },
+  ],
   options: {
     singleton: true,
     linkable: true,
   },
   fields: [
-    defineField({
-      name: "language",
-      type: "string",
-      readOnly: true,
-      hidden: true,
-    }),
-    ...heroFields({ isStatic: true, includeCoverImage: false }),
+    sharedDocumentInfoField(),
+    slugField({ isStatic: true, group: false }),
+
+    // Norwegian
+    ...heroFields({ isStatic: true, includeCoverImage: false, suffix: "_no", group: "no" }),
+    metadataField({ suffix: "_no", group: "no" }),
+
+    // English
+    ...heroFields({ isStatic: true, includeCoverImage: false, suffix: "_en", group: "en" }),
+    metadataField({ suffix: "_en", group: "en" }),
+
     infoField({
       title: "Automatically generated content",
       description:
         "All published case studies, articles, seminars and e-books are displayed automatically.",
       tone: "positive",
       icon: Bot,
-      group: ["key", "content"],
     }),
-    metadataField(),
   ],
+  preview: {
+    prepare() {
+      return {
+        title: "Knowledge hub overview",
+      };
+    },
+  },
 });

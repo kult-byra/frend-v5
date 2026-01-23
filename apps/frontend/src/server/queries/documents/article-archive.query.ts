@@ -1,15 +1,40 @@
 import { defineQuery } from "next-sanity";
 import type { ArticleTeaserProps } from "../teasers/article-teaser.query";
 import { articleTeaserQuery } from "../teasers/article-teaser.query";
-import { metadataQuery } from "../utils/metadata.query";
-import { translationsQuery } from "../utils/translations.query";
 
 // Query for article archive page settings (title, metadata)
 export const articleArchiveSettingsQuery = defineQuery(`
-  *[_type == "newsAndEventsArchive" && language == $locale][0] {
-    title,
-    ${metadataQuery},
-    ${translationsQuery}
+  *[_type == "newsAndEventsArchive"][0] {
+    "title": select(
+      $locale == "no" => title_no,
+      $locale == "en" => title_en
+    ),
+    "metadata": select(
+      $locale == "no" => {
+        "title": coalesce(metadata_no.title, title_no),
+        "desc": metadata_no.desc,
+        "image": select(
+          defined(metadata_no.image.asset._ref) => metadata_no.image {
+            "id": asset._ref,
+            altText
+          }
+        ),
+        "tags": metadata_no.tags,
+        "noIndex": metadata_no.noIndex
+      },
+      $locale == "en" => {
+        "title": coalesce(metadata_en.title, title_en),
+        "desc": metadata_en.desc,
+        "image": select(
+          defined(metadata_en.image.asset._ref) => metadata_en.image {
+            "id": asset._ref,
+            altText
+          }
+        ),
+        "tags": metadata_en.tags,
+        "noIndex": metadata_en.noIndex
+      }
+    )
   }
 `);
 
@@ -30,12 +55,39 @@ export type ArticleArchivePaginatedResult = {
 
 // Legacy query for backwards compatibility
 export const articleArchiveQuery = defineQuery(`
-  *[_type == "newsAndEventsArchive" && language == $locale][0] {
-    title,
+  *[_type == "newsAndEventsArchive"][0] {
+    "title": select(
+      $locale == "no" => title_no,
+      $locale == "en" => title_en
+    ),
     "articles": *[_type == "newsArticle" && publishDate < now() && language == $locale] | order(publishDate desc) {
       ${articleTeaserQuery}
     },
-    ${metadataQuery},
-    ${translationsQuery}
+    "metadata": select(
+      $locale == "no" => {
+        "title": coalesce(metadata_no.title, title_no),
+        "desc": metadata_no.desc,
+        "image": select(
+          defined(metadata_no.image.asset._ref) => metadata_no.image {
+            "id": asset._ref,
+            altText
+          }
+        ),
+        "tags": metadata_no.tags,
+        "noIndex": metadata_no.noIndex
+      },
+      $locale == "en" => {
+        "title": coalesce(metadata_en.title, title_en),
+        "desc": metadata_en.desc,
+        "image": select(
+          defined(metadata_en.image.asset._ref) => metadata_en.image {
+            "id": asset._ref,
+            altText
+          }
+        ),
+        "tags": metadata_en.tags,
+        "noIndex": metadata_en.noIndex
+      }
+    )
   }
 `);

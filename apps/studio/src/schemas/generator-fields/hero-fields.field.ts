@@ -16,6 +16,10 @@ export const heroFields = (options?: {
   includeExcerpt?: boolean;
   includeCoverImage?: boolean;
   includeLinks?: boolean;
+  /** Language suffix for field-level i18n (e.g., "_no" or "_en") */
+  suffix?: string;
+  /** Override the default group assignment */
+  group?: string;
 }): FieldDefinition[] => {
   const {
     includePublishDate = false,
@@ -25,22 +29,25 @@ export const heroFields = (options?: {
     includeExcerpt = false,
     includeCoverImage = true,
     includeLinks = false,
+    suffix = "",
+    group = "key",
   } = options ?? {};
 
   return [
     stringField({
-      name: "title",
+      name: `title${suffix}`,
       title: "Title",
       required: true,
-      group: "key",
+      group,
     }),
-    slugField({ isStatic }),
+    // Only include slug if no suffix (slug is language-independent)
+    ...(suffix ? [] : [slugField({ isStatic })]),
     ...(includeExcerpt
       ? [
           portableTextField({
             title: "Excerpt",
-            name: "excerpt",
-            group: "key",
+            name: `excerpt${suffix}`,
+            group,
             noContent: true,
             includeLists: true,
           }),
@@ -49,9 +56,9 @@ export const heroFields = (options?: {
     ...(includePublishDate
       ? [
           datetimeField({
-            name: "publishDate",
+            name: `publishDate${suffix}`,
             title: "Publish date",
-            group: "key",
+            group,
             required: true,
             initialValue: () => new Date().toISOString(),
           }),
@@ -62,7 +69,7 @@ export const heroFields = (options?: {
         ? [
             defineField({
               title: "Cover image(s)",
-              name: "coverImages",
+              name: `coverImages${suffix}`,
               type: "array",
               of: [
                 mediaField({
@@ -71,7 +78,7 @@ export const heroFields = (options?: {
                   video: true,
                 }),
               ],
-              group: "key",
+              group,
               validation: (Rule) =>
                 Rule.min(1)
                   .max(3)
@@ -80,9 +87,9 @@ export const heroFields = (options?: {
           ]
         : [
             mediaField({
-              name: "media",
+              name: `media${suffix}`,
               title: "Main image/video",
-              group: "key",
+              group,
               video: true,
             }),
           ]
@@ -91,9 +98,9 @@ export const heroFields = (options?: {
       ? [
           referenceField({
             title: "Author",
-            name: "author",
+            name: `author${suffix}`,
             to: [{ type: "person" }],
-            group: "key",
+            group,
           }),
         ]
       : []),
@@ -101,11 +108,11 @@ export const heroFields = (options?: {
       ? [
           linksField({
             title: "Links",
-            name: "links",
+            name: `links${suffix}`,
             includeExternal: true,
             includeDownload: true,
             max: 2,
-            group: "key",
+            group,
           }),
         ]
       : []),

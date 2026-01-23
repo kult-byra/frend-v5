@@ -48,9 +48,6 @@ export default async function ClientsPage({ params }: Props) {
   return (
     <Container className="py-lg">
       <H1 className="mb-4">{settings?.title ?? "Kunder"}</H1>
-      {settings?.subtitle && (
-        <p className="text-xl text-muted-foreground mb-8">{settings.subtitle}</p>
-      )}
 
       {clients && clients.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-sm">

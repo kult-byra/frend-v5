@@ -66,7 +66,6 @@ export default async function ServicesPage({ params }: Props) {
       <ServicesHero
         title={archiveSettings?.title ?? null}
         excerpt={archiveSettings?.excerpt ?? null}
-        subtitle={archiveSettings?.subtitle ?? null}
         media={archiveSettings?.media ?? null}
         mobileAnchorNav={<AnchorNavigation items={anchorItems} label={anchorLabel} />}
       />

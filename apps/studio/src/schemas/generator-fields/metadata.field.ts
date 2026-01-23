@@ -7,13 +7,15 @@ export const metadataField = (
     name?: string;
     group?: string | false;
     isDefault?: boolean;
+    /** Language suffix for field-level i18n (e.g., "_no" or "_en") */
+    suffix?: string;
   },
 ) => {
-  const { group, isDefault, name } = props ?? {};
+  const { group, isDefault, name, suffix = "" } = props ?? {};
 
   return defineField({
     ...props,
-    name: name ?? "metadata",
+    name: `${name ?? "metadata"}${suffix}`,
     title: isDefault ? "Standard SEO & metadata" : "SEO & metadata",
     type: "object",
     group: group === false ? undefined : (group ?? "meta"),

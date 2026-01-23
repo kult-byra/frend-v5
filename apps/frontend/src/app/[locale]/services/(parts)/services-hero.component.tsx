@@ -8,19 +8,12 @@ type ArchiveSettings = NonNullable<ServicesArchiveSettingsQueryResult>;
 type ServicesHeroProps = {
   title: string | null;
   excerpt: ArchiveSettings["excerpt"] | null;
-  subtitle: string | null;
   media: ArchiveSettings["media"] | null;
   mobileAnchorNav?: ReactNode;
 };
 
-export function ServicesHero({
-  title,
-  excerpt,
-  subtitle,
-  media,
-  mobileAnchorNav,
-}: ServicesHeroProps) {
-  const excerptText = excerpt ? toPlainText(excerpt) : subtitle;
+export function ServicesHero({ title, excerpt, media, mobileAnchorNav }: ServicesHeroProps) {
+  const excerptText = excerpt ? toPlainText(excerpt) : null;
 
   return (
     <section className="bg-container-primary pb-md pt-xl">

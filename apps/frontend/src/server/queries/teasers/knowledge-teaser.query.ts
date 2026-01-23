@@ -1,0 +1,40 @@
+import { defineQuery } from "next-sanity";
+import type { KnowledgeTeaserTypegenQueryResult } from "@/sanity-types";
+import { imageQuery } from "../utils/image.query";
+
+// @sanity-typegen-ignore
+export const knowledgeTeaserQuery = defineQuery(`
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  "image": media.image {
+    ${imageQuery}
+  },
+  "services": services[]-> {
+    _id,
+    "title": select(
+      ^.language == "no" => title_no,
+      ^.language == "en" => title_en
+    )
+  }
+`);
+
+// For typegen - uses knowledgeArticle as base type since all knowledge types share same structure
+const _knowledgeTeaserTypegenQuery = defineQuery(`
+  *[_type == "knowledgeArticle"][0]{
+    ${knowledgeTeaserQuery}
+  }
+`);
+
+export type KnowledgeTeaserProps = NonNullable<KnowledgeTeaserTypegenQueryResult>;
+
+// Content type labels for display
+export const knowledgeTypeLabels = {
+  knowledgeArticle: "Artikkel",
+  caseStudy: "Case Study",
+  seminar: "Seminar",
+  eBook: "E-bok",
+} as const;
+
+export type KnowledgeContentType = keyof typeof knowledgeTypeLabels;
