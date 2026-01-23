@@ -319,6 +319,34 @@ import { Icon } from "@/components/icon.component";
 
 **Note:** Do not use lucide-react or other icon packages in frontend components. The studio uses lucide for Sanity CMS UI only.
 
+### Cache Revalidation
+
+The frontend uses **tag-based cache revalidation** triggered by Sanity webhooks.
+
+**How it works:**
+
+1. Queries use `tags` parameter to mark cached data (e.g., `tags: ["newsArticle"]`)
+2. When content is published in Sanity, a webhook POSTs to `/api/revalidate`
+3. The endpoint invalidates relevant cache tags based on document type
+4. Next.js serves fresh content on the next request
+
+**Key files:**
+
+- `apps/frontend/src/app/api/revalidate/route.ts` - Webhook handler
+- `apps/frontend/src/env.ts` - `SANITY_REVALIDATE_SECRET` environment variable
+
+**Adding revalidation for a new document type:**
+
+1. Add tags to your `sanityFetch` calls: `tags: ["myType"]`
+2. Add mapping in `/api/revalidate/route.ts` `TAG_MAP`
+
+**Sanity webhook configuration** (sanity.io/manage → API → Webhooks):
+
+- URL: `https://your-domain.com/api/revalidate`
+- Trigger on: Create, Update, Delete
+- Projection: `{_type, _id, "slug": slug.current}`
+- Secret: Same as `SANITY_REVALIDATE_SECRET`
+
 ### Pre-commit Hooks
 
 Lefthook runs on pre-commit:
