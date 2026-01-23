@@ -1,8 +1,11 @@
 import createMiddleware from "next-intl/middleware";
-import { routing } from "./i18n/routing";
+import { routing } from "@/i18n/routing";
 
 export default createMiddleware(routing);
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|favicon|icons|fonts|.*\\..*).*)"],
+  // Match all pathnames except for:
+  // - /api, /trpc, /_next, /_vercel, /monitoring
+  // - files with extensions (e.g., favicon.ico, robots.txt)
+  matcher: "/((?!api|trpc|_next|_vercel|monitoring|.*\\..*).*)",
 };
