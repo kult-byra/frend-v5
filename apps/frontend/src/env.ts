@@ -4,6 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     SANITY_API_READ_TOKEN: z.string().min(1),
+    SANITY_REVALIDATE_SECRET: z.string().min(1),
     HUBSPOT_ACCESS_TOKEN: z.string().min(1),
     HUBSPOT_PORTAL_ID: z.string().min(1),
   },
