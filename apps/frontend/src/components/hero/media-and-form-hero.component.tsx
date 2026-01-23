@@ -34,7 +34,7 @@ export const MediaAndFormHero = (props: MediaAndFormHeroQueryProps) => {
 
           {media?.mediaType === "video" && media.videoUrl && (
             <div className="relative size-full">
-              <Video url={media.videoUrl} />
+              <Video url={media.videoUrl} priority />
             </div>
           )}
         </div>

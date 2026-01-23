@@ -3,6 +3,8 @@ import { cn } from "@/utils/cn.util";
 type VideoProps = {
   url: string;
   className?: string;
+  /** When true, loads video eagerly without lazy loading - use for above-the-fold hero videos */
+  priority?: boolean;
 };
 
 const isYouTubeUrl = (url: string): boolean => {
@@ -28,12 +30,14 @@ const getYouTubeEmbedUrl = (url: string): string => {
 const getVimeoEmbedUrl = (url: string): string => {
   const regExp = /(?:vimeo\.com\/)(?:.*\/)?(\d+)/;
   const match = url.match(regExp);
-  const videoId = match ? match[1] : null;
+  const videoId = match?.[1] ?? null;
   if (!videoId) return url;
   return `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
 };
 
-export const Video = ({ url, className }: VideoProps) => {
+export const Video = ({ url, className, priority = false }: VideoProps) => {
+  const loadingStrategy = priority ? "eager" : "lazy";
+
   if (isYouTubeUrl(url)) {
     return (
       <iframe
@@ -41,6 +45,7 @@ export const Video = ({ url, className }: VideoProps) => {
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
+        loading={loadingStrategy}
         className={cn("size-full", className)}
       />
     );
@@ -53,6 +58,7 @@ export const Video = ({ url, className }: VideoProps) => {
         title="Vimeo video player"
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
+        loading={loadingStrategy}
         className={cn("size-full", className)}
       />
     );
@@ -66,6 +72,7 @@ export const Video = ({ url, className }: VideoProps) => {
         muted
         loop
         playsInline
+        preload={priority ? "auto" : "metadata"}
         className={cn("size-full object-cover", className)}
       >
         <track kind="captions" />

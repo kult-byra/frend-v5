@@ -60,6 +60,11 @@ const RootLayout = async ({
   preconnect("https://cdn.sanity.io");
   prefetchDNS("https://cdn.sanity.io");
 
+  // Vimeo player preconnects
+  preconnect("https://player.vimeo.com");
+  preconnect("https://i.vimeocdn.com");
+  preconnect("https://f.vimeocdn.com");
+
   return children;
 };
 

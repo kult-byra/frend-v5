@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/utils/cn.util";
+import { getLinkHref } from "./link-href.util";
 import type { MenuItemProps } from "./menu.types";
 
 type NavBadgeProps = {
@@ -41,7 +42,7 @@ export const NavBadge = (props: NavBadgeProps) => {
   }
 
   // For internal/external links, render as a Link
-  const href = getHref(item);
+  const href = getLinkHref(item);
 
   if (!href) return null;
 
@@ -57,13 +58,3 @@ const NotificationBadge = ({ count }: { count: number }) => (
     {count}
   </span>
 );
-
-function getHref(item: MenuItemProps): string | null {
-  if (item.linkType === "internal" && item.slug) {
-    return `/${item.slug}`;
-  }
-  if (item.linkType === "external" && "url" in item) {
-    return item.url;
-  }
-  return null;
-}

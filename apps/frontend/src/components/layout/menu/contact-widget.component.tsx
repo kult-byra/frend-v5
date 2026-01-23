@@ -1,11 +1,10 @@
 "use client";
 
-import { resolvePath } from "@workspace/routing/src/resolve-path";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 import { Icon } from "@/components/icon.component";
 import { Img } from "@/components/utils/img.component";
 import { cn } from "@/utils/cn.util";
+import { getLinkHref } from "./link-href.util";
 import type { LinkGroupProps } from "./menu.types";
 
 type ContactWidgetProps = {
@@ -16,31 +15,8 @@ type ContactWidgetProps = {
 
 export const ContactWidget = (props: ContactWidgetProps) => {
   const { isOpen, onClose, linkGroup } = props;
-  const widgetRef = useRef<HTMLDivElement>(null);
 
-  // Handle escape key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
-
-  // Handle click outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (isOpen && widgetRef.current && !widgetRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen, onClose]);
+  // Escape key and click outside are handled by parent Menu component
 
   if (!linkGroup || linkGroup.menuType !== "contact") return null;
 
@@ -48,7 +24,6 @@ export const ContactWidget = (props: ContactWidgetProps) => {
 
   return (
     <div
-      ref={widgetRef}
       className={cn(
         "fixed bottom-0 right-0 z-50 w-full max-w-[475px] bg-container-overlay-primary-2 transition-transform duration-200 ease-out",
         isOpen ? "translate-y-0" : "translate-y-full",
@@ -123,15 +98,3 @@ export const ContactWidget = (props: ContactWidgetProps) => {
     </div>
   );
 };
-
-type LinkItem = NonNullable<NonNullable<LinkGroupProps["linkGroups"]>[number]["links"]>[number];
-
-function getLinkHref(link: LinkItem): string | null {
-  if (link.linkType === "internal" && link._type) {
-    return resolvePath(link._type, link.slug ? { slug: link.slug } : {});
-  }
-  if (link.linkType === "external" && "url" in link) {
-    return link.url;
-  }
-  return null;
-}

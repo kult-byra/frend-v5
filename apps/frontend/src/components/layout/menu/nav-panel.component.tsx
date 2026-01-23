@@ -1,9 +1,9 @@
 "use client";
 
-import { resolvePath } from "@workspace/routing/src/resolve-path";
 import Link from "next/link";
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 import { cn } from "@/utils/cn.util";
+import { getLinkHref } from "./link-href.util";
 import type { LinkGroupProps } from "./menu.types";
 
 type NavPanelProps = {
@@ -15,18 +15,6 @@ type NavPanelProps = {
 
 export const NavPanel = forwardRef<HTMLElement, NavPanelProps>((props, ref) => {
   const { isOpen, onClose, onMouseLeave, linkGroup } = props;
-
-  // Handle escape key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
 
   const mainLinks = linkGroup?.links?.mainLinks ?? [];
   const secondaryLinks = linkGroup?.links?.secondaryLinks ?? [];
@@ -83,7 +71,7 @@ type PanelLinkProps = {
 };
 
 const PanelMainLink = ({ link, onClose }: PanelLinkProps) => {
-  const href = getHref(link);
+  const href = getLinkHref(link);
   if (!href) return null;
 
   return (
@@ -98,7 +86,7 @@ const PanelMainLink = ({ link, onClose }: PanelLinkProps) => {
 };
 
 const PanelSecondaryLink = ({ link, onClose }: PanelLinkProps) => {
-  const href = getHref(link);
+  const href = getLinkHref(link);
   if (!href) return null;
 
   return (
@@ -111,13 +99,3 @@ const PanelSecondaryLink = ({ link, onClose }: PanelLinkProps) => {
     </Link>
   );
 };
-
-function getHref(link: PanelLinkProps["link"]): string | null {
-  if (link.linkType === "internal" && link._type) {
-    return resolvePath(link._type, link.slug ? { slug: link.slug } : {});
-  }
-  if (link.linkType === "external" && "url" in link) {
-    return link.url;
-  }
-  return null;
-}

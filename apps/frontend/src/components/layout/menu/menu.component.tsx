@@ -1,7 +1,7 @@
 "use client";
 
-import type { Dispatch, RefObject, SetStateAction } from "react";
-import { useEffect, useRef } from "react";
+import type { RefObject } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CollapsedMenu } from "@/components/layout/menu/collapsed-menu.component";
 import { ContactWidget } from "@/components/layout/menu/contact-widget.component";
 import { ExpandedMenu } from "@/components/layout/menu/expanded-menu.component";
@@ -11,25 +11,36 @@ import type { LinkGroupProps } from "./menu.types";
 
 type MenuProps = NonNullable<MenuSettingsQueryResult> & {
   newsEventsCount: number;
-  activePanel: string | null;
-  setActivePanel: Dispatch<SetStateAction<string | null>>;
-  isPinned: boolean;
-  setIsPinned: Dispatch<SetStateAction<boolean>>;
-  headerNavAreaRef: RefObject<HTMLDivElement | null>;
+  navAreaRef: RefObject<HTMLDivElement | null>;
 };
 
 export const Menu = (props: MenuProps) => {
-  const {
-    mainMenu,
-    secondaryMenu,
-    newsEventsCount,
-    activePanel,
-    setActivePanel,
-    isPinned,
-    setIsPinned,
-    headerNavAreaRef,
-  } = props;
+  const { mainMenu, secondaryMenu, newsEventsCount, navAreaRef } = props;
+
+  // Consolidated menu state
+  const [activePanel, setActivePanel] = useState<string | null>(null);
+  const [isPinned, setIsPinned] = useState(false);
   const panelRef = useRef<HTMLElement>(null);
+
+  // Close panel helper
+  const closePanel = useCallback(() => {
+    setActivePanel(null);
+    setIsPinned(false);
+  }, []);
+
+  // Handle escape key - shared across all panels
+  useEffect(() => {
+    if (!activePanel) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closePanel();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [activePanel, closePanel]);
 
   // Close pinned panel when clicking outside
   useEffect(() => {
@@ -38,23 +49,41 @@ export const Menu = (props: MenuProps) => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
       const isInsidePanel = panelRef.current?.contains(target);
-      const isInsideNavArea = headerNavAreaRef.current?.contains(target);
+      const isInsideNavArea = navAreaRef.current?.contains(target);
 
       if (!isInsidePanel && !isInsideNavArea) {
-        setActivePanel(null);
-        setIsPinned(false);
+        closePanel();
       }
     };
 
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [isPinned, activePanel, setActivePanel, setIsPinned, headerNavAreaRef]);
+  }, [isPinned, activePanel, closePanel, navAreaRef]);
+
+  // Close panel when mouse leaves the combined nav area (logo + badges + panel)
+  // Only close if not pinned (pinned = opened via click)
+  const handleMouseLeave = useCallback(
+    (e: React.MouseEvent) => {
+      if (isPinned) return;
+
+      const relatedTarget = e.relatedTarget as Node | null;
+
+      // Check if mouse moved to the panel or header nav area (includes logo)
+      const isMovingToPanel = panelRef.current?.contains(relatedTarget);
+      const isMovingToNavArea = navAreaRef.current?.contains(relatedTarget);
+
+      if (!isMovingToPanel && !isMovingToNavArea) {
+        setActivePanel(null);
+      }
+    },
+    [isPinned, navAreaRef],
+  );
 
   if (!mainMenu) return null;
 
-  // Look for active linkGroup in both mainMenu and secondaryMenu
+  // Find active linkGroup in both mainMenu and secondaryMenu
   const activeLinkGroup =
-    mainMenu?.find(
+    mainMenu.find(
       (item): item is LinkGroupProps => item.linkType === "linkGroup" && item._key === activePanel,
     ) ??
     secondaryMenu?.find(
@@ -62,22 +91,6 @@ export const Menu = (props: MenuProps) => {
     );
 
   const isContactWidget = activeLinkGroup?.menuType === "contact";
-
-  // Close panel when mouse leaves the combined nav area (logo + badges + panel)
-  // Only close if not pinned (pinned = opened via click)
-  const handleMouseLeave = (e: React.MouseEvent) => {
-    if (isPinned) return;
-
-    const relatedTarget = e.relatedTarget as Node | null;
-
-    // Check if mouse moved to the panel or header nav area (includes logo)
-    const isMovingToPanel = panelRef.current?.contains(relatedTarget);
-    const isMovingToNavArea = headerNavAreaRef.current?.contains(relatedTarget);
-
-    if (!isMovingToPanel && !isMovingToNavArea) {
-      setActivePanel(null);
-    }
-  };
 
   return (
     <>
@@ -107,10 +120,7 @@ export const Menu = (props: MenuProps) => {
       <NavPanel
         ref={panelRef}
         isOpen={activePanel !== null && !isContactWidget}
-        onClose={() => {
-          setActivePanel(null);
-          setIsPinned(false);
-        }}
+        onClose={closePanel}
         onMouseLeave={handleMouseLeave}
         linkGroup={activeLinkGroup}
       />
@@ -118,10 +128,7 @@ export const Menu = (props: MenuProps) => {
       {/* Contact widget for contact menu type */}
       <ContactWidget
         isOpen={activePanel !== null && isContactWidget}
-        onClose={() => {
-          setActivePanel(null);
-          setIsPinned(false);
-        }}
+        onClose={closePanel}
         linkGroup={activeLinkGroup}
       />
     </>

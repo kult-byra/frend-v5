@@ -1,33 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { Banner } from "@/components/layout/banner.component";
 import { Menu } from "@/components/layout/menu/menu.component";
 import { Logo } from "@/components/logo.component";
 import { env } from "@/env";
+import { useResizeObserver } from "@/hooks/use-resize-observer.hook";
 import type { SettingsQueryResult } from "@/sanity-types";
 
 export const Header = (props: SettingsQueryResult) => {
   const { siteSettings, menuSettings, newsEventsCount } = props;
-  const [activePanel, setActivePanel] = useState<string | null>(null);
-  const [isPinned, setIsPinned] = useState(false);
   const navAreaRef = useRef<HTMLDivElement>(null);
 
   // Update CSS variable for nav panel width when nav area size changes
-  useEffect(() => {
-    const updateNavWidth = () => {
-      if (navAreaRef.current) {
-        const width = navAreaRef.current.offsetWidth;
-        // Add padding (px-xs = 16px on each side)
-        document.documentElement.style.setProperty("--nav-panel-width", `${width + 32}px`);
-      }
-    };
-
-    updateNavWidth();
-    window.addEventListener("resize", updateNavWidth);
-    return () => window.removeEventListener("resize", updateNavWidth);
+  const updateNavWidth = useCallback((entry: ResizeObserverEntry) => {
+    const width = entry.contentRect.width;
+    // Add padding (px-xs = 16px on each side)
+    document.documentElement.style.setProperty("--nav-panel-width", `${width + 32}px`);
   }, []);
+
+  useResizeObserver(navAreaRef, updateNavWidth);
 
   return (
     <header className="fixed top-0 right-0 left-0 z-40">
@@ -48,11 +41,7 @@ export const Header = (props: SettingsQueryResult) => {
             <Menu
               {...menuSettings}
               newsEventsCount={newsEventsCount ?? 0}
-              activePanel={activePanel}
-              setActivePanel={setActivePanel}
-              isPinned={isPinned}
-              setIsPinned={setIsPinned}
-              headerNavAreaRef={navAreaRef}
+              navAreaRef={navAreaRef}
             />
           )}
         </div>
