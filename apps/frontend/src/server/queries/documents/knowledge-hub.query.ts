@@ -43,6 +43,7 @@ const knowledgeTeaserFields = `
   _type,
   title,
   "slug": slug.current,
+  "publishDate": coalesce(publishDate, _createdAt),
   "image": media.image {
     ${imageQuery}
   },
@@ -52,6 +53,14 @@ const knowledgeTeaserFields = `
       ^.language == "no" => title_no,
       ^.language == "en" => title_en
     )
+  },
+  "technologies": technologies[]-> {
+    _id,
+    title
+  },
+  "industries": industries[]-> {
+    _id,
+    title
   }
 `;
 
@@ -83,5 +92,21 @@ export const knowledgeHubServicesQuery = defineQuery(`
       $locale == "no" => slug_no.current,
       $locale == "en" => slug_en.current
     )
+  }
+`);
+
+// Get all technologies for filter dialog
+export const knowledgeHubTechnologiesQuery = defineQuery(`
+  *[_type == "technology" && defined(title)] | order(title asc) {
+    _id,
+    title
+  }
+`);
+
+// Get all industries for filter dialog
+export const knowledgeHubIndustriesQuery = defineQuery(`
+  *[_type == "industry" && defined(title)] | order(title asc) {
+    _id,
+    title
   }
 `);

@@ -58,6 +58,42 @@ export const stringTranslationsQuery = defineQuery(`
     "ebooks": select(
       $locale == "no" => ebooks_no,
       $locale == "en" => ebooks_en
+    ),
+    "noResults": select(
+      $locale == "no" => noResults_no,
+      $locale == "en" => noResults_en
+    ),
+    "filters": select(
+      $locale == "no" => filters_no,
+      $locale == "en" => filters_en
+    ),
+    "sorting": select(
+      $locale == "no" => sorting_no,
+      $locale == "en" => sorting_en
+    ),
+    "technologies": select(
+      $locale == "no" => technologies_no,
+      $locale == "en" => technologies_en
+    ),
+    "industries": select(
+      $locale == "no" => industries_no,
+      $locale == "en" => industries_en
+    ),
+    "applyFilters": select(
+      $locale == "no" => applyFilters_no,
+      $locale == "en" => applyFilters_en
+    ),
+    "clearAll": select(
+      $locale == "no" => clearAll_no,
+      $locale == "en" => clearAll_en
+    ),
+    "newestFirst": select(
+      $locale == "no" => newestFirst_no,
+      $locale == "en" => newestFirst_en
+    ),
+    "oldestFirst": select(
+      $locale == "no" => oldestFirst_no,
+      $locale == "en" => oldestFirst_en
     )
   }
 `);

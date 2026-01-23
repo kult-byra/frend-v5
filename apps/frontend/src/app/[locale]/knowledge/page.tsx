@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container.component";
-import { H1 } from "@/components/layout/heading.component";
 import { KnowledgeTeaser, type KnowledgeTeaserData } from "@/components/teasers/knowledge.teaser";
 import type { Locale } from "@/i18n/routing";
 import type {
   KnowledgeHubContentQueryResult,
+  KnowledgeHubIndustriesQueryResult,
   KnowledgeHubServicesQueryResult,
   KnowledgeHubSettingsQueryResult,
+  KnowledgeHubTechnologiesQueryResult,
 } from "@/sanity-types";
 import {
   knowledgeHubContentQuery,
+  knowledgeHubIndustriesQuery,
   knowledgeHubServicesQuery,
   knowledgeHubSettingsQuery,
+  knowledgeHubTechnologiesQuery,
 } from "@/server/queries/documents/knowledge-hub.query";
 import { fetchSettings } from "@/server/queries/settings/settings.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
@@ -20,7 +23,13 @@ import { KnowledgeFilterHeader } from "./(parts)/knowledge-filter-header.compone
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ type?: string; service?: string }>;
+  searchParams: Promise<{
+    type?: string;
+    service?: string;
+    tech?: string | string[];
+    industry?: string | string[];
+    sort?: string;
+  }>;
 };
 
 async function getHubSettings(locale: string) {
@@ -53,6 +62,24 @@ async function getServices(locale: string) {
   return data as KnowledgeHubServicesQueryResult;
 }
 
+async function getTechnologies() {
+  const { data } = await sanityFetch({
+    query: knowledgeHubTechnologiesQuery,
+    tags: ["technology"],
+  });
+
+  return data as KnowledgeHubTechnologiesQueryResult;
+}
+
+async function getIndustries() {
+  const { data } = await sanityFetch({
+    query: knowledgeHubIndustriesQuery,
+    tags: ["industry"],
+  });
+
+  return data as KnowledgeHubIndustriesQueryResult;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const settings = await getHubSettings(locale);
@@ -62,17 +89,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function KnowledgeHubPage({ params, searchParams }: Props) {
   const { locale } = await params;
-  const { type, service } = await searchParams;
+  const { type, service, tech, industry, sort } = await searchParams;
 
-  const [hubSettings, content, services, settings] = await Promise.all([
+  // Normalize array params (can be string or string[])
+  const techFilters = tech ? (Array.isArray(tech) ? tech : [tech]) : [];
+  const industryFilters = industry ? (Array.isArray(industry) ? industry : [industry]) : [];
+
+  const [, content, services, technologies, industries, settings] = await Promise.all([
     getHubSettings(locale),
     getHubContent(locale),
     getServices(locale),
+    getTechnologies(),
+    getIndustries(),
     fetchSettings(locale as Locale),
   ]);
 
-  // Filter content based on URL params
-  const filteredContent = content?.filter((item) => {
+  // Filter and sort content based on URL params
+  let filteredContent = content?.filter((item) => {
     // Filter by content type
     if (type && item._type !== type) {
       return false;
@@ -88,8 +121,35 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
       }
     }
 
+    // Filter by technologies
+    if (techFilters.length > 0 && item.technologies) {
+      const hasMatchingTech = item.technologies.some((t) => t._id && techFilters.includes(t._id));
+      if (!hasMatchingTech) {
+        return false;
+      }
+    }
+
+    // Filter by industries
+    if (industryFilters.length > 0 && item.industries) {
+      const hasMatchingIndustry = item.industries.some(
+        (i) => i._id && industryFilters.includes(i._id),
+      );
+      if (!hasMatchingIndustry) {
+        return false;
+      }
+    }
+
     return true;
   });
+
+  // Sort content
+  if (sort === "oldest" && filteredContent) {
+    filteredContent = [...filteredContent].sort((a, b) => {
+      const dateA = a.publishDate ? new Date(a.publishDate).getTime() : 0;
+      const dateB = b.publishDate ? new Date(b.publishDate).getTime() : 0;
+      return dateA - dateB;
+    });
+  }
 
   const stringTranslations = settings.stringTranslations;
 
@@ -101,11 +161,11 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
     })) ?? [];
 
   return (
-    <Container className="py-lg">
-      <H1 className="mb-xs">{hubSettings?.title ?? "Kunnskap"}</H1>
-
+    <Container className="flex min-h-screen flex-col py-md">
       <KnowledgeFilterHeader
         services={normalizedServices}
+        technologies={technologies ?? []}
+        industries={industries ?? []}
         translations={{
           all: stringTranslations?.all,
           filtersAndSort: stringTranslations?.filtersAndSort,
@@ -113,16 +173,32 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
           articlesAndInsights: stringTranslations?.articlesAndInsights,
           seminars: stringTranslations?.seminars,
           ebooks: stringTranslations?.ebooks,
+          filters: stringTranslations?.filters,
+          sorting: stringTranslations?.sorting,
+          technologies: stringTranslations?.technologies,
+          industries: stringTranslations?.industries,
+          applyFilters: stringTranslations?.applyFilters,
+          clearAll: stringTranslations?.clearAll,
+          newestFirst: stringTranslations?.newestFirst,
+          oldestFirst: stringTranslations?.oldestFirst,
         }}
       />
 
-      <ul className="grid grid-cols-1 gap-sm sm:grid-cols-2 lg:grid-cols-3">
-        {filteredContent?.map((item) => (
-          <li key={item._id}>
-            <KnowledgeTeaser item={item as KnowledgeTeaserData} />
-          </li>
-        ))}
-      </ul>
+      {filteredContent && filteredContent.length > 0 ? (
+        <ul className="grid grid-cols-1 gap-xs lg:grid-cols-3 lg:gap-sm">
+          {filteredContent.map((item) => (
+            <li key={item._id}>
+              <KnowledgeTeaser item={item as KnowledgeTeaserData} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="flex flex-1 items-center justify-center">
+          <p className="text-text-secondary">
+            {stringTranslations?.noResults ?? "No results found for the selected filters."}
+          </p>
+        </div>
+      )}
     </Container>
   );
 }
