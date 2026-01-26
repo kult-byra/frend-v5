@@ -4,6 +4,7 @@ import type { DocumentBadgeComponent, NewDocumentOptionsContext, TemplateItem, T
 import { defineConfig } from "sanity";
 import { defineDocuments, presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
+import { internationalizedArray } from "sanity-plugin-internationalized-array";
 import { media, mediaAssetSource } from "sanity-plugin-media";
 
 import { MissingLanguageBadge, MissingLanguageInput } from "@/components/document";
@@ -55,6 +56,12 @@ const getPlugins = (languageId: string) => [
   documentInternationalization({
     supportedLanguages: [...languages],
     schemaTypes: [...I18N_SCHEMA_TYPES],
+  }),
+
+  // Internationalized array fields for singleton translations
+  internationalizedArray({
+    languages: [...languages],
+    fieldTypes: ["string"],
   }),
 ];
 

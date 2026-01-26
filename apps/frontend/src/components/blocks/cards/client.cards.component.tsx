@@ -107,8 +107,9 @@ const DesktopClientCard = ({ item }: { item: ClientCardItem }) => {
     </div>
   );
 
-  const hoverClass =
-    cn("pointer-events-none w-[260px] h-auto absolute left-0 top-0 z-10 opacity-0 transition-opacity group-hover/card:pointer-events-auto group-hover/card:opacity-100");
+  const hoverClass = cn(
+    "pointer-events-none w-[260px] h-auto absolute left-0 top-0 z-10 opacity-0 transition-opacity group-hover/card:pointer-events-auto group-hover/card:opacity-100",
+  );
 
   return (
     <li className="group/card relative aspect-168/148">

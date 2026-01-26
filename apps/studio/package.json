@@ -31,6 +31,7 @@
     "rxjs": "^7.8.2",
     "sanity": "^5.2.0",
     "sanity-plugin-documents-pane": "^3.0.2",
+    "sanity-plugin-internationalized-array": "^3.2.2",
     "sanity-plugin-media": "^4.1.1",
     "styled-components": "^6.3.5",
     "vite-tsconfig-paths": "^6.0.4",
