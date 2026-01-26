@@ -91,7 +91,7 @@ const DesktopClientCard = ({ item }: { item: ClientCardItem }) => {
   // Use container-type to enable cqi units (container query inline)
   // Width = height * (168/148) calculated via aspect-ratio on inner wrapper
   const hoverContent = (
-    <div className="aspect-[168/148]">
+    <div className="">
       <div className="flex flex-col h-full rounded bg-container-tertiary-1 p-4 gap-4">
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-lg leading-tight text-text-primary">{item.title}</p>
@@ -108,7 +108,7 @@ const DesktopClientCard = ({ item }: { item: ClientCardItem }) => {
   );
 
   const hoverClass =
-    "pointer-events-none absolute left-0 top-0 z-10 opacity-0 transition-opacity group-hover/card:pointer-events-auto group-hover/card:opacity-100";
+    cn("pointer-events-none w-[260px] h-auto absolute left-0 top-0 z-10 opacity-0 transition-opacity group-hover/card:pointer-events-auto group-hover/card:opacity-100");
 
   return (
     <li className="group/card relative aspect-168/148">

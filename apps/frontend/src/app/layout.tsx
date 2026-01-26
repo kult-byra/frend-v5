@@ -2,27 +2,46 @@ import "@/styles/globals.css";
 import "@total-typescript/ts-reset";
 
 import type { Metadata } from "next";
+import { DM_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { preconnect, prefetchDNS } from "react-dom";
 import { env } from "@/env";
 
-const mabry = localFont({
+const suisseIntl = localFont({
   src: [
     {
-      path: "../../public/fonts/mabry-medium.woff2",
-      weight: "500",
+      path: "../../public/fonts/SuisseIntl-Regular.woff2",
+      weight: "450",
       style: "normal",
     },
     {
-      path: "../../public/fonts/mabry-regular.woff2",
-      weight: "400",
+      path: "../../public/fonts/SuisseIntl-RegularIt.woff2",
+      weight: "450",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/SuisseIntl-Semibold.woff2",
+      weight: "600",
       style: "normal",
     },
+    {
+      path: "../../public/fonts/SuisseIntl-SemiboldIt.woff2",
+      weight: "600",
+      style: "italic",
+    },
   ],
-  variable: "--font-mabry",
+  variable: "--font-suisse-intl",
+  display: "swap",
 });
 
-export { mabry };
+const dmMono = DM_Mono({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-dm",
+  display: "swap",
+});
+
+export { suisseIntl, dmMono };
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),

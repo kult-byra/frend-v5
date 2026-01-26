@@ -18,7 +18,7 @@ import { fetchSettings } from "@/server/queries/settings/settings.query";
 import { SanityLive } from "@/server/sanity/sanity-live";
 import { cn } from "@/utils/cn.util";
 
-import { mabry } from "../layout";
+import { dmMono, suisseIntl } from "../layout";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -42,7 +42,7 @@ export default async function LocaleLayout({
   const settings = await fetchSettings(locale as Locale);
 
   return (
-    <html lang={locale} className={cn(mabry.variable, "font-sans")}>
+    <html lang={locale} className={cn(suisseIntl.variable, dmMono.variable)}>
       <body>
         <NuqsAdapter>
           <NextIntlClientProvider messages={messages}>
