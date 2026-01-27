@@ -1,6 +1,7 @@
-import { Image } from "lucide-react";
+import { Image, RectangleHorizontal, RectangleVertical, Square } from "lucide-react";
 import { defineField, type FieldDefinition, type ObjectDefinition } from "sanity";
 import { env } from "@/env";
+import { gridOptionsField } from "@/schemas/generator-fields/grid-options.field";
 import { illustrationField } from "@/schemas/generator-fields/illustration.field";
 import { imageField } from "@/schemas/generator-fields/image.field";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
@@ -18,6 +19,8 @@ export type MediaFieldOptions = Omit<FieldDef<ObjectDefinition>, "fields"> & {
   video?: boolean;
   /** Enable illustration media type (default: false) */
   illustration?: boolean;
+  /** Enable aspect ratio field (default: true) */
+  aspectRatio?: boolean;
   /** Illustration-specific options */
   illustrationOptions?: {
     filterMode?: IllustrationMode;
@@ -69,6 +72,7 @@ export const mediaField = (props: MediaFieldOptions) => {
     image = true,
     video = false,
     illustration = false,
+    aspectRatio = true,
     illustrationOptions,
     ...rest
   } = props;
@@ -157,6 +161,23 @@ export const mediaField = (props: MediaFieldOptions) => {
     );
   }
 
+  if (aspectRatio && (image || video)) {
+    fields.push(
+      gridOptionsField({
+        name: "aspectRatio",
+        title: "Aspect ratio",
+        hidden: ({ parent }) => parent?.mediaType !== "image" && parent?.mediaType !== "video",
+        options: [
+          { title: "3:2", value: "3:2", icon: RectangleHorizontal },
+          { title: "3:4", value: "3:4", icon: RectangleVertical },
+          { title: "1:1", value: "1:1", icon: Square },
+        ],
+        columns: 3,
+        initialValue: "3:2",
+      }),
+    );
+  }
+
   if (illustration) {
     fields.push(
       illustrationField({
@@ -186,8 +207,9 @@ export const mediaField = (props: MediaFieldOptions) => {
         image: "image",
         illustration: "illustration",
         videoUrl: "videoUrl",
+        aspectRatio: "aspectRatio",
       },
-      prepare({ mediaType, image, illustration, videoUrl }) {
+      prepare({ mediaType, image, illustration, videoUrl, aspectRatio }) {
         if (mediaType === "illustration" && illustration) {
           return {
             title: illustration,
@@ -203,16 +225,22 @@ export const mediaField = (props: MediaFieldOptions) => {
         }
 
         if (mediaType === "video" && videoUrl) {
+          const subtitleParts = ["Video"];
+          if (aspectRatio) subtitleParts.push(aspectRatio);
           return {
             title: "Video",
-            subtitle: videoUrl,
+            subtitle: subtitleParts.join(" · "),
+            description: videoUrl,
           };
         }
 
         // Default: image (Sanity handles image preview automatically)
+        const subtitleParts = ["Image"];
+        if (aspectRatio) subtitleParts.push(aspectRatio);
+        if (image?.altText) subtitleParts.push(image.altText);
         return {
           title: image?.altText || "Image",
-          subtitle: "Image",
+          subtitle: subtitleParts.join(" · "),
           media: image,
         };
       },

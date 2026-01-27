@@ -1,7 +1,7 @@
 import { defineQuery } from "next-sanity";
 import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
-import { imageQuery } from "../utils/image.query";
 import { linksQuery } from "../utils/links.query";
+import { mediaQuery } from "../utils/media.query";
 
 // @sanity-typegen-ignore
 export const imagesAndTextBlockQuery = defineQuery(`
@@ -20,8 +20,6 @@ export const imagesAndTextBlockQuery = defineQuery(`
   images[] {
     _key,
     _type,
-    mediaType,
-    image { ${imageQuery} },
-    videoUrl
+    ${mediaQuery}
   }
 `);

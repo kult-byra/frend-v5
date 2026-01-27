@@ -13,6 +13,6 @@ export const quotesBlockQuery = defineQuery(`
     }
   },
   options {
-    layout
+    width
   }
 `);

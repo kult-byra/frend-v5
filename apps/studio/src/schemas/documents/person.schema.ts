@@ -41,6 +41,15 @@ export const personSchema = defineType({
       required: true,
     }),
 
+    stringField({
+      name: "phone",
+      title: "Phone",
+    }),
+    stringField({
+      name: "email",
+      title: "Email",
+    }),
+
     defineField({
       title: "Works outside of Frend",
       name: "externalPerson",

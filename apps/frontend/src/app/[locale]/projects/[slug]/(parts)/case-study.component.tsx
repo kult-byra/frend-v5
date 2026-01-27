@@ -40,14 +40,15 @@ export const CaseStudy = ({ title, client, color, media, summary, pageBuilder }:
     <>
       <SetHeaderTheme theme={headerThemeMap[color ?? "white"] ?? "light"} />
 
-      {/* Hero */}
+      {/* Hero - full-bleed background */}
       <section
         className={cn(
           scheme.bg,
+          "ml-[calc(-50vw+50%)] w-screen",
           isColoredHero ? "-mt-14 pt-[calc(var(--spacing-xl)+3.5rem)] pb-xl mb-xl" : "py-xl",
         )}
       >
-        <div className="mx-auto max-w-[2560px] px-(--margin)">
+        <div className="mx-auto max-w-[1920px] px-(--margin)">
           <ContentLayout>
             <div className="flex max-w-[720px] flex-col gap-xs lg:pr-md">
               {client?.name && (
@@ -68,7 +69,7 @@ export const CaseStudy = ({ title, client, color, media, summary, pageBuilder }:
 
       {/* Summary */}
       <section className="bg-container-primary pb-xl">
-        <div className="mx-auto max-w-[2560px] px-(--margin)">
+        <div className="mx-auto max-w-[1920px] px-(--margin)">
           <ContentLayout>
             <Summary summary={summary} />
             {pageBuilder && <PageBuilder pageBuilder={pageBuilder} />}

@@ -18,7 +18,7 @@ export function KnowledgeArticle({ title, publishDate, author, summary, content 
     <>
       {/* Hero section */}
       <section className="bg-container-primary pb-md pt-xl">
-        <div className="mx-auto max-w-[2560px] px-(--margin)">
+        <div className="mx-auto max-w-[1920px] px-(--margin)">
           <div className="grid gap-(--gutter) lg:grid-cols-2">
             {/* Left column: back link + metadata on desktop */}
             <div className="flex flex-col gap-sm">
@@ -81,7 +81,7 @@ export function KnowledgeArticle({ title, publishDate, author, summary, content 
 
       {/* Content section */}
       <div className="bg-container-primary">
-        <div className="mx-auto max-w-[2560px] px-(--margin) pb-2xl pt-md">
+        <div className="mx-auto max-w-[1920px] px-(--margin) pb-2xl pt-md">
           <div className="grid gap-(--gutter) lg:grid-cols-2">
             <div className="hidden lg:block" />
             <div className="max-w-[720px]">

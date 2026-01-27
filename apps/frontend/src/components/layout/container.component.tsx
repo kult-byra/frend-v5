@@ -29,9 +29,9 @@ export const Container = <T extends ElementType = "div">({
     <Tag
       className={cn(
         "mx-auto w-full",
-        !fullWidth && "max-w-[1750px]",
-        paddingX && "px-sm md:px-sm",
-        paddingY && "py-sm md:py-sm",
+        !fullWidth && "max-w-[1920px]",
+        paddingX && "px-xs",
+        paddingY && "py-xs",
         className,
       )}
       {...props}

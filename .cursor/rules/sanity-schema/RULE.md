@@ -126,3 +126,44 @@ export const POST_QUERY = defineQuery(`*[
 }`);
 ```
 
+## Page Builder Blocks
+
+Page builder blocks use `defineBlock()` from `@/schemas/utils/define-block.util`. This utility:
+
+- Creates consistent block structure with `name.block` type naming
+- **Automatically adds a `width` option** (`"default"` or `"fullWidth"`) to all blocks
+- Wraps fields in an `options` object
+
+**Block definition pattern:**
+
+```typescript
+import { defineBlock } from "@/schemas/utils/define-block.util";
+
+export const myBlockSchema = defineBlock({
+  name: "myBlock",
+  title: "My Block",
+  icon: SomeIcon,
+  scope: ["pageBuilder", "portableText"],
+  fields: [
+    // Block content fields
+  ],
+  optionFields: [
+    // Additional options - width is auto-added first
+  ],
+  preview: {
+    prepare: () => ({ title: "My Block" }),
+  },
+});
+```
+
+**Important:** Do NOT add a width/layout field manually - `defineBlock` adds it automatically.
+
+**Query pattern:** Always include `width` in block queries:
+
+```groq
+options {
+  width,
+  // other block-specific options
+}
+```
+

@@ -36,7 +36,7 @@ export const Service = (props: Props) => {
         }
         className="bg-container-primary"
       >
-        <div className="mx-auto max-w-[2560px] px-(--margin) pb-2xl pt-md">
+        <div className="mx-auto max-w-[1920px] px-(--margin) pb-2xl pt-md">
           <ContentLayout>
             <div className="max-w-[720px]">
               <PortableText

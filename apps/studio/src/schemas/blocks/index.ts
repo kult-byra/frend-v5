@@ -9,7 +9,6 @@ import { buttonBlockSchema } from "./button.block.schema";
 import { cardsBlockSchema } from "./cards.block.schema";
 import { contentBlockSchema } from "./content.block.schema";
 import { formBlockSchema } from "./form.block.schema";
-import { imageCarouselBlockSchema } from "./image-carousel.block.schema";
 import { imagesWithBannerBlockSchema } from "./images-with-banner.block.schema";
 import { jobOpeningsBlockSchema } from "./job-openings.block.schema";
 import { peopleBlockSchema } from "./people.block.schema";
@@ -29,7 +28,6 @@ export const allBlockSchemas = {
   formBlockSchema,
   cardsBlockSchema,
   imagesWithBannerBlockSchema,
-  imageCarouselBlockSchema,
   jobOpeningsBlockSchema,
   contentBlockSchema,
 };

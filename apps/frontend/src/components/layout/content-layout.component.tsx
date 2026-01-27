@@ -9,9 +9,7 @@ type ContentLayoutProps = {
 export const ContentLayout = ({ children, className }: ContentLayoutProps) => {
   return (
     <div className={cn("flex justify-end", className)}>
-      <div className="w-full lg:w-1/2">
-        {children}
-      </div>
+      <div className="w-full lg:w-1/2">{children}</div>
     </div>
   );
 };

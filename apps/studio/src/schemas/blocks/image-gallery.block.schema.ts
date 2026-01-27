@@ -1,8 +1,33 @@
-import { Image } from "lucide-react";
+import {
+  Columns2,
+  GalleryHorizontalEnd,
+  Grid2x2,
+  Image,
+  PanelLeft,
+  Square,
+} from "lucide-react";
 import { defineField } from "sanity";
 import { defineBlock } from "@/schemas/utils/define-block.util";
-import { imageFormatField } from "../generator-fields/image-format.field";
+import { gridOptionsField } from "../generator-fields/grid-options.field";
 import { mediaField } from "../generator-fields/media.field";
+
+// Image limits: { min, max }
+const IMAGE_LIMITS = {
+  single: { min: 1, max: 1 },
+  grid: { min: 1, max: 6 },
+  carousel: { min: 2, max: 99 },
+  mediaFull: { min: 1, max: 3 },
+  doubleStickyFull: { min: 2, max: 2 },
+  carouselFull: { min: 3, max: 99 },
+};
+
+// Helper to check if grid type is selected
+const isGridType = ({ parent }: { parent?: { options?: { width?: string; galleryTypeHalf?: string } } }) => {
+  const options = parent?.options;
+  const isFullWidth = options?.width === "fullWidth";
+  const galleryType = options?.galleryTypeHalf || "grid";
+  return !isFullWidth && galleryType === "grid";
+};
 
 export const imageGalleryBlockSchema = defineBlock({
   name: "imageGallery",
@@ -10,53 +35,104 @@ export const imageGalleryBlockSchema = defineBlock({
   icon: Image,
   scope: ["pageBuilder", "portableText"],
   fields: [
+    // Title field - only visible for grid type
+    defineField({
+      name: "title",
+      title: "Title",
+      type: "string",
+      description: "Optional headline above the image grid",
+      hidden: ({ parent }) => !isGridType({ parent }),
+    }),
+    // Intro field - only visible for grid type
+    defineField({
+      name: "intro",
+      title: "Intro",
+      type: "text",
+      rows: 3,
+      description: "Optional intro text below the title",
+      hidden: ({ parent }) => !isGridType({ parent }),
+    }),
     defineField({
       title: "Images",
       name: "images",
       type: "array",
-      of: [
-        defineField({
-          title: "Image/video",
-          name: "figureOrVideo",
-          type: "object",
-          fields: [
-            mediaField({
-              name: "media",
-              title: "Image/video",
-              video: true,
-            }),
-            imageFormatField(),
-          ],
-          preview: {
-            select: {
-              mediaType: "media.mediaType",
-              imageFormat: "imageFormat",
-              image: "media.image",
-            },
-            prepare({ mediaType, imageFormat, image }) {
-              const mediaTypeLabel =
-                mediaType === "image" ? "Image" : mediaType === "video" ? "Video" : "Media";
-              const formatLabel = imageFormat || "3:2";
-
-              return {
-                title: `${mediaTypeLabel} - ${formatLabel}`,
-                media: image,
-              };
-            },
-          },
-        }),
-      ],
+      of: [mediaField({ name: "media", title: "Image/video", video: true })],
       validation: (Rule) =>
-        Rule.required()
-          .min(1)
-          .max(3)
-          .error("At least one image/video is required and at most three are allowed"),
+        Rule.custom((images, context) => {
+          const parent = context.parent as { options?: Record<string, string> } | undefined;
+          const options = parent?.options;
+          const isFullWidth = options?.width === "fullWidth";
+          const type = isFullWidth
+            ? options?.galleryTypeFull || "mediaFull"
+            : options?.galleryTypeHalf || "grid";
+
+          const { min, max } = IMAGE_LIMITS[type as keyof typeof IMAGE_LIMITS] || { min: 1, max: 99 };
+
+          if (!images || images.length === 0) return "At least one image/video is required";
+          if (images.length < min) return `This layout requires at least ${min} image(s)`;
+          if (images.length > max) return `This layout allows at most ${max} image(s)`;
+          return true;
+        }),
+    }),
+  ],
+  optionFields: [
+    // Half width gallery types
+    gridOptionsField({
+      name: "galleryTypeHalf",
+      title: "Gallery Type",
+      description: "Choose how images are displayed. More options available in full width.",
+      columns: 3,
+      initialValue: "grid",
+      hidden: ({ parent }) => parent?.width === "fullWidth",
+      options: [
+        { value: "single", title: "Single", description: "Single media item", icon: Square },
+        { value: "grid", title: "Grid", description: "Uniform grid layout (up to 6 images)", icon: Grid2x2 },
+        { value: "carousel", title: "Carousel", description: "Scrollable carousel (2+ images)", icon: GalleryHorizontalEnd },
+      ],
+    }),
+
+    // Full width gallery types
+    gridOptionsField({
+      name: "galleryTypeFull",
+      title: "Gallery Type",
+      description: "Choose how images are displayed. More options available in half width.",
+      columns: 3,
+      initialValue: "mediaFull",
+      hidden: ({ parent }) => parent?.width !== "fullWidth",
+      options: [
+        { value: "mediaFull", title: "Media Full", description: "Up to 3 images in equal width columns", icon: Columns2 },
+        { value: "doubleStickyFull", title: "Double Sticky", description: "One 3:2 and one 3:4 media, 3:2 is sticky (order follows array)", icon: PanelLeft },
+        { value: "carouselFull", title: "Carousel", description: "Looping carousel with swipe (3+ images)", icon: GalleryHorizontalEnd },
+      ],
     }),
   ],
   preview: {
-    prepare() {
+    select: {
+      images: "images",
+      width: "options.width",
+      galleryTypeHalf: "options.galleryTypeHalf",
+      galleryTypeFull: "options.galleryTypeFull",
+    },
+    prepare: ({ images, width, galleryTypeHalf, galleryTypeFull }) => {
+      const imageCount = images?.length ?? 0;
+      const isFullWidth = width === "fullWidth";
+      const galleryType = isFullWidth ? galleryTypeFull || "mediaFull" : galleryTypeHalf || "grid";
+
+      const typeLabels: Record<string, string> = {
+        single: "Single",
+        grid: "Grid",
+        carousel: "Carousel",
+        mediaFull: "Media Full",
+        doubleStickyFull: "Double Sticky",
+        carouselFull: "Carousel",
+      };
+
+      const widthLabel = isFullWidth ? "Full width" : "Default";
+      const subtitle = `${widthLabel} · ${typeLabels[galleryType] || galleryType} · ${imageCount} ${imageCount === 1 ? "image" : "images"}`;
+
       return {
         title: "Image gallery",
+        subtitle,
       };
     },
   },

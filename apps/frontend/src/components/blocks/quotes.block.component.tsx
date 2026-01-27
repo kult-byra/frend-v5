@@ -6,12 +6,10 @@ import { BlockContainer } from "@/components/layout/block-container.component";
 import { cn } from "@/utils/cn.util";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
-type QuotesBlockProps = PageBuilderBlockProps<"quotes.block"> & {
-  options?: { layout?: "default" | "fullWidth" };
-};
+type QuotesBlockProps = PageBuilderBlockProps<"quotes.block">;
 
 export const QuotesBlock = (props: QuotesBlockProps) => {
-  const { quotes, options } = props;
+  const { quotes } = props;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -22,7 +20,6 @@ export const QuotesBlock = (props: QuotesBlockProps) => {
 
   const currentQuote = validQuotes[currentIndex];
   const hasMultipleQuotes = validQuotes.length > 1;
-  const isFullWidth = options?.layout === "fullWidth";
 
   const changeQuote = (newIndex: number) => {
     if (isAnimating) return;
@@ -88,36 +85,6 @@ export const QuotesBlock = (props: QuotesBlockProps) => {
     </p>
   );
 
-  // Full width layout
-  // Mobile: author left, arrows right (like half width)
-  // Desktop: centered author, centered arrows below
-  if (isFullWidth) {
-    return (
-      <BlockContainer>
-        <div className="flex flex-col items-center justify-center gap-xs rounded-3xs bg-container-tertiary-1 px-sm py-md md:px-xl md:pb-md md:pt-xl">
-          {/* Quote text */}
-          <blockquote className="flex w-full items-center justify-center px-0 pb-sm pt-md md:px-xl md:pb-3xs md:pt-md">
-            {quoteContent}
-          </blockquote>
-
-          {/* Mobile: author left, arrows right */}
-          <div className="flex w-full items-end justify-between md:hidden">
-            {sourceAttribution}
-            {navigationButtons}
-          </div>
-
-          {/* Desktop: centered author, centered arrows */}
-          <div className="hidden w-full flex-col items-center gap-xl md:flex">
-            {sourceAttribution}
-            {navigationButtons}
-          </div>
-        </div>
-      </BlockContainer>
-    );
-  }
-
-  // Default (half width) layout
-  // Author bottom left, arrows bottom right
   return (
     <BlockContainer>
       <div className="flex flex-col gap-xs rounded-3xs bg-container-tertiary-1 p-xs">

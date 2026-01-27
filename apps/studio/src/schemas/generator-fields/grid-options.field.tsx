@@ -7,12 +7,11 @@ import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 export type GridOptionsFieldProps = {
   options: GridOption[];
   initialValue?: string;
+  columns?: number;
 };
 
-export const gridOptionsField = (
-  props: FieldDef<StringDefinition> & GridOptionsFieldProps,
-) => {
-  const { name, title, description, options, initialValue, required, validation } = props;
+export const gridOptionsField = (props: FieldDef<StringDefinition> & GridOptionsFieldProps) => {
+  const { name, title, description, options, initialValue, columns, required, validation } = props;
 
   return defineField({
     ...props,
@@ -22,7 +21,9 @@ export const gridOptionsField = (
     type: "string",
     initialValue,
     components: {
-      input: (inputProps) => <GridOptionsInput {...inputProps} options={options} />,
+      input: (inputProps) => (
+        <GridOptionsInput {...inputProps} options={options} columns={columns} />
+      ),
     },
     options: {
       list: options.map((option) => ({

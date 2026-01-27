@@ -51,8 +51,10 @@ export function StickyBottomContainer({
       {/* Sticky content - desktop only */}
       <div
         className={cn(
-          "left-(--margin) bottom-4 z-10 hidden w-[443px] lg:block",
-          isStuck ? "absolute" : "fixed",
+          "bottom-4 z-10 hidden w-[443px] lg:block",
+          isStuck
+            ? "absolute left-(--margin)"
+            : "fixed left-[max(var(--margin),calc(50vw-960px+var(--margin)))]",
         )}
       >
         {stickyContent}

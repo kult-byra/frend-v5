@@ -23,7 +23,6 @@ export const contentBlockSchema = defineBlock({
         "button.block",
         "form.block",
         "imagesWithBanner.block",
-        "imageCarousel.block",
       ],
     }),
   ],

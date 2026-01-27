@@ -1,13 +1,6 @@
 import { defineQuery } from "next-sanity";
 import type { HeroTypegenQueryResult } from "@/sanity-types";
-import { imageQuery } from "./image.query";
-
-// @sanity-typegen-ignore
-const mediaQuery = defineQuery(`
-  mediaType,
-  image { ${imageQuery} },
-  videoUrl
-`);
+import { mediaQuery } from "./media.query";
 
 // @sanity-typegen-ignore
 const mediaAndFormHeroQuery = defineQuery(`
@@ -33,9 +26,7 @@ const _heroTypegenQuery = defineQuery(`
     mediaAndFormHero {
       heroText,
       media {
-        mediaType,
-        image { ${imageQuery} },
-        videoUrl
+        ${mediaQuery}
       },
       form-> {
         _id,

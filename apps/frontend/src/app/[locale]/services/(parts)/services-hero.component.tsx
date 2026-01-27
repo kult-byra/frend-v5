@@ -18,7 +18,7 @@ export function ServicesHero({ title, excerpt, media, mobileAnchorNav }: Service
 
   return (
     <section className="bg-container-primary pb-md pt-xl">
-      <div className="mx-auto max-w-[2560px] px-(--margin)">
+      <div className="mx-auto max-w-[1920px] px-(--margin)">
         <ContentLayout className="pb-md">
           <div className="flex max-w-[720px] flex-col gap-sm">
             {title && <h1 className="text-headline-1 text-text-primary">{title}</h1>}

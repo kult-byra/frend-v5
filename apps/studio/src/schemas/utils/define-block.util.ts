@@ -6,6 +6,7 @@ import {
   type ObjectSchemaType,
 } from "sanity";
 import { PageBuilderBlockPreview } from "@/components/previews/page-builder-block-preview.component";
+import { widthField } from "@/schemas/generator-fields/width.field";
 import { camelToNormal } from "@/utils/string.util";
 
 type BlockScope = "pageBuilder" | "portableText";
@@ -25,16 +26,17 @@ export const defineBlock = (props: BlockDefinition) => {
 
   const fields = originalFields ?? [];
 
-  if (optionFields) {
-    fields.push(
-      defineField({
-        name: "options",
-        title: "Valg",
-        type: "object",
-        fields: optionFields,
-      }),
-    );
-  }
+  // Always add options with width field (and any additional optionFields)
+  const allOptionFields = [widthField(), ...(optionFields ?? [])];
+
+  fields.push(
+    defineField({
+      name: "options",
+      title: "Options",
+      type: "object",
+      fields: allOptionFields,
+    }),
+  );
 
   return defineField(
     {

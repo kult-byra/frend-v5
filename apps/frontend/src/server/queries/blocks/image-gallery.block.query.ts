@@ -1,16 +1,20 @@
 import { defineQuery } from "next-sanity";
-import { imageQuery } from "../utils/image.query";
+import { mediaQuery } from "../utils/media.query";
 
 // @sanity-typegen-ignore
 export const imageGalleryBlockQuery = defineQuery(`
   _type,
   _key,
+  title,
+  intro,
   images[] {
     _key,
     _type,
-    "mediaType": media.mediaType,
-    "image": media.image { ${imageQuery} },
-    "videoUrl": media.videoUrl,
-    imageFormat
+    ${mediaQuery}
+  },
+  options {
+    width,
+    galleryTypeHalf,
+    galleryTypeFull
   }
 `);

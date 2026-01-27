@@ -18,6 +18,8 @@ export const peopleBlockQuery = defineQuery(`
     name,
     role_no,
     role_en,
+    phone,
+    email,
     company,
     externalPerson,
     image { ${imageQuery} }

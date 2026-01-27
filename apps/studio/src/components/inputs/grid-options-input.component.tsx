@@ -15,10 +15,11 @@ export type GridOption = {
 
 export type GridOptionsInputProps = {
   options: GridOption[];
+  columns?: number;
 };
 
 export const GridOptionsInput = (props: StringInputProps & GridOptionsInputProps) => {
-  const { value = "", onChange, options } = props;
+  const { value = "", onChange, options, columns = 2 } = props;
 
   const handleChange = useCallback(
     (newValue: string) => onChange(!newValue || newValue === value ? unset() : set(newValue)),
@@ -26,7 +27,7 @@ export const GridOptionsInput = (props: StringInputProps & GridOptionsInputProps
   );
 
   return (
-    <Grid columns={[1, 2]} gap={3}>
+    <Grid columns={[1, columns]} gap={3}>
       {options.map((option) => {
         const isSelected = value === option.value;
         const Icon = option.icon;

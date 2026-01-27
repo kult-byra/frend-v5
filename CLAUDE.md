@@ -205,9 +205,16 @@ mediaField({ name: "media", video: true, illustration: true, required: true })
   mediaType: "image" | "video" | "illustration",
   image: { asset, crop, hotspot, altText, caption },  // when mediaType === "image"
   videoUrl: string,                                    // when mediaType === "video"
-  illustration: string                                 // when mediaType === "illustration"
+  illustration: string,                                // when mediaType === "illustration"
+  aspectRatio: "3:2" | "3:4" | "1:1"                   // when image or video (optional)
 }
 ```
+
+**Preview display** in Sanity Studio:
+
+- **Image**: Shows "Image · 3:2 · Alt text here" (aspect ratio and alt text when available)
+- **Video**: Shows "Video · 3:2" in subtitle, URL in description
+- **Illustration**: Shows illustration name with "Illustration" subtitle
 
 **Query pattern** (GROQ):
 

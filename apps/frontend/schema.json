@@ -36,6 +36,27 @@
             "type": "string"
           },
           "optional": true
+        },
+        "aspectRatio": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "3:2"
+              },
+              {
+                "type": "string",
+                "value": "3:4"
+              },
+              {
+                "type": "string",
+                "value": "1:1"
+              }
+            ]
+          },
+          "optional": true
         }
       }
     }
@@ -189,6 +210,32 @@
   },
   {
     "type": "type",
+    "name": "options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
     "name": "callToAction.image",
     "value": {
       "type": "object",
@@ -244,39 +291,24 @@
   },
   {
     "type": "type",
-    "name": "figureOrVideo.media",
+    "name": "callToAction.block.options",
     "value": {
       "type": "object",
       "attributes": {
-        "mediaType": {
+        "width": {
           "type": "objectAttribute",
           "value": {
             "type": "union",
             "of": [
               {
                 "type": "string",
-                "value": "image"
+                "value": "halfWidth"
               },
               {
                 "type": "string",
-                "value": "video"
+                "value": "fullWidth"
               }
             ]
-          },
-          "optional": false
-        },
-        "image": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "figureOrVideo.media.image"
-          },
-          "optional": true
-        },
-        "videoUrl": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
           },
           "optional": true
         }
@@ -285,7 +317,59 @@
   },
   {
     "type": "type",
-    "name": "figureOrVideo.media.image",
+    "name": "logoCloud.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "video.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "images.media.image",
     "value": {
       "type": "object",
       "attributes": {
@@ -340,7 +424,179 @@
   },
   {
     "type": "type",
-    "name": "images.media.image",
+    "name": "imageGallery.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "galleryTypeHalf": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "single"
+              },
+              {
+                "type": "string",
+                "value": "grid"
+              },
+              {
+                "type": "string",
+                "value": "carousel"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "galleryTypeFull": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "mediaFull"
+              },
+              {
+                "type": "string",
+                "value": "doubleStickyFull"
+              },
+              {
+                "type": "string",
+                "value": "carouselFull"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "quotes.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "people.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "button.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "form.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "imagesWithBanner.block.images.media.image",
     "value": {
       "type": "object",
       "attributes": {
@@ -395,96 +651,26 @@
   },
   {
     "type": "type",
-    "name": "images.figureOrVideo.media",
+    "name": "imagesWithBanner.block.options",
     "value": {
       "type": "object",
       "attributes": {
-        "mediaType": {
+        "width": {
           "type": "objectAttribute",
           "value": {
             "type": "union",
             "of": [
               {
                 "type": "string",
-                "value": "image"
+                "value": "halfWidth"
               },
               {
                 "type": "string",
-                "value": "video"
+                "value": "fullWidth"
               }
             ]
           },
-          "optional": false
-        },
-        "image": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "images.figureOrVideo.media.image"
-          },
           "optional": true
-        },
-        "videoUrl": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
-    "type": "type",
-    "name": "images.figureOrVideo.media.image",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "asset": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "sanity.imageAsset.reference"
-          },
-          "optional": true
-        },
-        "media": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "figureOrVideo.media.image.media"
-          },
-          "optional": true
-        },
-        "hotspot": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "sanity.imageHotspot"
-          },
-          "optional": true
-        },
-        "crop": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "sanity.imageCrop"
-          },
-          "optional": true
-        },
-        "changed": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "image"
-          }
         }
       }
     }
@@ -540,6 +726,110 @@
             "type": "string",
             "value": "image"
           }
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "imagesAndText.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "cards.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "jobOpenings.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "content.block.options",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "halfWidth"
+              },
+              {
+                "type": "string",
+                "value": "fullWidth"
+              }
+            ]
+          },
+          "optional": true
         }
       }
     }
@@ -4670,21 +4960,6 @@
                 },
                 "rest": {
                   "type": "inline",
-                  "name": "imageCarousel.block"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
                   "name": "jobOpenings.block"
                 }
               },
@@ -4905,21 +5180,6 @@
                 "rest": {
                   "type": "inline",
                   "name": "imagesWithBanner.block"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
                 }
               },
               {
@@ -6485,24 +6745,17 @@
                     "type": "inline",
                     "name": "imagesWithBanner.block"
                   }
-                },
-                {
-                  "type": "object",
-                  "attributes": {
-                    "_key": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "rest": {
-                    "type": "inline",
-                    "name": "imageCarousel.block"
-                  }
                 }
               ]
             }
+          },
+          "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "content.block.options"
           },
           "optional": true
         }
@@ -6761,79 +7014,12 @@
             "type": "string"
           },
           "optional": true
-        }
-      }
-    }
-  },
-  {
-    "name": "imageCarousel.block",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "imageCarousel.block"
-          }
         },
-        "images": {
+        "options": {
           "type": "objectAttribute",
           "value": {
-            "type": "array",
-            "of": {
-              "type": "object",
-              "attributes": {
-                "media": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "inline",
-                    "name": "images.figureOrVideo.media"
-                  },
-                  "optional": true
-                },
-                "imageFormat": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "union",
-                    "of": [
-                      {
-                        "type": "string",
-                        "value": "3:2"
-                      },
-                      {
-                        "type": "string",
-                        "value": "3:4"
-                      },
-                      {
-                        "type": "string",
-                        "value": "1:1"
-                      }
-                    ]
-                  },
-                  "optional": true
-                },
-                "_type": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string",
-                    "value": "figureOrVideo"
-                  }
-                }
-              },
-              "rest": {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "type": "inline",
+            "name": "jobOpenings.block.options"
           },
           "optional": true
         }
@@ -7264,7 +7450,7 @@
                   "type": "objectAttribute",
                   "value": {
                     "type": "inline",
-                    "name": "images.media.image"
+                    "name": "imagesWithBanner.block.images.media.image"
                   },
                   "optional": true
                 },
@@ -7272,6 +7458,27 @@
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
+                  },
+                  "optional": true
+                },
+                "aspectRatio": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "union",
+                    "of": [
+                      {
+                        "type": "string",
+                        "value": "3:2"
+                      },
+                      {
+                        "type": "string",
+                        "value": "3:4"
+                      },
+                      {
+                        "type": "string",
+                        "value": "1:1"
+                      }
+                    ]
                   },
                   "optional": true
                 },
@@ -7297,6 +7504,14 @@
             }
           },
           "optional": false
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "imagesWithBanner.block.options"
+          },
+          "optional": true
         }
       }
     }
@@ -8109,6 +8324,14 @@
             }
           },
           "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "cards.block.options"
+          },
+          "optional": true
         }
       }
     }
@@ -8131,6 +8354,14 @@
           "value": {
             "type": "inline",
             "name": "hubspotForm.reference"
+          },
+          "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "form.block.options"
           },
           "optional": true
         }
@@ -8272,6 +8503,14 @@
                 }
               ]
             }
+          },
+          "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "button.block.options"
           },
           "optional": true
         }
@@ -8558,6 +8797,14 @@
             }
           },
           "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "people.block.options"
+          },
+          "optional": true
         }
       }
     }
@@ -8626,6 +8873,14 @@
             }
           },
           "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "quotes.block.options"
+          },
+          "optional": true
         }
       }
     }
@@ -8643,6 +8898,20 @@
             "value": "imageGallery.block"
           }
         },
+        "title": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "intro": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
         "images": {
           "type": "objectAttribute",
           "value": {
@@ -8650,15 +8919,39 @@
             "of": {
               "type": "object",
               "attributes": {
-                "media": {
+                "mediaType": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "union",
+                    "of": [
+                      {
+                        "type": "string",
+                        "value": "image"
+                      },
+                      {
+                        "type": "string",
+                        "value": "video"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                "image": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "inline",
-                    "name": "figureOrVideo.media"
+                    "name": "images.media.image"
                   },
                   "optional": true
                 },
-                "imageFormat": {
+                "videoUrl": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  },
+                  "optional": true
+                },
+                "aspectRatio": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "union",
@@ -8683,7 +8976,7 @@
                   "type": "objectAttribute",
                   "value": {
                     "type": "string",
-                    "value": "figureOrVideo"
+                    "value": "media"
                   }
                 }
               },
@@ -8700,7 +8993,15 @@
               }
             }
           },
-          "optional": false
+          "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "imageGallery.block.options"
+          },
+          "optional": true
         }
       }
     }
@@ -8722,6 +9023,14 @@
           "type": "objectAttribute",
           "value": {
             "type": "string"
+          },
+          "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "video.block.options"
           },
           "optional": true
         }
@@ -8760,6 +9069,14 @@
                 "name": "logo.reference"
               }
             }
+          },
+          "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "logoCloud.block.options"
           },
           "optional": true
         }
@@ -9157,6 +9474,14 @@
             }
           },
           "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "callToAction.block.options"
+          },
+          "optional": true
         }
       }
     }
@@ -9253,6 +9578,27 @@
           "type": "objectAttribute",
           "value": {
             "type": "string"
+          },
+          "optional": true
+        },
+        "aspectRatio": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "3:2"
+              },
+              {
+                "type": "string",
+                "value": "3:4"
+              },
+              {
+                "type": "string",
+                "value": "1:1"
+              }
+            ]
           },
           "optional": true
         },
@@ -9815,6 +10161,14 @@
             }
           },
           "optional": true
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "options"
+          },
+          "optional": true
         }
       }
     }
@@ -10229,6 +10583,27 @@
                   },
                   "optional": true
                 },
+                "aspectRatio": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "union",
+                    "of": [
+                      {
+                        "type": "string",
+                        "value": "3:2"
+                      },
+                      {
+                        "type": "string",
+                        "value": "3:4"
+                      },
+                      {
+                        "type": "string",
+                        "value": "1:1"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
                 "_type": {
                   "type": "objectAttribute",
                   "value": {
@@ -10251,6 +10626,14 @@
             }
           },
           "optional": false
+        },
+        "options": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "imagesAndText.block.options"
+          },
+          "optional": true
         }
       }
     }
@@ -11687,21 +12070,6 @@
                 },
                 "rest": {
                   "type": "inline",
-                  "name": "imageCarousel.block"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
                   "name": "jobOpenings.block"
                 }
               },
@@ -11988,6 +12356,27 @@
               "type": "objectAttribute",
               "value": {
                 "type": "string"
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
               },
               "optional": true
             }
@@ -12316,16 +12705,6 @@
         },
         "optional": true
       },
-      "keyResults": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "array",
-          "of": {
-            "type": "string"
-          }
-        },
-        "optional": true
-      },
       "pageBuilder": {
         "type": "objectAttribute",
         "value": {
@@ -12436,21 +12815,6 @@
                 "rest": {
                   "type": "inline",
                   "name": "imagesWithBanner.block"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
                 }
               },
               {
@@ -13996,6 +14360,27 @@
                 "type": "string"
               },
               "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
+              },
+              "optional": true
             }
           }
         },
@@ -14177,21 +14562,6 @@
                 },
                 "rest": {
                   "type": "inline",
-                  "name": "imageCarousel.block"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
                   "name": "jobOpenings.block"
                 }
               },
@@ -14354,6 +14724,27 @@
               "type": "objectAttribute",
               "value": {
                 "type": "string"
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
               },
               "optional": true
             }
@@ -14889,21 +15280,6 @@
                   "type": "inline",
                   "name": "imagesWithBanner.block"
                 }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
-                }
               }
             ]
           }
@@ -15143,6 +15519,27 @@
               "type": "objectAttribute",
               "value": {
                 "type": "string"
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
               },
               "optional": true
             }
@@ -15921,21 +16318,6 @@
                   "type": "inline",
                   "name": "imagesWithBanner.block"
                 }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
-                }
               }
             ]
           }
@@ -16219,21 +16601,6 @@
                 },
                 "rest": {
                   "type": "inline",
-                  "name": "imageCarousel.block"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
                   "name": "jobOpenings.block"
                 }
               },
@@ -16403,6 +16770,27 @@
               "type": "objectAttribute",
               "value": {
                 "type": "string"
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
               },
               "optional": true
             }
@@ -17127,21 +17515,6 @@
                   "type": "inline",
                   "name": "imagesWithBanner.block"
                 }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
-                }
               }
             ]
           }
@@ -17390,6 +17763,27 @@
                 "type": "objectAttribute",
                 "value": {
                   "type": "string"
+                },
+                "optional": true
+              },
+              "aspectRatio": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "3:2"
+                    },
+                    {
+                      "type": "string",
+                      "value": "3:4"
+                    },
+                    {
+                      "type": "string",
+                      "value": "1:1"
+                    }
+                  ]
                 },
                 "optional": true
               },
@@ -17906,21 +18300,6 @@
                 "rest": {
                   "type": "inline",
                   "name": "imagesWithBanner.block"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
                 }
               }
             ]
@@ -18812,21 +19191,6 @@
                 "rest": {
                   "type": "inline",
                   "name": "imagesWithBanner.block"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
                 }
               }
             ]
@@ -19868,21 +20232,6 @@
                   "type": "inline",
                   "name": "imagesWithBanner.block"
                 }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
-                }
               }
             ]
           }
@@ -20879,21 +21228,6 @@
                   "type": "inline",
                   "name": "imagesWithBanner.block"
                 }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
-                }
               }
             ]
           }
@@ -21067,6 +21401,27 @@
                     }
                   }
                 }
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
               },
               "optional": true
             },
@@ -21803,6 +22158,27 @@
                 "type": "string"
               },
               "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
+              },
+              "optional": true
             }
           }
         },
@@ -22215,6 +22591,27 @@
               "type": "objectAttribute",
               "value": {
                 "type": "string"
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
               },
               "optional": true
             }
@@ -23025,21 +23422,6 @@
                   "type": "inline",
                   "name": "imagesWithBanner.block"
                 }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
-                }
               }
             ]
           }
@@ -23798,21 +24180,6 @@
                   "type": "inline",
                   "name": "imagesWithBanner.block"
                 }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "imageCarousel.block"
-                }
               }
             ]
           }
@@ -23982,6 +24349,27 @@
                     }
                   }
                 }
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
               },
               "optional": true
             }
@@ -24450,6 +24838,27 @@
                 "type": "string"
               },
               "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
+              },
+              "optional": true
             }
           }
         },
@@ -24636,6 +25045,27 @@
               "type": "objectAttribute",
               "value": {
                 "type": "string"
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
+                  }
+                ]
               },
               "optional": true
             }
@@ -25123,6 +25553,20 @@
           "type": "string"
         },
         "optional": false
+      },
+      "phone": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "email": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
       },
       "externalPerson": {
         "type": "objectAttribute",

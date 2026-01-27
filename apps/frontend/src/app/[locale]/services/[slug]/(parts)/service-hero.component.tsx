@@ -34,7 +34,7 @@ export function ServiceHero({ title, excerpt, media, mobileAnchorNav }: ServiceH
 
   return (
     <section className="bg-container-primary pb-md pt-xl">
-      <div className="mx-auto max-w-[2560px] px-(--margin)">
+      <div className="mx-auto max-w-[1920px] px-(--margin)">
         <ContentLayout>
           <div className="flex flex-col gap-md">
             <MediaCircle media={media} />

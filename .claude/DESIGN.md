@@ -22,11 +22,32 @@ Two grid configurations based on viewport size:
 | desktop    | 1025px - 1440px  | 12      | 16px   | 16px   |
 | display    | 1441px - 2560px  | 12      | 16px   | 16px   |
 
+### Max Width
+
+Page content is constrained to **1920px** maximum width.
+
+- **Main content area**: `<main>` element has `max-w-[1920px]` applied at root layout level
+- **Header**: Full-width (fixed position), content uses its own padding
+- **Footer**: Full-width background (outside main constraint), content uses `Container` for 1920px + xs padding
+- **Page sections**: Handle their own horizontal padding with `px-xs` or `px-(--margin)`
+
 ### Tailwind Implementation
 
 ```tsx
-// Container with responsive margins
-<div className="mx-4">  {/* 16px margin on all breakpoints */}
+// Root layout (main element constrained, header/footer full-width)
+<main className="mx-auto w-full max-w-[1920px]">
+  {children}
+</main>
+
+// Page sections (handle their own padding)
+<section className="bg-container-primary">
+  <div className="mx-auto max-w-[1920px] px-(--margin)">
+    {/* content */}
+  </div>
+</section>
+
+// Container component (for sections within pages)
+<Container>  {/* max-w-[1920px] mx-auto px-xs */}
 
 // Grid layouts
 <div className="grid grid-cols-6 gap-4 lg:grid-cols-12">
@@ -252,6 +273,7 @@ In almost all use cases, use one of these 3 media ratios:
 ### Video Behavior
 
 For looping video assets:
+
 - The pause/play icon is always sticky in the bottom-left corner of the media
 - Once the media is within the viewport, the pause icon is visible sticky to the bottom of the viewport, within the media container
 
@@ -569,4 +591,3 @@ import { Illustration, type IllustrationName } from "@/components/illustration.c
 **Files location:** `apps/frontend/public/illustrations/`
 
 **Configuration:** `apps/studio/src/utils/illustrations.const.ts`
-

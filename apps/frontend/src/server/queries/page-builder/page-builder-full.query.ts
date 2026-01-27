@@ -3,7 +3,6 @@ import { callToActionBlockQuery } from "@/server/queries/blocks/call-to-action.b
 import { cardsBlockQuery } from "@/server/queries/blocks/cards.block.query";
 import { contentBlockQuery } from "@/server/queries/blocks/content.block.query";
 import { imageAndTextBlockQuery } from "@/server/queries/blocks/image-and-text.block.query";
-import { imageCarouselBlockQuery } from "@/server/queries/blocks/image-carousel.block.query";
 import { imageGalleryBlockQuery } from "@/server/queries/blocks/image-gallery.block.query";
 import { imagesAndTextBlockQuery } from "@/server/queries/blocks/images-and-text.block.query";
 import { imagesWithBannerBlockQuery } from "@/server/queries/blocks/images-with-banner.block.query";
@@ -27,8 +26,7 @@ export const pageBuilderInnerQuery = defineQuery(`
     _type == "people.block" => {${peopleBlockQuery}},
     _type == "logoCloud.block" => {${logoCloudBlockQuery}},
     _type == "jobOpenings.block" => {${jobOpeningsBlockQuery}},
-    _type == "imageGallery.block" => {${imageGalleryBlockQuery}},
-    _type == "imageCarousel.block" => {${imageCarouselBlockQuery}}
+    _type == "imageGallery.block" => {${imageGalleryBlockQuery}}
   )
 `);
 

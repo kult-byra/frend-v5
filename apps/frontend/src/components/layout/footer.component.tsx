@@ -3,6 +3,8 @@ import { Illustration, type IllustrationName } from "@/components/illustration.c
 import { Container } from "@/components/layout/container.component";
 import { LanguageSwitcher } from "@/components/layout/language-switcher.component";
 import { Logo } from "@/components/logo.component";
+import { PageBuilder } from "@/components/page-builder/page-builder.component";
+import type { PageBuilderType } from "@/components/page-builder/page-builder.types";
 import { LinkResolver } from "@/components/utils/link-resolver.component";
 import { env } from "@/env";
 import type { SettingsQueryResult } from "@/sanity-types";
@@ -17,106 +19,112 @@ export const Footer = (props: FooterProps) => {
   const { siteSettings, footerSettings, organisationSettings } = props;
 
   const { privacyPolicyPage } = siteSettings ?? {};
+  const preFooter = footerSettings?.preFooter as PageBuilderType | undefined;
 
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-container-brand-1 text-text-white-primary">
-      {/* Language & Newsletter section */}
-      <Container className="flex flex-col gap-md pb-xl pt-xs lg:flex-row lg:items-start lg:justify-between lg:gap-xs">
-        <LanguageSwitcher variant="footer" />
-        <FooterNewsletterForm contactForm={footerSettings?.contactForm} />
-      </Container>
+    <>
+      {/* Pre-footer content */}
+      {preFooter && preFooter.length > 0 && <PageBuilder pageBuilder={preFooter} />}
 
-      {/* Main footer content */}
-      <Container className="p-xs">
-        {/* Links section */}
-        <div className="flex flex-col gap-md border-t border-stroke-soft-inverted pt-xs">
-          {/* Contact & Links columns - 2 columns on mobile, 3 on desktop */}
-          <div className="flex gap-xs lg:gap-xs">
-            {/* Contact column */}
-            <FooterContactSection organisationSettings={organisationSettings} />
+      <footer className="bg-container-brand-1 text-text-white-primary">
+        {/* Language & Newsletter section */}
+        <Container className="flex flex-col gap-md pb-xl pt-xs lg:flex-row lg:items-start lg:justify-between lg:gap-xs">
+          <LanguageSwitcher variant="footer" />
+          <FooterNewsletterForm contactForm={footerSettings?.contactForm} />
+        </Container>
 
-            {/* Links column */}
-            <FooterLinksSection footerSettings={footerSettings} />
+        {/* Main footer content */}
+        <Container className="p-xs">
+          {/* Links section */}
+          <div className="flex flex-col gap-md border-t border-stroke-soft-inverted pt-xs">
+            {/* Contact & Links columns - 2 columns on mobile, 3 on desktop */}
+            <div className="flex gap-xs lg:gap-xs">
+              {/* Contact column */}
+              <FooterContactSection organisationSettings={organisationSettings} />
 
-            {/* Certifications column - desktop only */}
-            <div className="hidden flex-1 lg:block">
+              {/* Links column */}
+              <FooterLinksSection footerSettings={footerSettings} />
+
+              {/* Certifications column - desktop only */}
+              <div className="hidden flex-1 lg:block">
+                <FooterCertificationsSection
+                  organisationSettings={organisationSettings}
+                  layout="horizontal"
+                />
+              </div>
+            </div>
+
+            {/* Certifications - mobile only (full width below columns) */}
+            <div className="lg:hidden">
               <FooterCertificationsSection
                 organisationSettings={organisationSettings}
-                layout="horizontal"
+                layout="vertical"
               />
             </div>
           </div>
+        </Container>
 
-          {/* Certifications - mobile only (full width below columns) */}
-          <div className="lg:hidden">
-            <FooterCertificationsSection
-              organisationSettings={organisationSettings}
-              layout="vertical"
+        {/* Legal section */}
+        {/* Mobile illustration - full width, no padding, left aligned */}
+        {footerSettings?.illustration && (
+          <div className="pointer-events-none select-none lg:hidden">
+            <Illustration
+              name={
+                ((footerSettings as { mobileIllustration?: string }).mobileIllustration ??
+                  footerSettings.illustration) as IllustrationName
+              }
+              className="h-auto w-full"
             />
           </div>
-        </div>
-      </Container>
+        )}
 
-      {/* Legal section */}
-      {/* Mobile illustration - full width, no padding, left aligned */}
-      {footerSettings?.illustration && (
-        <div className="pointer-events-none select-none lg:hidden">
-          <Illustration
-            name={
-              ((footerSettings as { mobileIllustration?: string }).mobileIllustration ??
-                footerSettings.illustration) as IllustrationName
-            }
-            className="h-auto w-full"
-          />
-        </div>
-      )}
+        {/* Legal bar - flex row with copyright | illustration | logo */}
+        <Container className="overflow-hidden pb-0">
+          <div className="flex items-end justify-between">
+            {/* Legal text */}
+            <div className="flex flex-col gap-3xs py-xs text-body-small">
+              <p>
+                Copyright &copy; {currentYear} {env.NEXT_PUBLIC_SITE_TITLE}
+              </p>
+              {privacyPolicyPage?.title && (
+                <LinkResolver
+                  linkType="internal"
+                  slug={privacyPolicyPage.slug}
+                  _type="page"
+                  className="underline transition-colors hover:text-orange"
+                >
+                  {privacyPolicyPage.title}
+                </LinkResolver>
+              )}
+            </div>
 
-      {/* Legal bar - flex row with copyright | illustration | logo */}
-      <Container className="overflow-hidden pb-0">
-        <div className="flex items-end justify-between">
-          {/* Legal text */}
-          <div className="flex flex-col gap-3xs py-xs text-body-small">
-            <p>
-              Copyright &copy; {currentYear} {env.NEXT_PUBLIC_SITE_TITLE}
-            </p>
-            {privacyPolicyPage?.title && (
-              <LinkResolver
-                linkType="internal"
-                slug={privacyPolicyPage.slug}
-                _type="page"
-                className="underline transition-colors hover:text-orange"
-              >
-                {privacyPolicyPage.title}
-              </LinkResolver>
+            {/* Desktop illustration - centered in row, hidden on mobile */}
+            {footerSettings?.illustration && (
+              <div className="pointer-events-none hidden shrink-0 select-none lg:block">
+                <Illustration
+                  name={footerSettings.illustration as IllustrationName}
+                  className="h-auto w-[320px] lg:w-[423px]"
+                />
+              </div>
             )}
-          </div>
 
-          {/* Desktop illustration - centered in row, hidden on mobile */}
-          {footerSettings?.illustration && (
-            <div className="pointer-events-none hidden shrink-0 select-none lg:block">
-              <Illustration
-                name={footerSettings.illustration as IllustrationName}
-                className="h-auto w-[320px] lg:w-[423px]"
-              />
-            </div>
-          )}
-
-          {/* Logo - small on mobile, large on desktop */}
-          <div className="py-xs">
-            {/* Mobile logo */}
-            <div className="lg:hidden">
-              <Logo color="orange" variant="angled2" width={118} height={157} />
-            </div>
-            {/* Desktop logo */}
-            <div className="hidden lg:block">
-              <Logo color="orange" variant="angled2" width={244} height={325} />
+            {/* Logo - small on mobile, large on desktop */}
+            <div className="py-xs">
+              {/* Mobile logo */}
+              <div className="lg:hidden">
+                <Logo color="orange" variant="angled2" width={118} height={157} />
+              </div>
+              {/* Desktop logo */}
+              <div className="hidden lg:block">
+                <Logo color="orange" variant="angled2" width={244} height={325} />
+              </div>
             </div>
           </div>
-        </div>
-      </Container>
-    </footer>
+        </Container>
+      </footer>
+    </>
   );
 };
 

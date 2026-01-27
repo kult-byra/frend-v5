@@ -1,28 +1,23 @@
-import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
-import { Button } from "@/components/ui/button";
-import { LinkResolver } from "@/components/utils/link-resolver.component";
 
 const NotFound = () => {
   return (
-    <Container>
-      <div className="flex max-w-md flex-col items-start gap-y-6">
-        <H1 className="flex flex-col" balance={false}>
-          <span className="opacity-50">404</span>Vi finner ikke siden
-        </H1>
+    <section className="bg-container-primary py-xl">
+      <div className="mx-auto max-w-[1920px] px-(--margin)">
+        <div className="grid gap-(--gutter) lg:grid-cols-2">
+          {/* Empty cell on desktop */}
+          <div className="hidden lg:block" />
 
-        <p>
-          Beklager, siden du leter etter finnes ikke. Siden kan være flyttet, slettet, eller
-          nettadressen kan være feil.
-        </p>
-
-        <Button asChild>
-          <LinkResolver linkType="internal" _type="frontPage" slug={null}>
-            Gå til forsiden
-          </LinkResolver>
-        </Button>
+          {/* Content */}
+          <div className="flex max-w-[720px] flex-col gap-sm pr-md">
+            <div className="flex flex-col gap-xs">
+              <p className="text-base text-text-secondary">Error 404</p>
+              <H1 balance={false}>Beklager, vi kan ikke finne siden du leter etter!</H1>
+            </div>
+          </div>
+        </div>
       </div>
-    </Container>
+    </section>
   );
 };
 

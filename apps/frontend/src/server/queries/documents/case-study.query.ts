@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { pageBuilderQuery } from "@/server/queries/page-builder/page-builder-full.query";
-import { imageQuery } from "../utils/image.query";
+import { nestedMediaQuery } from "../utils/media.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
@@ -66,9 +66,7 @@ export const caseStudyQuery = defineQuery(`
     },
     color,
     "media": {
-      "mediaType": media.mediaType,
-      "image": media.image { ${imageQuery} },
-      "videoUrl": media.videoUrl
+      ${nestedMediaQuery("media")}
     },
     summary,
     ${pageBuilderQuery},
