@@ -12,10 +12,11 @@ import type { LinkGroupProps } from "./menu.types";
 type MenuProps = NonNullable<MenuSettingsQueryResult> & {
   newsEventsCount: number;
   navAreaRef: RefObject<HTMLDivElement | null>;
+  headerInverted?: boolean;
 };
 
 export const Menu = (props: MenuProps) => {
-  const { mainMenu, secondaryMenu, newsEventsCount, navAreaRef } = props;
+  const { mainMenu, secondaryMenu, newsEventsCount, navAreaRef, headerInverted } = props;
 
   // Consolidated menu state
   const [activePanel, setActivePanel] = useState<string | null>(null);
@@ -108,11 +109,13 @@ export const Menu = (props: MenuProps) => {
           isPinned={isPinned}
           setIsPinned={setIsPinned}
           newsEventsCount={newsEventsCount}
+          headerInverted={headerInverted}
         />
         <CollapsedMenu
           mainMenu={mainMenu}
           secondaryMenu={secondaryMenu}
           newsEventsCount={newsEventsCount}
+          headerInverted={headerInverted}
         />
       </nav>
 

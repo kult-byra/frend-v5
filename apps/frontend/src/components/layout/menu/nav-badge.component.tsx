@@ -11,16 +11,22 @@ type NavBadgeProps = {
   onClick?: () => void;
   onMouseEnter?: () => void;
   notificationCount?: number;
+  inverted?: boolean;
 };
 
 export const NavBadge = (props: NavBadgeProps) => {
-  const { item, isActive = false, onClick, onMouseEnter, notificationCount } = props;
+  const { item, isActive = false, onClick, onMouseEnter, notificationCount, inverted } = props;
 
   const baseClassName = cn(
-    "cursor-pointer rounded-[4px] px-2 py-1 flex items-center gap-1 text-[16px] leading-[1.45] text-text-primary transition-colors",
+    "cursor-pointer rounded-[4px] px-2 py-1 flex items-center gap-1 text-[16px] leading-[1.45] transition-colors",
     isActive
-      ? "bg-light-orange"
-      : "bg-container-shade backdrop-blur-[5px] hover:bg-container-shade/80",
+      ? "bg-light-orange text-text-primary"
+      : cn(
+          inverted ? "text-text-white-primary" : "text-text-primary",
+          inverted
+            ? "bg-white/15 backdrop-blur-[5px] hover:bg-white/20"
+            : "bg-container-shade backdrop-blur-[5px] hover:bg-container-shade/80",
+        ),
   );
 
   // For linkGroups, render as a button that triggers the panel

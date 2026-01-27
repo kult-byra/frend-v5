@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { pageBuilderQuery } from "@/server/queries/page-builder/page-builder-full.query";
+import { imageQuery } from "../utils/image.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
@@ -64,8 +65,12 @@ export const caseStudyQuery = defineQuery(`
       "logo": logo->image.asset->url
     },
     color,
+    "media": {
+      "mediaType": media.mediaType,
+      "image": media.image { ${imageQuery} },
+      "videoUrl": media.videoUrl
+    },
     summary,
-    keyResults,
     ${pageBuilderQuery},
     ${metadataQuery},
     ${translationsQuery}

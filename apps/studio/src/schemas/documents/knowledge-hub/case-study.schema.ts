@@ -7,7 +7,6 @@ import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
-import { stringField } from "@/schemas/generator-fields/string.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
 
 export const caseStudySchema = defineType({
@@ -47,19 +46,6 @@ export const caseStudySchema = defineType({
       group: "content",
       includeLists: true,
       noContent: true,
-    }),
-    defineField({
-      title: "Key results",
-      name: "keyResults",
-      type: "array",
-      group: "content",
-      of: [
-        stringField({
-          name: "listItem",
-          title: "List item",
-          required: true,
-        }),
-      ],
     }),
     pageBuilderField({
       group: "content",

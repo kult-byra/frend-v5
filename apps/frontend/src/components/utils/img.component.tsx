@@ -75,7 +75,7 @@ const ImgInner = (props: ImgProps) => {
       sizes={getSizes(sizes)}
       loading={eager ? "eager" : "lazy"}
       queryParams={{ q: 100 }}
-      className={cn("sanity-image h-full", cover && "object-cover")}
+      className={cn("sanity-image h-full", cover && "w-full object-cover")}
       style={{
         objectFit: "cover",
         height: "100%",

@@ -12,9 +12,7 @@ export function NewsArticle({ title }: Props) {
       <Link
         href="/articles"
         className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"
-      >
-        ← Tilbake til artikler
-      </Link>
+      ></Link>
 
       <H1 className="mb-4">{title}</H1>
     </Container>

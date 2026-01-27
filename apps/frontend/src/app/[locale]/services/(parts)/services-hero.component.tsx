@@ -1,5 +1,6 @@
 import { toPlainText } from "next-sanity";
 import type { ReactNode } from "react";
+import { ContentLayout } from "@/components/layout/content-layout.component";
 import { Img } from "@/components/utils/img.component";
 import type { ServicesArchiveSettingsQueryResult } from "@/sanity-types";
 
@@ -18,17 +19,12 @@ export function ServicesHero({ title, excerpt, media, mobileAnchorNav }: Service
   return (
     <section className="bg-container-primary pb-md pt-xl">
       <div className="mx-auto max-w-[2560px] px-(--margin)">
-        {/* Hero header - 2 column grid on desktop */}
-        <div className="grid gap-(--gutter) pb-md lg:grid-cols-2">
-          {/* Empty left column on desktop */}
-          <div className="hidden lg:block" />
-
-          {/* Content column */}
+        <ContentLayout className="pb-md">
           <div className="flex max-w-[720px] flex-col gap-sm">
             {title && <h1 className="text-headline-1 text-text-primary">{title}</h1>}
             {excerptText && <p className="text-body-large text-text-primary">{excerptText}</p>}
           </div>
-        </div>
+        </ContentLayout>
 
         {/* Mobile: Anchor navigation between excerpt and image */}
         {mobileAnchorNav && <div className="pb-md lg:hidden">{mobileAnchorNav}</div>}

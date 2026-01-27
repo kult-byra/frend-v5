@@ -12,6 +12,7 @@ type ExpandedMenuProps = {
   isPinned: boolean;
   setIsPinned: Dispatch<SetStateAction<boolean>>;
   newsEventsCount: number;
+  headerInverted?: boolean;
 };
 
 export const ExpandedMenu = (props: ExpandedMenuProps) => {
@@ -23,6 +24,7 @@ export const ExpandedMenu = (props: ExpandedMenuProps) => {
     isPinned,
     setIsPinned,
     newsEventsCount,
+    headerInverted,
   } = props;
 
   return (
@@ -34,6 +36,7 @@ export const ExpandedMenu = (props: ExpandedMenuProps) => {
             key={item._key}
             item={item}
             isActive={activePanel === item._key}
+            inverted={headerInverted}
             onClick={() => {
               if (item.linkType === "linkGroup") {
                 // If clicking on a different panel, open that one and pin it
@@ -69,6 +72,7 @@ export const ExpandedMenu = (props: ExpandedMenuProps) => {
               key={item._key}
               item={item}
               isActive={activePanel === item._key}
+              inverted={headerInverted}
               onClick={() => {
                 if (item.linkType === "linkGroup") {
                   // If clicking on a different panel, open that one and pin it

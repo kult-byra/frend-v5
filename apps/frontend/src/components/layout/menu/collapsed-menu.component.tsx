@@ -17,10 +17,11 @@ type CollapsedMenuProps = {
   mainMenu: MainMenuProps;
   secondaryMenu: SecondaryMenuProps;
   newsEventsCount: number;
+  headerInverted?: boolean;
 };
 
 export const CollapsedMenu = (props: CollapsedMenuProps) => {
-  const { mainMenu, secondaryMenu, newsEventsCount } = props;
+  const { mainMenu, secondaryMenu, newsEventsCount, headerInverted } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [showContactWidget, setShowContactWidget] = useState(false);
@@ -114,7 +115,12 @@ export const CollapsedMenu = (props: CollapsedMenuProps) => {
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
         aria-label="Åpne meny"
-        className="backdrop-blur-[5px] bg-container-shade rounded px-2xs py-3xs text-body text-text-primary"
+        className={cn(
+          "backdrop-blur-[5px] rounded px-2xs py-3xs text-body",
+          headerInverted
+            ? "bg-white/15 text-text-white-primary"
+            : "bg-container-shade text-text-primary",
+        )}
       >
         Meny
       </button>

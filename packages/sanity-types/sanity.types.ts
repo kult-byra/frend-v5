@@ -5694,7 +5694,7 @@ export type CaseStudyListQueryResult = Array<{
 
 // Source: src/server/queries/documents/case-study.query.ts
 // Variable: caseStudyQuery
-// Query: *[_type == "caseStudy" && slug.current == $slug && language == $locale][0] {    _id,    title,    subtitle,    "slug": slug.current,    "client": client->{      _id,      name,      "logo": logo->image.asset->url    },    color,    summary,    keyResults,      pageBuilder[]{       _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    mediaType,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    videoUrl  }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "cards.block" => {  _type,  _key,  heading,  "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  manualSelection,  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  clientLinks[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  "allIndustries": select(    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),    null  ),  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type == "service" && select(      $locale == "no" => defined(title_no) && defined(slug_no.current),      $locale == "en" => defined(title_en) && defined(slug_en.current)    )] | order(_createdAt desc) {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" => *[_type == "event"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    }  )},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl  }}  )  },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "caseStudy" && slug.current == $slug && language == $locale][0] {    _id,    title,    subtitle,    "slug": slug.current,    "client": client->{      _id,      name,      "logo": logo->image.asset->url    },    color,    "media": {      "mediaType": media.mediaType,      "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "videoUrl": media.videoUrl    },    summary,    keyResults,      pageBuilder[]{       _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    mediaType,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    videoUrl  }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "cards.block" => {  _type,  _key,  heading,  "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  manualSelection,  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  clientLinks[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  "allIndustries": select(    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),    null  ),  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type == "service" && select(      $locale == "no" => defined(title_no) && defined(slug_no.current),      $locale == "en" => defined(title_en) && defined(slug_en.current)    )] | order(_createdAt desc) {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" => *[_type == "event"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    }  )},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl  }},    _type == "quotes.block" => {  _type,  _key,  quotes[]-> {    _id,    quote,    source {      name,      role    }  }},    _type == "people.block" => {  _type,  _key,  title,  "excerpt": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  people[]-> {    _id,    name,    role_no,    role_en,    company,    externalPerson,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }},    _type == "logoCloud.block" => {  _type,  _key,  logos[]-> {    _id,    title,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }},    _type == "jobOpenings.block" => {  _type,  _key,  heading,  "description": description[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "imageGallery.block" => {  _type,  _key,  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl,    imageFormat  }},    _type == "imageCarousel.block" => {  _type,  _key,  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl,    imageFormat  }}  )  },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
 export type CaseStudyQueryResult = {
   _id: string;
   title: string;
@@ -5706,6 +5706,28 @@ export type CaseStudyQueryResult = {
     logo: string | null;
   } | null;
   color: "navy" | "orange" | "white" | null;
+  media: {
+    mediaType: "image" | "video" | null;
+    image: {
+      crop: SanityImageCrop | null;
+      hotspot: SanityImageHotspot | null;
+      asset: {
+        _id: string;
+        title: string | null;
+        altText: string | null;
+        description: string | null;
+        metadata: {
+          lqip: string | null;
+          dimensions: {
+            aspectRatio: number;
+            width: number;
+            height: number;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+    videoUrl: string | null;
+  };
   summary: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -6503,10 +6525,60 @@ export type CaseStudyQueryResult = {
     | {
         _type: "imageCarousel.block";
         _key: string;
+        images: Array<{
+          _key: string;
+          _type: "figureOrVideo";
+          mediaType: "image" | "video" | null;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+          videoUrl: string | null;
+          imageFormat: "1:1" | "3:2" | "3:4" | null;
+        }> | null;
       }
     | {
         _type: "imageGallery.block";
         _key: string;
+        images: Array<{
+          _key: string;
+          _type: "figureOrVideo";
+          mediaType: "image" | "video" | null;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+          videoUrl: string | null;
+          imageFormat: "1:1" | "3:2" | "3:4" | null;
+        }>;
       }
     | {
         _type: "imagesAndText.block";
@@ -6879,18 +6951,308 @@ export type CaseStudyQueryResult = {
     | {
         _type: "jobOpenings.block";
         _key: string;
+        heading: string | null;
+        description: Array<{
+          _key: string;
+          _ts: "PortableTextInnerQuery";
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal";
+          listItem?: "bullet" | "check" | "dash" | "number";
+          markDefs: Array<
+            | {
+                file: DownloadLinkObjectFile;
+                _type: "downloadLinkObject";
+                _key: string;
+                _ts: "DownloadLinkObjectInPortableTextQuery";
+                url: string | null;
+              }
+            | {
+                internalLink:
+                  | {
+                      _type: "caseStudy";
+                      slug: string;
+                    }
+                  | {
+                      _type: "caseStudyArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "client";
+                      slug: null;
+                    }
+                  | {
+                      _type: "clientArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "conversionPage";
+                      slug: string;
+                    }
+                  | {
+                      _type: "eBook";
+                      slug: string;
+                    }
+                  | {
+                      _type: "eBookArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "event";
+                      slug: string;
+                    }
+                  | {
+                      _type: "frontPage";
+                      slug: null;
+                    }
+                  | {
+                      _type: "knowledgeArticle";
+                      slug: string;
+                    }
+                  | {
+                      _type: "knowledgeArticleArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "knowledgeHub";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "newsAndEventsArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "newsArticle";
+                      slug: string;
+                    }
+                  | {
+                      _type: "page";
+                      slug: string;
+                    }
+                  | {
+                      _type: "seminar";
+                      slug: string;
+                    }
+                  | {
+                      _type: "seminarArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "service";
+                      slug: null;
+                    }
+                  | {
+                      _type: "servicesArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "subService";
+                      slug: null;
+                    };
+                _type: "internalLinkObject";
+                _key: string;
+                _ts: "InternalLinkObjectInPortableTextQuery";
+              }
+            | {
+                href: string;
+                _type: "link";
+                _key: string;
+                _ts: "LinkInPortableTextQuery";
+                url: string;
+              }
+          > | null;
+          level?: number;
+          _type: "block";
+        }> | null;
       }
     | {
         _type: "logoCloud.block";
         _key: string;
+        logos: Array<{
+          _id: string;
+          title: string;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        }> | null;
       }
     | {
         _type: "people.block";
         _key: string;
+        title: string | null;
+        excerpt: Array<{
+          _key: string;
+          _ts: "PortableTextInnerQuery";
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal";
+          listItem?: never;
+          markDefs: Array<
+            | {
+                file: DownloadLinkObjectFile;
+                _type: "downloadLinkObject";
+                _key: string;
+                _ts: "DownloadLinkObjectInPortableTextQuery";
+                url: string | null;
+              }
+            | {
+                internalLink:
+                  | {
+                      _type: "caseStudy";
+                      slug: string;
+                    }
+                  | {
+                      _type: "caseStudyArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "client";
+                      slug: null;
+                    }
+                  | {
+                      _type: "clientArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "conversionPage";
+                      slug: string;
+                    }
+                  | {
+                      _type: "eBook";
+                      slug: string;
+                    }
+                  | {
+                      _type: "eBookArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "event";
+                      slug: string;
+                    }
+                  | {
+                      _type: "frontPage";
+                      slug: null;
+                    }
+                  | {
+                      _type: "knowledgeArticle";
+                      slug: string;
+                    }
+                  | {
+                      _type: "knowledgeArticleArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "knowledgeHub";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "newsAndEventsArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "newsArticle";
+                      slug: string;
+                    }
+                  | {
+                      _type: "page";
+                      slug: string;
+                    }
+                  | {
+                      _type: "seminar";
+                      slug: string;
+                    }
+                  | {
+                      _type: "seminarArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "service";
+                      slug: null;
+                    }
+                  | {
+                      _type: "servicesArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "subService";
+                      slug: null;
+                    };
+                _type: "internalLinkObject";
+                _key: string;
+                _ts: "InternalLinkObjectInPortableTextQuery";
+              }
+            | {
+                href: string;
+                _type: "link";
+                _key: string;
+                _ts: "LinkInPortableTextQuery";
+                url: string;
+              }
+          > | null;
+          level?: number;
+          _type: "block";
+        }> | null;
+        people: Array<{
+          _id: string;
+          name: string;
+          role_no: string;
+          role_en: string;
+          company: string | null;
+          externalPerson: boolean | null;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        }> | null;
       }
     | {
         _type: "quotes.block";
         _key: string;
+        quotes: Array<{
+          _id: string;
+          quote: string;
+          source: {
+            name: string;
+            role: string;
+          } | null;
+        }> | null;
       }
   > | null;
   metadata: {
@@ -8557,7 +8919,7 @@ export type KnowledgeHubIndustriesQueryResult = Array<{
 
 // Source: src/server/queries/documents/page.query.ts
 // Variable: pageQuery
-// Query: *[_type == "page" && slug.current == $slug && language == $locale][0] {    _id,      pageBuilder[]{       _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    mediaType,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    videoUrl  }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "cards.block" => {  _type,  _key,  heading,  "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  manualSelection,  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  clientLinks[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  "allIndustries": select(    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),    null  ),  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type == "service" && select(      $locale == "no" => defined(title_no) && defined(slug_no.current),      $locale == "en" => defined(title_en) && defined(slug_en.current)    )] | order(_createdAt desc) {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" => *[_type == "event"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    }  )},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl  }}  )  },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
+// Query: *[_type == "page" && slug.current == $slug && language == $locale][0] {    _id,      pageBuilder[]{       _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    mediaType,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    videoUrl  }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "cards.block" => {  _type,  _key,  heading,  "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  manualSelection,  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  clientLinks[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  "allIndustries": select(    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),    null  ),  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type == "service" && select(      $locale == "no" => defined(title_no) && defined(slug_no.current),      $locale == "en" => defined(title_en) && defined(slug_en.current)    )] | order(_createdAt desc) {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" => *[_type == "event"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    }  )},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl  }},    _type == "quotes.block" => {  _type,  _key,  quotes[]-> {    _id,    quote,    source {      name,      role    }  }},    _type == "people.block" => {  _type,  _key,  title,  "excerpt": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  people[]-> {    _id,    name,    role_no,    role_en,    company,    externalPerson,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }},    _type == "logoCloud.block" => {  _type,  _key,  logos[]-> {    _id,    title,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }},    _type == "jobOpenings.block" => {  _type,  _key,  heading,  "description": description[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "imageGallery.block" => {  _type,  _key,  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl,    imageFormat  }},    _type == "imageCarousel.block" => {  _type,  _key,  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl,    imageFormat  }}  )  },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
 export type PageQueryResult = {
   _id: string;
   pageBuilder: Array<
@@ -9326,10 +9688,60 @@ export type PageQueryResult = {
     | {
         _type: "imageCarousel.block";
         _key: string;
+        images: Array<{
+          _key: string;
+          _type: "figureOrVideo";
+          mediaType: "image" | "video" | null;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+          videoUrl: string | null;
+          imageFormat: "1:1" | "3:2" | "3:4" | null;
+        }> | null;
       }
     | {
         _type: "imageGallery.block";
         _key: string;
+        images: Array<{
+          _key: string;
+          _type: "figureOrVideo";
+          mediaType: "image" | "video" | null;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+          videoUrl: string | null;
+          imageFormat: "1:1" | "3:2" | "3:4" | null;
+        }>;
       }
     | {
         _type: "imagesAndText.block";
@@ -9702,18 +10114,308 @@ export type PageQueryResult = {
     | {
         _type: "jobOpenings.block";
         _key: string;
+        heading: string | null;
+        description: Array<{
+          _key: string;
+          _ts: "PortableTextInnerQuery";
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal";
+          listItem?: "bullet" | "check" | "dash" | "number";
+          markDefs: Array<
+            | {
+                file: DownloadLinkObjectFile;
+                _type: "downloadLinkObject";
+                _key: string;
+                _ts: "DownloadLinkObjectInPortableTextQuery";
+                url: string | null;
+              }
+            | {
+                internalLink:
+                  | {
+                      _type: "caseStudy";
+                      slug: string;
+                    }
+                  | {
+                      _type: "caseStudyArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "client";
+                      slug: null;
+                    }
+                  | {
+                      _type: "clientArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "conversionPage";
+                      slug: string;
+                    }
+                  | {
+                      _type: "eBook";
+                      slug: string;
+                    }
+                  | {
+                      _type: "eBookArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "event";
+                      slug: string;
+                    }
+                  | {
+                      _type: "frontPage";
+                      slug: null;
+                    }
+                  | {
+                      _type: "knowledgeArticle";
+                      slug: string;
+                    }
+                  | {
+                      _type: "knowledgeArticleArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "knowledgeHub";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "newsAndEventsArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "newsArticle";
+                      slug: string;
+                    }
+                  | {
+                      _type: "page";
+                      slug: string;
+                    }
+                  | {
+                      _type: "seminar";
+                      slug: string;
+                    }
+                  | {
+                      _type: "seminarArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "service";
+                      slug: null;
+                    }
+                  | {
+                      _type: "servicesArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "subService";
+                      slug: null;
+                    };
+                _type: "internalLinkObject";
+                _key: string;
+                _ts: "InternalLinkObjectInPortableTextQuery";
+              }
+            | {
+                href: string;
+                _type: "link";
+                _key: string;
+                _ts: "LinkInPortableTextQuery";
+                url: string;
+              }
+          > | null;
+          level?: number;
+          _type: "block";
+        }> | null;
       }
     | {
         _type: "logoCloud.block";
         _key: string;
+        logos: Array<{
+          _id: string;
+          title: string;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        }> | null;
       }
     | {
         _type: "people.block";
         _key: string;
+        title: string | null;
+        excerpt: Array<{
+          _key: string;
+          _ts: "PortableTextInnerQuery";
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal";
+          listItem?: never;
+          markDefs: Array<
+            | {
+                file: DownloadLinkObjectFile;
+                _type: "downloadLinkObject";
+                _key: string;
+                _ts: "DownloadLinkObjectInPortableTextQuery";
+                url: string | null;
+              }
+            | {
+                internalLink:
+                  | {
+                      _type: "caseStudy";
+                      slug: string;
+                    }
+                  | {
+                      _type: "caseStudyArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "client";
+                      slug: null;
+                    }
+                  | {
+                      _type: "clientArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "conversionPage";
+                      slug: string;
+                    }
+                  | {
+                      _type: "eBook";
+                      slug: string;
+                    }
+                  | {
+                      _type: "eBookArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "event";
+                      slug: string;
+                    }
+                  | {
+                      _type: "frontPage";
+                      slug: null;
+                    }
+                  | {
+                      _type: "knowledgeArticle";
+                      slug: string;
+                    }
+                  | {
+                      _type: "knowledgeArticleArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "knowledgeHub";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "newsAndEventsArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "newsArticle";
+                      slug: string;
+                    }
+                  | {
+                      _type: "page";
+                      slug: string;
+                    }
+                  | {
+                      _type: "seminar";
+                      slug: string;
+                    }
+                  | {
+                      _type: "seminarArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "service";
+                      slug: null;
+                    }
+                  | {
+                      _type: "servicesArchive";
+                      slug: string | null;
+                    }
+                  | {
+                      _type: "subService";
+                      slug: null;
+                    };
+                _type: "internalLinkObject";
+                _key: string;
+                _ts: "InternalLinkObjectInPortableTextQuery";
+              }
+            | {
+                href: string;
+                _type: "link";
+                _key: string;
+                _ts: "LinkInPortableTextQuery";
+                url: string;
+              }
+          > | null;
+          level?: number;
+          _type: "block";
+        }> | null;
+        people: Array<{
+          _id: string;
+          name: string;
+          role_no: string;
+          role_en: string;
+          company: string | null;
+          externalPerson: boolean | null;
+          image: {
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
+            asset: {
+              _id: string;
+              title: string | null;
+              altText: string | null;
+              description: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  aspectRatio: number;
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+          } | null;
+        }> | null;
       }
     | {
         _type: "quotes.block";
         _key: string;
+        quotes: Array<{
+          _id: string;
+          quote: string;
+          source: {
+            name: string;
+            role: string;
+          } | null;
+        }> | null;
       }
   > | null;
   metadata: {
@@ -12732,7 +13434,7 @@ export type SubServiceSlugsQueryResult = Array<{
 
 // Source: src/server/queries/page-builder/page-builder-full.query.ts
 // Variable: _pageBuilderTypegenQuery
-// Query: *[_type == "page"][0].pageBuilder[] {      _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    mediaType,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    videoUrl  }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "cards.block" => {  _type,  _key,  heading,  "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  manualSelection,  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  clientLinks[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  "allIndustries": select(    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),    null  ),  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type == "service" && select(      $locale == "no" => defined(title_no) && defined(slug_no.current),      $locale == "en" => defined(title_en) && defined(slug_en.current)    )] | order(_createdAt desc) {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" => *[_type == "event"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    }  )},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl  }}  )  }
+// Query: *[_type == "page"][0].pageBuilder[] {      _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    mediaType,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    videoUrl  }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "cards.block" => {  _type,  _key,  heading,  "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  manualSelection,  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  clientLinks[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  "allIndustries": select(    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),    null  ),  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type == "service" && select(      $locale == "no" => defined(title_no) && defined(slug_no.current),      $locale == "en" => defined(title_en) && defined(slug_en.current)    )] | order(_createdAt desc) {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }    },    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "event" => *[_type == "event"] | order(_createdAt desc) {      _id,      _type,      title,      "slug": slug.current,      image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) {      _id,      _type,      "title": name,      "slug": slug.current,      "image": logo->image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },      "description": pt::text(description),      "industries": industries[]->title    }  )},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }}    },  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl  }},    _type == "quotes.block" => {  _type,  _key,  quotes[]-> {    _id,    quote,    source {      name,      role    }  }},    _type == "people.block" => {  _type,  _key,  title,  "excerpt": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  people[]-> {    _id,    name,    role_no,    role_en,    company,    externalPerson,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }},    _type == "logoCloud.block" => {  _type,  _key,  logos[]-> {    _id,    title,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  }},    _type == "jobOpenings.block" => {  _type,  _key,  heading,  "description": description[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  }},    _type == "imageGallery.block" => {  _type,  _key,  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl,    imageFormat  }},    _type == "imageCarousel.block" => {  _type,  _key,  images[] {    _key,    _type,    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "videoUrl": media.videoUrl,    imageFormat  }}  )  }
 export type PageBuilderTypegenQueryResult = Array<
   | {
       _type: "cards.block";
@@ -13499,10 +14201,60 @@ export type PageBuilderTypegenQueryResult = Array<
   | {
       _type: "imageCarousel.block";
       _key: string;
+      images: Array<{
+        _key: string;
+        _type: "figureOrVideo";
+        mediaType: "image" | "video" | null;
+        image: {
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            title: string | null;
+            altText: string | null;
+            description: string | null;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                aspectRatio: number;
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+        videoUrl: string | null;
+        imageFormat: "1:1" | "3:2" | "3:4" | null;
+      }> | null;
     }
   | {
       _type: "imageGallery.block";
       _key: string;
+      images: Array<{
+        _key: string;
+        _type: "figureOrVideo";
+        mediaType: "image" | "video" | null;
+        image: {
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            title: string | null;
+            altText: string | null;
+            description: string | null;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                aspectRatio: number;
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+        videoUrl: string | null;
+        imageFormat: "1:1" | "3:2" | "3:4" | null;
+      }>;
     }
   | {
       _type: "imagesAndText.block";
@@ -13875,18 +14627,308 @@ export type PageBuilderTypegenQueryResult = Array<
   | {
       _type: "jobOpenings.block";
       _key: string;
+      heading: string | null;
+      description: Array<{
+        _key: string;
+        _ts: "PortableTextInnerQuery";
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal";
+        listItem?: "bullet" | "check" | "dash" | "number";
+        markDefs: Array<
+          | {
+              file: DownloadLinkObjectFile;
+              _type: "downloadLinkObject";
+              _key: string;
+              _ts: "DownloadLinkObjectInPortableTextQuery";
+              url: string | null;
+            }
+          | {
+              internalLink:
+                | {
+                    _type: "caseStudy";
+                    slug: string;
+                  }
+                | {
+                    _type: "caseStudyArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "client";
+                    slug: null;
+                  }
+                | {
+                    _type: "clientArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "conversionPage";
+                    slug: string;
+                  }
+                | {
+                    _type: "eBook";
+                    slug: string;
+                  }
+                | {
+                    _type: "eBookArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "event";
+                    slug: string;
+                  }
+                | {
+                    _type: "frontPage";
+                    slug: null;
+                  }
+                | {
+                    _type: "knowledgeArticle";
+                    slug: string;
+                  }
+                | {
+                    _type: "knowledgeArticleArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "knowledgeHub";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "newsAndEventsArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "newsArticle";
+                    slug: string;
+                  }
+                | {
+                    _type: "page";
+                    slug: string;
+                  }
+                | {
+                    _type: "seminar";
+                    slug: string;
+                  }
+                | {
+                    _type: "seminarArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "service";
+                    slug: null;
+                  }
+                | {
+                    _type: "servicesArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "subService";
+                    slug: null;
+                  };
+              _type: "internalLinkObject";
+              _key: string;
+              _ts: "InternalLinkObjectInPortableTextQuery";
+            }
+          | {
+              href: string;
+              _type: "link";
+              _key: string;
+              _ts: "LinkInPortableTextQuery";
+              url: string;
+            }
+        > | null;
+        level?: number;
+        _type: "block";
+      }> | null;
     }
   | {
       _type: "logoCloud.block";
       _key: string;
+      logos: Array<{
+        _id: string;
+        title: string;
+        image: {
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            title: string | null;
+            altText: string | null;
+            description: string | null;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                aspectRatio: number;
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      }> | null;
     }
   | {
       _type: "people.block";
       _key: string;
+      title: string | null;
+      excerpt: Array<{
+        _key: string;
+        _ts: "PortableTextInnerQuery";
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal";
+        listItem?: never;
+        markDefs: Array<
+          | {
+              file: DownloadLinkObjectFile;
+              _type: "downloadLinkObject";
+              _key: string;
+              _ts: "DownloadLinkObjectInPortableTextQuery";
+              url: string | null;
+            }
+          | {
+              internalLink:
+                | {
+                    _type: "caseStudy";
+                    slug: string;
+                  }
+                | {
+                    _type: "caseStudyArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "client";
+                    slug: null;
+                  }
+                | {
+                    _type: "clientArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "conversionPage";
+                    slug: string;
+                  }
+                | {
+                    _type: "eBook";
+                    slug: string;
+                  }
+                | {
+                    _type: "eBookArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "event";
+                    slug: string;
+                  }
+                | {
+                    _type: "frontPage";
+                    slug: null;
+                  }
+                | {
+                    _type: "knowledgeArticle";
+                    slug: string;
+                  }
+                | {
+                    _type: "knowledgeArticleArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "knowledgeHub";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "newsAndEventsArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "newsArticle";
+                    slug: string;
+                  }
+                | {
+                    _type: "page";
+                    slug: string;
+                  }
+                | {
+                    _type: "seminar";
+                    slug: string;
+                  }
+                | {
+                    _type: "seminarArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "service";
+                    slug: null;
+                  }
+                | {
+                    _type: "servicesArchive";
+                    slug: string | null;
+                  }
+                | {
+                    _type: "subService";
+                    slug: null;
+                  };
+              _type: "internalLinkObject";
+              _key: string;
+              _ts: "InternalLinkObjectInPortableTextQuery";
+            }
+          | {
+              href: string;
+              _type: "link";
+              _key: string;
+              _ts: "LinkInPortableTextQuery";
+              url: string;
+            }
+        > | null;
+        level?: number;
+        _type: "block";
+      }> | null;
+      people: Array<{
+        _id: string;
+        name: string;
+        role_no: string;
+        role_en: string;
+        company: string | null;
+        externalPerson: boolean | null;
+        image: {
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            title: string | null;
+            altText: string | null;
+            description: string | null;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                aspectRatio: number;
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+      }> | null;
     }
   | {
       _type: "quotes.block";
       _key: string;
+      quotes: Array<{
+        _id: string;
+        quote: string;
+        source: {
+          name: string;
+          role: string;
+        } | null;
+      }> | null;
     }
 > | null;
 

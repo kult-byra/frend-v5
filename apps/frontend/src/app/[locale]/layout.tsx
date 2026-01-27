@@ -13,6 +13,7 @@ import { Header } from "@/components/layout/header.component";
 import { PreloadResources } from "@/components/preload-resources.component";
 import { DraftmodeBanner } from "@/components/utils/draft-mode.component";
 import { TailwindIndicator } from "@/components/utils/tailwind-indicator.component";
+import { HeaderThemeProvider } from "@/context/header-theme.context";
 import { type Locale, routing } from "@/i18n/routing";
 import { fetchSettings } from "@/server/queries/settings/settings.query";
 import { SanityLive } from "@/server/sanity/sanity-live";
@@ -56,23 +57,25 @@ export default async function LocaleLayout({
               {(messages.common as Record<string, string>)?.skipToMain || "Skip to main content"}
             </a>
             <ClientWrapper>
-              <PreloadResources />
-              <div className="flex min-h-screen flex-col">
-                <Header {...settings} />
+              <HeaderThemeProvider>
+                <PreloadResources />
+                <div className="flex min-h-screen flex-col">
+                  <Header {...settings} />
 
-                {(await draftMode()).isEnabled && <DraftmodeBanner />}
+                  {(await draftMode()).isEnabled && <DraftmodeBanner />}
 
-                <main id="main" className="mb-auto pt-14">
-                  {children}
-                </main>
+                  <main id="main" className="mb-auto pt-14">
+                    {children}
+                  </main>
 
-                <Footer {...settings} />
-              </div>
-              <TailwindIndicator />
+                  <Footer {...settings} />
+                </div>
+                <TailwindIndicator />
 
-              <Suspense>
-                <FathomBase />
-              </Suspense>
+                <Suspense>
+                  <FathomBase />
+                </Suspense>
+              </HeaderThemeProvider>
             </ClientWrapper>
           </NextIntlClientProvider>
           {(await draftMode()).isEnabled && <VisualEditing />}

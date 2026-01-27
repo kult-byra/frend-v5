@@ -1,41 +1,80 @@
-import Link from "next/link";
-import { Container } from "@/components/layout/container.component";
-import { H1, H2 } from "@/components/layout/heading.component";
+import { ContentLayout } from "@/components/layout/content-layout.component";
+import { PageBuilder } from "@/components/page-builder/page-builder.component";
+import { Img } from "@/components/utils/img.component";
+import { type HeaderTheme, SetHeaderTheme } from "@/context/header-theme.context";
+import type { CaseStudyQueryResult } from "@/sanity-types";
+import { cn } from "@/utils/cn.util";
+import { Summary } from "./summary.component";
 
-type Props = {
-  title?: string | null;
-  subtitle?: string | null;
-  client?: { _id: string; name: string | null; logo?: string | null } | null;
-  keyResults?: string[] | null;
+type Props = NonNullable<CaseStudyQueryResult>;
+
+const colorStyles = {
+  navy: {
+    bg: "bg-container-brand-1",
+    title: "text-text-white-primary",
+    subtitle: "text-text-white-secondary",
+  },
+  orange: {
+    bg: "bg-container-brand-2",
+    title: "text-text-white-primary",
+    subtitle: "text-text-white-secondary",
+  },
+  white: {
+    bg: "bg-container-primary",
+    title: "text-text-primary",
+    subtitle: "text-text-secondary",
+  },
+} as const;
+
+const headerThemeMap: Record<string, HeaderTheme> = {
+  navy: "dark",
+  orange: "orange",
+  white: "light",
 };
 
-export function CaseStudy({ title, subtitle, client, keyResults }: Props) {
+export const CaseStudy = ({ title, client, color, media, summary, pageBuilder }: Props) => {
+  const scheme = colorStyles[color ?? "white"];
+  const isColoredHero = color === "navy" || color === "orange";
+
   return (
-    <Container className="py-lg">
-      <Link
-        href="/projects"
-        className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"
+    <>
+      <SetHeaderTheme theme={headerThemeMap[color ?? "white"] ?? "light"} />
+
+      {/* Hero */}
+      <section
+        className={cn(
+          scheme.bg,
+          isColoredHero ? "-mt-14 pt-[calc(var(--spacing-xl)+3.5rem)] pb-xl mb-xl" : "py-xl",
+        )}
       >
-        ← Tilbake til prosjekter
-      </Link>
+        <div className="mx-auto max-w-[2560px] px-(--margin)">
+          <ContentLayout>
+            <div className="flex max-w-[720px] flex-col gap-xs lg:pr-md">
+              {client?.name && (
+                <p className={cn(scheme.subtitle, "text-body-large")}>{client.name}</p>
+              )}
+              {title && <h1 className={cn(scheme.title, "text-headline-1")}>{title}</h1>}
+            </div>
+          </ContentLayout>
 
-      <H1 className="mb-4">{title}</H1>
-      {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
+          {/* Hero image */}
+          {media?.mediaType === "image" && media.image && (
+            <div className="mt-md aspect-3/2 w-full overflow-hidden rounded-3xs ">
+              <Img {...media.image} sizes={{ md: "full" }} cover className="size-full" />
+            </div>
+          )}
+        </div>
+      </section>
 
-      {client?.name && <p className="text-lg mb-8">Kunde: {client.name}</p>}
-
-      {keyResults && keyResults.length > 0 && (
-        <section className="mt-8">
-          <H2 className="mb-4">Nøkkelresultater</H2>
-          <ul className="list-disc list-inside space-y-2">
-            {keyResults.map((result) => (
-              <li key={result} className="text-muted-foreground">
-                {result}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </Container>
+      {/* Summary */}
+      <section className="bg-container-primary pb-xl">
+        <div className="mx-auto max-w-[2560px] px-(--margin)">
+          <ContentLayout>
+            <Summary summary={summary} />
+            {pageBuilder && <PageBuilder pageBuilder={pageBuilder} />}
+          </ContentLayout>
+        </div>
+      </section>
+    </>
   );
-}
+};

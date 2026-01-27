@@ -5,6 +5,7 @@ import { useCallback, useRef } from "react";
 import { Banner } from "@/components/layout/banner.component";
 import { Menu } from "@/components/layout/menu/menu.component";
 import { Logo } from "@/components/logo.component";
+import { useHeaderTheme } from "@/context/header-theme.context";
 import { env } from "@/env";
 import { useResizeObserver } from "@/hooks/use-resize-observer.hook";
 import type { SettingsQueryResult } from "@/sanity-types";
@@ -12,6 +13,8 @@ import type { SettingsQueryResult } from "@/sanity-types";
 export const Header = (props: SettingsQueryResult) => {
   const { siteSettings, menuSettings, newsEventsCount } = props;
   const navAreaRef = useRef<HTMLDivElement>(null);
+  const { theme } = useHeaderTheme();
+  const headerInverted = theme === "dark" || theme === "orange";
 
   // Update CSS variable for nav panel width when nav area size changes
   const updateNavWidth = useCallback((entry: ResizeObserverEntry) => {
@@ -34,7 +37,7 @@ export const Header = (props: SettingsQueryResult) => {
             className="relative z-40 shrink-0"
             aria-label={`Til forsiden - ${env.NEXT_PUBLIC_SITE_TITLE}`}
           >
-            <Logo color="dark" width={80} height={27} priority />
+            <Logo color={headerInverted ? "light" : "dark"} width={80} height={27} priority />
           </Link>
 
           {menuSettings && (
@@ -42,6 +45,7 @@ export const Header = (props: SettingsQueryResult) => {
               {...menuSettings}
               newsEventsCount={newsEventsCount ?? 0}
               navAreaRef={navAreaRef}
+              headerInverted={headerInverted}
             />
           )}
         </div>

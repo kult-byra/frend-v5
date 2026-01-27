@@ -1,6 +1,7 @@
 import { toPlainText } from "next-sanity";
 import type { ReactNode } from "react";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
+import { ContentLayout } from "@/components/layout/content-layout.component";
 import { Img } from "@/components/utils/img.component";
 import type { ServiceQueryResult } from "@/sanity-types";
 
@@ -34,17 +35,10 @@ export function ServiceHero({ title, excerpt, media, mobileAnchorNav }: ServiceH
   return (
     <section className="bg-container-primary pb-md pt-xl">
       <div className="mx-auto max-w-[2560px] px-(--margin)">
-        {/* Hero layout - 2 column grid on desktop */}
-        <div className="grid gap-(--gutter) lg:grid-cols-2">
-          {/* Left column: Empty space on desktop for alignment with main content */}
-          <div className="hidden lg:block" />
-
-          {/* Right column: Media + Content */}
+        <ContentLayout>
           <div className="flex flex-col gap-md">
-            {/* Media circle */}
             <MediaCircle media={media} />
 
-            {/* Text content */}
             <div className="flex flex-col gap-sm pr-md">
               {title && (
                 <h1 className="max-w-[720px] text-headline-1 text-text-primary">{title}</h1>
@@ -54,7 +48,7 @@ export function ServiceHero({ title, excerpt, media, mobileAnchorNav }: ServiceH
               )}
             </div>
           </div>
-        </div>
+        </ContentLayout>
 
         {/* Mobile: Anchor navigation below hero content */}
         {mobileAnchorNav && <div className="pt-md lg:hidden">{mobileAnchorNav}</div>}

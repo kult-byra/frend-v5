@@ -11,6 +11,7 @@ type PageBuilderBlocks = NonNullable<PageBuilderType>;
 // Example to show add options
 type BlockOptions = {
   isFirstSection?: boolean | undefined;
+  layout?: "default" | "fullWidth" | undefined;
 };
 
 export type PageBuilderBlocksWithOptions = DistributeIntersection<

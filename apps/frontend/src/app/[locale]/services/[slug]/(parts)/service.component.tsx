@@ -1,4 +1,5 @@
 import { AnchorNavigation } from "@/components/anchor-navigation.component";
+import { ContentLayout } from "@/components/layout/content-layout.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { StickyBottomContainer } from "@/components/sticky-bottom-container.component";
 import type { ServiceQueryResult } from "@/sanity-types";
@@ -36,12 +37,7 @@ export const Service = (props: Props) => {
         className="bg-container-primary"
       >
         <div className="mx-auto max-w-[2560px] px-(--margin) pb-2xl pt-md">
-          {/* Two column layout on desktop */}
-          <div className="grid gap-(--gutter) lg:grid-cols-2">
-            {/* Left column: empty on desktop (for sticky nav), hidden on mobile */}
-            <div className="hidden lg:block" />
-
-            {/* Right column: Content */}
+          <ContentLayout>
             <div className="max-w-[720px]">
               <PortableText
                 content={content}
@@ -51,7 +47,7 @@ export const Service = (props: Props) => {
                 }}
               />
             </div>
-          </div>
+          </ContentLayout>
         </div>
       </StickyBottomContainer>
     </>
