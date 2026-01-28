@@ -2,6 +2,7 @@
 
 @plugin "tailwindcss-animate";
 
+@source "../src/**/*.{ts,tsx}";
 @source "./node_modules/@kult-byra/brandkit/src/**/*.{vue,js,ts,jsx,tsx}";
 
 /* Fonts loaded via next/font in layout.tsx */
@@ -299,16 +300,16 @@ a.skip-main:active {
   --color-container-overlay-primary-2: var(--color-light-orange);
 
   /* Button colors */
-  --color-button-primary-fill: var(--button-primary-fill);
-  --color-button-primary-text: var(--button-primary-text);
-  --color-button-primary-hover: var(--button-primary-hover);
-  --color-button-primary-inverted-fill: var(--button-primary-inverted-fill);
-  --color-button-primary-inverted-hover: var(--button-primary-inverted-hover);
-  --color-button-primary-inverted-text: var(--button-primary-inverted-text);
-  --color-button-secondary-stroke: var(--button-secondary-stroke);
-  --color-button-secondary-stroke-hover: var(--button-secondary-stroke-hover);
-  --color-button-secondary-text: var(--button-secondary-text);
-  --color-button-secondary-text-hover: var(--button-secondary-text-hover);
+  --color-buttons-primary-fill: var(--button-primary-fill);
+  --color-buttons-primary-text: var(--button-primary-text);
+  --color-buttons-primary-fill-hover: var(--button-primary-hover);
+  --color-buttons-primary-inverted-fill: var(--button-primary-inverted-fill);
+  --color-buttons-primary-inverted-fill-hover: var(--button-primary-inverted-hover);
+  --color-buttons-primary-inverted-text: var(--button-primary-inverted-text);
+  --color-buttons-secondary-stroke: var(--button-secondary-stroke);
+  --color-buttons-secondary-stroke-hover: var(--button-secondary-stroke-hover);
+  --color-buttons-secondary-text: var(--button-secondary-text);
+  --color-buttons-secondary-text-hover: var(--button-secondary-text-hover);
 
   /* Stroke colors */
   --color-stroke-soft: var(--stroke-soft);

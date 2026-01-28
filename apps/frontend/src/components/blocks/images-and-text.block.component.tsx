@@ -42,7 +42,7 @@ export const ImagesAndTextBlock = (props: ImagesAndTextBlockProps) => {
           <div className="hidden flex-1 lg:block" />
           <div className="flex flex-1 flex-col gap-4 lg:pr-10">
             {content && <PortableText content={content} className="text-body-large" />}
-            {links && <ButtonGroup buttons={links} defaultVariant="default" />}
+            {links && <ButtonGroup buttons={links} defaultVariant="primary" />}
           </div>
         </div>
       )}

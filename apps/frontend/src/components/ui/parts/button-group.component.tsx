@@ -20,12 +20,10 @@ export const ButtonGroup = (props: ButtonGroupProps) => {
 
   return (
     <div className={cn(className, "flex items-center flex-wrap")}>
-      {buttons.map((button, index) => {
-        const isLast = index === buttons.length - 1;
-        // Priority: per-button variant > defaultVariant prop > position-based default
+      {buttons.map((button) => {
+        // Priority: per-button variant > defaultVariant prop > fallback to primary
         const perButtonVariant = "buttonVariant" in button ? button.buttonVariant : undefined;
-        const buttonVariant =
-          (perButtonVariant as ButtonVariant) ?? defaultVariant ?? (isLast ? "ghost" : "default");
+        const buttonVariant = (perButtonVariant as ButtonVariant) ?? defaultVariant ?? "primary";
 
         return (
           <Button key={button._key} asChild variant={buttonVariant}>

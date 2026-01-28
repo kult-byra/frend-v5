@@ -209,7 +209,7 @@ export function KnowledgeFilterDialog({
         <div className="border-t border-stroke-soft bg-container-secondary p-xs">
           <div className="flex gap-2xs">
             <Button onClick={handleApply}>{translations.applyFilters ?? "Apply filters"}</Button>
-            <Button variant="outline" onClick={handleClearAll}>
+            <Button variant="secondary" onClick={handleClearAll}>
               {translations.clearAll ?? "Clear all"}
             </Button>
           </div>

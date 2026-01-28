@@ -47,7 +47,7 @@ const CategoryFilters = ({
           className={cn(
             "cursor-pointer rounded px-4 py-2 text-body-small transition-colors",
             selectedIndustry === option.value
-              ? "bg-container-brand-2 text-text-primary"
+              ? "bg-buttons-primary-fill-hover text-text-primary"
               : "bg-container-shade text-text-primary hover:bg-container-secondary",
           )}
         >
@@ -70,7 +70,7 @@ const ClientCardExpandedContent = ({ item }: { item: ClientCardItem }) => {
           <p className="text-body-small text-text-secondary">{item.industries.join(", ")}</p>
         )}
       </div>
-      <div className="flex size-8 items-center justify-center rounded-full bg-container-brand-2">
+      <div className="flex size-8 items-center justify-center rounded-full bg-buttons-primary-fill-hover">
         <Icon name="arrow-right" className="size-[10px] text-text-primary" />
       </div>
     </div>
@@ -100,7 +100,7 @@ const DesktopClientCard = ({ item }: { item: ClientCardItem }) => {
             <p className="text-xs text-text-secondary">{item.industries.join(", ")}</p>
           )}
         </div>
-        <div className="flex items-center justify-center mt-auto w-8 h-8 rounded-full bg-container-brand-2">
+        <div className="flex items-center justify-center mt-auto w-8 h-8 rounded-full bg-buttons-primary-fill-hover">
           <Icon name="arrow-right" className="w-2.5 h-2.5 text-text-primary" />
         </div>
       </div>

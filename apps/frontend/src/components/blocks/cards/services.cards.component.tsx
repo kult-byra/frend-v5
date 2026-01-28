@@ -113,10 +113,10 @@ export const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
                 {/* Footer: Arrow button + Technology pills */}
                 <div className="flex items-center gap-4 border-t border-stroke-soft p-4">
                   {/* Arrow button - primary variant */}
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-container-brand-1 transition-colors group-hover:bg-button-primary-hover">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-buttons-primary-fill transition-colors group-hover:bg-buttons-primary-fill-hover">
                     <Icon
                       name="arrow-right"
-                      className="size-[10px] text-text-white-primary transition-colors group-hover:text-text-primary"
+                      className="size-[10px] text-buttons-primary-text transition-colors group-hover:text-text-primary"
                     />
                   </div>
 

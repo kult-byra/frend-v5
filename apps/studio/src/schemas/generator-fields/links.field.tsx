@@ -42,12 +42,12 @@ const buttonVariantField = defineField({
   type: "string",
   options: {
     list: [
-      { title: "Primary (filled)", value: "default" },
-      { title: "Secondary (outline)", value: "outline" },
+      { title: "Primary (filled)", value: "primary" },
+      { title: "Secondary (outline)", value: "secondary" },
     ],
     layout: "radio",
   },
-  initialValue: "default",
+  initialValue: "primary",
 });
 
 const internalLink = (props: LinksFieldProps) => {

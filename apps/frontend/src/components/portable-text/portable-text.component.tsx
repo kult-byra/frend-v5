@@ -7,7 +7,6 @@ import {
   type HeadingLevel,
   type HeadingSize,
 } from "@/components/layout/heading.component";
-import { Button } from "@/components/ui/button";
 import { Img } from "@/components/utils/img.component";
 import { LinkResolver } from "@/components/utils/link-resolver.component";
 import type { FullPortableTextQueryTypeResult } from "@/sanity-types";
@@ -89,11 +88,13 @@ const marks = (options: PortableTextOptions): BlockMarkRendererMap<"strong" | "i
       if (!url) return <>{children}</>;
 
       return (
-        <Button asChild variant="link">
-          <LinkResolver linkType="external" url={url}>
-            {children}
-          </LinkResolver>
-        </Button>
+        <LinkResolver
+          linkType="external"
+          url={url}
+          className="underline underline-offset-4 text-text-secondary transition-colors hover:text-text-primary"
+        >
+          {children}
+        </LinkResolver>
       );
     },
 
@@ -103,11 +104,13 @@ const marks = (options: PortableTextOptions): BlockMarkRendererMap<"strong" | "i
       if (!internalLink?._type) return <>{children}</>;
 
       return (
-        <Button asChild variant="link">
-          <LinkResolver {...internalLink} linkType="internal">
-            {children}
-          </LinkResolver>
-        </Button>
+        <LinkResolver
+          {...internalLink}
+          linkType="internal"
+          className="underline underline-offset-4 text-text-secondary transition-colors hover:text-text-primary"
+        >
+          {children}
+        </LinkResolver>
       );
     },
 
@@ -117,11 +120,13 @@ const marks = (options: PortableTextOptions): BlockMarkRendererMap<"strong" | "i
       if (!url) return <>{children}</>;
 
       return (
-        <Button asChild variant="link">
-          <LinkResolver linkType="download" url={url}>
-            {children}
-          </LinkResolver>
-        </Button>
+        <LinkResolver
+          linkType="download"
+          url={url}
+          className="underline underline-offset-4 text-text-secondary transition-colors hover:text-text-primary"
+        >
+          {children}
+        </LinkResolver>
       );
     },
 
