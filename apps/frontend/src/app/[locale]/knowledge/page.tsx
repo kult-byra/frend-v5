@@ -17,6 +17,7 @@ import {
   knowledgeHubTechnologiesQuery,
 } from "@/server/queries/documents/knowledge-hub.query";
 import { fetchSettings } from "@/server/queries/settings/settings.query";
+import type { KnowledgeContentType } from "@/server/queries/teasers/knowledge-teaser.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
 import { KnowledgeFilterHeader } from "./(parts)/knowledge-filter-header.component";
@@ -153,6 +154,15 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
 
   const stringTranslations = settings.stringTranslations;
 
+  const typeLabels: Partial<Record<KnowledgeContentType, string | null>> = {
+    knowledgeArticle: stringTranslations?.labelArticle,
+    caseStudy: stringTranslations?.labelCaseStudy,
+    seminar: stringTranslations?.labelSeminar,
+    eBook: stringTranslations?.labelEBook,
+    newsArticle: stringTranslations?.labelNews,
+    event: stringTranslations?.labelEvent,
+  };
+
   // Normalize services for filter - use slug or generate from title
   const normalizedServices =
     services?.map((s) => ({
@@ -188,7 +198,7 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
         <ul className="grid grid-cols-1 gap-xs lg:grid-cols-3 lg:gap-sm">
           {filteredContent.map((item) => (
             <li key={item._id}>
-              <KnowledgeTeaser item={item as KnowledgeTeaserData} />
+              <KnowledgeTeaser item={item as KnowledgeTeaserData} typeLabels={typeLabels} />
             </li>
           ))}
         </ul>

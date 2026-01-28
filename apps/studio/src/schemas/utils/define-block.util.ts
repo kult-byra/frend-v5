@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import {
   defineField,
   type FieldDefinition,
@@ -22,7 +23,7 @@ export type BlockDefinition = Omit<ObjectDefinition, "type" | "icon"> & BlockExt
 export type BlockSchemaType = Omit<ObjectSchemaType, "icon"> & BlockExtras;
 
 export const defineBlock = (props: BlockDefinition) => {
-  const { name, title, fields: originalFields, optionFields, components } = props;
+  const { name, title, fields: originalFields, optionFields, components, icon, preview } = props;
 
   const fields = originalFields ?? [];
 
@@ -38,6 +39,32 @@ export const defineBlock = (props: BlockDefinition) => {
     }),
   );
 
+  // Enhance preview to include the icon as media
+  const enhancedPreview = preview
+    ? {
+        ...preview,
+        prepare: (selection: Record<string, unknown>) => {
+          const originalPrepare = preview.prepare as
+            | ((selection: Record<string, unknown>) => {
+                title?: string;
+                subtitle?: string;
+                media?: ReactNode;
+              })
+            | undefined;
+          const result = originalPrepare ? originalPrepare(selection) : {};
+          return {
+            ...result,
+            media: result.media ?? icon,
+          };
+        },
+      }
+    : {
+        prepare: () => ({
+          title: title ?? camelToNormal(name),
+          media: icon,
+        }),
+      };
+
   return defineField(
     {
       ...props,
@@ -45,6 +72,7 @@ export const defineBlock = (props: BlockDefinition) => {
       title: title ?? camelToNormal(name),
       type: "object",
       fields,
+      preview: enhancedPreview,
       components: {
         ...components,
         preview: PageBuilderBlockPreview,

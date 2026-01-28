@@ -23,5 +23,6 @@ export const peopleBlockQuery = defineQuery(`
     company,
     externalPerson,
     image { ${imageQuery} }
-  }
+  },
+  options { width }
 `);

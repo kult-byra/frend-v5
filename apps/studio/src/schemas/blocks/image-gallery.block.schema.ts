@@ -1,11 +1,4 @@
-import {
-  Columns2,
-  GalleryHorizontalEnd,
-  Grid2x2,
-  Image,
-  PanelLeft,
-  Square,
-} from "lucide-react";
+import { Columns2, GalleryHorizontalEnd, Grid2x2, Image, PanelLeft, Square } from "lucide-react";
 import { defineField } from "sanity";
 import { defineBlock } from "@/schemas/utils/define-block.util";
 import { gridOptionsField } from "../generator-fields/grid-options.field";
@@ -22,7 +15,11 @@ const IMAGE_LIMITS = {
 };
 
 // Helper to check if grid type is selected
-const isGridType = ({ parent }: { parent?: { options?: { width?: string; galleryTypeHalf?: string } } }) => {
+const isGridType = ({
+  parent,
+}: {
+  parent?: { options?: { width?: string; galleryTypeHalf?: string } };
+}) => {
   const options = parent?.options;
   const isFullWidth = options?.width === "fullWidth";
   const galleryType = options?.galleryTypeHalf || "grid";
@@ -66,7 +63,10 @@ export const imageGalleryBlockSchema = defineBlock({
             ? options?.galleryTypeFull || "mediaFull"
             : options?.galleryTypeHalf || "grid";
 
-          const { min, max } = IMAGE_LIMITS[type as keyof typeof IMAGE_LIMITS] || { min: 1, max: 99 };
+          const { min, max } = IMAGE_LIMITS[type as keyof typeof IMAGE_LIMITS] || {
+            min: 1,
+            max: 99,
+          };
 
           if (!images || images.length === 0) return "At least one image/video is required";
           if (images.length < min) return `This layout requires at least ${min} image(s)`;
@@ -86,8 +86,18 @@ export const imageGalleryBlockSchema = defineBlock({
       hidden: ({ parent }) => parent?.width === "fullWidth",
       options: [
         { value: "single", title: "Single", description: "Single media item", icon: Square },
-        { value: "grid", title: "Grid", description: "Uniform grid layout (up to 6 images)", icon: Grid2x2 },
-        { value: "carousel", title: "Carousel", description: "Scrollable carousel (2+ images)", icon: GalleryHorizontalEnd },
+        {
+          value: "grid",
+          title: "Grid",
+          description: "Uniform grid layout (up to 6 images)",
+          icon: Grid2x2,
+        },
+        {
+          value: "carousel",
+          title: "Carousel",
+          description: "Scrollable carousel (2+ images)",
+          icon: GalleryHorizontalEnd,
+        },
       ],
     }),
 
@@ -100,9 +110,24 @@ export const imageGalleryBlockSchema = defineBlock({
       initialValue: "mediaFull",
       hidden: ({ parent }) => parent?.width !== "fullWidth",
       options: [
-        { value: "mediaFull", title: "Media Full", description: "Up to 3 images in equal width columns", icon: Columns2 },
-        { value: "doubleStickyFull", title: "Double Sticky", description: "One 3:2 and one 3:4 media, 3:2 is sticky (order follows array)", icon: PanelLeft },
-        { value: "carouselFull", title: "Carousel", description: "Looping carousel with swipe (3+ images)", icon: GalleryHorizontalEnd },
+        {
+          value: "mediaFull",
+          title: "Media Full",
+          description: "Up to 3 images in equal width columns",
+          icon: Columns2,
+        },
+        {
+          value: "doubleStickyFull",
+          title: "Double Sticky",
+          description: "One 3:2 and one 3:4 media, 3:2 is sticky (order follows array)",
+          icon: PanelLeft,
+        },
+        {
+          value: "carouselFull",
+          title: "Carousel",
+          description: "Looping carousel with swipe (3+ images)",
+          icon: GalleryHorizontalEnd,
+        },
       ],
     }),
   ],

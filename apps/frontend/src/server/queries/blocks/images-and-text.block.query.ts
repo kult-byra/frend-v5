@@ -21,5 +21,6 @@ export const imagesAndTextBlockQuery = defineQuery(`
     _key,
     _type,
     ${mediaQuery}
-  }
+  },
+  options { width }
 `);

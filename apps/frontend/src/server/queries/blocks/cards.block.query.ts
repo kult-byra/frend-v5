@@ -41,12 +41,60 @@ const serviceFieldsQuery = `
   }
 `;
 
+// Helper for knowledge items (knowledgeArticle, caseStudy, seminar, eBook)
+// @sanity-typegen-ignore
+const knowledgeFieldsQuery = `
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  "image": media.image { ${imageQuery} },
+  "services": services[]-> {
+    _id,
+    "title": select(
+      ^.language == "no" => title_no,
+      ^.language == "en" => title_en
+    )
+  }
+`;
+
+// Helper for news & events items (newsArticle, event) - uses same teaser structure as knowledge
+// newsArticle uses coverImages[] (multipleCoverImages), event uses media (single)
+// @sanity-typegen-ignore
+const newsEventFieldsQuery = `
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  "image": coalesce(
+    media.image { ${imageQuery} },
+    coverImages[0].image { ${imageQuery} }
+  ),
+  "services": services[]-> {
+    _id,
+    "title": select(
+      ^.language == "no" => title_no,
+      ^.language == "en" => title_en
+    )
+  }
+`;
+
 // @sanity-typegen-ignore
 export const cardsBlockQuery = defineQuery(`
   _type,
   _key,
   heading,
   "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,
+  "seeAllLabel": *[_type == "stringTranslations"][0].seeAll[_key == $locale][0].value,
+  "noContentFoundLabel": *[_type == "stringTranslations"][0].noContentFound[_key == $locale][0].value,
+  "typeLabels": {
+    "knowledgeArticle": *[_type == "stringTranslations"][0].labelArticle[_key == $locale][0].value,
+    "caseStudy": *[_type == "stringTranslations"][0].labelCaseStudy[_key == $locale][0].value,
+    "seminar": *[_type == "stringTranslations"][0].labelSeminar[_key == $locale][0].value,
+    "eBook": *[_type == "stringTranslations"][0].labelEBook[_key == $locale][0].value,
+    "newsArticle": *[_type == "stringTranslations"][0].labelNews[_key == $locale][0].value,
+    "event": *[_type == "stringTranslations"][0].labelEvent[_key == $locale][0].value
+  },
   "content": excerpt[] {
     _key,
     _type == "block" => {
@@ -54,11 +102,19 @@ export const cardsBlockQuery = defineQuery(`
     }
   },
   contentType,
+  knowledgeTypes,
+  newsEventTypes,
   manualSelection,
   links[] {
     ${linksQuery}
   },
   clientLinks[] {
+    ${linksQuery}
+  },
+  knowledgeLinks[] {
+    ${linksQuery}
+  },
+  newsEventLinks[] {
     ${linksQuery}
   },
   "allIndustries": select(
@@ -70,26 +126,11 @@ export const cardsBlockQuery = defineQuery(`
     contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {
       ${serviceFieldsQuery}
     },
-    contentType == "newsArticle" && manualSelection == true => manualNewsArticleDocuments[]-> {
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      image { ${imageQuery} }
+    contentType == "knowledge" && manualSelection == true => manualKnowledgeDocuments[]-> {
+      ${knowledgeFieldsQuery}
     },
-    contentType == "caseStudy" && manualSelection == true => manualCaseStudyDocuments[]-> {
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      image { ${imageQuery} }
-    },
-    contentType == "event" && manualSelection == true => manualEventDocuments[]-> {
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      image { ${imageQuery} }
+    contentType == "newsEvents" && manualSelection == true => manualNewsEventDocuments[]-> {
+      ${newsEventFieldsQuery}
     },
     contentType == "client" && manualSelection == true => manualClientDocuments[]-> {
       _id,
@@ -106,26 +147,17 @@ export const cardsBlockQuery = defineQuery(`
     )] | order(_createdAt desc) {
       ${serviceFieldsQuery}
     },
-    contentType == "newsArticle" => *[_type == "newsArticle"] | order(_createdAt desc) {
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      image { ${imageQuery} }
+    contentType == "knowledge" => *[
+      _type in ^.knowledgeTypes
+      && language == $locale
+    ] | order(coalesce(publishDate, _createdAt) desc) {
+      ${knowledgeFieldsQuery}
     },
-    contentType == "caseStudy" => *[_type == "caseStudy"] | order(_createdAt desc) {
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      image { ${imageQuery} }
-    },
-    contentType == "event" => *[_type == "event"] | order(_createdAt desc) {
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      image { ${imageQuery} }
+    contentType == "newsEvents" => *[
+      _type in ^.newsEventTypes
+      && language == $locale
+    ] | order(coalesce(publishDate, _createdAt) desc) {
+      ${newsEventFieldsQuery}
     },
     contentType == "client" => *[_type == "client"] | order(_createdAt desc) {
       _id,
@@ -136,5 +168,6 @@ export const cardsBlockQuery = defineQuery(`
       "description": pt::text(description),
       "industries": industries[]->title
     }
-  )
+  ),
+  options { width }
 `);

@@ -29,12 +29,10 @@ const _knowledgeTeaserTypegenQuery = defineQuery(`
 
 export type KnowledgeTeaserProps = NonNullable<KnowledgeTeaserTypegenQueryResult>;
 
-// Content type labels for display
-export const knowledgeTypeLabels = {
-  knowledgeArticle: "Artikkel",
-  caseStudy: "Case Study",
-  seminar: "Seminar",
-  eBook: "E-bok",
-} as const;
-
-export type KnowledgeContentType = keyof typeof knowledgeTypeLabels;
+export type KnowledgeContentType =
+  | "knowledgeArticle"
+  | "caseStudy"
+  | "seminar"
+  | "eBook"
+  | "newsArticle"
+  | "event";

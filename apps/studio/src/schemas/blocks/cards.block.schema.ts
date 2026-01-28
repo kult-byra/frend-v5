@@ -1,4 +1,5 @@
-import { Building, Calendar, LayoutGrid, Newspaper, Package, Settings, Star } from "lucide-react";
+import { BookOpen, Building, Calendar, LayoutGrid, Package, Settings } from "lucide-react";
+import { defineField } from "sanity";
 import { booleanField } from "@/schemas/generator-fields/boolean.field";
 import { infoField } from "@/schemas/generator-fields/info.field";
 import { linksField } from "@/schemas/generator-fields/links.field";
@@ -9,9 +10,8 @@ import { defineBlock } from "../utils/define-block.util";
 
 const contentTypeOptions = [
   { title: "Services", value: "services", icon: Package },
-  { title: "News articles", value: "newsArticle", icon: Newspaper },
-  { title: "Case studies", value: "caseStudy", icon: Star },
-  { title: "Events", value: "event", icon: Calendar },
+  { title: "Knowledge", value: "knowledge", icon: BookOpen },
+  { title: "News & Events", value: "newsEvents", icon: Calendar },
   { title: "Clients", value: "client", icon: Building },
 ];
 
@@ -43,6 +43,56 @@ export const cardsBlockSchema = defineBlock({
       },
       initialValue: "services",
     }),
+    // Knowledge types checkbox filter
+    defineField({
+      name: "knowledgeTypes",
+      title: "Knowledge types to include",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Articles", value: "knowledgeArticle" },
+          { title: "Case Studies", value: "caseStudy" },
+          { title: "Seminars", value: "seminar" },
+          { title: "E-books", value: "eBook" },
+        ],
+        layout: "grid",
+      },
+      initialValue: ["knowledgeArticle", "caseStudy", "seminar", "eBook"],
+      hidden: ({ parent }) => parent?.contentType !== "knowledge",
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const parent = context.parent as { contentType?: string } | undefined;
+          if (parent?.contentType === "knowledge" && (!value || value.length === 0)) {
+            return "Select at least one knowledge type";
+          }
+          return true;
+        }),
+    }),
+    // News & Events types checkbox filter
+    defineField({
+      name: "newsEventTypes",
+      title: "News & Events types to include",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "News Articles", value: "newsArticle" },
+          { title: "Events", value: "event" },
+        ],
+        layout: "grid",
+      },
+      initialValue: ["newsArticle", "event"],
+      hidden: ({ parent }) => parent?.contentType !== "newsEvents",
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const parent = context.parent as { contentType?: string } | undefined;
+          if (parent?.contentType === "newsEvents" && (!value || value.length === 0)) {
+            return "Select at least one news/event type";
+          }
+          return true;
+        }),
+    }),
     // Links for services
     linksField({
       name: "links",
@@ -62,6 +112,26 @@ export const cardsBlockSchema = defineBlock({
       includeButtonVariant: true,
       max: 2,
       hidden: ({ parent }) => parent?.contentType !== "client",
+    }),
+    // Links for knowledge
+    linksField({
+      name: "knowledgeLinks",
+      title: "Links",
+      description: "Add a link to the knowledge hub or other relevant pages.",
+      includeExternal: true,
+      includeButtonVariant: true,
+      max: 1,
+      hidden: ({ parent }) => parent?.contentType !== "knowledge",
+    }),
+    // Links for news & events
+    linksField({
+      name: "newsEventLinks",
+      title: "Links",
+      description: "Add a link to the news & events archive or other relevant pages.",
+      includeExternal: true,
+      includeButtonVariant: true,
+      max: 1,
+      hidden: ({ parent }) => parent?.contentType !== "newsEvents",
     }),
     booleanField({
       name: "manualSelection",
@@ -96,33 +166,29 @@ export const cardsBlockSchema = defineBlock({
       to: [{ type: "service" }, { type: "subService" }],
       hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "services",
     }),
-    // News articles
+    // Knowledge items (articles, case studies, seminars, e-books)
     referenceField({
-      name: "manualNewsArticleDocuments",
-      title: "Select news articles",
-      description: "Select which news articles should be displayed in the cards.",
+      name: "manualKnowledgeDocuments",
+      title: "Select knowledge items",
+      description: "Select which knowledge items should be displayed in the cards.",
       allowMultiple: true,
-      to: [{ type: "newsArticle" }],
+      to: [
+        { type: "knowledgeArticle" },
+        { type: "caseStudy" },
+        { type: "seminar" },
+        { type: "eBook" },
+      ],
+      hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "knowledge",
+    }),
+    // News & Events items
+    referenceField({
+      name: "manualNewsEventDocuments",
+      title: "Select news & events",
+      description: "Select which news articles or events should be displayed in the cards.",
+      allowMultiple: true,
+      to: [{ type: "newsArticle" }, { type: "event" }],
       hidden: ({ parent }) =>
-        parent.manualSelection !== true || parent.contentType !== "newsArticle",
-    }),
-    // Case studies
-    referenceField({
-      name: "manualCaseStudyDocuments",
-      title: "Select case studies",
-      description: "Select which case studies should be displayed in the cards.",
-      allowMultiple: true,
-      to: [{ type: "caseStudy" }],
-      hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "caseStudy",
-    }),
-    // Events
-    referenceField({
-      name: "manualEventDocuments",
-      title: "Select events",
-      description: "Select which events should be displayed in the cards.",
-      allowMultiple: true,
-      to: [{ type: "event" }],
-      hidden: ({ parent }) => parent.manualSelection !== true || parent.contentType !== "event",
+        parent.manualSelection !== true || parent.contentType !== "newsEvents",
     }),
     // Clients
     referenceField({

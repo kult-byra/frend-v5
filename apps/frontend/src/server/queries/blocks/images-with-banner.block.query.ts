@@ -22,5 +22,6 @@ export const imagesWithBannerBlockQuery = defineQuery(`
     _key,
     _type,
     ${mediaQuery}
-  }
+  },
+  options { width }
 `);

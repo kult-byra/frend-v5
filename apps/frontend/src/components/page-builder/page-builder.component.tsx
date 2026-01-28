@@ -53,14 +53,14 @@ export const PageBuilder = (props: PageBuilderProps) => {
     return (
       <BlockWrapper key={_key} width={options?.width}>
         <Component {...block} />
-        <p className="text-body-small text-text-secondary font-mono">
+        {/* <p className="text-body-small text-text-secondary font-mono">
           👆 {_type}
           {options &&
             ` | ${Object.entries(options)
               .filter(([, v]) => v != null)
               .map(([k, v]) => `${k}: ${v}`)
               .join(", ")}`}
-        </p>
+        </p> */}
       </BlockWrapper>
     );
   });

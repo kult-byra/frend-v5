@@ -9,5 +9,6 @@ export const logoCloudBlockQuery = defineQuery(`
     _id,
     title,
     image { ${imageQuery} }
-  }
+  },
+  options { width }
 `);

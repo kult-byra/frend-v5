@@ -4,7 +4,6 @@ import type {
   KnowledgeContentType,
   KnowledgeTeaserProps,
 } from "@/server/queries/teasers/knowledge-teaser.query";
-import { knowledgeTypeLabels } from "@/server/queries/teasers/knowledge-teaser.query";
 import { Img } from "../utils/img.component";
 
 export type KnowledgeTeaserData = KnowledgeTeaserProps & {
@@ -13,11 +12,12 @@ export type KnowledgeTeaserData = KnowledgeTeaserProps & {
 
 type Props = {
   item: KnowledgeTeaserData;
+  typeLabels?: Partial<Record<KnowledgeContentType, string | null>>;
 };
 
-export function KnowledgeTeaser({ item }: Props) {
+export function KnowledgeTeaser({ item, typeLabels }: Props) {
   const { _type, title, slug, image, services } = item;
-  const typeLabel = knowledgeTypeLabels[_type];
+  const typeLabel = typeLabels?.[_type];
   const href = resolvePath(_type, { slug });
 
   return (
@@ -44,7 +44,9 @@ export function KnowledgeTeaser({ item }: Props) {
       {/* Text content */}
       <div className="flex flex-col gap-2xs pr-xs">
         {/* Type label */}
-        <span className="text-xs leading-[1.45] text-text-secondary">{typeLabel}</span>
+        {typeLabel && (
+          <span className="text-xs leading-[1.45] text-text-secondary">{typeLabel}</span>
+        )}
 
         {/* Title with link */}
         <h3 className="max-w-[420px] text-lg leading-[1.5] text-text-primary">

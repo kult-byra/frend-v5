@@ -10,5 +10,6 @@ export const callToActionBlockQuery = defineQuery(`
   ${portableTextQuery},
   links[]{
     ${linksQuery}
-  }
+  },
+  options { width }
 `);

@@ -3,36 +3,60 @@ import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { ButtonGroup } from "@/components/ui/parts/button-group.component";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
-import { type CaseStudyCardItem, CaseStudyCards } from "./cards/case-study.cards.component";
 import { type ClientCardItem, ClientCards } from "./cards/client.cards.component";
-import { type EventCardItem, EventCards } from "./cards/event.cards.component";
-import { type NewsArticleCardItem, NewsArticleCards } from "./cards/news-article.cards.component";
+import {
+  type KnowledgeCardItem,
+  KnowledgeCards,
+  type TypeLabels,
+} from "./cards/knowledge.cards.component";
 import { type ServiceCardItem, ServicesCards } from "./cards/services.cards.component";
 
 type CardsBlockProps = PageBuilderBlockProps<"cards.block">;
 
 export const CardsBlock = (props: CardsBlockProps) => {
   const { heading, content, items, contentType } = props;
-  // links, clientLinks, allIndustries, and featuredLabel fields exist in query but types not regenerated yet
-  const { links, clientLinks, allIndustries, featuredLabel } = props as CardsBlockProps & {
+  // Additional fields from query
+  const {
+    links,
+    clientLinks,
+    knowledgeLinks,
+    newsEventLinks,
+    allIndustries,
+    featuredLabel,
+    noContentFoundLabel,
+    typeLabels,
+  } = props as CardsBlockProps & {
     links?: Parameters<typeof ButtonGroup>[0]["buttons"];
     clientLinks?: Parameters<typeof ButtonGroup>[0]["buttons"];
+    knowledgeLinks?: Parameters<typeof ButtonGroup>[0]["buttons"];
+    newsEventLinks?: Parameters<typeof ButtonGroup>[0]["buttons"];
     allIndustries?: string[] | null;
     featuredLabel?: string | null;
+    noContentFoundLabel?: string | null;
+    typeLabels?: TypeLabels;
   };
 
-  if (!items?.length) return null;
+  const hasItems = items && items.length > 0;
 
   const renderCards = () => {
+    if (!hasItems) {
+      return (
+        <div className="flex min-h-[200px] items-center justify-center rounded bg-container-secondary">
+          <p className="text-headline-3 text-text-secondary">
+            {noContentFoundLabel ?? "No content found"}
+          </p>
+        </div>
+      );
+    }
+
     switch (contentType) {
       case "services":
         return <ServicesCards items={items as ServiceCardItem[]} />;
-      case "newsArticle":
-        return <NewsArticleCards items={items as NewsArticleCardItem[]} />;
-      case "caseStudy":
-        return <CaseStudyCards items={items as CaseStudyCardItem[]} />;
-      case "event":
-        return <EventCards items={items as EventCardItem[]} />;
+      case "knowledge":
+        return <KnowledgeCards items={items as KnowledgeCardItem[]} typeLabels={typeLabels} />;
+      case "newsEvents":
+        // News & Events use the same teaser component as Knowledge
+        return <KnowledgeCards items={items as KnowledgeCardItem[]} typeLabels={typeLabels} />;
       case "client":
         return (
           <ClientCards
@@ -50,8 +74,13 @@ export const CardsBlock = (props: CardsBlockProps) => {
   };
 
   const hasServicesHeader = contentType === "services" && (content || links?.length);
+  const hasKnowledgeHeader = contentType === "knowledge" && (heading || content);
+  const hasNewsEventsHeader = contentType === "newsEvents" && (heading || content);
   const hasDefaultHeader =
-    contentType !== "services" && contentType !== "client" && (heading || content);
+    contentType !== "services" &&
+    contentType !== "client" &&
+    contentType !== "knowledge" &&
+    contentType !== "newsEvents";
 
   return (
     <BlockContainer>
@@ -63,6 +92,34 @@ export const CardsBlock = (props: CardsBlockProps) => {
             {content && <PortableText content={content} className="text-body-large" />}
             {links && <ButtonGroup buttons={links} />}
           </div>
+        </div>
+      )}
+      {/* Knowledge layout: heading + excerpt left, links right on desktop */}
+      {hasKnowledgeHeader && (
+        <div className="mb-6 flex flex-col gap-xs lg:flex-row lg:items-start">
+          <div className="flex flex-1 flex-col gap-2xs lg:pr-md">
+            {heading && <H2>{heading}</H2>}
+            {content && <PortableText content={content} className="text-body-large" />}
+          </div>
+          {knowledgeLinks && knowledgeLinks.length > 0 && (
+            <div className="flex flex-1 items-end justify-start lg:justify-end lg:self-stretch">
+              <ButtonGroup buttons={knowledgeLinks} />
+            </div>
+          )}
+        </div>
+      )}
+      {/* News & Events layout: heading + excerpt left, links right on desktop */}
+      {hasNewsEventsHeader && (
+        <div className="mb-6 flex flex-col gap-xs lg:flex-row lg:items-start">
+          <div className="flex flex-1 flex-col gap-2xs lg:pr-md">
+            {heading && <H2>{heading}</H2>}
+            {content && <PortableText content={content} className="text-body-large" />}
+          </div>
+          {newsEventLinks && newsEventLinks.length > 0 && (
+            <div className="flex flex-1 items-end justify-start lg:justify-end lg:self-stretch">
+              <ButtonGroup buttons={newsEventLinks} />
+            </div>
+          )}
         </div>
       )}
       {/* Default layout for other content types */}

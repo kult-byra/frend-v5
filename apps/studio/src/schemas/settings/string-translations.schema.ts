@@ -150,6 +150,58 @@ export const stringTranslationsSchema = defineType({
       description: "Sorting option for oldest first",
       type: "internationalizedArrayString",
     }),
+
+    // General UI
+    defineField({
+      name: "noContentFound",
+      title: "No content found",
+      description: "Empty state message when a section has no items",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "seeAll",
+      title: "See all",
+      description: "Link text to view all items in an archive",
+      type: "internationalizedArrayString",
+    }),
+
+    // Teaser type labels (singular)
+    defineField({
+      name: "labelArticle",
+      title: "Article (label)",
+      description: "Singular label for knowledge articles on teaser cards",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "labelCaseStudy",
+      title: "Case study (label)",
+      description: "Singular label for case studies on teaser cards",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "labelSeminar",
+      title: "Seminar (label)",
+      description: "Singular label for seminars on teaser cards",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "labelEBook",
+      title: "E-book (label)",
+      description: "Singular label for e-books on teaser cards",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "labelNews",
+      title: "News (label)",
+      description: "Singular label for news articles on teaser cards",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "labelEvent",
+      title: "Event (label)",
+      description: "Singular label for events on teaser cards",
+      type: "internationalizedArrayString",
+    }),
   ],
   preview: {
     prepare() {

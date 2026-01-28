@@ -11,5 +11,6 @@ export const jobOpeningsBlockQuery = defineQuery(`
     _type == "block" => {
       ${portableTextInnerQuery}
     }
-  }
+  },
+  options { width }
 `);

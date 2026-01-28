@@ -5,5 +5,6 @@ import { portableTextQuery } from "../portable-text/portable-text-inner.query";
 export const contentBlockQuery = defineQuery(`
   _type,
   _key,
-  ${portableTextQuery}
+  ${portableTextQuery},
+  options { width }
 `);

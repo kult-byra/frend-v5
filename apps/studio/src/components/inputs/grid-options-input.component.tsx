@@ -1,10 +1,10 @@
 "use client";
 
 import { Box, Card, Flex, Grid, Stack, Text } from "@sanity/ui";
+import type { LucideIcon } from "lucide-react";
 import { useCallback } from "react";
 import type { StringInputProps } from "sanity";
 import { set, unset } from "sanity";
-import type { LucideIcon } from "lucide-react";
 
 export type GridOption = {
   value: string;
@@ -52,7 +52,8 @@ export const GridOptionsInput = (props: StringInputProps & GridOptionsInputProps
             }}
             onMouseEnter={(e) => {
               if (!isSelected) {
-                e.currentTarget.style.borderColor = "var(--card-hover-border-color, var(--card-border-color))";
+                e.currentTarget.style.borderColor =
+                  "var(--card-hover-border-color, var(--card-border-color))";
                 e.currentTarget.style.backgroundColor = "var(--card-bg-secondary-color)";
               }
             }}
