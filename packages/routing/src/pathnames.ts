@@ -9,9 +9,17 @@
  */
 export const pathnames = {
   "/": "/",
-  "/articles": {
-    no: "/artikler",
-    en: "/articles",
+  "/current": {
+    no: "/aktuelt",
+    en: "/current",
+  },
+  "/current/news": {
+    no: "/aktuelt/nyheter",
+    en: "/current/news",
+  },
+  "/current/events": {
+    no: "/aktuelt/arrangementer",
+    en: "/current/events",
   },
   "/news/[slug]": {
     no: "/nyheter/[slug]",

@@ -12,6 +12,7 @@ type WebhookPayload = {
 const TAG_MAP: Record<string, string[]> = {
   // Documents -> cache tags
   newsArticle: ["newsArticle", "newsAndEventsArchive"],
+  event: ["event", "newsAndEventsArchive"],
   caseStudy: ["caseStudy", "caseStudyArchive", "knowledgeHub"],
   service: ["service", "servicesArchive"],
   client: ["client", "clientArchive"],

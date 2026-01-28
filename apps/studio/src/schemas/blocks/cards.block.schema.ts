@@ -93,45 +93,14 @@ export const cardsBlockSchema = defineBlock({
           return true;
         }),
     }),
-    // Links for services
+    // Links (shown for all content types)
     linksField({
       name: "links",
       title: "Links",
-      description: "Add a link to all services or other relevant pages.",
-      includeExternal: true,
-      includeButtonVariant: true,
-      max: 1,
-      hidden: ({ parent }) => parent?.contentType !== "services",
-    }),
-    // Links for clients
-    linksField({
-      name: "clientLinks",
-      title: "Links",
-      description: "Add links above the client cards.",
+      description: "Add links to relevant pages (e.g., archive pages, external resources).",
       includeExternal: true,
       includeButtonVariant: true,
       max: 2,
-      hidden: ({ parent }) => parent?.contentType !== "client",
-    }),
-    // Links for knowledge
-    linksField({
-      name: "knowledgeLinks",
-      title: "Links",
-      description: "Add a link to the knowledge hub or other relevant pages.",
-      includeExternal: true,
-      includeButtonVariant: true,
-      max: 1,
-      hidden: ({ parent }) => parent?.contentType !== "knowledge",
-    }),
-    // Links for news & events
-    linksField({
-      name: "newsEventLinks",
-      title: "Links",
-      description: "Add a link to the news & events archive or other relevant pages.",
-      includeExternal: true,
-      includeButtonVariant: true,
-      max: 1,
-      hidden: ({ parent }) => parent?.contentType !== "newsEvents",
     }),
     booleanField({
       name: "manualSelection",

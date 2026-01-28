@@ -15,7 +15,7 @@ type ValidRouteConfig = {
  */
 export const routeConfig = {
   frontPage: "/",
-  newsAndEventsArchive: "/articles",
+  newsAndEventsArchive: "/current",
   page: "/:slug",
   newsArticle: "/news/:slug",
   event: "/events/:slug",
@@ -65,7 +65,7 @@ export type RootPath = (typeof ROOT_PATHS)[number];
  */
 export const routeTranslations = {
   no: {
-    articles: "artikler",
+    current: "aktuelt",
     news: "nyheter",
     events: "arrangementer",
     services: "tjenester",
@@ -76,7 +76,7 @@ export const routeTranslations = {
     ebooks: "e-boker",
   },
   en: {
-    articles: "articles",
+    current: "current",
     news: "news",
     events: "events",
     services: "services",

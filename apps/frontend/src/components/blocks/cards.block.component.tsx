@@ -16,25 +16,14 @@ type CardsBlockProps = PageBuilderBlockProps<"cards.block">;
 export const CardsBlock = (props: CardsBlockProps) => {
   const { heading, content, items, contentType } = props;
   // Additional fields from query
-  const {
-    links,
-    clientLinks,
-    knowledgeLinks,
-    newsEventLinks,
-    allIndustries,
-    featuredLabel,
-    noContentFoundLabel,
-    typeLabels,
-  } = props as CardsBlockProps & {
-    links?: Parameters<typeof ButtonGroup>[0]["buttons"];
-    clientLinks?: Parameters<typeof ButtonGroup>[0]["buttons"];
-    knowledgeLinks?: Parameters<typeof ButtonGroup>[0]["buttons"];
-    newsEventLinks?: Parameters<typeof ButtonGroup>[0]["buttons"];
-    allIndustries?: string[] | null;
-    featuredLabel?: string | null;
-    noContentFoundLabel?: string | null;
-    typeLabels?: TypeLabels;
-  };
+  const { links, allIndustries, featuredLabel, noContentFoundLabel, typeLabels } =
+    props as CardsBlockProps & {
+      links?: Parameters<typeof ButtonGroup>[0]["buttons"];
+      allIndustries?: string[] | null;
+      featuredLabel?: string | null;
+      noContentFoundLabel?: string | null;
+      typeLabels?: TypeLabels;
+    };
 
   const hasItems = items && items.length > 0;
 
@@ -61,7 +50,7 @@ export const CardsBlock = (props: CardsBlockProps) => {
         return (
           <ClientCards
             items={items as ClientCardItem[]}
-            links={clientLinks}
+            links={links}
             heading={heading}
             content={content}
             allIndustries={allIndustries}
@@ -73,60 +62,23 @@ export const CardsBlock = (props: CardsBlockProps) => {
     }
   };
 
-  const hasServicesHeader = contentType === "services" && (content || links?.length);
-  const hasKnowledgeHeader = contentType === "knowledge" && (heading || content);
-  const hasNewsEventsHeader = contentType === "newsEvents" && (heading || content);
-  const hasDefaultHeader =
-    contentType !== "services" &&
-    contentType !== "client" &&
-    contentType !== "knowledge" &&
-    contentType !== "newsEvents";
+  // Client cards render their own header internally
+  const shouldRenderHeader = contentType !== "client";
+  const hasHeader = shouldRenderHeader && (heading || content || links?.length);
 
   return (
     <BlockContainer>
-      {/* Services layout: content and button right-aligned (half-width) */}
-      {hasServicesHeader && (
-        <div className="mb-20 flex gap-4">
-          <div className="hidden flex-1 tablet:block" />
-          <div className="flex flex-1 flex-col gap-4 tablet:pr-10">
-            {content && <PortableText content={content} className="text-body-large" />}
-            {links && <ButtonGroup buttons={links} />}
-          </div>
-        </div>
-      )}
-      {/* Knowledge layout: heading + excerpt left, links right on desktop */}
-      {hasKnowledgeHeader && (
+      {hasHeader && (
         <div className="mb-6 flex flex-col gap-xs lg:flex-row lg:items-start">
           <div className="flex flex-1 flex-col gap-2xs lg:pr-md">
             {heading && <H2>{heading}</H2>}
             {content && <PortableText content={content} className="text-body-large" />}
           </div>
-          {knowledgeLinks && knowledgeLinks.length > 0 && (
+          {links && links.length > 0 && (
             <div className="flex flex-1 items-end justify-start lg:justify-end lg:self-stretch">
-              <ButtonGroup buttons={knowledgeLinks} />
+              <ButtonGroup buttons={links} />
             </div>
           )}
-        </div>
-      )}
-      {/* News & Events layout: heading + excerpt left, links right on desktop */}
-      {hasNewsEventsHeader && (
-        <div className="mb-6 flex flex-col gap-xs lg:flex-row lg:items-start">
-          <div className="flex flex-1 flex-col gap-2xs lg:pr-md">
-            {heading && <H2>{heading}</H2>}
-            {content && <PortableText content={content} className="text-body-large" />}
-          </div>
-          {newsEventLinks && newsEventLinks.length > 0 && (
-            <div className="flex flex-1 items-end justify-start lg:justify-end lg:self-stretch">
-              <ButtonGroup buttons={newsEventLinks} />
-            </div>
-          )}
-        </div>
-      )}
-      {/* Default layout for other content types */}
-      {hasDefaultHeader && (
-        <div className="mb-6">
-          {heading && <H2 className="mb-4">{heading}</H2>}
-          {content && <PortableText content={content} />}
         </div>
       )}
       {renderCards()}

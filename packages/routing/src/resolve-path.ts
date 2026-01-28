@@ -13,7 +13,8 @@ type Routes = typeof routeConfig;
 
 // Helper function to translate route segments based on locale
 const translatePath = (path: string, locale: Locale): string => {
-  if (locale === "no") {
+  // English paths stay as-is (internal paths are in English)
+  if (locale === "en") {
     return path;
   }
 

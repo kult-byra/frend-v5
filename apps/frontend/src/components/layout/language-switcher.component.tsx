@@ -1,9 +1,8 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
-import { getTranslatedUrl } from "@/server/actions/get-translated-url.action";
 import { cn } from "@/utils/cn.util";
 
 interface LanguageSwitcherProps {
@@ -14,26 +13,21 @@ interface LanguageSwitcherProps {
 export function LanguageSwitcher({ className, variant = "default" }: LanguageSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
-  const router = useRouter();
 
-  const switchLocale = async (targetLocale: string) => {
+  const switchLocale = (targetLocale: string) => {
     if (targetLocale === locale) return;
 
-    // Remove locale prefix if present to get the internal path
+    // Remove current locale prefix to get the path
     const pathWithoutLocale = pathname.replace(/^\/(no|en)/, "") || "/";
 
-    // Extract the slug (last segment for dynamic routes)
-    const segments = pathWithoutLocale.split("/").filter(Boolean);
-    const slug = segments[segments.length - 1] || "";
+    // Build new URL with target locale prefix
+    // We always include the locale prefix when switching to force the middleware
+    // to use the correct locale (even for Norwegian which is the default)
+    const newPath = `/${targetLocale}${pathWithoutLocale}`;
 
-    // Get the translated URL from the server
-    const result = await getTranslatedUrl(slug, locale, targetLocale);
-
-    // Build the full URL with locale prefix (except for Norwegian which is default)
-    const localePrefix = targetLocale === "no" ? "" : `/${targetLocale}`;
-    const targetUrl = `${localePrefix}${result.url}`;
-
-    router.replace(targetUrl);
+    // Use window.location to force a full page navigation
+    // This ensures the middleware processes the locale change
+    window.location.href = newPath;
   };
 
   if (variant === "footer") {

@@ -32,11 +32,11 @@ type FilterDialogTranslations = {
 };
 
 type KnowledgeFilterDialogProps = {
-  technologies: FilterItem[];
-  industries: FilterItem[];
+  technologies?: FilterItem[];
+  industries?: FilterItem[];
   translations: FilterDialogTranslations;
-  selectedTechnologies: string[];
-  selectedIndustries: string[];
+  selectedTechnologies?: string[];
+  selectedIndustries?: string[];
   sortOrder: SortOption;
   onApply: (filters: {
     technologies: string[];
@@ -46,24 +46,24 @@ type KnowledgeFilterDialogProps = {
 };
 
 export function KnowledgeFilterDialog({
-  technologies,
-  industries,
+  technologies = [],
+  industries = [],
   translations,
-  selectedTechnologies,
-  selectedIndustries,
+  selectedTechnologies = [],
+  selectedIndustries = [],
   sortOrder,
   onApply,
 }: KnowledgeFilterDialogProps) {
   const [open, setOpen] = useState(false);
-  const [localTechnologies, setLocalTechnologies] = useState<string[]>(selectedTechnologies);
-  const [localIndustries, setLocalIndustries] = useState<string[]>(selectedIndustries);
+  const [localTechnologies, setLocalTechnologies] = useState<string[]>(selectedTechnologies ?? []);
+  const [localIndustries, setLocalIndustries] = useState<string[]>(selectedIndustries ?? []);
   const [localSortOrder, setLocalSortOrder] = useState<SortOption>(sortOrder);
 
   // Reset local state when dialog opens
   const handleOpenChange = (isOpen: boolean) => {
     if (isOpen) {
-      setLocalTechnologies(selectedTechnologies);
-      setLocalIndustries(selectedIndustries);
+      setLocalTechnologies(selectedTechnologies ?? []);
+      setLocalIndustries(selectedIndustries ?? []);
       setLocalSortOrder(sortOrder);
     }
     setOpen(isOpen);
@@ -97,7 +97,9 @@ export function KnowledgeFilterDialog({
   };
 
   const hasActiveFilters =
-    selectedTechnologies.length > 0 || selectedIndustries.length > 0 || sortOrder !== "newest";
+    (selectedTechnologies?.length ?? 0) > 0 ||
+    (selectedIndustries?.length ?? 0) > 0 ||
+    sortOrder !== "newest";
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -130,14 +132,16 @@ export function KnowledgeFilterDialog({
         </div>
 
         {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto pb-md">
+        <div className="flex-1 overflow-y-auto">
           {/* Sorting section */}
           <div className="px-xs pb-3xs pt-2xs">
             <h3 className="pt-2xs text-base font-semibold leading-[1.45] text-text-primary">
               {translations.sorting ?? "Sorting"}
             </h3>
           </div>
-          <div className="px-xs pb-xs">
+          <div
+            className={`px-xs ${(technologies && technologies.length > 0) || (industries && industries.length > 0) ? "pb-xs" : "pb-md"}`}
+          >
             <div className="flex flex-wrap gap-1">
               <SortDropdown
                 value={localSortOrder}
@@ -148,13 +152,15 @@ export function KnowledgeFilterDialog({
             </div>
           </div>
 
-          {/* Divider */}
-          <div className="px-xs">
-            <div className="h-px bg-stroke-soft" />
-          </div>
+          {/* Divider - only show if there are more sections */}
+          {((technologies && technologies.length > 0) || (industries && industries.length > 0)) && (
+            <div className="px-xs">
+              <div className="h-px bg-stroke-soft" />
+            </div>
+          )}
 
           {/* Technologies section */}
-          {technologies.length > 0 && (
+          {technologies && technologies.length > 0 && (
             <>
               <div className="px-xs pb-3xs pt-2xs">
                 <h3 className="pt-2xs text-base font-semibold leading-[1.45] text-text-primary">
@@ -182,7 +188,7 @@ export function KnowledgeFilterDialog({
           )}
 
           {/* Industries section */}
-          {industries.length > 0 && (
+          {industries && industries.length > 0 && (
             <>
               <div className="px-xs pb-3xs pt-2xs">
                 <h3 className="pt-2xs text-base font-semibold leading-[1.45] text-text-primary">

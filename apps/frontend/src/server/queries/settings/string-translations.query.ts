@@ -12,6 +12,8 @@ export const stringTranslationsQuery = defineQuery(`
     "featured": featured[_key == $locale][0].value,
     "chapters": chapters[_key == $locale][0].value,
     "all": all[_key == $locale][0].value,
+    "news": news[_key == $locale][0].value,
+    "events": events[_key == $locale][0].value,
     "filtersAndSort": filtersAndSort[_key == $locale][0].value,
     "caseStudies": caseStudies[_key == $locale][0].value,
     "articlesAndInsights": articlesAndInsights[_key == $locale][0].value,

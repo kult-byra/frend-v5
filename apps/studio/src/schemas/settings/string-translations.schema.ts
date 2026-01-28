@@ -64,6 +64,18 @@ export const stringTranslationsSchema = defineType({
       description: "Label for 'All' filter option",
       type: "internationalizedArrayString",
     }),
+    defineField({
+      name: "news",
+      title: "News",
+      description: "Label for news content type filter",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "events",
+      title: "Events",
+      description: "Label for events content type filter",
+      type: "internationalizedArrayString",
+    }),
 
     // Knowledge hub filters & sorting
     defineField({
