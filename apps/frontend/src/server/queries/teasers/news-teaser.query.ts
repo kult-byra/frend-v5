@@ -10,7 +10,7 @@ export const newsTeaserQuery = defineQuery(`
   "slug": slug.current,
   "image": coalesce(
     hero.mediaHero.media.image,
-    hero.articleHero.coverImages[0].image
+    hero.articleHero.media.image
   ) {
     ${imageQuery}
   },

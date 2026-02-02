@@ -41,7 +41,7 @@ export const newsArticleSchema = defineType({
   preview: {
     select: {
       title: "hero.articleHero.title",
-      media: "hero.articleHero.coverImages.0.image.asset",
+      media: "hero.articleHero.media.image.asset",
       authorName: "hero.articleHero.author.name",
     },
     prepare({ title, media, authorName }) {

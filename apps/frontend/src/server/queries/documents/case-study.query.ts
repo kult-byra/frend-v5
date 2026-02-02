@@ -1,5 +1,7 @@
 import { defineQuery } from "next-sanity";
+
 import { pageBuilderQuery } from "@/server/queries/page-builder/page-builder-full.query";
+import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
 import { heroQuery } from "../utils/hero.query";
 import { imageQuery } from "../utils/image.query";
 import { metadataQuery } from "../utils/metadata.query";
@@ -48,7 +50,7 @@ export const caseStudyListQuery = defineQuery(`
     "slug": slug.current,
     "image": coalesce(
       hero.mediaHero.media.image,
-      hero.articleHero.coverImages[0].image
+      hero.articleHero.media.image
     ) {
       ${imageQuery}
     },
@@ -71,7 +73,13 @@ export const caseStudyQuery = defineQuery(`
       "logo": logo->logo.asset->url
     },
     color,
-    summary,
+    summary[] {
+      _key,
+      _type,
+      _type == "block" => {
+        ${portableTextInnerQuery}
+      }
+    },
     ${pageBuilderQuery},
     ${metadataQuery},
     ${translationsQuery}

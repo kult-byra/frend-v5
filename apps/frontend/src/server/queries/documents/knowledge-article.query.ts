@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { fullPortableTextQuery } from "../portable-text/portable-text.query";
+import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
 import { heroQuery } from "../utils/hero.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
@@ -8,7 +9,13 @@ export const knowledgeArticleQuery = defineQuery(`
   *[_type == "knowledgeArticle" && slug.current == $slug && language == $locale][0] {
     _id,
     hero { ${heroQuery} },
-    summary,
+    summary[] {
+      _key,
+      _type,
+      _type == "block" => {
+        ${portableTextInnerQuery}
+      }
+    },
     ${fullPortableTextQuery},
     ${metadataQuery},
     ${translationsQuery}

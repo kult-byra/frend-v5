@@ -1,4 +1,6 @@
 import { defineQuery } from "next-sanity";
+
+import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
 import { heroQuery } from "../utils/hero.query";
 import { imageQuery } from "../utils/image.query";
 
@@ -53,8 +55,20 @@ export const servicesListQuery = defineQuery(`
       $locale == "en" => slug_en.current
     ),
     "excerpt": select(
-      $locale == "no" => excerpt_no,
-      $locale == "en" => excerpt_en
+      $locale == "no" => excerpt_no[] {
+        _key,
+        _type,
+        _type == "block" => {
+          ${portableTextInnerQuery}
+        }
+      },
+      $locale == "en" => excerpt_en[] {
+        _key,
+        _type,
+        _type == "block" => {
+          ${portableTextInnerQuery}
+        }
+      }
     ),
     "media": {
       "mediaType": media.mediaType,

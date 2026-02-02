@@ -27,6 +27,7 @@ const serviceMetadataQuery = (lang: string) => `
 const serviceContentQuery = (lang: string) => `
   "content": content_${lang}[] {
     _key,
+    _type,
     ...select(
       _type == "block" => {
         ${portableTextInnerQuery}
@@ -47,6 +48,7 @@ const serviceContentQuery = (lang: string) => `
           heading,
           content[] {
             _key,
+            _type,
             _type == "block" => {
               ${portableTextInnerQuery}
             }

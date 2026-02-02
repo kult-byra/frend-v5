@@ -1,10 +1,11 @@
 import { defineQuery } from "next-sanity";
-import { portableTextQuery } from "../portable-text/portable-text-inner.query";
+
+import { fullPortableTextQuery } from "../portable-text/portable-text.query";
 
 // @sanity-typegen-ignore
 export const contentBlockQuery = defineQuery(`
   _type,
   _key,
-  ${portableTextQuery},
+  ${fullPortableTextQuery},
   options { width }
 `);

@@ -1,13 +1,25 @@
 import { defineQuery } from "next-sanity";
 import type { HeroTypegenQueryResult } from "@/sanity-types";
+import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
 import { imageInnerQuery } from "./image.query";
 import { linksQuery } from "./links.query";
 import { mediaQuery } from "./media.query";
 
 // @sanity-typegen-ignore
+const excerptQuery = defineQuery(`
+  excerpt[] {
+    _key,
+    _type,
+    _type == "block" => {
+      ${portableTextInnerQuery}
+    }
+  }
+`);
+
+// @sanity-typegen-ignore
 const textHeroQuery = defineQuery(`
   title,
-  excerpt,
+  ${excerptQuery},
   links[] { ${linksQuery} }
 `);
 
@@ -15,7 +27,7 @@ const textHeroQuery = defineQuery(`
 const mediaHeroQuery = defineQuery(`
   title,
   media { ${mediaQuery} },
-  excerpt,
+  ${excerptQuery},
   links[] { ${linksQuery} }
 `);
 
@@ -31,10 +43,10 @@ const articleHeroQuery = defineQuery(`
       $locale == "en" => role_en,
       role_no
     ),
-    "image": image { ${imageInnerQuery} }
+    "image": media.image { ${imageInnerQuery} }
   },
   publishDate,
-  excerpt
+  ${excerptQuery}
 `);
 
 // @sanity-typegen-ignore
@@ -63,13 +75,25 @@ const _heroTypegenQuery = defineQuery(`
     heroType,
     textHero {
       title,
-      excerpt,
+      excerpt[] {
+        _key,
+        _type,
+        _type == "block" => {
+          ${portableTextInnerQuery}
+        }
+      },
       links[] { ${linksQuery} }
     },
     mediaHero {
       title,
       media { ${mediaQuery} },
-      excerpt,
+      excerpt[] {
+        _key,
+        _type,
+        _type == "block" => {
+          ${portableTextInnerQuery}
+        }
+      },
       links[] { ${linksQuery} }
     },
     articleHero {
@@ -80,10 +104,16 @@ const _heroTypegenQuery = defineQuery(`
         name,
         "slug": slug.current,
         "role": role_no,
-        "image": image { ${imageInnerQuery} }
+        "image": media.image { ${imageInnerQuery} }
       },
       publishDate,
-      excerpt
+      excerpt[] {
+        _key,
+        _type,
+        _type == "block" => {
+          ${portableTextInnerQuery}
+        }
+      }
     },
     formHero {
       title,
