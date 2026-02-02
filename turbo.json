@@ -10,7 +10,8 @@
     "VERCEL_ENV",
     "NODE_ENV",
     "HUBSPOT_ACCESS_TOKEN",
-    "HUBSPOT_PORTAL_ID"
+    "HUBSPOT_PORTAL_ID",
+    "TURNSTILE_SECRET_KEY"
   ],
   "tasks": {
     "build": {
