@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import { KnowledgeTeaser, type KnowledgeTeaserData } from "@/components/teasers/knowledge.teaser";
 import type { Locale } from "@/i18n/routing";
 import type {
-  KnowledgeArticleArchiveContentQueryResult,
-  KnowledgeArticleArchiveSettingsQueryResult,
+  EBookArchiveContentQueryResult,
+  EBookArchiveSettingsQueryResult,
   KnowledgeHubIndustriesQueryResult,
   KnowledgeHubServicesQueryResult,
   KnowledgeHubTechnologiesQueryResult,
 } from "@/sanity-types";
-import { knowledgeArticleArchiveSettingsQuery } from "@/server/queries/documents/knowledge-article.query";
+import { eBookArchiveSettingsQuery } from "@/server/queries/documents/e-book.query";
 import {
-  knowledgeArticleArchiveContentQuery,
+  eBookArchiveContentQuery,
   knowledgeHubIndustriesQuery,
   knowledgeHubServicesQuery,
   knowledgeHubTechnologiesQuery,
@@ -33,22 +33,22 @@ type Props = {
 
 async function getArchiveSettings(locale: string) {
   const { data } = await sanityFetch({
-    query: knowledgeArticleArchiveSettingsQuery,
+    query: eBookArchiveSettingsQuery,
     params: { locale },
-    tags: ["knowledgeArticleArchive"],
+    tags: ["eBookArchive"],
   });
 
-  return data as KnowledgeArticleArchiveSettingsQueryResult;
+  return data as EBookArchiveSettingsQueryResult;
 }
 
 async function getContent(locale: string) {
   const { data } = await sanityFetch({
-    query: knowledgeArticleArchiveContentQuery,
+    query: eBookArchiveContentQuery,
     params: { locale },
-    tags: ["knowledgeArticle"],
+    tags: ["eBook"],
   });
 
-  return data as KnowledgeArticleArchiveContentQueryResult;
+  return data as EBookArchiveContentQueryResult;
 }
 
 async function getServices(locale: string) {
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return formatMetadata(settings?.metadata);
 }
 
-export default async function KnowledgeArticlesArchivePage({ params, searchParams }: Props) {
+export default async function EBooksArchivePage({ params, searchParams }: Props) {
   const { locale } = await params;
   const { service, tech, industry, sort } = await searchParams;
 

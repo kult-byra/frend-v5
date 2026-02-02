@@ -6,17 +6,25 @@ import { CollapsedMenu } from "@/components/layout/menu/collapsed-menu.component
 import { ContactWidget } from "@/components/layout/menu/contact-widget.component";
 import { ExpandedMenu } from "@/components/layout/menu/expanded-menu.component";
 import { NavPanel } from "@/components/layout/menu/nav-panel.component";
-import type { MenuSettingsQueryResult } from "@/sanity-types";
+import type { MenuSettingsQueryResult, SettingsQueryResult } from "@/sanity-types";
 import type { LinkGroupProps } from "./menu.types";
 
 type MenuProps = NonNullable<MenuSettingsQueryResult> & {
   newsEventsCount: number;
   navAreaRef: RefObject<HTMLDivElement | null>;
   headerInverted?: boolean;
+  stringTranslations: SettingsQueryResult["stringTranslations"];
 };
 
 export const Menu = (props: MenuProps) => {
-  const { mainMenu, secondaryMenu, newsEventsCount, navAreaRef, headerInverted } = props;
+  const {
+    mainMenu,
+    secondaryMenu,
+    newsEventsCount,
+    navAreaRef,
+    headerInverted,
+    stringTranslations,
+  } = props;
 
   const [activePanel, setActivePanel] = useState<string | null>(null);
 
@@ -121,6 +129,7 @@ export const Menu = (props: MenuProps) => {
         isOpen={activePanel !== null && !isContactWidget}
         onClose={closePanel}
         linkGroup={activeLinkGroup}
+        stringTranslations={stringTranslations}
       />
 
       {/* Contact widget for contact menu type */}

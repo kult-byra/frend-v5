@@ -11,7 +11,7 @@ import { useResizeObserver } from "@/hooks/use-resize-observer.hook";
 import type { SettingsQueryResult } from "@/sanity-types";
 
 export const Header = (props: SettingsQueryResult) => {
-  const { siteSettings, menuSettings, newsEventsCount } = props;
+  const { siteSettings, menuSettings, newsEventsCount, stringTranslations } = props;
   const navAreaRef = useRef<HTMLDivElement>(null);
   const { theme } = useHeaderTheme();
   const headerInverted = theme === "dark" || theme === "orange";
@@ -46,6 +46,7 @@ export const Header = (props: SettingsQueryResult) => {
               newsEventsCount={newsEventsCount ?? 0}
               navAreaRef={navAreaRef}
               headerInverted={headerInverted}
+              stringTranslations={stringTranslations}
             />
           )}
         </div>

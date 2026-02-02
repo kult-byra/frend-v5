@@ -53,25 +53,25 @@ export const pathnames = {
     no: "/kunnskap/artikler",
     en: "/knowledge/articles",
   },
-  "/seminars": {
-    no: "/seminarer",
-    en: "/seminars",
+  "/knowledge/case-studies": {
+    no: "/kunnskap/prosjekter",
+    en: "/knowledge/case-studies",
+  },
+  "/knowledge/seminars": {
+    no: "/kunnskap/seminarer",
+    en: "/knowledge/seminars",
+  },
+  "/knowledge/ebooks": {
+    no: "/kunnskap/e-boker",
+    en: "/knowledge/ebooks",
   },
   "/seminars/[slug]": {
     no: "/seminarer/[slug]",
     en: "/seminars/[slug]",
   },
-  "/projects": {
-    no: "/prosjekter",
-    en: "/projects",
-  },
   "/projects/[slug]": {
     no: "/prosjekter/[slug]",
     en: "/projects/[slug]",
-  },
-  "/ebooks": {
-    no: "/e-boker",
-    en: "/ebooks",
   },
   "/ebooks/[slug]": {
     no: "/e-boker/[slug]",

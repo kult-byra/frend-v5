@@ -1,13 +1,14 @@
-import { Folder } from "lucide-react";
+import { Bot, Clock, Folder, Hand } from "lucide-react";
 import type { ArrayDefinition, ArrayOfObjectsInputProps } from "sanity";
 import { defineField } from "sanity";
 import { LinksFieldInput } from "@/components/inputs/links-field-input.component";
 import { downloadLinkObjectField } from "@/schemas/generator-fields/download-link-object.field";
 import { externalLinkObjectField } from "@/schemas/generator-fields/external-link-object.field";
+import { gridOptionsField } from "@/schemas/generator-fields/grid-options.field";
+import { infoField } from "@/schemas/generator-fields/info.field";
 import { internalLinkObjectField } from "@/schemas/generator-fields/internal-link-object.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
-import { booleanField } from "./boolean.field";
 import { imageField } from "./image.field";
 import { referenceField } from "./reference.field";
 
@@ -197,7 +198,8 @@ const linkGroup = (props: LinksFieldProps) => {
         title: "Links",
         name: "links",
         type: "object",
-        hidden: ({ parent }) => parent?.menuType === "contact",
+        hidden: ({ parent }) =>
+          parent?.menuType === "contact" || parent?.menuType === "newsAndEvents",
         fields: [
           linksField({
             name: "mainLinks",
@@ -257,6 +259,69 @@ const linkGroup = (props: LinksFieldProps) => {
         name: "image",
         hidden: ({ parent }) => parent?.menuType !== "contact",
       }),
+
+      // Highlighted documents for Knowledge menu
+      defineField({
+        name: "knowledgeHighlight",
+        title: "Highlighted document",
+        type: "object",
+        fieldset: "highlightedDocuments",
+        hidden: ({ parent }) => parent?.menuType !== "knowledge",
+        fields: [
+          gridOptionsField({
+            name: "mode",
+            title: "Display mode",
+            description:
+              "Choose how to select the highlighted document shown at the bottom of the menu",
+            options: [
+              {
+                value: "latest",
+                title: "Latest",
+                description: "Automatically show the most recent knowledge document",
+                icon: Clock,
+              },
+              {
+                value: "manual",
+                title: "Manual",
+                description: "Manually select a specific document to highlight",
+                icon: Hand,
+              },
+            ],
+            initialValue: "latest",
+          }),
+          referenceField({
+            name: "document",
+            title: "Document",
+            description: "Select a knowledge document to highlight",
+            to: [
+              { type: "knowledgeArticle" },
+              { type: "caseStudy" },
+              { type: "eBook" },
+              { type: "seminar" },
+            ],
+            hidden: ({ parent }) => parent?.mode !== "manual",
+          }),
+        ],
+      }),
+
+      // Auto-generated content info for News and Events menu
+      infoField({
+        name: "newsEventsInfo",
+        title: "Automatically generated content",
+        description:
+          "The latest news articles and upcoming events are displayed automatically in this menu.",
+        tone: "positive",
+        icon: Bot,
+        hidden: ({ parent }) => parent?.menuType !== "newsAndEvents",
+      }),
+    ],
+    fieldsets: [
+      {
+        name: "highlightedDocuments",
+        title: "Highlighted document",
+        description: "Configure the document shown at the bottom of the menu panel",
+        options: { collapsible: true, collapsed: false },
+      },
     ],
     preview: {
       select: {

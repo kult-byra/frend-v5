@@ -24,7 +24,7 @@ export const newsArticleSchema = defineType({
     }),
     ...heroFields({
       includePublishDate: true,
-      multipleCoverImages: true,
+      multipleCoverImages: false,
       includeAuthor: true,
     }),
     ...connectionsFields(),

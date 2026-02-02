@@ -35,6 +35,9 @@ export const stringTranslationsQuery = defineQuery(`
     "labelSeminar": labelSeminar[_key == $locale][0].value,
     "labelEBook": labelEBook[_key == $locale][0].value,
     "labelNews": labelNews[_key == $locale][0].value,
-    "labelEvent": labelEvent[_key == $locale][0].value
+    "labelEvent": labelEvent[_key == $locale][0].value,
+    "latestNews": latestNews[_key == $locale][0].value,
+    "upcomingEvents": upcomingEvents[_key == $locale][0].value,
+    "allNewsAndEvents": allNewsAndEvents[_key == $locale][0].value
   }
 `);

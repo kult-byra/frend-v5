@@ -42,4 +42,10 @@ export const clientSchema = defineType({
     }),
     ...connectionsFields(),
   ],
+  preview: {
+    select: {
+      title: "name",
+      subtitle: "logo.title",
+    },
+  },
 });

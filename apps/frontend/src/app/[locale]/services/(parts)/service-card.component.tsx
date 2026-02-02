@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { toPlainText } from "next-sanity";
-import { SanityImage } from "sanity-image";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
+import { TechnologyPills } from "@/components/technology-pill.component";
 import { Img, type ImgProps } from "@/components/utils/img.component";
-import { env } from "@/env";
 import type { ServicesListQueryResult } from "@/sanity-types";
 
 type ServiceItem = ServicesListQueryResult[number];
@@ -15,8 +14,6 @@ type ServiceMedia = {
   illustration: string | null;
 };
 
-type Technology = NonNullable<ServiceItem["technologies"]>[number];
-
 type ServiceCardProps = {
   title: string;
   slug: string;
@@ -24,26 +21,6 @@ type ServiceCardProps = {
   media: ServiceMedia | null;
   technologies?: ServiceItem["technologies"];
 };
-
-function TechnologyPill({ technology }: { technology: Technology }) {
-  const logoId = technology.logo?.asset?._id;
-
-  return (
-    <div className="flex h-8 w-[100px] items-center justify-center rounded-lg bg-container-shade px-xs py-2xs">
-      {logoId ? (
-        <SanityImage
-          id={logoId}
-          projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
-          dataset={env.NEXT_PUBLIC_SANITY_DATASET}
-          alt={technology.title}
-          className="h-4 w-auto max-w-full object-contain"
-        />
-      ) : (
-        <span className="truncate text-body-small text-text-primary">{technology.title}</span>
-      )}
-    </div>
-  );
-}
 
 export function ServiceCard({ title, slug, excerpt, media, technologies }: ServiceCardProps) {
   const MediaContent = ({ className }: { className?: string }) => (
@@ -82,12 +59,10 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
           </div>
         </div>
 
-        {/* Row 3: Technology pills */}
+        {/* Row 3: Technology logos */}
         {technologies && technologies.length > 0 && (
-          <div className="flex items-center gap-2xs border-t border-stroke-soft p-xs">
-            {technologies.map((tech) => (
-              <TechnologyPill key={tech._id} technology={tech} />
-            ))}
+          <div className="border-t border-stroke-soft p-xs">
+            <TechnologyPills technologies={technologies} />
           </div>
         )}
       </div>
@@ -120,13 +95,12 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
             />
           </div>
 
-          {/* Technology pills - right aligned */}
+          {/* Technology logos - right aligned */}
           {technologies && technologies.length > 0 && (
-            <div className="flex flex-1 items-center justify-end gap-2xs overflow-hidden">
-              {technologies.map((tech) => (
-                <TechnologyPill key={tech._id} technology={tech} />
-              ))}
-            </div>
+            <TechnologyPills
+              technologies={technologies}
+              className="flex-1 justify-end overflow-hidden"
+            />
           )}
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { defineQuery } from "next-sanity";
-import { imageInnerQuery } from "../utils/image.query";
 import { linksQuery } from "../utils/links.query";
 
 // Organisation settings are shared across languages
@@ -20,9 +19,7 @@ export const organisationSettingsQuery = defineQuery(`
       title,
       logo-> {
         title,
-        image {
-          ${imageInnerQuery}
-        }
+        "url": logo.asset->url
       }
     }
   }

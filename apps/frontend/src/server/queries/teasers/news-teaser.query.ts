@@ -8,7 +8,7 @@ export const newsTeaserQuery = defineQuery(`
   _type,
   title,
   "slug": slug.current,
-  "image": coverImages[0].image {
+  "image": media.image {
     ${imageQuery}
   },
   publishDate,

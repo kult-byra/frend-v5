@@ -39,6 +39,45 @@ const downloadLinkQuery = defineQuery(`
   buttonVariant
 `);
 
+// Inline query for knowledge teaser data in menu highlights
+// @sanity-typegen-ignore
+const knowledgeHighlightTeaserQuery = defineQuery(`
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  "image": media.image {
+    ${imageInnerQuery}
+  }
+`);
+
+// Inline query for news article teaser in menu
+// @sanity-typegen-ignore
+const newsArticleTeaserQuery = defineQuery(`
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  publishDate,
+  "image": media.image {
+    ${imageInnerQuery}
+  }
+`);
+
+// Inline query for event teaser in menu
+// @sanity-typegen-ignore
+const eventTeaserQuery = defineQuery(`
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  "startTime": timeAndDate.startTime,
+  "excerpt": pt::text(description),
+  "image": media.image {
+    ${imageInnerQuery}
+  }
+`);
+
 // @sanity-typegen-ignore
 const linkGroupQuery = defineQuery(`
   "linkType": "linkGroup",
@@ -72,7 +111,46 @@ const linkGroupQuery = defineQuery(`
   },
   image {
     ${imageInnerQuery}
-  }
+  },
+  // Knowledge menu highlight
+  "knowledgeHighlight": select(
+    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {
+      "mode": "latest",
+      "document": *[
+        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]
+        && language == $locale
+        && !(_id in path("drafts.**"))
+      ] | order(_createdAt desc)[0] {
+        ${knowledgeHighlightTeaserQuery}
+      }
+    },
+    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {
+      "mode": "manual",
+      "document": knowledgeHighlight.document-> {
+        ${knowledgeHighlightTeaserQuery}
+      }
+    }
+  ),
+  // News and Events menu - auto-generated content
+  "latestNews": select(
+    menuType == "newsAndEvents" => *[
+      _type == "newsArticle"
+      && language == $locale
+      && !(_id in path("drafts.**"))
+    ] | order(publishDate desc)[0...2] {
+      ${newsArticleTeaserQuery}
+    }
+  ),
+  "upcomingEvents": select(
+    menuType == "newsAndEvents" => *[
+      _type == "event"
+      && language == $locale
+      && !(_id in path("drafts.**"))
+      && timeAndDate.startTime > now()
+    ] | order(timeAndDate.startTime asc)[0...1] {
+      ${eventTeaserQuery}
+    }
+  )
 `);
 
 // @sanity-typegen-ignore

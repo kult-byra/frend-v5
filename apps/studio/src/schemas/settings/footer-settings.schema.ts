@@ -1,5 +1,5 @@
 import { Bot, PanelBottom } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { linksField } from "@/schemas/generator-fields/links.field";
 import { illustrationField } from "../generator-fields/illustration.field";
 import { infoField } from "../generator-fields/info.field";
@@ -16,6 +16,13 @@ export const footerSettingsSchema = defineType({
   options: {
     singleton: true,
   },
+  fieldsets: [
+    {
+      name: "newsletter",
+      title: "Newsletter",
+      options: { collapsible: true },
+    },
+  ],
   groups: [
     { name: "no", title: "Norsk 🇧🇻", default: true },
     { name: "en", title: "English 🇬🇧" },
@@ -37,6 +44,15 @@ export const footerSettingsSchema = defineType({
       group: "no",
       description: "Sections displayed before the footer on all pages",
     }),
+    defineField({
+      name: "newsletterText_no",
+      title: "Newsletter text",
+      type: "text",
+      rows: 2,
+      group: "no",
+      fieldset: "newsletter",
+      description: "Text displayed above the newsletter signup form",
+    }),
 
     // English
     linksField({
@@ -50,6 +66,15 @@ export const footerSettingsSchema = defineType({
       title: "Pre footer",
       group: "en",
       description: "Sections displayed before the footer on all pages",
+    }),
+    defineField({
+      name: "newsletterText_en",
+      title: "Newsletter text",
+      type: "text",
+      rows: 2,
+      group: "en",
+      fieldset: "newsletter",
+      description: "Text displayed above the newsletter signup form",
     }),
 
     // Shared (not language-specific)
@@ -69,9 +94,12 @@ export const footerSettingsSchema = defineType({
       illustration: true,
     }),
     referenceField({
-      title: "Contact form",
-      name: "contactForm",
+      title: "Newsletter signup form",
+      name: "newsletterForm",
       group: "shared",
+      fieldset: "newsletter",
+      description:
+        "Select a HubSpot form for newsletter signup. This form should have only an email field.",
       to: [{ type: "hubspotForm" }],
     }),
     infoField({

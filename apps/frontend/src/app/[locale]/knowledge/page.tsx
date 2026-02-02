@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Container } from "@/components/layout/container.component";
 import { KnowledgeTeaser, type KnowledgeTeaserData } from "@/components/teasers/knowledge.teaser";
 import type { Locale } from "@/i18n/routing";
 import type {
@@ -25,7 +24,6 @@ import { KnowledgeFilterHeader } from "./(parts)/knowledge-filter-header.compone
 type Props = {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{
-    type?: string;
     service?: string;
     tech?: string | string[];
     industry?: string | string[];
@@ -90,7 +88,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function KnowledgeHubPage({ params, searchParams }: Props) {
   const { locale } = await params;
-  const { type, service, tech, industry, sort } = await searchParams;
+  const { service, tech, industry, sort } = await searchParams;
 
   // Normalize array params (can be string or string[])
   const techFilters = tech ? (Array.isArray(tech) ? tech : [tech]) : [];
@@ -107,11 +105,6 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
 
   // Filter and sort content based on URL params
   let filteredContent = content?.filter((item) => {
-    // Filter by content type
-    if (type && item._type !== type) {
-      return false;
-    }
-
     // Filter by service
     if (service && item.services) {
       const hasMatchingService = item.services.some(
@@ -171,7 +164,7 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
     })) ?? [];
 
   return (
-    <Container className="flex min-h-screen flex-col py-md">
+    <>
       <KnowledgeFilterHeader
         services={normalizedServices}
         technologies={technologies ?? []}
@@ -179,10 +172,6 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
         translations={{
           all: stringTranslations?.all,
           filtersAndSort: stringTranslations?.filtersAndSort,
-          caseStudies: stringTranslations?.caseStudies,
-          articlesAndInsights: stringTranslations?.articlesAndInsights,
-          seminars: stringTranslations?.seminars,
-          ebooks: stringTranslations?.ebooks,
           filters: stringTranslations?.filters,
           sorting: stringTranslations?.sorting,
           technologies: stringTranslations?.technologies,
@@ -209,6 +198,6 @@ export default async function KnowledgeHubPage({ params, searchParams }: Props) 
           </p>
         </div>
       )}
-    </Container>
+    </>
   );
 }

@@ -1,5 +1,5 @@
+import Image from "next/image";
 import { BlockContainer } from "@/components/layout/block-container.component";
-import { Img, type ImgProps } from "@/components/utils/img.component";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
 type LogoCloudBlockProps = PageBuilderBlockProps<"logoCloud.block">;
@@ -9,21 +9,28 @@ export const LogoCloudBlock = (props: LogoCloudBlockProps) => {
 
   if (!logos || logos.length === 0) return null;
 
+  const validLogos = logos.filter(
+    (logo): logo is NonNullable<typeof logo> & { url: string } => logo?.url != null,
+  );
+
+  if (validLogos.length === 0) return null;
+
   return (
     <BlockContainer>
-      <ul className="flex flex-wrap items-center justify-center gap-8">
-        {logos.map((logo) => {
-          if (!logo) return null;
-
-          const image = logo.image as ImgProps | null;
-
-          return (
-            <li key={logo._id}>
-              {image && <Img {...image} sizes={{ md: "third" }} className="h-12 w-auto" />}
-            </li>
-          );
-        })}
-      </ul>
+      <div className="flex flex-wrap items-center justify-center gap-lg">
+        {validLogos.map((logo) => (
+          <div key={logo._id} className="flex items-center justify-center">
+            <Image
+              src={logo.url}
+              alt={logo.title ?? ""}
+              width={120}
+              height={48}
+              unoptimized
+              className="h-12 w-auto object-contain grayscale"
+            />
+          </div>
+        ))}
+      </div>
     </BlockContainer>
   );
 };

@@ -865,6 +865,126 @@
     }
   },
   {
+    "type": "type",
+    "name": "knowledgeArticle.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "knowledgeArticle"
+    }
+  },
+  {
+    "type": "type",
+    "name": "caseStudy.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "caseStudy"
+    }
+  },
+  {
+    "type": "type",
+    "name": "eBook.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "eBook"
+    }
+  },
+  {
+    "type": "type",
+    "name": "seminar.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "seminar"
+    }
+  },
+  {
     "name": "typegenSettings",
     "type": "document",
     "attributes": {
@@ -1423,6 +1543,64 @@
                     },
                     "optional": true
                   },
+                  "knowledgeHighlight": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "object",
+                      "attributes": {
+                        "mode": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "string",
+                                "value": "latest"
+                              },
+                              {
+                                "type": "string",
+                                "value": "manual"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        },
+                        "document": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "inline",
+                                "name": "knowledgeArticle.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "caseStudy.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "eBook.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "seminar.reference"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        }
+                      }
+                    },
+                    "optional": true
+                  },
+                  "newsEventsInfo": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    },
+                    "optional": true
+                  },
                   "_type": {
                     "type": "objectAttribute",
                     "value": {
@@ -1884,6 +2062,30 @@
         "optional": true
       },
       "labelEvent": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "internationalizedArrayString"
+        },
+        "optional": true
+      },
+      "latestNews": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "internationalizedArrayString"
+        },
+        "optional": true
+      },
+      "upcomingEvents": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "internationalizedArrayString"
+        },
+        "optional": true
+      },
+      "allNewsAndEvents": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",
@@ -3227,6 +3429,64 @@
                     },
                     "optional": true
                   },
+                  "knowledgeHighlight": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "object",
+                      "attributes": {
+                        "mode": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "string",
+                                "value": "latest"
+                              },
+                              {
+                                "type": "string",
+                                "value": "manual"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        },
+                        "document": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "inline",
+                                "name": "knowledgeArticle.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "caseStudy.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "eBook.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "seminar.reference"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        }
+                      }
+                    },
+                    "optional": true
+                  },
+                  "newsEventsInfo": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    },
+                    "optional": true
+                  },
                   "_type": {
                     "type": "objectAttribute",
                     "value": {
@@ -3735,6 +3995,64 @@
                           }
                         }
                       }
+                    },
+                    "optional": true
+                  },
+                  "knowledgeHighlight": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "object",
+                      "attributes": {
+                        "mode": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "string",
+                                "value": "latest"
+                              },
+                              {
+                                "type": "string",
+                                "value": "manual"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        },
+                        "document": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "inline",
+                                "name": "knowledgeArticle.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "caseStudy.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "eBook.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "seminar.reference"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        }
+                      }
+                    },
+                    "optional": true
+                  },
+                  "newsEventsInfo": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
                     },
                     "optional": true
                   },
@@ -4249,6 +4567,64 @@
                     },
                     "optional": true
                   },
+                  "knowledgeHighlight": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "object",
+                      "attributes": {
+                        "mode": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "string",
+                                "value": "latest"
+                              },
+                              {
+                                "type": "string",
+                                "value": "manual"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        },
+                        "document": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "inline",
+                                "name": "knowledgeArticle.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "caseStudy.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "eBook.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "seminar.reference"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        }
+                      }
+                    },
+                    "optional": true
+                  },
+                  "newsEventsInfo": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    },
+                    "optional": true
+                  },
                   "_type": {
                     "type": "objectAttribute",
                     "value": {
@@ -4760,6 +5136,64 @@
                     },
                     "optional": true
                   },
+                  "knowledgeHighlight": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "object",
+                      "attributes": {
+                        "mode": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "string",
+                                "value": "latest"
+                              },
+                              {
+                                "type": "string",
+                                "value": "manual"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        },
+                        "document": {
+                          "type": "objectAttribute",
+                          "value": {
+                            "type": "union",
+                            "of": [
+                              {
+                                "type": "inline",
+                                "name": "knowledgeArticle.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "caseStudy.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "eBook.reference"
+                              },
+                              {
+                                "type": "inline",
+                                "name": "seminar.reference"
+                              }
+                            ]
+                          },
+                          "optional": true
+                        }
+                      }
+                    },
+                    "optional": true
+                  },
+                  "newsEventsInfo": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    },
+                    "optional": true
+                  },
                   "_type": {
                     "type": "objectAttribute",
                     "value": {
@@ -5063,6 +5497,13 @@
         },
         "optional": true
       },
+      "newsletterText_no": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "footerLinks_en": {
         "type": "objectAttribute",
         "value": {
@@ -5294,6 +5735,13 @@
               }
             ]
           }
+        },
+        "optional": true
+      },
+      "newsletterText_en": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       },
@@ -5881,7 +6329,7 @@
         },
         "optional": true
       },
-      "contactForm": {
+      "newsletterForm": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",
@@ -7654,126 +8102,6 @@
         }
       },
       "dereferencesTo": "subService"
-    }
-  },
-  {
-    "type": "type",
-    "name": "knowledgeArticle.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "knowledgeArticle"
-    }
-  },
-  {
-    "type": "type",
-    "name": "caseStudy.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "caseStudy"
-    }
-  },
-  {
-    "type": "type",
-    "name": "seminar.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "seminar"
-    }
-  },
-  {
-    "type": "type",
-    "name": "eBook.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "eBook"
     }
   },
   {
@@ -17638,130 +17966,109 @@
         },
         "optional": false
       },
-      "coverImages": {
+      "media": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "mediaType": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "union",
-                  "of": [
-                    {
+          "type": "object",
+          "attributes": {
+            "mediaType": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "image"
+                  },
+                  {
+                    "type": "string",
+                    "value": "video"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            "image": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "object",
+                "attributes": {
+                  "asset": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageAsset.reference"
+                    },
+                    "optional": true
+                  },
+                  "media": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "unknown"
+                    },
+                    "optional": true
+                  },
+                  "hotspot": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageHotspot"
+                    },
+                    "optional": true
+                  },
+                  "crop": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "sanity.imageCrop"
+                    },
+                    "optional": true
+                  },
+                  "changed": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "boolean"
+                    },
+                    "optional": true
+                  },
+                  "_type": {
+                    "type": "objectAttribute",
+                    "value": {
                       "type": "string",
                       "value": "image"
-                    },
-                    {
-                      "type": "string",
-                      "value": "video"
-                    }
-                  ]
-                },
-                "optional": false
-              },
-              "image": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "object",
-                  "attributes": {
-                    "asset": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "inline",
-                        "name": "sanity.imageAsset.reference"
-                      },
-                      "optional": true
-                    },
-                    "media": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "unknown"
-                      },
-                      "optional": true
-                    },
-                    "hotspot": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "inline",
-                        "name": "sanity.imageHotspot"
-                      },
-                      "optional": true
-                    },
-                    "crop": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "inline",
-                        "name": "sanity.imageCrop"
-                      },
-                      "optional": true
-                    },
-                    "changed": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "boolean"
-                      },
-                      "optional": true
-                    },
-                    "_type": {
-                      "type": "objectAttribute",
-                      "value": {
-                        "type": "string",
-                        "value": "image"
-                      }
                     }
                   }
-                },
-                "optional": true
-              },
-              "videoUrl": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                },
-                "optional": true
-              },
-              "aspectRatio": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "union",
-                  "of": [
-                    {
-                      "type": "string",
-                      "value": "3:2"
-                    },
-                    {
-                      "type": "string",
-                      "value": "3:4"
-                    },
-                    {
-                      "type": "string",
-                      "value": "1:1"
-                    }
-                  ]
-                },
-                "optional": true
-              },
-              "_type": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string",
-                  "value": "media"
                 }
-              }
+              },
+              "optional": true
             },
-            "rest": {
-              "type": "object",
-              "attributes": {
-                "_key": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
+            "videoUrl": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "aspectRatio": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "3:2"
+                  },
+                  {
+                    "type": "string",
+                    "value": "3:4"
+                  },
+                  {
+                    "type": "string",
+                    "value": "1:1"
                   }
-                }
-              }
+                ]
+              },
+              "optional": true
             }
           }
         },
@@ -26156,7 +26463,7 @@
         },
         "optional": false
       },
-      "image": {
+      "logo": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -26165,7 +26472,7 @@
               "type": "objectAttribute",
               "value": {
                 "type": "inline",
-                "name": "sanity.imageAsset.reference"
+                "name": "sanity.fileAsset.reference"
               },
               "optional": true
             },
@@ -26176,39 +26483,16 @@
               },
               "optional": true
             },
-            "hotspot": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageHotspot"
-              },
-              "optional": true
-            },
-            "crop": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageCrop"
-              },
-              "optional": true
-            },
-            "changed": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "boolean"
-              },
-              "optional": true
-            },
             "_type": {
               "type": "objectAttribute",
               "value": {
                 "type": "string",
-                "value": "image"
+                "value": "file"
               }
             }
           }
         },
-        "optional": true
+        "optional": false
       }
     }
   },

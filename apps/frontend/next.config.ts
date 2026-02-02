@@ -24,6 +24,43 @@ const config: NextConfig = {
   logging: {
     fetches: { fullUrl: false },
   },
+  async redirects() {
+    return [
+      // Redirect old standalone archives to new knowledge subpages
+      // Norwegian paths
+      {
+        source: "/prosjekter",
+        destination: "/kunnskap/prosjekter",
+        permanent: true,
+      },
+      {
+        source: "/seminarer",
+        destination: "/kunnskap/seminarer",
+        permanent: true,
+      },
+      {
+        source: "/e-boker",
+        destination: "/kunnskap/e-boker",
+        permanent: true,
+      },
+      // English paths
+      {
+        source: "/en/projects",
+        destination: "/en/knowledge/case-studies",
+        permanent: true,
+      },
+      {
+        source: "/en/seminars",
+        destination: "/en/knowledge/seminars",
+        permanent: true,
+      },
+      {
+        source: "/en/ebooks",
+        destination: "/en/knowledge/ebooks",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withNextIntl(config);

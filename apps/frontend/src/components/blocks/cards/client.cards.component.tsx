@@ -1,12 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Icon } from "@/components/icon.component";
 import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { ButtonGroup } from "@/components/ui/parts/button-group.component";
-import { Img, type ImgProps } from "@/components/utils/img.component";
 import { cn } from "@/utils/cn.util";
 
 export type ClientCardItem = {
@@ -14,7 +14,7 @@ export type ClientCardItem = {
   _type: string;
   title: string | null;
   slug: string | null;
-  image?: ImgProps | null;
+  logo?: string | null;
   industries?: string[] | null;
   description?: string | null;
 };
@@ -115,12 +115,13 @@ const DesktopClientCard = ({ item }: { item: ClientCardItem }) => {
     <li className="group/card relative aspect-168/148">
       {/* Default state: logo centered */}
       <div className="flex size-full items-center justify-center">
-        {item.image && (
-          <Img
-            {...item.image}
-            sizes={{ md: "third" }}
-            cover={false}
-            className="max-h-[100px] max-w-[100px] object-contain mix-blend-multiply"
+        {item.logo && (
+          <Image
+            src={item.logo}
+            alt={item.title ?? ""}
+            width={100}
+            height={100}
+            className="max-h-[100px] max-w-[100px] object-contain"
           />
         )}
       </div>
@@ -220,12 +221,13 @@ export const ClientCards = ({
                 }`}
               >
                 <div className="flex size-20 shrink-0 items-center justify-center">
-                  {item.image && (
-                    <Img
-                      {...item.image}
-                      sizes={{ md: "third" }}
-                      cover={false}
-                      className="max-h-20 max-w-20 object-contain mix-blend-multiply"
+                  {item.logo && (
+                    <Image
+                      src={item.logo}
+                      alt={item.title ?? ""}
+                      width={80}
+                      height={80}
+                      className="max-h-20 max-w-20 object-contain"
                     />
                   )}
                 </div>

@@ -1,5 +1,4 @@
 import { defineQuery } from "next-sanity";
-import { imageQuery } from "../utils/image.query";
 
 // @sanity-typegen-ignore
 export const logoCloudBlockQuery = defineQuery(`
@@ -8,7 +7,7 @@ export const logoCloudBlockQuery = defineQuery(`
   logos[]-> {
     _id,
     title,
-    image { ${imageQuery} }
+    "url": logo.asset->url
   },
   options { width }
 `);

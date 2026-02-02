@@ -46,7 +46,7 @@ export const clientListQuery = defineQuery(`
     _id,
     _type,
     name,
-    "logo": logo->image.asset->url
+    "logo": logo->logo.asset->url
   }
 `);
 
@@ -54,7 +54,7 @@ export const clientQuery = defineQuery(`
   *[_type == "client" && name == $name && language == $locale][0] {
     _id,
     name,
-    "logo": logo->image.asset->url,
+    "logo": logo->logo.asset->url,
     description,
     "caseStudies": *[_type == "caseStudy" && client._ref == ^._id && language == $locale] {
       _id,

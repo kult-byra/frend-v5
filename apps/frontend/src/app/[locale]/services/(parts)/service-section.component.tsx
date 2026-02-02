@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
-import { TechnologyPill } from "@/components/technology-pill.component";
+import { TechnologyPills } from "@/components/technology-pill.component";
 import { Img } from "@/components/utils/img.component";
 import type { ServicesListQueryResult } from "@/sanity-types";
 
@@ -90,11 +90,7 @@ export function ServiceSection({
 
           {/* Technology pills */}
           {technologies && technologies.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2xs pt-md">
-              {technologies.map((tech) => (
-                <TechnologyPill key={tech._id} technology={tech} />
-              ))}
-            </div>
+            <TechnologyPills technologies={technologies} className="flex-wrap pt-md" />
           )}
         </div>
 

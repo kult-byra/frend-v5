@@ -214,6 +214,26 @@ export const stringTranslationsSchema = defineType({
       description: "Singular label for events on teaser cards",
       type: "internationalizedArrayString",
     }),
+
+    // Menu translations
+    defineField({
+      name: "latestNews",
+      title: "Latest news",
+      description: "Heading for latest news section in menu",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "upcomingEvents",
+      title: "Upcoming events",
+      description: "Heading for upcoming events section in menu",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "allNewsAndEvents",
+      title: "All News & Events",
+      description: "Link text for news and events archive in menu",
+      type: "internationalizedArrayString",
+    }),
   ],
   preview: {
     prepare() {

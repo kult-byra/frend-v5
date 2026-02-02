@@ -19,9 +19,14 @@ export const footerSettingsQuery = defineQuery(`
     },
     illustration,
     "mobileIllustration": mobileIllustration.illustration,
-    contactForm->{
+    "newsletterText": select(
+      $locale == "no" => newsletterText_no,
+      $locale == "en" => newsletterText_en
+    ),
+    newsletterForm->{
       _id,
-      title
+      title,
+      formId
     }
   }
 `);

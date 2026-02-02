@@ -2,7 +2,7 @@ import Link from "next/link";
 import { toPlainText } from "next-sanity";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
-import { TechnologyPill } from "@/components/technology-pill.component";
+import { TechnologyPills } from "@/components/technology-pill.component";
 import { Img, type ImgProps } from "@/components/utils/img.component";
 
 type ServiceMedia = {
@@ -14,9 +14,7 @@ type ServiceMedia = {
 type Technology = {
   _id: string;
   title: string;
-  logo: {
-    asset: { _id: string } | null;
-  } | null;
+  logo: string | null;
 };
 
 export type ServiceCardItem = {
@@ -80,10 +78,8 @@ export const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
 
                 {/* Row 3: Technology pills */}
                 {technologies && technologies.length > 0 && (
-                  <div className="flex items-center gap-2 border-t border-stroke-soft p-4">
-                    {technologies.map((tech) => (
-                      <TechnologyPill key={tech._id} technology={tech} />
-                    ))}
+                  <div className="border-t border-stroke-soft p-4">
+                    <TechnologyPills technologies={technologies} />
                   </div>
                 )}
               </div>
@@ -122,11 +118,10 @@ export const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
 
                   {/* Technology pills - right aligned */}
                   {technologies && technologies.length > 0 && (
-                    <div className="flex flex-1 items-center justify-end gap-2 overflow-hidden">
-                      {technologies.map((tech) => (
-                        <TechnologyPill key={tech._id} technology={tech} />
-                      ))}
-                    </div>
+                    <TechnologyPills
+                      technologies={technologies}
+                      className="flex-1 justify-end overflow-hidden"
+                    />
                   )}
                 </div>
               </div>

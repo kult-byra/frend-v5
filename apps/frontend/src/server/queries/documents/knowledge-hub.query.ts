@@ -110,3 +110,40 @@ export const knowledgeHubIndustriesQuery = defineQuery(`
     title
   }
 `);
+
+// Content type specific archive queries
+export const caseStudyArchiveContentQuery = defineQuery(`
+  *[
+    _type == "caseStudy"
+    && language == $locale
+  ] | order(coalesce(publishDate, _createdAt) desc) {
+    ${knowledgeTeaserFields}
+  }
+`);
+
+export const seminarArchiveContentQuery = defineQuery(`
+  *[
+    _type == "seminar"
+    && language == $locale
+  ] | order(coalesce(publishDate, _createdAt) desc) {
+    ${knowledgeTeaserFields}
+  }
+`);
+
+export const eBookArchiveContentQuery = defineQuery(`
+  *[
+    _type == "eBook"
+    && language == $locale
+  ] | order(coalesce(publishDate, _createdAt) desc) {
+    ${knowledgeTeaserFields}
+  }
+`);
+
+export const knowledgeArticleArchiveContentQuery = defineQuery(`
+  *[
+    _type == "knowledgeArticle"
+    && language == $locale
+  ] | order(coalesce(publishDate, _createdAt) desc) {
+    ${knowledgeTeaserFields}
+  }
+`);

@@ -1,4 +1,5 @@
-import { SanityImage } from "sanity-image";
+import Image from "next/image";
+import { NewsletterForm } from "@/components/hubspot/newsletter-form.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { Container } from "@/components/layout/container.component";
 import { LanguageSwitcher } from "@/components/layout/language-switcher.component";
@@ -32,7 +33,10 @@ export const Footer = (props: FooterProps) => {
         {/* Language & Newsletter section */}
         <Container className="flex flex-col gap-md pb-xl pt-xs lg:flex-row lg:items-start lg:justify-between lg:gap-xs">
           <LanguageSwitcher variant="footer" />
-          <FooterNewsletterForm contactForm={footerSettings?.contactForm} />
+          <FooterNewsletterSection
+            newsletterText={footerSettings?.newsletterText}
+            newsletterForm={footerSettings?.newsletterForm}
+          />
         </Container>
 
         {/* Main footer content */}
@@ -252,11 +256,9 @@ const FooterCertificationsSection = ({
       >
         {certifications.map((cert) => (
           <div key={cert._key} className="flex items-center gap-2xs">
-            {cert.logo?.image?.asset && (
-              <SanityImage
-                id={cert.logo.image.asset._id}
-                projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
-                dataset={env.NEXT_PUBLIC_SANITY_DATASET}
+            {cert.logo?.url && (
+              <Image
+                src={cert.logo.url}
                 alt={cert.logo.title ?? ""}
                 width={64}
                 height={64}
@@ -324,14 +326,21 @@ const ExternalLinkWithArrow = ({
   </a>
 );
 
-const FooterNewsletterForm = ({
-  contactForm,
+const FooterNewsletterSection = ({
+  newsletterText,
+  newsletterForm,
 }: {
-  contactForm?: { _id: string; title: string | null } | null;
+  newsletterText?: string | null;
+  newsletterForm?: { _id: string; title: string | null; formId: string | null } | null;
 }) => {
-  if (!contactForm) {
+  if (!newsletterForm?.formId) {
     return null;
   }
 
-  return <div className="flex max-w-[540px] flex-1 flex-col gap-xs">[form here]</div>;
+  return (
+    <div className="flex max-w-[540px] flex-1 flex-col gap-xs">
+      {newsletterText && <p className="text-body text-text-white-primary">{newsletterText}</p>}
+      <NewsletterForm formId={newsletterForm.formId} />
+    </div>
+  );
 };

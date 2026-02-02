@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
-import { TechnologyPill } from "@/components/technology-pill.component";
+import { TechnologyPills } from "@/components/technology-pill.component";
 import { Img } from "@/components/utils/img.component";
 import type { ServicesListQueryResult } from "@/sanity-types";
 
@@ -138,11 +138,7 @@ export function ServicesDesktopLayout({ services }: ServicesDesktopLayoutProps) 
 
             {/* Technology pills */}
             {service.technologies && service.technologies.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2 pt-md">
-                {service.technologies.map((tech) => (
-                  <TechnologyPill key={tech._id} technology={tech} />
-                ))}
-              </div>
+              <TechnologyPills technologies={service.technologies} className="flex-wrap pt-md" />
             )}
           </div>
         ))}

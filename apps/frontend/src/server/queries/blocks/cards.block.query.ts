@@ -37,7 +37,7 @@ const serviceFieldsQuery = `
   "technologies": technologies[]-> {
     _id,
     title,
-    "logo": logo->image { ${imageQuery} }
+    "logo": logo->logo.asset->url
   }
 `;
 
@@ -59,17 +59,13 @@ const knowledgeFieldsQuery = `
 `;
 
 // Helper for news & events items (newsArticle, event) - uses same teaser structure as knowledge
-// newsArticle uses coverImages[] (multipleCoverImages), event uses media (single)
 // @sanity-typegen-ignore
 const newsEventFieldsQuery = `
   _id,
   _type,
   title,
   "slug": slug.current,
-  "image": coalesce(
-    media.image { ${imageQuery} },
-    coverImages[0].image { ${imageQuery} }
-  ),
+  "image": media.image { ${imageQuery} },
   "services": services[]-> {
     _id,
     "title": select(
@@ -128,7 +124,7 @@ export const cardsBlockQuery = defineQuery(`
       _type,
       "title": name,
       "slug": slug.current,
-      "image": logo->image { ${imageQuery} },
+      "logo": logo->logo.asset->url,
       "description": pt::text(description),
       "industries": industries[]->title
     },
@@ -155,7 +151,7 @@ export const cardsBlockQuery = defineQuery(`
       _type,
       "title": name,
       "slug": slug.current,
-      "image": logo->image { ${imageQuery} },
+      "logo": logo->logo.asset->url,
       "description": pt::text(description),
       "industries": industries[]->title
     }

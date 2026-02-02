@@ -1,7 +1,6 @@
 import { Image } from "lucide-react";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 import { stringField } from "@/schemas/generator-fields/string.field";
-import { imageField } from "../generator-fields/image.field";
 
 export const logoSchema = defineType({
   name: "logo",
@@ -15,11 +14,16 @@ export const logoSchema = defineType({
       required: true,
       description: "Only visible in Sanity",
     }),
-    imageField({
-      name: "image",
-      title: "Image",
-      required: true,
-      description: "Use a dark logo with transparent background for best results.",
+    defineField({
+      name: "logo",
+      title: "Logo",
+      type: "file",
+      description:
+        "Upload an SVG file. Use a dark logo with transparent background for best results.",
+      options: {
+        accept: ".svg",
+      },
+      validation: (Rule) => Rule.required().error("Logo is required"),
     }),
   ],
 });

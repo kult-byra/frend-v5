@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import { KnowledgeTeaser, type KnowledgeTeaserData } from "@/components/teasers/knowledge.teaser";
 import type { Locale } from "@/i18n/routing";
 import type {
-  KnowledgeArticleArchiveContentQueryResult,
-  KnowledgeArticleArchiveSettingsQueryResult,
   KnowledgeHubIndustriesQueryResult,
   KnowledgeHubServicesQueryResult,
   KnowledgeHubTechnologiesQueryResult,
+  SeminarArchiveContentQueryResult,
+  SeminarArchiveSettingsQueryResult,
 } from "@/sanity-types";
-import { knowledgeArticleArchiveSettingsQuery } from "@/server/queries/documents/knowledge-article.query";
 import {
-  knowledgeArticleArchiveContentQuery,
   knowledgeHubIndustriesQuery,
   knowledgeHubServicesQuery,
   knowledgeHubTechnologiesQuery,
+  seminarArchiveContentQuery,
 } from "@/server/queries/documents/knowledge-hub.query";
+import { seminarArchiveSettingsQuery } from "@/server/queries/documents/seminar.query";
 import { fetchSettings } from "@/server/queries/settings/settings.query";
 import type { KnowledgeContentType } from "@/server/queries/teasers/knowledge-teaser.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
@@ -33,22 +33,22 @@ type Props = {
 
 async function getArchiveSettings(locale: string) {
   const { data } = await sanityFetch({
-    query: knowledgeArticleArchiveSettingsQuery,
+    query: seminarArchiveSettingsQuery,
     params: { locale },
-    tags: ["knowledgeArticleArchive"],
+    tags: ["seminarArchive"],
   });
 
-  return data as KnowledgeArticleArchiveSettingsQueryResult;
+  return data as SeminarArchiveSettingsQueryResult;
 }
 
 async function getContent(locale: string) {
   const { data } = await sanityFetch({
-    query: knowledgeArticleArchiveContentQuery,
+    query: seminarArchiveContentQuery,
     params: { locale },
-    tags: ["knowledgeArticle"],
+    tags: ["seminar"],
   });
 
-  return data as KnowledgeArticleArchiveContentQueryResult;
+  return data as SeminarArchiveContentQueryResult;
 }
 
 async function getServices(locale: string) {
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return formatMetadata(settings?.metadata);
 }
 
-export default async function KnowledgeArticlesArchivePage({ params, searchParams }: Props) {
+export default async function SeminarsArchivePage({ params, searchParams }: Props) {
   const { locale } = await params;
   const { service, tech, industry, sort } = await searchParams;
 

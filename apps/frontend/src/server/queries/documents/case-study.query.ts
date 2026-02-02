@@ -47,7 +47,7 @@ export const caseStudyListQuery = defineQuery(`
     "slug": slug.current,
     "client": client->{
       name,
-      "logo": logo->image.asset->url
+      "logo": logo->logo.asset->url
     },
     color
   }
@@ -62,7 +62,7 @@ export const caseStudyQuery = defineQuery(`
     "client": client->{
       _id,
       name,
-      "logo": logo->image.asset->url
+      "logo": logo->logo.asset->url
     },
     color,
     "media": {

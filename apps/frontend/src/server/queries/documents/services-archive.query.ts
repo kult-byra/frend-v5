@@ -79,7 +79,7 @@ export const servicesListQuery = defineQuery(`
     "technologies": technologies[]-> {
       _id,
       title,
-      "logo": logo->image { ${imageQuery} }
+      "logo": logo->logo.asset->url
     }
   }
 `);

@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import { KnowledgeTeaser, type KnowledgeTeaserData } from "@/components/teasers/knowledge.teaser";
 import type { Locale } from "@/i18n/routing";
 import type {
-  KnowledgeArticleArchiveContentQueryResult,
-  KnowledgeArticleArchiveSettingsQueryResult,
+  CaseStudyArchiveContentQueryResult,
+  CaseStudyArchiveSettingsQueryResult,
   KnowledgeHubIndustriesQueryResult,
   KnowledgeHubServicesQueryResult,
   KnowledgeHubTechnologiesQueryResult,
 } from "@/sanity-types";
-import { knowledgeArticleArchiveSettingsQuery } from "@/server/queries/documents/knowledge-article.query";
+import { caseStudyArchiveSettingsQuery } from "@/server/queries/documents/case-study.query";
 import {
-  knowledgeArticleArchiveContentQuery,
+  caseStudyArchiveContentQuery,
   knowledgeHubIndustriesQuery,
   knowledgeHubServicesQuery,
   knowledgeHubTechnologiesQuery,
@@ -33,22 +33,22 @@ type Props = {
 
 async function getArchiveSettings(locale: string) {
   const { data } = await sanityFetch({
-    query: knowledgeArticleArchiveSettingsQuery,
+    query: caseStudyArchiveSettingsQuery,
     params: { locale },
-    tags: ["knowledgeArticleArchive"],
+    tags: ["caseStudyArchive"],
   });
 
-  return data as KnowledgeArticleArchiveSettingsQueryResult;
+  return data as CaseStudyArchiveSettingsQueryResult;
 }
 
 async function getContent(locale: string) {
   const { data } = await sanityFetch({
-    query: knowledgeArticleArchiveContentQuery,
+    query: caseStudyArchiveContentQuery,
     params: { locale },
-    tags: ["knowledgeArticle"],
+    tags: ["caseStudy"],
   });
 
-  return data as KnowledgeArticleArchiveContentQueryResult;
+  return data as CaseStudyArchiveContentQueryResult;
 }
 
 async function getServices(locale: string) {
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return formatMetadata(settings?.metadata);
 }
 
-export default async function KnowledgeArticlesArchivePage({ params, searchParams }: Props) {
+export default async function CaseStudiesArchivePage({ params, searchParams }: Props) {
   const { locale } = await params;
   const { service, tech, industry, sort } = await searchParams;
 
