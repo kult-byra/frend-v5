@@ -1,4 +1,5 @@
-import { Img, type ImgProps } from "@/components/utils/img.component";
+import { SanityImage } from "sanity-image";
+import { env } from "@/env";
 
 export type PersonTeaserProps = {
   _id: string;
@@ -6,7 +7,12 @@ export type PersonTeaserProps = {
   role: string | null;
   phone: string | null;
   email: string | null;
-  image: ImgProps | null;
+  image: {
+    asset?: { _id: string } | null;
+    crop?: { top: number; bottom: number; left: number; right: number } | null;
+    hotspot?: { x: number; y: number; height: number; width: number } | null;
+    altText?: string | null;
+  } | null;
 };
 
 export const PersonTeaser = (props: PersonTeaserProps) => {
@@ -15,13 +21,18 @@ export const PersonTeaser = (props: PersonTeaserProps) => {
   return (
     <article className="flex flex-col gap-xs">
       {/* Image with 3:4 aspect ratio */}
-      {image && (
-        <Img
-          {...image}
-          sizes={{ md: "third" }}
-          className="aspect-3/4 w-full overflow-hidden rounded-xs"
-          cover
-        />
+      {image?.asset?._id && (
+        <div className="aspect-3/4 overflow-hidden rounded">
+          <SanityImage
+            id={image.asset._id}
+            projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+            dataset={env.NEXT_PUBLIC_SANITY_DATASET}
+            alt={image.altText ?? ""}
+            crop={image.crop ?? undefined}
+            hotspot={image.hotspot ?? undefined}
+            className="size-full object-cover"
+          />
+        </div>
       )}
 
       {/* Text content */}

@@ -22,10 +22,15 @@ const mediaHeroQuery = defineQuery(`
 // @sanity-typegen-ignore
 const articleHeroQuery = defineQuery(`
   title,
-  coverImages[] { ${mediaQuery} },
+  media { ${mediaQuery} },
   author-> {
     _id,
     name,
+    "slug": slug.current,
+    "role": select(
+      $locale == "en" => role_en,
+      role_no
+    ),
     "image": image { ${imageInnerQuery} }
   },
   publishDate,
@@ -69,10 +74,12 @@ const _heroTypegenQuery = defineQuery(`
     },
     articleHero {
       title,
-      coverImages[] { ${mediaQuery} },
+      media { ${mediaQuery} },
       author-> {
         _id,
         name,
+        "slug": slug.current,
+        "role": role_no,
         "image": image { ${imageInnerQuery} }
       },
       publishDate,

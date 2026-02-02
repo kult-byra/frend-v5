@@ -1,6 +1,7 @@
 import { Newspaper } from "lucide-react";
 import { defineField, defineType } from "sanity";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
+import { heroField } from "@/schemas/generator-fields/hero.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
 import { slugField } from "@/schemas/generator-fields/slug.field";
@@ -23,10 +24,10 @@ export const newsArticleSchema = defineType({
       hidden: true,
     }),
     slugField({ isStatic: false }),
-    defineField({
+    heroField({
       name: "hero",
       title: "Hero",
-      type: "hero",
+      types: ["articleHero"],
       group: "key",
     }),
     ...connectionsFields(),
@@ -39,39 +40,15 @@ export const newsArticleSchema = defineType({
   ],
   preview: {
     select: {
-      heroType: "hero.heroType",
-      textTitle: "hero.textHero.title",
-      mediaTitle: "hero.mediaHero.title",
-      articleTitle: "hero.articleHero.title",
-      formTitle: "hero.formHero.title",
-      mediaImage: "hero.mediaHero.media.image.asset",
-      articleImage: "hero.articleHero.coverImages.0.image.asset",
-      formImage: "hero.formHero.media.image.asset",
+      title: "hero.articleHero.title",
+      media: "hero.articleHero.coverImages.0.image.asset",
+      authorName: "hero.articleHero.author.name",
     },
-    prepare({
-      heroType,
-      textTitle,
-      mediaTitle,
-      articleTitle,
-      formTitle,
-      mediaImage,
-      articleImage,
-      formImage,
-    }) {
-      const titleMap: Record<string, string | undefined> = {
-        textHero: textTitle,
-        mediaHero: mediaTitle,
-        articleHero: articleTitle,
-        formHero: formTitle,
-      };
-      const mediaMap: Record<string, typeof mediaImage> = {
-        mediaHero: mediaImage,
-        articleHero: articleImage,
-        formHero: formImage,
-      };
+    prepare({ title, media, authorName }) {
       return {
-        title: titleMap[heroType] || "Untitled",
-        media: mediaMap[heroType],
+        title: title || "Untitled",
+        subtitle: authorName,
+        media,
       };
     },
   },

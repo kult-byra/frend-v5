@@ -1,6 +1,6 @@
 import { KnowledgeTeaser, type KnowledgeTeaserData } from "@/components/teasers/knowledge.teaser";
-import type { ImgProps } from "@/components/utils/img.component";
 import type { KnowledgeContentType } from "@/server/queries/teasers/knowledge-teaser.query";
+import type { ImageQueryProps } from "@/server/queries/utils/image.query";
 
 export type TypeLabels = Partial<Record<KnowledgeContentType, string | null>>;
 
@@ -11,10 +11,10 @@ type ServiceRef = {
 
 export type KnowledgeCardItem = {
   _id: string;
-  _type: string;
+  _type: KnowledgeContentType;
   title: string | null;
   slug: string | null;
-  image?: ImgProps | null;
+  image?: ImageQueryProps | null;
   services?: ServiceRef[] | null;
 };
 

@@ -19,6 +19,7 @@ const TAG_MAP: Record<string, string[]> = {
   seminar: ["seminar", "seminarArchive", "knowledgeHub"],
   eBook: ["eBook", "eBookArchive", "knowledgeHub"],
   knowledgeArticle: ["knowledgeArticle", "knowledgeArticleArchive", "knowledgeHub"],
+  person: ["person"],
 
   // Settings
   siteSettings: ["siteSettings"],

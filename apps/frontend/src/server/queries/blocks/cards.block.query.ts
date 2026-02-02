@@ -46,9 +46,12 @@ const serviceFieldsQuery = `
 const knowledgeFieldsQuery = `
   _id,
   _type,
-  title,
+  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
   "slug": slug.current,
-  "image": media.image { ${imageQuery} },
+  "image": coalesce(
+    hero.mediaHero.media.image,
+    hero.articleHero.coverImages[0].image
+  ) { ${imageQuery} },
   "services": services[]-> {
     _id,
     "title": select(
@@ -63,9 +66,12 @@ const knowledgeFieldsQuery = `
 const newsEventFieldsQuery = `
   _id,
   _type,
-  title,
+  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
   "slug": slug.current,
-  "image": media.image { ${imageQuery} },
+  "image": coalesce(
+    hero.mediaHero.media.image,
+    hero.articleHero.coverImages[0].image
+  ) { ${imageQuery} },
   "services": services[]-> {
     _id,
     "title": select(

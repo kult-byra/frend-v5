@@ -22,7 +22,7 @@ export const peopleBlockQuery = defineQuery(`
     email,
     company,
     externalPerson,
-    image { ${imageQuery} }
+    "image": media.image { ${imageQuery} }
   },
   options { width }
 `);

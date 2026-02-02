@@ -1,10 +1,17 @@
 import { ContentLayout } from "@/components/layout/content-layout.component";
 import { PageBuilder } from "@/components/page-builder/page-builder.component";
 import { Img } from "@/components/utils/img.component";
+import { Video } from "@/components/utils/video.component";
 import { type HeaderTheme, SetHeaderTheme } from "@/context/header-theme.context";
 import type { CaseStudyQueryResult } from "@/sanity-types";
 import { cn } from "@/utils/cn.util";
 import { Summary } from "./summary.component";
+
+const aspectRatioClasses: Record<string, string> = {
+  "3:2": "aspect-3/2",
+  "3:4": "aspect-3/4",
+  "1:1": "aspect-square",
+};
 
 type Props = NonNullable<CaseStudyQueryResult>;
 
@@ -63,10 +70,20 @@ export const CaseStudy = ({ hero, client, color, summary, pageBuilder }: Props) 
             </div>
           </ContentLayout>
 
-          {/* Hero image */}
-          {media?.mediaType === "image" && media.image && (
-            <div className="mt-md aspect-3/2 w-full overflow-hidden rounded-3xs ">
-              <Img {...media.image} sizes={{ md: "full" }} cover className="size-full" />
+          {/* Hero media */}
+          {media && (media.mediaType === "image" || media.mediaType === "video") && (
+            <div
+              className={cn(
+                "mt-md w-full overflow-hidden rounded-3xs",
+                aspectRatioClasses[media.aspectRatio ?? "3:2"] ?? "aspect-3/2",
+              )}
+            >
+              {media.mediaType === "image" && media.image && (
+                <Img {...media.image} sizes={{ md: "full" }} cover className="size-full" />
+              )}
+              {media.mediaType === "video" && media.videoUrl && (
+                <Video url={media.videoUrl} priority />
+              )}
             </div>
           )}
         </div>

@@ -1,6 +1,7 @@
 import { defineQuery } from "next-sanity";
 import { pageBuilderQuery } from "@/server/queries/page-builder/page-builder-full.query";
 import { heroQuery } from "../utils/hero.query";
+import { imageQuery } from "../utils/image.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
@@ -45,6 +46,12 @@ export const caseStudyListQuery = defineQuery(`
     _type,
     "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
     "slug": slug.current,
+    "image": coalesce(
+      hero.mediaHero.media.image,
+      hero.articleHero.coverImages[0].image
+    ) {
+      ${imageQuery}
+    },
     "client": client->{
       name,
       "logo": logo->logo.asset->url

@@ -85,5 +85,9 @@ export const pathnames = {
     no: "/kunder/[slug]",
     en: "/clients/[slug]",
   },
+  "/people/[slug]": {
+    no: "/folk/[slug]",
+    en: "/people/[slug]",
+  },
   "/[slug]": "/[slug]",
 } as const;

@@ -1,25 +1,35 @@
-import Link from "next/link";
+import { ArticleHero } from "@/components/hero/article-hero.component";
 import { Container } from "@/components/layout/container.component";
-import { H1 } from "@/components/layout/heading.component";
+import { ContentLayout } from "@/components/layout/content-layout.component";
+import { PortableText } from "@/components/portable-text/portable-text.component";
 import type { ArticleQueryResult } from "@/sanity-types";
 
 type Props = NonNullable<ArticleQueryResult>;
 
-export function NewsArticle({ hero }: Props) {
-  // Extract title from hero
-  const heroData = hero?.articleHero ?? hero?.textHero ?? hero?.mediaHero;
-  const title = heroData?.title ?? null;
-
+export function NewsArticle({ hero, content }: Props) {
   return (
-    <Container className="py-lg">
-      <Link
-        href="/articles"
-        className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"
-      >
-        ← Tilbake til artikler
-      </Link>
+    <>
+      {hero && (
+        <ArticleHero
+          title={hero.title}
+          topTitle="Nyhet"
+          media={hero.media}
+          byline={{
+            author: hero.author,
+            date: hero.publishDate,
+          }}
+        />
+      )}
 
-      {title && <H1 className="mb-4">{title}</H1>}
-    </Container>
+      {content && content.length > 0 && (
+        <section className="bg-container-primary pb-xl">
+          <Container>
+            <ContentLayout>
+              <PortableText content={content} />
+            </ContentLayout>
+          </Container>
+        </section>
+      )}
+    </>
   );
 }

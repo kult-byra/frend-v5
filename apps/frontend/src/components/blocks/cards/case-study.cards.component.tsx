@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { Img, type ImgProps } from "@/components/utils/img.component";
+import { Img } from "@/components/utils/img.component";
+import type { ImageQueryProps } from "@/server/queries/utils/image.query";
 
 export type CaseStudyCardItem = {
   _id: string;
   _type: string;
   title: string | null;
   slug: string | null;
-  image?: ImgProps | null;
+  image?: ImageQueryProps | null;
 };
 
 export const CaseStudyCards = ({ items }: { items: CaseStudyCardItem[] }) => (

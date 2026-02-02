@@ -1,107 +1,149 @@
+import Link from "next/link";
 import { SanityImage } from "sanity-image";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
-import { PortableText } from "@/components/portable-text/portable-text.component";
-import { Img } from "@/components/utils/img.component";
-import { Video } from "@/components/utils/video.component";
+import { Media } from "@/components/utils/media.component";
 import { env } from "@/env";
-import type { ArticleHeroData } from "@/server/queries/utils/hero.query";
+import type { ArticleQueryResult } from "@/sanity-types";
 
-type ArticleHeroProps = ArticleHeroData;
+// Extract media type from ArticleQueryResult
+type ArticleMedia = NonNullable<NonNullable<ArticleQueryResult>["hero"]>["media"];
 
-export const ArticleHero = ({
-  title,
-  coverImages,
-  author,
-  publishDate,
-  excerpt,
-}: ArticleHeroProps) => {
-  const formattedDate = publishDate
-    ? new Date(publishDate).toLocaleDateString("nb-NO", {
-        year: "numeric",
-        month: "long",
+type ArticleHeroByline = {
+  author?: {
+    _id: string;
+    name: string | null;
+    slug?: string | null;
+    role?: string | null;
+    image?: {
+      asset?: { _id: string } | null;
+      crop?: { top: number; bottom: number; left: number; right: number } | null;
+      hotspot?: { x: number; y: number; height: number; width: number } | null;
+    } | null;
+  } | null;
+  date?: string | null;
+};
+
+type ArticleHeroProps = {
+  /** Required title */
+  title: string;
+  /** Type label displayed above the title (e.g., "News", "Article") */
+  topTitle?: string;
+  /** Sub-heading/excerpt displayed below the title */
+  subHeading?: string;
+  /** Author and date information */
+  byline?: ArticleHeroByline;
+  /** Optional media (image/video) */
+  media?: ArticleMedia;
+};
+
+/**
+ * Author byline component showing avatar, name, role
+ */
+function AuthorByline({ author }: { author: NonNullable<ArticleHeroByline["author"]> }) {
+  const authorUrl = author.slug ? `/people/${author.slug}` : null;
+
+  return (
+    <div className="flex shrink-0 items-center gap-xs">
+      {author.image?.asset?._id && (
+        <SanityImage
+          id={author.image.asset._id}
+          projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+          dataset={env.NEXT_PUBLIC_SANITY_DATASET}
+          alt={author.name ?? ""}
+          width={53}
+          height={53}
+          crop={author.image.crop ?? undefined}
+          hotspot={author.image.hotspot ?? undefined}
+          className="size-[53px] shrink-0 rounded-full object-cover"
+        />
+      )}
+      <div className="flex flex-col gap-3xs">
+        {author.name &&
+          (authorUrl ? (
+            <Link href={authorUrl} className="text-base leading-[145%] text-primary underline">
+              {author.name}
+            </Link>
+          ) : (
+            <span className="text-base leading-[145%] text-primary">{author.name}</span>
+          ))}
+        {author.role && (
+          <span className="text-base leading-[145%] text-secondary">{author.role}</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export const ArticleHero = ({ title, topTitle, subHeading, byline, media }: ArticleHeroProps) => {
+  const formattedDate = byline?.date
+    ? new Date(byline.date).toLocaleDateString("nb-NO", {
         day: "numeric",
+        month: "numeric",
+        year: "numeric",
       })
     : null;
 
+  const hasByline = byline?.author || formattedDate;
+
   return (
-    <section className="bg-white pb-20">
+    <section className="bg-container-primary">
+      {/* Hero content */}
       <Container>
-        <div className="flex flex-col items-center justify-center pb-10 pt-[120px]">
-          {title && (
-            <H1 className="max-w-[720px] text-center text-[42px] font-semibold leading-[1.1] text-primary">
-              {title}
-            </H1>
-          )}
+        <div className="flex gap-xs py-xl">
+          {/* Empty cell - takes up left half on desktop */}
+          <div className="hidden min-h-px min-w-px flex-1 lg:block" />
 
-          {(author || formattedDate) && (
-            <div className="mt-6 flex items-center gap-4">
-              {author?.image?.asset?._id && (
-                <SanityImage
-                  id={author.image.asset._id}
-                  projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
-                  dataset={env.NEXT_PUBLIC_SANITY_DATASET}
-                  alt={author.name ?? ""}
-                  width={48}
-                  height={48}
-                  className="size-12 rounded-full object-cover"
-                />
-              )}
-              <div className="flex flex-col">
-                {author?.name && (
-                  <span className="text-sm font-medium text-primary">{author.name}</span>
+          {/* Text cell - full width on mobile, right half on desktop */}
+          <div className="flex w-full flex-1 flex-col gap-md pr-0 lg:pr-md">
+            <div className="flex max-w-[720px] flex-col gap-sm">
+              {/* Top title and main title */}
+              <div className="flex flex-col gap-xs">
+                {topTitle && (
+                  <span className="text-lg leading-[150%] text-secondary">{topTitle}</span>
                 )}
-                {formattedDate && <span className="text-sm text-secondary">{formattedDate}</span>}
+                <H1 className="text-[30px] font-semibold leading-[110%] text-primary lg:text-[42px]">
+                  {title}
+                </H1>
               </div>
-            </div>
-          )}
 
-          {excerpt && (
-            <div className="mt-6 max-w-[640px] text-center text-lg text-secondary">
-              <PortableText content={excerpt} />
+              {/* Sub-heading */}
+              {subHeading && <p className="text-lg leading-[150%] text-secondary">{subHeading}</p>}
             </div>
-          )}
+
+            {/* Byline: author and date */}
+            {hasByline && (
+              <div className="flex w-full flex-wrap items-start justify-between gap-xs lg:gap-sm">
+                {/* Author */}
+                {byline?.author && (
+                  <div className="flex flex-wrap items-start gap-xs lg:gap-lg">
+                    <AuthorByline author={byline.author} />
+                  </div>
+                )}
+
+                {/* Date */}
+                {formattedDate && (
+                  <span className="shrink-0 text-base leading-[145%] text-primary">
+                    {formattedDate}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </Container>
 
-      {coverImages && coverImages.length > 0 && (
-        <Container>
-          <div
-            className={`grid gap-4 ${
-              coverImages.length === 1
-                ? "grid-cols-1"
-                : coverImages.length === 2
-                  ? "grid-cols-2"
-                  : "grid-cols-3"
-            }`}
-          >
-            {coverImages.map((coverImage, index) => (
-              <div
-                key={coverImage.image?.asset?._id ?? index}
-                className={`aspect-3/2 overflow-hidden rounded ${
-                  coverImages.length === 1 ? "col-span-full" : ""
-                }`}
-              >
-                {coverImage.mediaType === "image" && coverImage.image && (
-                  <Img
-                    {...coverImage.image}
-                    sizes={
-                      coverImages.length === 1
-                        ? { md: "full", xl: "full" }
-                        : { md: "half", xl: "third" }
-                    }
-                    cover
-                    className="h-full w-full [&>img]:w-full"
-                  />
-                )}
-                {coverImage.mediaType === "video" && coverImage.videoUrl && (
-                  <div className="relative size-full">
-                    <Video url={coverImage.videoUrl} priority />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+      {/* Media */}
+      {media?.mediaType && (
+        <Container className="pb-xl">
+          <Media
+            mediaType={media.mediaType}
+            image={media.image}
+            videoUrl={media.videoUrl}
+            aspectRatio={media.aspectRatio}
+            sizes={{ md: "full", xl: "full" }}
+            priority
+          />
         </Container>
       )}
     </section>

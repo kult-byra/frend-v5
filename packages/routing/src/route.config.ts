@@ -33,6 +33,7 @@ export const routeConfig = {
   eBookArchive: "/knowledge/ebooks",
   client: "/clients/:slug",
   clientArchive: "/clients",
+  person: "/people/:slug",
   conversionPage: "/:slug",
 } as const satisfies ValidRouteConfig;
 
@@ -76,6 +77,7 @@ export const routeTranslations = {
     projects: "prosjekter",
     clients: "kunder",
     ebooks: "e-boker",
+    people: "folk",
   },
   en: {
     current: "current",
@@ -89,6 +91,7 @@ export const routeTranslations = {
     projects: "projects",
     clients: "clients",
     ebooks: "ebooks",
+    people: "people",
   },
 } as const;
 

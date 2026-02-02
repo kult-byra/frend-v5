@@ -146,7 +146,8 @@ export const mediaField = (props: MediaFieldOptions) => {
       },
       initialValue: initialMediaType,
       hidden: !hasMultipleMediaTypes,
-      validation: (Rule) => Rule.required(),
+      // Only require when multiple types are available; single-type fields treat undefined as default
+      validation: hasMultipleMediaTypes ? (Rule) => Rule.required() : undefined,
     }),
   ];
 
@@ -155,7 +156,8 @@ export const mediaField = (props: MediaFieldOptions) => {
       imageField({
         name: "image",
         title: "Image",
-        hidden: ({ parent }) => parent?.mediaType !== "image",
+        // Show when mediaType is "image" OR undefined (default for new/migrated documents)
+        hidden: ({ parent }) => parent?.mediaType != null && parent?.mediaType !== "image",
       }),
     );
   }
@@ -189,7 +191,11 @@ export const mediaField = (props: MediaFieldOptions) => {
         gridOptionsField({
           name: "aspectRatio",
           title: "Aspect ratio",
-          hidden: ({ parent }) => parent?.mediaType !== "image" && parent?.mediaType !== "video",
+          // Show when mediaType is "image", "video", or undefined (default for new/migrated documents)
+          hidden: ({ parent }) =>
+            parent?.mediaType != null &&
+            parent?.mediaType !== "image" &&
+            parent?.mediaType !== "video",
           options: [
             { title: "3:2", value: "3:2", icon: RectangleHorizontal },
             { title: "3:4", value: "3:4", icon: RectangleVertical },

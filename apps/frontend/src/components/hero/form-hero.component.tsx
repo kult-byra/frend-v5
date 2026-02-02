@@ -1,7 +1,6 @@
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
-import { Img } from "@/components/utils/img.component";
-import { Video } from "@/components/utils/video.component";
+import { Media } from "@/components/utils/media.component";
 import type { FormHeroData } from "@/server/queries/utils/hero.query";
 
 type FormHeroProps = FormHeroData;
@@ -21,22 +20,16 @@ export const FormHero = ({ title, media, form }: FormHeroProps) => {
 
       {media && (
         <Container>
-          <div className="aspect-3/2 w-full overflow-hidden rounded">
-            {media.mediaType === "image" && media.image && (
-              <Img
-                {...media.image}
-                sizes={{ md: "full", xl: "full" }}
-                cover
-                className="h-full w-full [&>img]:w-full"
-              />
-            )}
-
-            {media.mediaType === "video" && media.videoUrl && (
-              <div className="relative size-full">
-                <Video url={media.videoUrl} priority />
-              </div>
-            )}
-          </div>
+          <Media
+            mediaType={media.mediaType ?? "image"}
+            image={media.image}
+            videoUrl={media.videoUrl}
+            illustration={media.illustration}
+            aspectRatio={media.aspectRatio}
+            priority
+            sizes={{ md: "full", xl: "full" }}
+            className="w-full"
+          />
         </Container>
       )}
 

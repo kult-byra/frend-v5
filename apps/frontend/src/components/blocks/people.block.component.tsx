@@ -2,7 +2,6 @@ import { BlockContainer } from "@/components/layout/block-container.component";
 import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { PersonTeaser } from "@/components/teasers/person.teaser";
-import type { ImgProps } from "@/components/utils/img.component";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
 type PeopleBlockProps = PageBuilderBlockProps<"people.block">;
@@ -35,7 +34,7 @@ export const PeopleBlock = (props: PeopleBlockProps) => {
                     role={person.role_no}
                     phone={person.phone ?? null}
                     email={person.email ?? null}
-                    image={person.image as ImgProps | null}
+                    image={person.image}
                   />
                 </li>
               );

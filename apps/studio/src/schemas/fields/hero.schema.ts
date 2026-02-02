@@ -109,7 +109,7 @@ export const mediaHeroSchema = defineType({
 
 /**
  * Article Hero
- * For editorial content with byline support (author, publish date, multiple cover images)
+ * For editorial content with byline support (author, publish date, cover media)
  */
 export const articleHeroSchema = defineType({
   name: "articleHero",
@@ -123,22 +123,11 @@ export const articleHeroSchema = defineType({
       description: "The article headline",
       required: true,
     }),
-    defineField({
-      name: "coverImages",
-      title: "Cover image(s)",
-      description: "One to three cover images or videos",
-      type: "array",
-      of: [
-        mediaField({
-          name: "media",
-          title: "Media",
-          video: true,
-        }),
-      ],
-      validation: (Rule) =>
-        Rule.min(1)
-          .max(3)
-          .error("At least one cover image is required and at most three are allowed"),
+    mediaField({
+      name: "media",
+      title: "Cover media",
+      description: "Cover image or video",
+      video: true,
     }),
     referenceField({
       name: "author",
@@ -164,7 +153,7 @@ export const articleHeroSchema = defineType({
   preview: {
     select: {
       title: "title",
-      media: "coverImages.0.image.asset",
+      media: "media.image.asset",
       authorName: "author.name",
     },
     prepare({ title, media, authorName }) {
@@ -281,7 +270,7 @@ export const heroSchema = defineType({
       articleHeroTitle: "articleHero.title",
       formHeroTitle: "formHero.title",
       mediaHeroMedia: "mediaHero.media.image.asset",
-      articleHeroMedia: "articleHero.coverImages.0.image.asset",
+      articleHeroMedia: "articleHero.media.image.asset",
       formHeroMedia: "formHero.media.image.asset",
     },
     prepare({

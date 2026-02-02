@@ -121,7 +121,7 @@ export function YouTubeVideo({
     <div className={cn("relative size-full overflow-hidden", className)}>
       <div
         ref={containerRef}
-        className="absolute inset-0 [&>iframe]:absolute [&>iframe]:left-1/2 [&>iframe]:top-1/2 [&>iframe]:min-h-full [&>iframe]:min-w-full [&>iframe]:-translate-x-1/2 [&>iframe]:-translate-y-1/2 [&>iframe]:pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-h-full min-w-full aspect-video [&>iframe]:size-full [&>iframe]:pointer-events-none"
       />
       {isReady && <VideoPlayPauseButton isPlaying={isPlaying} onToggle={handleToggle} />}
     </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { CaseStudyCards } from "@/components/blocks/cards/case-study.cards.component";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
 import type { CaseStudyArchiveSettingsQueryResult, CaseStudyListQueryResult } from "@/sanity-types";
@@ -56,22 +56,7 @@ export default async function CaseStudiesPage({ params }: Props) {
       <H1 className="mb-4">{heroTitle ?? "Prosjekter"}</H1>
 
       {caseStudies && caseStudies.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">
-          {caseStudies.map((caseStudy) => (
-            <Link
-              key={caseStudy._id}
-              href={`/projects/${caseStudy.slug}`}
-              className="group block p-sm border rounded-lg hover:border-primary transition-colors"
-            >
-              <h2 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                {caseStudy.title}
-              </h2>
-              {caseStudy.client?.name && (
-                <p className="text-sm text-muted-foreground">{caseStudy.client.name}</p>
-              )}
-            </Link>
-          ))}
-        </div>
+        <CaseStudyCards items={caseStudies} />
       ) : (
         <p className="text-muted-foreground">Ingen prosjekter funnet.</p>
       )}
