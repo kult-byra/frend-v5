@@ -9,23 +9,13 @@ type ExpandedMenuProps = {
   secondaryMenu: SecondaryMenuProps;
   activePanel: string | null;
   setActivePanel: Dispatch<SetStateAction<string | null>>;
-  isPinned: boolean;
-  setIsPinned: Dispatch<SetStateAction<boolean>>;
   newsEventsCount: number;
   headerInverted?: boolean;
 };
 
 export const ExpandedMenu = (props: ExpandedMenuProps) => {
-  const {
-    mainMenu,
-    secondaryMenu,
-    activePanel,
-    setActivePanel,
-    isPinned,
-    setIsPinned,
-    newsEventsCount,
-    headerInverted,
-  } = props;
+  const { mainMenu, secondaryMenu, activePanel, setActivePanel, newsEventsCount, headerInverted } =
+    props;
 
   return (
     <>
@@ -39,20 +29,8 @@ export const ExpandedMenu = (props: ExpandedMenuProps) => {
             inverted={headerInverted}
             onClick={() => {
               if (item.linkType === "linkGroup") {
-                // If clicking on a different panel, open that one and pin it
-                if (activePanel !== item._key) {
-                  setActivePanel(item._key);
-                  setIsPinned(true);
-                } else {
-                  // Clicking on the same panel - just pin it (don't close)
-                  setIsPinned(true);
-                }
-              }
-            }}
-            onMouseEnter={() => {
-              // Don't open on hover if another panel is pinned
-              if (item.linkType === "linkGroup" && !isPinned) {
-                setActivePanel(item._key);
+                // Toggle panel: close if same, open if different
+                setActivePanel(activePanel === item._key ? null : item._key);
               }
             }}
             notificationCount={
@@ -75,14 +53,8 @@ export const ExpandedMenu = (props: ExpandedMenuProps) => {
               inverted={headerInverted}
               onClick={() => {
                 if (item.linkType === "linkGroup") {
-                  // If clicking on a different panel, open that one and pin it
-                  if (activePanel !== item._key) {
-                    setActivePanel(item._key);
-                    setIsPinned(true);
-                  } else {
-                    // Clicking on the same panel - just pin it (don't close)
-                    setIsPinned(true);
-                  }
+                  // Toggle panel: close if same, open if different
+                  setActivePanel(activePanel === item._key ? null : item._key);
                 }
               }}
             />

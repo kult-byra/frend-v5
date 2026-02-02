@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { Icon } from "@/components/icon.component";
-import { Img } from "@/components/utils/img.component";
 import { cn } from "@/utils/cn.util";
-import { getLinkHref } from "./link-href.util";
+import { ContactWidgetContent } from "./contact-widget-content.component";
 import type { LinkGroupProps } from "./menu.types";
 
 type ContactWidgetProps = {
@@ -13,31 +12,85 @@ type ContactWidgetProps = {
   linkGroup: LinkGroupProps | undefined;
 };
 
-export const ContactWidget = (props: ContactWidgetProps) => {
-  const { isOpen, onClose, linkGroup } = props;
+export const ContactWidget = ({ isOpen, onClose, linkGroup }: ContactWidgetProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Escape key and click outside are handled by parent Menu component
+  // Focus trap and keyboard handling
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Focus close button when opening
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Close on Escape (but not if a select dropdown is open)
+      if (e.key === "Escape") {
+        const target = e.target as Element;
+
+        // Don't close if event originates from within a Radix Select dropdown
+        const isInSelect =
+          target.closest?.("[data-radix-select-content]") ||
+          target.closest?.("[data-radix-select-viewport]") ||
+          target.closest?.("[role='listbox']");
+        if (isInSelect) return;
+
+        // Also check if any select trigger is in open state
+        const openSelectTrigger = document.querySelector(
+          "[data-radix-select-trigger][data-state='open']",
+        );
+        if (openSelectTrigger) return;
+
+        onClose();
+        return;
+      }
+
+      // Focus trap on Tab
+      if (e.key === "Tab" && containerRef.current) {
+        const focusableElements = containerRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    // Use capture phase to check for open selects before Radix closes them
+    document.addEventListener("keydown", handleKeyDown, true);
+    return () => document.removeEventListener("keydown", handleKeyDown, true);
+  }, [isOpen, onClose]);
 
   if (!linkGroup || linkGroup.menuType !== "contact") return null;
 
-  const { linkGroups, contactForm, image } = linkGroup;
-
   return (
     <div
+      ref={containerRef}
+      data-menu-panel
       className={cn(
-        "fixed bottom-0 right-0 z-50 w-full max-w-[475px] bg-container-overlay-primary-2 transition-transform duration-200 ease-out",
-        isOpen ? "translate-y-0" : "translate-y-full",
+        "fixed bottom-0 right-0 z-50 hidden w-full max-w-[475px] bg-container-overlay-primary-2 transition-transform duration-200 ease-out laptop:block",
+        isOpen ? "translate-y-0" : "translate-y-full pointer-events-none",
       )}
       role="dialog"
       aria-modal="true"
-      aria-label="Contact widget"
+      aria-label="Kontaktskjema"
+      aria-hidden={!isOpen}
+      inert={!isOpen ? true : undefined}
     >
       {/* Close button row */}
       <div className="flex items-center justify-end pb-2xs pl-xs pr-2xs pt-2xs">
         <button
+          ref={closeButtonRef}
           type="button"
           onClick={onClose}
-          aria-label="Close contact widget"
+          aria-label="Lukk kontaktskjema"
           className="flex size-8 items-center justify-center"
         >
           <Icon name="close" className="size-5" />
@@ -45,55 +98,8 @@ export const ContactWidget = (props: ContactWidgetProps) => {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-md px-xs pb-xs">
-        {/* Link groups and image row */}
-        {(linkGroups?.length || image) && (
-          <div className="flex gap-sm">
-            {/* Link groups column */}
-            {linkGroups && linkGroups.length > 0 && (
-              <div className="flex flex-1 flex-col gap-md">
-                {linkGroups.map((group) => (
-                  <div key={group._key} className="flex flex-col gap-2xs">
-                    <h3 className="text-headline-3 text-text-primary">{group.title}</h3>
-                    {group.links && group.links.length > 0 && (
-                      <div className="flex flex-col gap-2xs">
-                        {group.links.map((link) => {
-                          const href = getLinkHref(link);
-                          if (!href) return null;
-                          return (
-                            <Link
-                              key={link._key}
-                              href={href}
-                              onClick={onClose}
-                              className="w-fit border-b border-stroke-soft text-body text-text-primary transition-colors hover:text-button-primary-hover"
-                            >
-                              {link.title}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Image */}
-            {image?.asset && (
-              <div className="aspect-[3/4] h-[186px] shrink-0 overflow-hidden rounded-3xs">
-                <Img {...image} sizes={{ md: "third" }} className="h-full w-full" cover />
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Contact form section - TODO: Replace with HubSpot form component */}
-        {contactForm && (
-          <div className="flex flex-col gap-2xs rounded-3xs bg-container-primary p-xs">
-            <p className="text-body-small text-text-secondary">HubSpot form placeholder</p>
-            <p className="text-body-small text-text-secondary">Form ID: {contactForm._id}</p>
-          </div>
-        )}
+      <div className="px-xs pb-xs">
+        <ContactWidgetContent linkGroup={linkGroup} onLinkClick={onClose} />
       </div>
     </div>
   );

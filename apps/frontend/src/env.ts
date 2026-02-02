@@ -7,6 +7,7 @@ export const env = createEnv({
     SANITY_REVALIDATE_SECRET: z.string().min(1),
     HUBSPOT_ACCESS_TOKEN: z.string().min(1),
     HUBSPOT_PORTAL_ID: z.string().min(1),
+    TURNSTILE_SECRET_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_SANITY_API_VERSION: z.string().min(1),
@@ -15,6 +16,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SITE_TITLE: z.string().min(1),
     NEXT_PUBLIC_SITE_URL: z.string().min(1),
     NEXT_PUBLIC_STUDIO_URL: z.string().min(1),
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().min(1),
   },
 
   // Only need to define the client side variables here
@@ -25,6 +27,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SITE_TITLE: process.env.NEXT_PUBLIC_SITE_TITLE,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     NEXT_PUBLIC_STUDIO_URL: process.env.NEXT_PUBLIC_STUDIO_URL,
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
   },
 
   skipValidation: process.env.SKIP_VALIDATION === "true",

@@ -1,14 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "@/components/icon.component";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
-import { Img } from "@/components/utils/img.component";
 import { cn } from "@/utils/cn.util";
+import { ContactWidgetContent } from "./contact-widget-content.component";
 import { getLinkHref } from "./link-href.util";
 import type { LinkGroupProps, MainMenuProps, SecondaryMenuProps } from "./menu.types";
 import { NavBadge } from "./nav-badge.component";
@@ -35,19 +32,24 @@ export const CollapsedMenu = (props: CollapsedMenuProps) => {
   );
 
   // Find the contact link group (can be in mainMenu or secondaryMenu)
-  const contactLinkGroup =
-    mainMenu?.find(
-      (item): item is LinkGroupProps =>
-        item.linkType === "linkGroup" && item.menuType === "contact",
-    ) ??
-    secondaryMenu?.find(
-      (item): item is LinkGroupProps =>
-        item.linkType === "linkGroup" && item.menuType === "contact",
-    );
+  const contactLinkGroup = useMemo(
+    () =>
+      mainMenu?.find(
+        (item): item is LinkGroupProps =>
+          item.linkType === "linkGroup" && item.menuType === "contact",
+      ) ??
+      secondaryMenu?.find(
+        (item): item is LinkGroupProps =>
+          item.linkType === "linkGroup" && item.menuType === "contact",
+      ),
+    [mainMenu, secondaryMenu],
+  );
 
   // Filter out contact-type linkGroups from the regular menu
-  const regularLinkGroups = mainMenu?.filter(
-    (item) => !(item.linkType === "linkGroup" && item.menuType === "contact"),
+  const regularLinkGroups = useMemo(
+    () =>
+      mainMenu?.filter((item) => !(item.linkType === "linkGroup" && item.menuType === "contact")),
+    [mainMenu],
   );
 
   // Set first non-contact linkGroup as default when opening
@@ -131,7 +133,6 @@ export const CollapsedMenu = (props: CollapsedMenuProps) => {
         role="dialog"
         aria-modal="true"
         aria-label="Navigasjonsmeny"
-        aria-hidden={!isOpen}
         inert={!isOpen ? true : undefined}
         className={cn(
           "fixed inset-0 z-50 flex min-h-dvh flex-col transition-opacity duration-200",
@@ -273,85 +274,12 @@ export const CollapsedMenu = (props: CollapsedMenuProps) => {
         {/* Contact widget content */}
         {showContactWidget && contactLinkGroup && (
           <ScrollArea className="flex-1">
-            <div className="flex flex-col gap-md px-xs py-sm">
-              {/* Link groups and image row */}
-              {(contactLinkGroup.linkGroups?.length || contactLinkGroup.image) && (
-                <div className="flex gap-sm">
-                  {/* Link groups column */}
-                  {contactLinkGroup.linkGroups && contactLinkGroup.linkGroups.length > 0 && (
-                    <div className="flex flex-1 flex-col gap-md">
-                      {contactLinkGroup.linkGroups.map((group) => (
-                        <div key={group._key} className="flex flex-col gap-2xs">
-                          <h3 className="text-headline-3 text-text-primary">{group.title}</h3>
-                          {group.links && group.links.length > 0 && (
-                            <ul className="flex flex-col gap-2xs">
-                              {group.links.map((link) => {
-                                const href = getLinkHref(link);
-                                if (!href) return null;
-                                return (
-                                  <li key={link._key}>
-                                    <Link
-                                      href={href}
-                                      onClick={handleClose}
-                                      className="w-fit border-b border-stroke-soft text-body text-text-primary transition-colors hover:text-button-primary-hover"
-                                    >
-                                      {link.title}
-                                    </Link>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Image */}
-                  {contactLinkGroup.image?.asset && (
-                    <div className="aspect-[3/4] h-[186px] shrink-0 overflow-hidden rounded-3xs">
-                      <Img
-                        {...contactLinkGroup.image}
-                        sizes={{ md: "third" }}
-                        className="h-full w-full"
-                        cover
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Contact form section */}
-              {contactLinkGroup.contactForm && (
-                <div className="flex flex-col gap-xs">
-                  <div className="flex flex-col gap-2xs">
-                    <h3 className="text-headline-3 text-text-primary">Collaborate?</h3>
-                    <p className="text-body text-text-primary">
-                      Fill out the form below and we'll get back to you.
-                    </p>
-                  </div>
-
-                  <form className="flex flex-col gap-2xs">
-                    <Input type="text" placeholder="Name" className="h-[55px] border-0" />
-                    <div className="flex gap-2xs">
-                      <Input
-                        type="email"
-                        placeholder="Email"
-                        className="h-[55px] flex-1 border-0"
-                      />
-                      <Input type="tel" placeholder="Phone" className="h-[55px] flex-1 border-0" />
-                    </div>
-                    <Textarea
-                      placeholder="Message"
-                      className="h-[120px] resize-none border-0"
-                      rows={4}
-                    />
-                    <Button type="submit" className="w-fit">
-                      Send
-                    </Button>
-                  </form>
-                </div>
-              )}
+            <div className="px-xs py-sm">
+              <ContactWidgetContent
+                linkGroup={contactLinkGroup}
+                onLinkClick={handleClose}
+                variant="mobile"
+              />
             </div>
           </ScrollArea>
         )}

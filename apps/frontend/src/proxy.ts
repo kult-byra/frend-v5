@@ -5,7 +5,7 @@ export default createMiddleware(routing);
 
 export const config = {
   // Match all pathnames except for:
-  // - /api, /trpc, /_next, /_vercel, /monitoring
+  // - /api, /trpc, /_next, /_vercel, /monitoring, /dev
   // - files with extensions (e.g., favicon.ico, robots.txt)
-  matcher: "/((?!api|trpc|_next|_vercel|monitoring|.*\\..*).*)",
+  matcher: "/((?!api|trpc|_next|_vercel|monitoring|dev|.*\\..*).*)",
 };

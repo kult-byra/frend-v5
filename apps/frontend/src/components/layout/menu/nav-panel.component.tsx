@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { forwardRef } from "react";
 import { cn } from "@/utils/cn.util";
 import { getLinkHref } from "./link-href.util";
 import type { LinkGroupProps } from "./menu.types";
@@ -9,30 +8,28 @@ import type { LinkGroupProps } from "./menu.types";
 type NavPanelProps = {
   isOpen: boolean;
   onClose: () => void;
-  onMouseLeave?: (e: React.MouseEvent) => void;
   linkGroup: LinkGroupProps | undefined;
 };
 
-export const NavPanel = forwardRef<HTMLElement, NavPanelProps>((props, ref) => {
-  const { isOpen, onClose, onMouseLeave, linkGroup } = props;
-
+export const NavPanel = ({ isOpen, onClose, linkGroup }: NavPanelProps) => {
   const mainLinks = linkGroup?.links?.mainLinks ?? [];
   const secondaryLinks = linkGroup?.links?.secondaryLinks ?? [];
 
   return (
-    <section
-      ref={ref}
-      onMouseLeave={onMouseLeave}
+    <nav
+      data-menu-panel
       className={cn(
         "fixed inset-y-0 left-0 z-30 hidden min-w-[560px] bg-light-purple laptop:block",
-        isOpen ? "visible" : "invisible",
+        isOpen ? "visible" : "invisible pointer-events-none",
       )}
       style={{
         // Extend width to cover the nav area - calculated from logo + nav buttons
         // Using CSS calc to get width of primary nav + logo area + padding
         width: "var(--nav-panel-width, 560px)",
       }}
-      aria-label={linkGroup ? `${linkGroup.title} navigation` : "Navigation panel"}
+      aria-label={linkGroup ? `${linkGroup.title}` : "Navigasjon"}
+      aria-hidden={!isOpen}
+      inert={!isOpen ? true : undefined}
     >
       {/* Panel content - offset by header height */}
       <div className="flex h-full flex-col justify-between px-xs pb-xs pt-[calc(52px+var(--spacing-sm))]">
@@ -58,11 +55,9 @@ export const NavPanel = forwardRef<HTMLElement, NavPanelProps>((props, ref) => {
 
         {/* TODO: Featured article card at bottom */}
       </div>
-    </section>
+    </nav>
   );
-});
-
-NavPanel.displayName = "NavPanel";
+};
 
 type MainLinksArray = NonNullable<NonNullable<LinkGroupProps["links"]>["mainLinks"]>;
 type PanelLinkProps = {
@@ -78,7 +73,7 @@ const PanelMainLink = ({ link, onClose }: PanelLinkProps) => {
     <Link
       href={href}
       onClick={onClose}
-      className="text-headline-2 text-text-primary hover:opacity-70 transition-opacity"
+      className="text-headline-2 text-text-primary transition-colors hover:text-text-secondary"
     >
       {link.title}
     </Link>
@@ -93,7 +88,7 @@ const PanelSecondaryLink = ({ link, onClose }: PanelLinkProps) => {
     <Link
       href={href}
       onClick={onClose}
-      className="text-body-large text-text-primary hover:opacity-70 transition-opacity"
+      className="text-body-large text-text-primary transition-colors hover:text-text-secondary"
     >
       {link.title}
     </Link>
