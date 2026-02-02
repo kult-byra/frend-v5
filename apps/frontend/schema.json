@@ -14576,10 +14576,6 @@
                   {
                     "type": "string",
                     "value": "image"
-                  },
-                  {
-                    "type": "string",
-                    "value": "video"
                   }
                 ]
               },
@@ -14639,31 +14635,10 @@
               },
               "optional": true
             },
-            "videoUrl": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": true
-            },
             "aspectRatio": {
               "type": "objectAttribute",
               "value": {
-                "type": "union",
-                "of": [
-                  {
-                    "type": "string",
-                    "value": "3:2"
-                  },
-                  {
-                    "type": "string",
-                    "value": "3:4"
-                  },
-                  {
-                    "type": "string",
-                    "value": "1:1"
-                  }
-                ]
+                "type": "string"
               },
               "optional": true
             }

@@ -1,7 +1,7 @@
 import { defineField, type FieldDefinition } from "sanity";
 
 import { datetimeField } from "@/schemas/generator-fields/datetime.field";
-import { mediaField } from "@/schemas/generator-fields/media.field";
+import { type MediaFieldOptions, mediaField } from "@/schemas/generator-fields/media.field";
 import { slugField } from "@/schemas/generator-fields/slug.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { linksField } from "./links.field";
@@ -20,6 +20,8 @@ export const heroFields = (options?: {
   suffix?: string;
   /** Override the default group assignment */
   group?: string;
+  /** Options to pass through to the media field */
+  mediaOptions?: Omit<MediaFieldOptions, "name" | "title" | "group">;
 }): FieldDefinition[] => {
   const {
     includePublishDate = false,
@@ -31,6 +33,7 @@ export const heroFields = (options?: {
     includeLinks = false,
     suffix = "",
     group = "key",
+    mediaOptions = {},
   } = options ?? {};
 
   return [
@@ -76,6 +79,7 @@ export const heroFields = (options?: {
                   name: "media",
                   title: "Main images/videos",
                   video: true,
+                  ...mediaOptions,
                 }),
               ],
               group,
@@ -91,6 +95,7 @@ export const heroFields = (options?: {
               title: "Main image/video",
               group,
               video: true,
+              ...mediaOptions,
             }),
           ]
       : []),

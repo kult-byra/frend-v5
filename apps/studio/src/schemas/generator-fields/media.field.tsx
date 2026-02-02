@@ -11,6 +11,8 @@ import type { IllustrationMode, IllustrationType } from "@/utils/illustrations.c
 
 export type MediaType = "image" | "video" | "illustration";
 
+export type AspectRatioValue = "3:2" | "3:4" | "1:1";
+
 export type MediaFieldOptions = Omit<FieldDef<ObjectDefinition>, "fields"> & {
   scope?: BlockDefinition["scope"];
   /** Enable image media type (default: true) */
@@ -21,6 +23,8 @@ export type MediaFieldOptions = Omit<FieldDef<ObjectDefinition>, "fields"> & {
   illustration?: boolean;
   /** Enable aspect ratio field (default: true) */
   aspectRatio?: boolean;
+  /** Force a specific aspect ratio (hides the selector and locks to this value) */
+  forcedAspectRatio?: AspectRatioValue;
   /** Illustration-specific options */
   illustrationOptions?: {
     filterMode?: IllustrationMode;
@@ -73,6 +77,7 @@ export const mediaField = (props: MediaFieldOptions) => {
     video = false,
     illustration = false,
     aspectRatio = true,
+    forcedAspectRatio,
     illustrationOptions,
     ...rest
   } = props;
@@ -125,6 +130,9 @@ export const mediaField = (props: MediaFieldOptions) => {
     return rules;
   };
 
+  // Hide mediaType selector when there's only one option
+  const hasMultipleMediaTypes = mediaTypeOptions.length > 1;
+
   // Build fields array based on enabled media types
   const fields: FieldDefinition[] = [
     defineField({
@@ -137,6 +145,7 @@ export const mediaField = (props: MediaFieldOptions) => {
         direction: "horizontal",
       },
       initialValue: initialMediaType,
+      hidden: !hasMultipleMediaTypes,
       validation: (Rule) => Rule.required(),
     }),
   ];
@@ -161,21 +170,36 @@ export const mediaField = (props: MediaFieldOptions) => {
     );
   }
 
-  if (aspectRatio && (image || video)) {
-    fields.push(
-      gridOptionsField({
-        name: "aspectRatio",
-        title: "Aspect ratio",
-        hidden: ({ parent }) => parent?.mediaType !== "image" && parent?.mediaType !== "video",
-        options: [
-          { title: "3:2", value: "3:2", icon: RectangleHorizontal },
-          { title: "3:4", value: "3:4", icon: RectangleVertical },
-          { title: "1:1", value: "1:1", icon: Square },
-        ],
-        columns: 3,
-        initialValue: "3:2",
-      }),
-    );
+  if ((image || video) && (aspectRatio || forcedAspectRatio)) {
+    if (forcedAspectRatio) {
+      // Hidden field with forced value
+      fields.push(
+        defineField({
+          name: "aspectRatio",
+          title: "Aspect ratio",
+          type: "string",
+          hidden: true,
+          initialValue: forcedAspectRatio,
+          readOnly: true,
+        }),
+      );
+    } else if (aspectRatio) {
+      // Selectable aspect ratio
+      fields.push(
+        gridOptionsField({
+          name: "aspectRatio",
+          title: "Aspect ratio",
+          hidden: ({ parent }) => parent?.mediaType !== "image" && parent?.mediaType !== "video",
+          options: [
+            { title: "3:2", value: "3:2", icon: RectangleHorizontal },
+            { title: "3:4", value: "3:4", icon: RectangleVertical },
+            { title: "1:1", value: "1:1", icon: Square },
+          ],
+          columns: 3,
+          initialValue: "3:2",
+        }),
+      );
+    }
   }
 
   if (illustration) {

@@ -50,6 +50,18 @@ export const clientListQuery = defineQuery(`
   }
 `);
 
+export const clientCardsQuery = defineQuery(`
+  *[_type == "client" && language == $locale] | order(name asc) {
+    _id,
+    _type,
+    "title": name,
+    "slug": name,
+    "logo": logo->logo.asset->url,
+    "industries": industries[]->title,
+    "description": pt::text(description)
+  }
+`);
+
 export const clientQuery = defineQuery(`
   *[_type == "client" && name == $name && language == $locale][0] {
     _id,

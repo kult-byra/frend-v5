@@ -27,6 +27,10 @@ export const conversionPageSchema = defineType({
     }),
     ...heroFields({
       includeExcerpt: true,
+      mediaOptions: {
+        forcedAspectRatio: "3:4",
+        video: false,
+      },
     }),
     referenceField({
       title: "Contact form",

@@ -41,7 +41,9 @@ export const NavBadge = (props: NavBadgeProps) => {
       >
         {item.title}
         {notificationCount !== undefined && notificationCount > 0 && (
-          <NotificationBadge count={notificationCount} />
+          <span className="flex size-5 items-center justify-center rounded-full bg-orange text-[12px] leading-[1.45] text-text-primary">
+            {notificationCount}
+          </span>
         )}
       </button>
     );
@@ -49,7 +51,6 @@ export const NavBadge = (props: NavBadgeProps) => {
 
   // For internal/external links, render as a Link
   const href = getLinkHref(item);
-
   if (!href) return null;
 
   return (
@@ -58,9 +59,3 @@ export const NavBadge = (props: NavBadgeProps) => {
     </Link>
   );
 };
-
-const NotificationBadge = ({ count }: { count: number }) => (
-  <span className="size-5 rounded-full bg-orange text-text-primary text-[12px] leading-[1.45] flex items-center justify-center">
-    {count}
-  </span>
-);

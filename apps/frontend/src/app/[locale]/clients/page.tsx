@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { type ClientCardItem, ClientCards } from "@/components/blocks/cards/client.cards.component";
 import { Container } from "@/components/layout/container.component";
-import { H1 } from "@/components/layout/heading.component";
-import type { ClientArchiveSettingsQueryResult, ClientListQueryResult } from "@/sanity-types";
+import type { ClientArchiveSettingsQueryResult } from "@/sanity-types";
 import {
   clientArchiveSettingsQuery,
-  clientListQuery,
+  clientCardsQuery,
 } from "@/server/queries/documents/client.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { formatMetadata } from "@/utils/format-metadata.util";
@@ -26,12 +25,12 @@ async function getArchiveSettings(locale: string) {
 
 async function getClients(locale: string) {
   const { data } = await sanityFetch({
-    query: clientListQuery,
+    query: clientCardsQuery,
     params: { locale },
     tags: ["client"],
   });
 
-  return (data ?? []) as ClientListQueryResult;
+  return (data ?? []) as ClientCardItem[];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -45,27 +44,18 @@ export default async function ClientsPage({ params }: Props) {
   const { locale } = await params;
   const [settings, clients] = await Promise.all([getArchiveSettings(locale), getClients(locale)]);
 
-  return (
-    <Container className="py-lg">
-      <H1 className="mb-4">{settings?.title ?? "Kunder"}</H1>
+  // Extract unique industries for filtering
+  const allIndustries = [
+    ...new Set(clients.flatMap((client) => client.industries ?? []).filter(Boolean)),
+  ];
 
-      {clients && clients.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-sm">
-          {clients.map((client) => (
-            <Link
-              key={client._id}
-              href={`/clients/${encodeURIComponent(client.name ?? "")}`}
-              className="group block p-sm border rounded-lg hover:border-primary transition-colors text-center"
-            >
-              <h2 className="font-semibold group-hover:text-primary transition-colors">
-                {client.name}
-              </h2>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <p className="text-muted-foreground">Ingen kunder funnet.</p>
-      )}
+  return (
+    <Container className="min-h-screen py-lg">
+      <ClientCards
+        items={clients}
+        heading={settings?.title ?? "Kunder"}
+        allIndustries={allIndustries}
+      />
     </Container>
   );
 }

@@ -2423,7 +2423,7 @@ export type ConversionPage = {
     _key: string;
   }>;
   media?: {
-    mediaType: "image" | "video";
+    mediaType: "image";
     image?: {
       asset?: SanityImageAssetReference;
       media?: unknown;
@@ -2432,8 +2432,7 @@ export type ConversionPage = {
       changed?: boolean;
       _type: "image";
     };
-    videoUrl?: string;
-    aspectRatio?: "3:2" | "3:4" | "1:1";
+    aspectRatio?: string;
   };
   contactForm?: HubspotFormReference;
   highlightedClients?: Array<
@@ -7973,6 +7972,19 @@ export type ClientListQueryResult = Array<{
 }>;
 
 // Source: src/server/queries/documents/client.query.ts
+// Variable: clientCardsQuery
+// Query: *[_type == "client" && language == $locale] | order(name asc) {    _id,    _type,    "title": name,    "slug": name,    "logo": logo->logo.asset->url,    "industries": industries[]->title,    "description": pt::text(description)  }
+export type ClientCardsQueryResult = Array<{
+  _id: string;
+  _type: "client";
+  title: string;
+  slug: string;
+  logo: string | null;
+  industries: Array<string> | null;
+  description: string;
+}>;
+
+// Source: src/server/queries/documents/client.query.ts
 // Variable: clientQuery
 // Query: *[_type == "client" && name == $name && language == $locale][0] {    _id,    name,    "logo": logo->logo.asset->url,    description,    "caseStudies": *[_type == "caseStudy" && client._ref == ^._id && language == $locale] {      _id,      title,      "slug": slug.current    },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
 export type ClientQueryResult = {
@@ -9963,966 +9975,198 @@ export type NewsArchiveSettingsQueryResult = {
 
 // Source: src/server/queries/documents/page.query.ts
 // Variable: pageQuery
-// Query: *[_type == "page" && slug.current == $slug && language == $locale][0] {    _id,      pageBuilder[]{       _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  options { width }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  images[] {    _key,    _type,      mediaType,  "image": image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  videoUrl,  aspectRatio  },  options { width }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  options { width }},    _type == "cards.block" => {  _type,  _key,  heading,  "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,  "seeAllLabel": *[_type == "stringTranslations"][0].seeAll[_key == $locale][0].value,  "noContentFoundLabel": *[_type == "stringTranslations"][0].noContentFound[_key == $locale][0].value,  "typeLabels": {    "knowledgeArticle": *[_type == "stringTranslations"][0].labelArticle[_key == $locale][0].value,    "caseStudy": *[_type == "stringTranslations"][0].labelCaseStudy[_key == $locale][0].value,    "seminar": *[_type == "stringTranslations"][0].labelSeminar[_key == $locale][0].value,    "eBook": *[_type == "stringTranslations"][0].labelEBook[_key == $locale][0].value,    "newsArticle": *[_type == "stringTranslations"][0].labelNews[_key == $locale][0].value,    "event": *[_type == "stringTranslations"][0].labelEvent[_key == $locale][0].value  },  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  knowledgeTypes,  newsEventTypes,  manualSelection,  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  "allIndustries": select(    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),    null  ),  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->logo.asset->url  }    },    contentType == "knowledge" && manualSelection == true => manualKnowledgeDocuments[]-> {        _id,  _type,  title,  "slug": slug.current,  "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }    },    contentType == "newsEvents" && manualSelection == true => manualNewsEventDocuments[]-> {        _id,  _type,  title,  "slug": slug.current,  "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "logo": logo->logo.asset->url,      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type == "service" && select(      $locale == "no" => defined(title_no) && defined(slug_no.current),      $locale == "en" => defined(title_en) && defined(slug_en.current)    )] | order(_createdAt desc) {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->logo.asset->url  }    },    contentType == "knowledge" => *[      _type in ^.knowledgeTypes      && language == $locale    ] | order(coalesce(publishDate, _createdAt) desc) {        _id,  _type,  title,  "slug": slug.current,  "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }    },    contentType == "newsEvents" => *[      _type in ^.newsEventTypes      && language == $locale    ] | order(coalesce(publishDate, _createdAt) desc) {        _id,  _type,  title,  "slug": slug.current,  "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) {      _id,      _type,      "title": name,      "slug": slug.current,      "logo": logo->logo.asset->url,      "description": pt::text(description),      "industries": industries[]->title    }  ),  options { width }},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  images[] {    _key,    _type,      mediaType,  "image": image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  videoUrl,  aspectRatio  },  options { width }},    _type == "quotes.block" => {  _type,  _key,  quotes[]-> {    _id,    quote,    source {      name,      role    }  },  options {    width  }},    _type == "people.block" => {  _type,  _key,  title,  "excerpt": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  people[]-> {    _id,    name,    role_no,    role_en,    phone,    email,    company,    externalPerson,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  },  options { width }},    _type == "logoCloud.block" => {  _type,  _key,  logos[]-> {    _id,    title,    "url": logo.asset->url  },  options { width }},    _type == "jobOpenings.block" => {  _type,  _key,  heading,  "description": description[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  options { width }},    _type == "imageGallery.block" => {  _type,  _key,  title,  intro,  images[] {    _key,    _type,      mediaType,  "image": image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  videoUrl,  aspectRatio  },  options {    width,    galleryTypeHalf,    galleryTypeFull  }}  )  },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  }  }
-export type PageQueryResult = {
-  _id: string;
-  pageBuilder: Array<
-    | {
-        _type: "cards.block";
-        _key: string;
-        heading: string | null;
-        featuredLabel: string | null;
-        seeAllLabel: string | null;
-        noContentFoundLabel: string | null;
-        typeLabels: {
-          knowledgeArticle: string | null;
-          caseStudy: string | null;
-          seminar: string | null;
-          eBook: string | null;
-          newsArticle: string | null;
-          event: string | null;
-        };
-        content: Array<{
-          _key: string;
-          _ts: "PortableTextInnerQuery";
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
+// Query: *[_type in ["page", "conversionPage"] && slug.current == $slug && language == $locale][0] {    _id,    _type,      pageBuilder[]{       _type,  _key,  ...select(    _type == "callToAction.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[]{      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  options { width }},    _type == "imageAndText.block" => {  _type,  _key,  heading,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  image {        crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  options {    imagePosition  }},    _type == "imagesAndText.block" => {  _type,  _key,  heading,  "content": content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  images[] {    _key,    _type,      mediaType,  "image": image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  videoUrl,  aspectRatio  },  options { width }},    _type == "content.block" => {  _type,  _key,    content[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  options { width }},    _type == "cards.block" => {  _type,  _key,  heading,  "featuredLabel": *[_type == "stringTranslations"][0].featured[_key == $locale][0].value,  "seeAllLabel": *[_type == "stringTranslations"][0].seeAll[_key == $locale][0].value,  "noContentFoundLabel": *[_type == "stringTranslations"][0].noContentFound[_key == $locale][0].value,  "typeLabels": {    "knowledgeArticle": *[_type == "stringTranslations"][0].labelArticle[_key == $locale][0].value,    "caseStudy": *[_type == "stringTranslations"][0].labelCaseStudy[_key == $locale][0].value,    "seminar": *[_type == "stringTranslations"][0].labelSeminar[_key == $locale][0].value,    "eBook": *[_type == "stringTranslations"][0].labelEBook[_key == $locale][0].value,    "newsArticle": *[_type == "stringTranslations"][0].labelNews[_key == $locale][0].value,    "event": *[_type == "stringTranslations"][0].labelEvent[_key == $locale][0].value  },  "content": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  contentType,  knowledgeTypes,  newsEventTypes,  manualSelection,  links[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  "allIndustries": select(    contentType == "client" && manualSelection == true => array::unique(manualClientDocuments[]->industries[]->title),    contentType == "client" => array::unique(*[_type == "client"].industries[]->title),    null  ),  "items": select(    contentType == "services" && manualSelection == true => manualServiceDocuments[]-> {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->logo.asset->url  }    },    contentType == "knowledge" && manualSelection == true => manualKnowledgeDocuments[]-> {        _id,  _type,  title,  "slug": slug.current,  "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }    },    contentType == "newsEvents" && manualSelection == true => manualNewsEventDocuments[]-> {        _id,  _type,  title,  "slug": slug.current,  "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }    },    contentType == "client" && manualSelection == true => manualClientDocuments[]-> {      _id,      _type,      "title": name,      "slug": slug.current,      "logo": logo->logo.asset->url,      "description": pt::text(description),      "industries": industries[]->title    },    contentType == "services" => *[_type == "service" && select(      $locale == "no" => defined(title_no) && defined(slug_no.current),      $locale == "en" => defined(title_en) && defined(slug_en.current)    )] | order(_createdAt desc) {        _id,  _type,  "title": select(    _type in ["service", "subService"] => select(      $locale == "no" => title_no,      $locale == "en" => title_en    ),    title  ),  "slug": select(    _type in ["service", "subService"] => select(      $locale == "no" => slug_no.current,      $locale == "en" => slug_en.current    ),    slug.current  ),  "excerpt": select(    _type in ["service", "subService"] => select(      $locale == "no" => excerpt_no,      $locale == "en" => excerpt_en    ),    excerpt  ),  "media": {    "mediaType": media.mediaType,    "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },    "illustration": media.illustration  },  "technologies": technologies[]-> {    _id,    title,    "logo": logo->logo.asset->url  }    },    contentType == "knowledge" => *[      _type in ^.knowledgeTypes      && language == $locale    ] | order(coalesce(publishDate, _createdAt) desc) {        _id,  _type,  title,  "slug": slug.current,  "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }    },    contentType == "newsEvents" => *[      _type in ^.newsEventTypes      && language == $locale    ] | order(coalesce(publishDate, _createdAt) desc) {        _id,  _type,  title,  "slug": slug.current,  "image": media.image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  "services": services[]-> {    _id,    "title": select(      ^.language == "no" => title_no,      ^.language == "en" => title_en    )  }    },    contentType == "client" => *[_type == "client"] | order(_createdAt desc) {      _id,      _type,      "title": name,      "slug": slug.current,      "logo": logo->logo.asset->url,      "description": pt::text(description),      "industries": industries[]->title    }  ),  options { width }},    _type == "imagesWithBanner.block" => {  _type,  _key,  heading,  "content": text[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  ctaType,  link[] {      _key,  _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},  _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant},  _type == "downloadLinkObject" => {  "linkType": "download",  "title": coalesce(      customTitle,      file.asset->originalFilename    ),  "url": file.asset->url,  description,  buttonVariant},  _type == "linkGroup" => {  "linkType": "linkGroup",  title,  menuType,  links {    mainLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    },    secondaryLinks[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  linkGroups[] {    _key,    title,    links[] {      _key,      _type == "internalLinkObject" => {  "linkType": "internal",  "title": coalesce(    customTitle,    internalLink->title,    internalLink->name  ),  "slug": internalLink->slug.current,  "_type": internalLink->_type,  description,  buttonVariant},      _type == "link" => {  "linkType": "external",  "title": coalesce(    customTitle,    href  ),  "url": href,  description,  buttonVariant}    }  },  contactForm-> {    _id,    title,    formId  },  image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  },  // Knowledge menu highlight  "knowledgeHighlight": select(    menuType == "knowledge" && knowledgeHighlight.mode == "latest" => {      "mode": "latest",      "document": *[        _type in ["knowledgeArticle", "caseStudy", "eBook", "seminar"]        && language == $locale        && !(_id in path("drafts.**"))      ] | order(_createdAt desc)[0] {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    },    menuType == "knowledge" && knowledgeHighlight.mode == "manual" => {      "mode": "manual",      "document": knowledgeHighlight.document-> {          _id,  _type,  title,  "slug": slug.current,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }      }    }  ),  // News and Events menu - auto-generated content  "latestNews": select(    menuType == "newsAndEvents" => *[      _type == "newsArticle"      && language == $locale      && !(_id in path("drafts.**"))    ] | order(publishDate desc)[0...2] {        _id,  _type,  title,  "slug": slug.current,  publishDate,  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  ),  "upcomingEvents": select(    menuType == "newsAndEvents" => *[      _type == "event"      && language == $locale      && !(_id in path("drafts.**"))      && timeAndDate.startTime > now()    ] | order(timeAndDate.startTime asc)[0...1] {        _id,  _type,  title,  "slug": slug.current,  "startTime": timeAndDate.startTime,  "excerpt": pt::text(description),  "image": media.image {      crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  }  }    }  )}    },  images[] {    _key,    _type,      mediaType,  "image": image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  videoUrl,  aspectRatio  },  options { width }},    _type == "quotes.block" => {  _type,  _key,  quotes[]-> {    _id,    quote,    source {      name,      role    }  },  options {    width  }},    _type == "people.block" => {  _type,  _key,  title,  "excerpt": excerpt[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  people[]-> {    _id,    name,    role_no,    role_en,    phone,    email,    company,    externalPerson,    image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } }  },  options { width }},    _type == "logoCloud.block" => {  _type,  _key,  logos[]-> {    _id,    title,    "url": logo.asset->url  },  options { width }},    _type == "jobOpenings.block" => {  _type,  _key,  heading,  "description": description[] {    _key,    _type == "block" => {        "_ts": "PortableTextInnerQuery",  ...,  markDefs[] {    ...,    _type == "link" => {        "_ts": "LinkInPortableTextQuery",  "url": href    },    _type == "internalLinkObject" => {        "_ts": "InternalLinkObjectInPortableTextQuery",  internalLink-> {    _type,    "slug": slug.current  }    },    _type == "downloadLinkObject" => {        "_ts": "DownloadLinkObjectInPortableTextQuery",  "url": file.asset->url    }  }    }  },  options { width }},    _type == "imageGallery.block" => {  _type,  _key,  title,  intro,  images[] {    _key,    _type,      mediaType,  "image": image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  videoUrl,  aspectRatio  },  options {    width,    galleryTypeHalf,    galleryTypeFull  }}  )  },      "metadata": {    "title": coalesce(metadata.title, title, name),    "desc": coalesce(metadata.desc, excerpt),    "image": select(      defined(metadata.image.asset._ref) => metadata.image {          "id": asset._ref,  altText      },      defined(image.asset._ref) => image {          "id": asset._ref,  altText      },      defined(coverImage.asset._ref) => coverImage {          "id": asset._ref,  altText      },      defined(hero.image.asset._ref) => hero.image {          "id": asset._ref,  altText      }    ),    "tags": metadata.tags,    "noIndex": metadata.noIndex  },      "_translations": *[_type == "translation.metadata" && references(^._id)].translations[].value->{    "slug": slug.current,    language  },    // Conversion page specific fields    _type == "conversionPage" => {      title,      excerpt,      media {   mediaType,  "image": image {     crop,  hotspot,  asset-> {    _id,    title,    altText,    description,    metadata {      lqip,      dimensions {        aspectRatio,        width,        height      }    }  } },  videoUrl,  aspectRatio },      "contactForm": contactForm-> {        _id,        title,        formId      },      "highlightedClients": highlightedClients[]-> {        _id,        name,        "logo": logo->logo.asset->url      },      "highlightedQuotes": highlightedQuotes[]-> {        _id,        quote,        source {          name,          role        }      }    }  }
+export type PageQueryResult =
+  | {
+      _id: string;
+      _type: "conversionPage";
+      pageBuilder: Array<
+        | {
+            _type: "cards.block";
             _key: string;
-          }>;
-          style?: "normal";
-          listItem?: never;
-          markDefs: Array<
-            | {
-                file: DownloadLinkObjectFile;
-                _type: "downloadLinkObject";
-                _key: string;
-                _ts: "DownloadLinkObjectInPortableTextQuery";
-                url: string | null;
-              }
-            | {
-                internalLink:
-                  | {
-                      _type: "caseStudy";
-                      slug: string;
-                    }
-                  | {
-                      _type: "caseStudyArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "client";
-                      slug: null;
-                    }
-                  | {
-                      _type: "clientArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "conversionPage";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBook";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBookArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "event";
-                      slug: string;
-                    }
-                  | {
-                      _type: "frontPage";
-                      slug: null;
-                    }
-                  | {
-                      _type: "knowledgeArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "knowledgeArticleArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "knowledgeHub";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsAndEventsArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "page";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminar";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminarArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "service";
-                      slug: null;
-                    }
-                  | {
-                      _type: "servicesArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "subService";
-                      slug: null;
-                    };
-                _type: "internalLinkObject";
-                _key: string;
-                _ts: "InternalLinkObjectInPortableTextQuery";
-              }
-            | {
-                href: string;
-                _type: "link";
-                _key: string;
-                _ts: "LinkInPortableTextQuery";
-                url: string;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-        }> | null;
-        contentType: "client" | "knowledge" | "newsEvents" | "services";
-        knowledgeTypes: Array<string> | null;
-        newsEventTypes: Array<string> | null;
-        manualSelection: boolean | null;
-        links: Array<
-          | {
+            heading: string | null;
+            featuredLabel: string | null;
+            seeAllLabel: string | null;
+            noContentFoundLabel: string | null;
+            typeLabels: {
+              knowledgeArticle: string | null;
+              caseStudy: string | null;
+              seminar: string | null;
+              eBook: string | null;
+              newsArticle: string | null;
+              event: string | null;
+            };
+            content: Array<{
               _key: string;
-              linkType: "internal";
-              title: string | null;
-              slug: string | null;
-              _type:
-                | "caseStudy"
-                | "caseStudyArchive"
-                | "client"
-                | "clientArchive"
-                | "conversionPage"
-                | "eBook"
-                | "eBookArchive"
-                | "event"
-                | "frontPage"
-                | "knowledgeArticle"
-                | "knowledgeArticleArchive"
-                | "knowledgeHub"
-                | "newsAndEventsArchive"
-                | "newsArticle"
-                | "page"
-                | "seminar"
-                | "seminarArchive"
-                | "service"
-                | "servicesArchive"
-                | "subService";
-              description: null;
-              buttonVariant: "primary" | "secondary" | null;
-            }
-          | {
-              _key: string;
-              linkType: "external";
-              title: string;
-              url: string;
-              description: null;
-              buttonVariant: "primary" | "secondary" | null;
-            }
-        > | null;
-        allIndustries: Array<string | null> | null;
-        items:
-          | Array<{
-              _id: string;
-              _type: "client";
-              title: string;
-              slug: null;
-              logo: string | null;
-              description: string;
-              industries: Array<string> | null;
-            }>
-          | Array<{
-              _id: string;
-              _type: "service";
-              title: string | null;
-              slug: string | null;
-              excerpt: Array<{
-                children?: Array<{
-                  marks?: Array<string>;
-                  text?: string;
-                  _type: "span";
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: never;
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            contentType: "client" | "knowledge" | "newsEvents" | "services";
+            knowledgeTypes: Array<string> | null;
+            newsEventTypes: Array<string> | null;
+            manualSelection: boolean | null;
+            links: Array<
+              | {
                   _key: string;
-                }>;
-                style?: "normal";
-                listItem?: "bullet" | "check" | "dash" | "number";
-                markDefs?: Array<
-                  | {
-                      file: DownloadLinkObjectFile;
-                      _type: "downloadLinkObject";
-                      _key: string;
-                    }
-                  | {
-                      internalLink: InternalLink;
-                      _type: "internalLinkObject";
-                      _key: string;
-                    }
-                  | {
-                      href: string;
-                      _type: "link";
-                      _key: string;
-                    }
-                >;
-                level?: number;
-                _type: "block";
-                _key: string;
-              }> | null;
-              media: {
-                mediaType: "illustration" | "image" | null;
-                image: {
-                  crop: SanityImageCrop | null;
-                  hotspot: SanityImageHotspot | null;
-                  asset: {
-                    _id: string;
-                    title: string | null;
-                    altText: string | null;
-                    description: string | null;
-                    metadata: {
-                      lqip: string | null;
-                      dimensions: {
-                        aspectRatio: number;
-                        width: number;
-                        height: number;
-                      } | null;
-                    } | null;
-                  } | null;
-                } | null;
-                illustration:
-                  | "arrow-right-rotated"
-                  | "dark-bubbles-01"
-                  | "dark-bubbles-02"
-                  | "dark-choices"
-                  | "dark-collaboration"
-                  | "dark-competition-01"
-                  | "dark-competition-02"
-                  | "dark-confused-team"
-                  | "dark-confused"
-                  | "dark-cooperation"
-                  | "dark-direction"
-                  | "dark-growth"
-                  | "dark-icon-award"
-                  | "dark-icon-chess"
-                  | "dark-icon-chessboard"
-                  | "dark-icon-hourglass"
-                  | "dark-icon-timer"
-                  | "dark-icon-trophy"
-                  | "dark-idea"
-                  | "dark-meeting-01"
-                  | "dark-meeting-02"
-                  | "dark-pie-chart"
-                  | "dark-strategy-card"
-                  | "dark-strategy-chess"
-                  | "dark-victorys"
-                  | "light-area-ai-01"
-                  | "light-area-ai-02"
-                  | "light-area-ai-03"
-                  | "light-area-crm-01"
-                  | "light-area-crm-02"
-                  | "light-area-crm-03"
-                  | "light-area-nocode-01"
-                  | "light-area-nocode-02"
-                  | "light-area-nocode-03"
-                  | "light-area-service-01"
-                  | "light-area-service-02"
-                  | "light-area-service-03"
-                  | "light-area-teknologi-01"
-                  | "light-area-teknologi-02"
-                  | "light-area-teknologi-03"
-                  | "light-area-utvikler-01"
-                  | "light-area-utvikler-02"
-                  | "light-area-utvikler-03"
-                  | "light-bubbles-01"
-                  | "light-bubbles-02"
-                  | "light-choices"
-                  | "light-collaboration"
-                  | "light-competition-01"
-                  | "light-competition-02"
-                  | "light-confused-team"
-                  | "light-confused"
-                  | "light-cooperation"
-                  | "light-direction"
-                  | "light-growth"
-                  | "light-icon-award"
-                  | "light-icon-chess"
-                  | "light-icon-chessboard"
-                  | "light-icon-hourglass"
-                  | "light-icon-light-bulb"
-                  | "light-icon-timer"
-                  | "light-icon-trophy"
-                  | "light-idea"
-                  | "light-meeting-01"
-                  | "light-meeting-02"
-                  | "light-pie-chart"
-                  | "light-strategy-card"
-                  | "light-strategy-chess"
-                  | "light-victorys"
-                  | null;
-              };
-              technologies: Array<{
-                _id: string;
-                title: string;
-                logo: string | null;
-              }> | null;
-            }>
-          | Array<
-              | {
-                  _id: string;
-                  _type: "caseStudy";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "caseStudyArchive";
-                  title: null;
+                  linkType: "internal";
+                  title: string | null;
                   slug: string | null;
-                  image: null;
-                  services: null;
+                  _type:
+                    | "caseStudy"
+                    | "caseStudyArchive"
+                    | "client"
+                    | "clientArchive"
+                    | "conversionPage"
+                    | "eBook"
+                    | "eBookArchive"
+                    | "event"
+                    | "frontPage"
+                    | "knowledgeArticle"
+                    | "knowledgeArticleArchive"
+                    | "knowledgeHub"
+                    | "newsAndEventsArchive"
+                    | "newsArticle"
+                    | "page"
+                    | "seminar"
+                    | "seminarArchive"
+                    | "service"
+                    | "servicesArchive"
+                    | "subService";
+                  description: null;
+                  buttonVariant: "primary" | "secondary" | null;
                 }
               | {
+                  _key: string;
+                  linkType: "external";
+                  title: string;
+                  url: string;
+                  description: null;
+                  buttonVariant: "primary" | "secondary" | null;
+                }
+            > | null;
+            allIndustries: Array<string | null> | null;
+            items:
+              | Array<{
                   _id: string;
                   _type: "client";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "clientArchive";
-                  title: null;
-                  slug: string | null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "conversionPage";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "eBook";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "eBookArchive";
-                  title: null;
-                  slug: string | null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "event";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "eventType";
                   title: string;
                   slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "footerSettings";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "frontPage";
-                  title: string;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "hubspotForm";
-                  title: string;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "industry";
-                  title: string;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "isometricIllustration";
-                  title: string | null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "jobOpening";
-                  title: string | null;
-                  slug: null;
-                  image: null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "knowledgeArticle";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "knowledgeArticleArchive";
-                  title: null;
-                  slug: string | null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "knowledgeHub";
-                  title: null;
-                  slug: string | null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "logo";
-                  title: string;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "media.tag";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "menuSettings";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "metadataSettings";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "newsAndEventsArchive";
-                  title: null;
-                  slug: string | null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "newsArticle";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "organisationSettings";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "page";
-                  title: string;
-                  slug: string;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "person";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "quote";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "sanity.fileAsset";
-                  title: string | null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "sanity.imageAsset";
-                  title: string | null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "seminar";
-                  title: string;
-                  slug: string;
-                  image: null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "seminarArchive";
-                  title: null;
-                  slug: string | null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "service";
-                  title: null;
-                  slug: null;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "servicesArchive";
-                  title: null;
-                  slug: string | null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "siteSettings";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "stringTranslations";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "subService";
-                  title: null;
-                  slug: null;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "technology";
-                  title: string;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "translation.metadata";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-              | {
-                  _id: string;
-                  _type: "typegenSettings";
-                  title: null;
-                  slug: null;
-                  image: null;
-                  services: null;
-                }
-            >
-          | Array<
-              | {
-                  _id: string;
-                  _type: "caseStudy";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "eBook";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "knowledgeArticle";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "seminar";
-                  title: string;
-                  slug: string;
-                  image: null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-            >
-          | Array<
-              | {
-                  _id: string;
-                  _type: "event";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "newsArticle";
-                  title: string;
-                  slug: string;
-                  image: {
-                    crop: SanityImageCrop | null;
-                    hotspot: SanityImageHotspot | null;
-                    asset: {
-                      _id: string;
-                      title: string | null;
-                      altText: string | null;
-                      description: string | null;
-                      metadata: {
-                        lqip: string | null;
-                        dimensions: {
-                          aspectRatio: number;
-                          width: number;
-                          height: number;
-                        } | null;
-                      } | null;
-                    } | null;
-                  } | null;
-                  services: Array<{
-                    _id: string;
-                    title: string | null;
-                  }> | null;
-                }
-            >
-          | Array<
-              | {
+                  logo: string | null;
+                  description: string;
+                  industries: Array<string> | null;
+                }>
+              | Array<{
                   _id: string;
                   _type: "service";
                   title: string | null;
@@ -11053,81 +10297,1019 @@ export type PageQueryResult = {
                     title: string;
                     logo: string | null;
                   }> | null;
-                }
-              | {
-                  _id: string;
-                  _type: "subService";
-                  title: string | null;
-                  slug: string | null;
-                  excerpt: Array<{
-                    children?: Array<{
-                      marks?: Array<string>;
-                      text?: string;
-                      _type: "span";
-                      _key: string;
-                    }>;
-                    style?: "normal";
-                    listItem?: "bullet" | "check" | "dash" | "number";
-                    markDefs?: Array<
-                      | {
-                          file: DownloadLinkObjectFile;
-                          _type: "downloadLinkObject";
-                          _key: string;
-                        }
-                      | {
-                          internalLink: InternalLink;
-                          _type: "internalLinkObject";
-                          _key: string;
-                        }
-                      | {
-                          href: string;
-                          _type: "link";
-                          _key: string;
-                        }
-                    >;
-                    level?: number;
-                    _type: "block";
-                    _key: string;
-                  }> | null;
-                  media: {
-                    mediaType: "image" | null;
-                    image: {
-                      crop: SanityImageCrop | null;
-                      hotspot: SanityImageHotspot | null;
-                      asset: {
-                        _id: string;
-                        title: string | null;
-                        altText: string | null;
-                        description: string | null;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            aspectRatio: number;
-                            width: number;
-                            height: number;
+                }>
+              | Array<
+                  | {
+                      _id: string;
+                      _type: "caseStudy";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
                           } | null;
                         } | null;
                       } | null;
-                    } | null;
-                    illustration: null;
-                  };
-                  technologies: Array<{
-                    _id: string;
-                    title: string;
-                    logo: string | null;
-                  }> | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "caseStudyArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "client";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "clientArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "conversionPage";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "eBook";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "eBookArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "event";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "eventType";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "footerSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "frontPage";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "hubspotForm";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "industry";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "isometricIllustration";
+                      title: string | null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "jobOpening";
+                      title: string | null;
+                      slug: null;
+                      image: null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "knowledgeArticle";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "knowledgeArticleArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "knowledgeHub";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "logo";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "media.tag";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "menuSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "metadataSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "newsAndEventsArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "newsArticle";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "organisationSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "page";
+                      title: string;
+                      slug: string;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "person";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "quote";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "sanity.fileAsset";
+                      title: string | null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "sanity.imageAsset";
+                      title: string | null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "seminar";
+                      title: string;
+                      slug: string;
+                      image: null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "seminarArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "service";
+                      title: null;
+                      slug: null;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "servicesArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "siteSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "stringTranslations";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "subService";
+                      title: null;
+                      slug: null;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "technology";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "translation.metadata";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "typegenSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                >
+              | Array<
+                  | {
+                      _id: string;
+                      _type: "caseStudy";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "eBook";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "knowledgeArticle";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "seminar";
+                      title: string;
+                      slug: string;
+                      image: null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                >
+              | Array<
+                  | {
+                      _id: string;
+                      _type: "event";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "newsArticle";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                >
+              | Array<
+                  | {
+                      _id: string;
+                      _type: "service";
+                      title: string | null;
+                      slug: string | null;
+                      excerpt: Array<{
+                        children?: Array<{
+                          marks?: Array<string>;
+                          text?: string;
+                          _type: "span";
+                          _key: string;
+                        }>;
+                        style?: "normal";
+                        listItem?: "bullet" | "check" | "dash" | "number";
+                        markDefs?: Array<
+                          | {
+                              file: DownloadLinkObjectFile;
+                              _type: "downloadLinkObject";
+                              _key: string;
+                            }
+                          | {
+                              internalLink: InternalLink;
+                              _type: "internalLinkObject";
+                              _key: string;
+                            }
+                          | {
+                              href: string;
+                              _type: "link";
+                              _key: string;
+                            }
+                        >;
+                        level?: number;
+                        _type: "block";
+                        _key: string;
+                      }> | null;
+                      media: {
+                        mediaType: "illustration" | "image" | null;
+                        image: {
+                          crop: SanityImageCrop | null;
+                          hotspot: SanityImageHotspot | null;
+                          asset: {
+                            _id: string;
+                            title: string | null;
+                            altText: string | null;
+                            description: string | null;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                aspectRatio: number;
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                        } | null;
+                        illustration:
+                          | "arrow-right-rotated"
+                          | "dark-bubbles-01"
+                          | "dark-bubbles-02"
+                          | "dark-choices"
+                          | "dark-collaboration"
+                          | "dark-competition-01"
+                          | "dark-competition-02"
+                          | "dark-confused-team"
+                          | "dark-confused"
+                          | "dark-cooperation"
+                          | "dark-direction"
+                          | "dark-growth"
+                          | "dark-icon-award"
+                          | "dark-icon-chess"
+                          | "dark-icon-chessboard"
+                          | "dark-icon-hourglass"
+                          | "dark-icon-timer"
+                          | "dark-icon-trophy"
+                          | "dark-idea"
+                          | "dark-meeting-01"
+                          | "dark-meeting-02"
+                          | "dark-pie-chart"
+                          | "dark-strategy-card"
+                          | "dark-strategy-chess"
+                          | "dark-victorys"
+                          | "light-area-ai-01"
+                          | "light-area-ai-02"
+                          | "light-area-ai-03"
+                          | "light-area-crm-01"
+                          | "light-area-crm-02"
+                          | "light-area-crm-03"
+                          | "light-area-nocode-01"
+                          | "light-area-nocode-02"
+                          | "light-area-nocode-03"
+                          | "light-area-service-01"
+                          | "light-area-service-02"
+                          | "light-area-service-03"
+                          | "light-area-teknologi-01"
+                          | "light-area-teknologi-02"
+                          | "light-area-teknologi-03"
+                          | "light-area-utvikler-01"
+                          | "light-area-utvikler-02"
+                          | "light-area-utvikler-03"
+                          | "light-bubbles-01"
+                          | "light-bubbles-02"
+                          | "light-choices"
+                          | "light-collaboration"
+                          | "light-competition-01"
+                          | "light-competition-02"
+                          | "light-confused-team"
+                          | "light-confused"
+                          | "light-cooperation"
+                          | "light-direction"
+                          | "light-growth"
+                          | "light-icon-award"
+                          | "light-icon-chess"
+                          | "light-icon-chessboard"
+                          | "light-icon-hourglass"
+                          | "light-icon-light-bulb"
+                          | "light-icon-timer"
+                          | "light-icon-trophy"
+                          | "light-idea"
+                          | "light-meeting-01"
+                          | "light-meeting-02"
+                          | "light-pie-chart"
+                          | "light-strategy-card"
+                          | "light-strategy-chess"
+                          | "light-victorys"
+                          | null;
+                      };
+                      technologies: Array<{
+                        _id: string;
+                        title: string;
+                        logo: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "subService";
+                      title: string | null;
+                      slug: string | null;
+                      excerpt: Array<{
+                        children?: Array<{
+                          marks?: Array<string>;
+                          text?: string;
+                          _type: "span";
+                          _key: string;
+                        }>;
+                        style?: "normal";
+                        listItem?: "bullet" | "check" | "dash" | "number";
+                        markDefs?: Array<
+                          | {
+                              file: DownloadLinkObjectFile;
+                              _type: "downloadLinkObject";
+                              _key: string;
+                            }
+                          | {
+                              internalLink: InternalLink;
+                              _type: "internalLinkObject";
+                              _key: string;
+                            }
+                          | {
+                              href: string;
+                              _type: "link";
+                              _key: string;
+                            }
+                        >;
+                        level?: number;
+                        _type: "block";
+                        _key: string;
+                      }> | null;
+                      media: {
+                        mediaType: "image" | null;
+                        image: {
+                          crop: SanityImageCrop | null;
+                          hotspot: SanityImageHotspot | null;
+                          asset: {
+                            _id: string;
+                            title: string | null;
+                            altText: string | null;
+                            description: string | null;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                aspectRatio: number;
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                        } | null;
+                        illustration: null;
+                      };
+                      technologies: Array<{
+                        _id: string;
+                        title: string;
+                        logo: string | null;
+                      }> | null;
+                    }
+                >
+              | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "content.block";
+            _key: string;
+            content: Array<
+              | {
+                  _key: string;
+                  _ts: "PortableTextInnerQuery";
+                  children?: Array<{
+                    marks?: Array<string>;
+                    text?: string;
+                    _type: "span";
+                    _key: string;
+                  }>;
+                  style?: "h2" | "h3" | "h4" | "normal";
+                  listItem?: "bullet" | "check" | "dash" | "number";
+                  markDefs: Array<
+                    | {
+                        file: DownloadLinkObjectFile;
+                        _type: "downloadLinkObject";
+                        _key: string;
+                        _ts: "DownloadLinkObjectInPortableTextQuery";
+                        url: string | null;
+                      }
+                    | {
+                        internalLink:
+                          | {
+                              _type: "caseStudy";
+                              slug: string;
+                            }
+                          | {
+                              _type: "caseStudyArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "client";
+                              slug: null;
+                            }
+                          | {
+                              _type: "clientArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "conversionPage";
+                              slug: string;
+                            }
+                          | {
+                              _type: "eBook";
+                              slug: string;
+                            }
+                          | {
+                              _type: "eBookArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "event";
+                              slug: string;
+                            }
+                          | {
+                              _type: "frontPage";
+                              slug: null;
+                            }
+                          | {
+                              _type: "knowledgeArticle";
+                              slug: string;
+                            }
+                          | {
+                              _type: "knowledgeArticleArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "knowledgeHub";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "newsAndEventsArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "newsArticle";
+                              slug: string;
+                            }
+                          | {
+                              _type: "page";
+                              slug: string;
+                            }
+                          | {
+                              _type: "seminar";
+                              slug: string;
+                            }
+                          | {
+                              _type: "seminarArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "service";
+                              slug: null;
+                            }
+                          | {
+                              _type: "servicesArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "subService";
+                              slug: null;
+                            };
+                        _type: "internalLinkObject";
+                        _key: string;
+                        _ts: "InternalLinkObjectInPortableTextQuery";
+                      }
+                    | {
+                        href: string;
+                        _type: "link";
+                        _key: string;
+                        _ts: "LinkInPortableTextQuery";
+                        url: string;
+                      }
+                  > | null;
+                  level?: number;
+                  _type: "block";
                 }
-            >
-          | null;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-        } | null;
-      }
-    | {
-        _type: "content.block";
-        _key: string;
-        content: Array<
-          | {
+              | {
+                  _key: string;
+                }
+            > | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "imageGallery.block";
+            _key: string;
+            title: string | null;
+            intro: string | null;
+            images: Array<{
+              _key: string;
+              _type: "media";
+              mediaType: "image" | "video";
+              image: {
+                crop: SanityImageCrop | null;
+                hotspot: SanityImageHotspot | null;
+                asset: {
+                  _id: string;
+                  title: string | null;
+                  altText: string | null;
+                  description: string | null;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      aspectRatio: number;
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+              videoUrl: string | null;
+              aspectRatio: "1:1" | "3:2" | "3:4" | null;
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+              galleryTypeHalf: "carousel" | "grid" | "single" | null;
+              galleryTypeFull:
+                | "carouselFull"
+                | "doubleStickyFull"
+                | "mediaFull"
+                | null;
+            } | null;
+          }
+        | {
+            _type: "imagesAndText.block";
+            _key: string;
+            heading: string | null;
+            content: Array<{
               _key: string;
               _ts: "PortableTextInnerQuery";
               children?: Array<{
@@ -11136,7 +11318,7 @@ export type PageQueryResult = {
                 _type: "span";
                 _key: string;
               }>;
-              style?: "h2" | "h3" | "h4" | "normal";
+              style?: "normal";
               listItem?: "bullet" | "check" | "dash" | "number";
               markDefs: Array<
                 | {
@@ -11242,756 +11424,587 @@ export type PageQueryResult = {
               > | null;
               level?: number;
               _type: "block";
-            }
-          | {
+            }> | null;
+            links: Array<
+              | {
+                  _key: string;
+                  linkType: "internal";
+                  title: string | null;
+                  slug: string | null;
+                  _type:
+                    | "caseStudy"
+                    | "caseStudyArchive"
+                    | "client"
+                    | "clientArchive"
+                    | "conversionPage"
+                    | "eBook"
+                    | "eBookArchive"
+                    | "event"
+                    | "frontPage"
+                    | "knowledgeArticle"
+                    | "knowledgeArticleArchive"
+                    | "knowledgeHub"
+                    | "newsAndEventsArchive"
+                    | "newsArticle"
+                    | "page"
+                    | "seminar"
+                    | "seminarArchive"
+                    | "service"
+                    | "servicesArchive"
+                    | "subService";
+                  description: null;
+                  buttonVariant: null;
+                }
+              | {
+                  _key: string;
+                  linkType: "download";
+                  title: string | null;
+                  url: string | null;
+                  description: null;
+                  buttonVariant: null;
+                }
+              | {
+                  _key: string;
+                  linkType: "external";
+                  title: string;
+                  url: string;
+                  description: null;
+                  buttonVariant: null;
+                }
+            > | null;
+            images: Array<{
               _key: string;
-            }
-        > | null;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-        } | null;
-      }
-    | {
-        _type: "imageGallery.block";
-        _key: string;
-        title: string | null;
-        intro: string | null;
-        images: Array<{
-          _key: string;
-          _type: "media";
-          mediaType: "image" | "video";
-          image: {
-            crop: SanityImageCrop | null;
-            hotspot: SanityImageHotspot | null;
-            asset: {
-              _id: string;
-              title: string | null;
-              altText: string | null;
-              description: string | null;
-              metadata: {
-                lqip: string | null;
-                dimensions: {
-                  aspectRatio: number;
-                  width: number;
-                  height: number;
+              _type: "media";
+              mediaType: "image" | "video";
+              image: {
+                crop: SanityImageCrop | null;
+                hotspot: SanityImageHotspot | null;
+                asset: {
+                  _id: string;
+                  title: string | null;
+                  altText: string | null;
+                  description: string | null;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      aspectRatio: number;
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
                 } | null;
               } | null;
+              videoUrl: string | null;
+              aspectRatio: "1:1" | "3:2" | "3:4" | null;
+            }>;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
             } | null;
-          } | null;
-          videoUrl: string | null;
-          aspectRatio: "1:1" | "3:2" | "3:4" | null;
-        }> | null;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-          galleryTypeHalf: "carousel" | "grid" | "single" | null;
-          galleryTypeFull:
-            | "carouselFull"
-            | "doubleStickyFull"
-            | "mediaFull"
-            | null;
-        } | null;
-      }
-    | {
-        _type: "imagesAndText.block";
-        _key: string;
-        heading: string | null;
-        content: Array<{
-          _key: string;
-          _ts: "PortableTextInnerQuery";
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
+          }
+        | {
+            _type: "imagesWithBanner.block";
             _key: string;
-          }>;
-          style?: "normal";
-          listItem?: "bullet" | "check" | "dash" | "number";
-          markDefs: Array<
-            | {
-                file: DownloadLinkObjectFile;
-                _type: "downloadLinkObject";
-                _key: string;
-                _ts: "DownloadLinkObjectInPortableTextQuery";
-                url: string | null;
-              }
-            | {
-                internalLink:
-                  | {
-                      _type: "caseStudy";
-                      slug: string;
-                    }
-                  | {
-                      _type: "caseStudyArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "client";
-                      slug: null;
-                    }
-                  | {
-                      _type: "clientArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "conversionPage";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBook";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBookArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "event";
-                      slug: string;
-                    }
-                  | {
-                      _type: "frontPage";
-                      slug: null;
-                    }
-                  | {
-                      _type: "knowledgeArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "knowledgeArticleArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "knowledgeHub";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsAndEventsArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "page";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminar";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminarArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "service";
-                      slug: null;
-                    }
-                  | {
-                      _type: "servicesArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "subService";
-                      slug: null;
-                    };
-                _type: "internalLinkObject";
-                _key: string;
-                _ts: "InternalLinkObjectInPortableTextQuery";
-              }
-            | {
-                href: string;
-                _type: "link";
-                _key: string;
-                _ts: "LinkInPortableTextQuery";
-                url: string;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-        }> | null;
-        links: Array<
-          | {
+            heading: string;
+            content: Array<{
               _key: string;
-              linkType: "internal";
-              title: string | null;
-              slug: string | null;
-              _type:
-                | "caseStudy"
-                | "caseStudyArchive"
-                | "client"
-                | "clientArchive"
-                | "conversionPage"
-                | "eBook"
-                | "eBookArchive"
-                | "event"
-                | "frontPage"
-                | "knowledgeArticle"
-                | "knowledgeArticleArchive"
-                | "knowledgeHub"
-                | "newsAndEventsArchive"
-                | "newsArticle"
-                | "page"
-                | "seminar"
-                | "seminarArchive"
-                | "service"
-                | "servicesArchive"
-                | "subService";
-              description: null;
-              buttonVariant: null;
-            }
-          | {
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: "bullet" | "check" | "dash" | "number";
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            ctaType: "form" | "link" | null;
+            link: Array<
+              | {
+                  _key: string;
+                  linkType: "internal";
+                  title: string | null;
+                  slug: string | null;
+                  _type:
+                    | "caseStudy"
+                    | "caseStudyArchive"
+                    | "client"
+                    | "clientArchive"
+                    | "conversionPage"
+                    | "eBook"
+                    | "eBookArchive"
+                    | "event"
+                    | "frontPage"
+                    | "knowledgeArticle"
+                    | "knowledgeArticleArchive"
+                    | "knowledgeHub"
+                    | "newsAndEventsArchive"
+                    | "newsArticle"
+                    | "page"
+                    | "seminar"
+                    | "seminarArchive"
+                    | "service"
+                    | "servicesArchive"
+                    | "subService";
+                  description: null;
+                  buttonVariant: null;
+                }
+              | {
+                  _key: string;
+                  linkType: "download";
+                  title: string | null;
+                  url: string | null;
+                  description: null;
+                  buttonVariant: null;
+                }
+              | {
+                  _key: string;
+                  linkType: "external";
+                  title: string;
+                  url: string;
+                  description: null;
+                  buttonVariant: null;
+                }
+            > | null;
+            images: Array<{
               _key: string;
-              linkType: "download";
-              title: string | null;
-              url: string | null;
-              description: null;
-              buttonVariant: null;
-            }
-          | {
+              _type: "media";
+              mediaType: "image" | "video";
+              image: {
+                crop: SanityImageCrop | null;
+                hotspot: SanityImageHotspot | null;
+                asset: {
+                  _id: string;
+                  title: string | null;
+                  altText: string | null;
+                  description: string | null;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      aspectRatio: number;
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+              videoUrl: string | null;
+              aspectRatio: "1:1" | "3:2" | "3:4" | null;
+            }>;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "jobOpenings.block";
+            _key: string;
+            heading: string | null;
+            description: Array<{
               _key: string;
-              linkType: "external";
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: "bullet" | "check" | "dash" | "number";
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "logoCloud.block";
+            _key: string;
+            logos: Array<{
+              _id: string;
               title: string;
-              url: string;
-              description: null;
-              buttonVariant: null;
-            }
-        > | null;
-        images: Array<{
-          _key: string;
-          _type: "media";
-          mediaType: "image" | "video";
-          image: {
-            crop: SanityImageCrop | null;
-            hotspot: SanityImageHotspot | null;
-            asset: {
-              _id: string;
-              title: string | null;
-              altText: string | null;
-              description: string | null;
-              metadata: {
-                lqip: string | null;
-                dimensions: {
-                  aspectRatio: number;
-                  width: number;
-                  height: number;
-                } | null;
-              } | null;
-            } | null;
-          } | null;
-          videoUrl: string | null;
-          aspectRatio: "1:1" | "3:2" | "3:4" | null;
-        }>;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-        } | null;
-      }
-    | {
-        _type: "imagesWithBanner.block";
-        _key: string;
-        heading: string;
-        content: Array<{
-          _key: string;
-          _ts: "PortableTextInnerQuery";
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?: "normal";
-          listItem?: "bullet" | "check" | "dash" | "number";
-          markDefs: Array<
-            | {
-                file: DownloadLinkObjectFile;
-                _type: "downloadLinkObject";
-                _key: string;
-                _ts: "DownloadLinkObjectInPortableTextQuery";
-                url: string | null;
-              }
-            | {
-                internalLink:
-                  | {
-                      _type: "caseStudy";
-                      slug: string;
-                    }
-                  | {
-                      _type: "caseStudyArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "client";
-                      slug: null;
-                    }
-                  | {
-                      _type: "clientArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "conversionPage";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBook";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBookArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "event";
-                      slug: string;
-                    }
-                  | {
-                      _type: "frontPage";
-                      slug: null;
-                    }
-                  | {
-                      _type: "knowledgeArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "knowledgeArticleArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "knowledgeHub";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsAndEventsArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "page";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminar";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminarArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "service";
-                      slug: null;
-                    }
-                  | {
-                      _type: "servicesArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "subService";
-                      slug: null;
-                    };
-                _type: "internalLinkObject";
-                _key: string;
-                _ts: "InternalLinkObjectInPortableTextQuery";
-              }
-            | {
-                href: string;
-                _type: "link";
-                _key: string;
-                _ts: "LinkInPortableTextQuery";
-                url: string;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-        }> | null;
-        ctaType: "form" | "link" | null;
-        link: Array<
-          | {
-              _key: string;
-              linkType: "internal";
-              title: string | null;
-              slug: string | null;
-              _type:
-                | "caseStudy"
-                | "caseStudyArchive"
-                | "client"
-                | "clientArchive"
-                | "conversionPage"
-                | "eBook"
-                | "eBookArchive"
-                | "event"
-                | "frontPage"
-                | "knowledgeArticle"
-                | "knowledgeArticleArchive"
-                | "knowledgeHub"
-                | "newsAndEventsArchive"
-                | "newsArticle"
-                | "page"
-                | "seminar"
-                | "seminarArchive"
-                | "service"
-                | "servicesArchive"
-                | "subService";
-              description: null;
-              buttonVariant: null;
-            }
-          | {
-              _key: string;
-              linkType: "download";
-              title: string | null;
               url: string | null;
-              description: null;
-              buttonVariant: null;
-            }
-          | {
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "people.block";
+            _key: string;
+            title: string | null;
+            excerpt: Array<{
               _key: string;
-              linkType: "external";
-              title: string;
-              url: string;
-              description: null;
-              buttonVariant: null;
-            }
-        > | null;
-        images: Array<{
-          _key: string;
-          _type: "media";
-          mediaType: "image" | "video";
-          image: {
-            crop: SanityImageCrop | null;
-            hotspot: SanityImageHotspot | null;
-            asset: {
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: never;
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            people: Array<{
               _id: string;
-              title: string | null;
-              altText: string | null;
-              description: string | null;
-              metadata: {
-                lqip: string | null;
-                dimensions: {
-                  aspectRatio: number;
-                  width: number;
-                  height: number;
+              name: string;
+              role_no: string;
+              role_en: string;
+              phone: string | null;
+              email: string | null;
+              company: string | null;
+              externalPerson: boolean | null;
+              image: {
+                crop: SanityImageCrop | null;
+                hotspot: SanityImageHotspot | null;
+                asset: {
+                  _id: string;
+                  title: string | null;
+                  altText: string | null;
+                  description: string | null;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      aspectRatio: number;
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
                 } | null;
               } | null;
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
             } | null;
-          } | null;
-          videoUrl: string | null;
-          aspectRatio: "1:1" | "3:2" | "3:4" | null;
-        }>;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-        } | null;
-      }
-    | {
-        _type: "jobOpenings.block";
-        _key: string;
-        heading: string | null;
-        description: Array<{
-          _key: string;
-          _ts: "PortableTextInnerQuery";
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
+          }
+        | {
+            _type: "quotes.block";
             _key: string;
-          }>;
-          style?: "normal";
-          listItem?: "bullet" | "check" | "dash" | "number";
-          markDefs: Array<
-            | {
-                file: DownloadLinkObjectFile;
-                _type: "downloadLinkObject";
-                _key: string;
-                _ts: "DownloadLinkObjectInPortableTextQuery";
-                url: string | null;
-              }
-            | {
-                internalLink:
-                  | {
-                      _type: "caseStudy";
-                      slug: string;
-                    }
-                  | {
-                      _type: "caseStudyArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "client";
-                      slug: null;
-                    }
-                  | {
-                      _type: "clientArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "conversionPage";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBook";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBookArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "event";
-                      slug: string;
-                    }
-                  | {
-                      _type: "frontPage";
-                      slug: null;
-                    }
-                  | {
-                      _type: "knowledgeArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "knowledgeArticleArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "knowledgeHub";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsAndEventsArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "page";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminar";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminarArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "service";
-                      slug: null;
-                    }
-                  | {
-                      _type: "servicesArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "subService";
-                      slug: null;
-                    };
-                _type: "internalLinkObject";
-                _key: string;
-                _ts: "InternalLinkObjectInPortableTextQuery";
-              }
-            | {
-                href: string;
-                _type: "link";
-                _key: string;
-                _ts: "LinkInPortableTextQuery";
-                url: string;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-        }> | null;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-        } | null;
-      }
-    | {
-        _type: "logoCloud.block";
-        _key: string;
-        logos: Array<{
-          _id: string;
-          title: string;
-          url: string | null;
-        }> | null;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-        } | null;
-      }
-    | {
-        _type: "people.block";
-        _key: string;
-        title: string | null;
-        excerpt: Array<{
-          _key: string;
-          _ts: "PortableTextInnerQuery";
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?: "normal";
-          listItem?: never;
-          markDefs: Array<
-            | {
-                file: DownloadLinkObjectFile;
-                _type: "downloadLinkObject";
-                _key: string;
-                _ts: "DownloadLinkObjectInPortableTextQuery";
-                url: string | null;
-              }
-            | {
-                internalLink:
-                  | {
-                      _type: "caseStudy";
-                      slug: string;
-                    }
-                  | {
-                      _type: "caseStudyArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "client";
-                      slug: null;
-                    }
-                  | {
-                      _type: "clientArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "conversionPage";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBook";
-                      slug: string;
-                    }
-                  | {
-                      _type: "eBookArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "event";
-                      slug: string;
-                    }
-                  | {
-                      _type: "frontPage";
-                      slug: null;
-                    }
-                  | {
-                      _type: "knowledgeArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "knowledgeArticleArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "knowledgeHub";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsAndEventsArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "newsArticle";
-                      slug: string;
-                    }
-                  | {
-                      _type: "page";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminar";
-                      slug: string;
-                    }
-                  | {
-                      _type: "seminarArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "service";
-                      slug: null;
-                    }
-                  | {
-                      _type: "servicesArchive";
-                      slug: string | null;
-                    }
-                  | {
-                      _type: "subService";
-                      slug: null;
-                    };
-                _type: "internalLinkObject";
-                _key: string;
-                _ts: "InternalLinkObjectInPortableTextQuery";
-              }
-            | {
-                href: string;
-                _type: "link";
-                _key: string;
-                _ts: "LinkInPortableTextQuery";
-                url: string;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-        }> | null;
-        people: Array<{
-          _id: string;
-          name: string;
-          role_no: string;
-          role_en: string;
-          phone: string | null;
-          email: string | null;
-          company: string | null;
-          externalPerson: boolean | null;
-          image: {
-            crop: SanityImageCrop | null;
-            hotspot: SanityImageHotspot | null;
-            asset: {
+            quotes: Array<{
               _id: string;
-              title: string | null;
-              altText: string | null;
-              description: string | null;
-              metadata: {
-                lqip: string | null;
-                dimensions: {
-                  aspectRatio: number;
-                  width: number;
-                  height: number;
-                } | null;
+              quote: string;
+              source: {
+                name: string;
+                role: string;
               } | null;
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
             } | null;
-          } | null;
-        }> | null;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-        } | null;
-      }
-    | {
-        _type: "quotes.block";
-        _key: string;
-        quotes: Array<{
-          _id: string;
-          quote: string;
-          source: {
-            name: string;
-            role: string;
-          } | null;
-        }> | null;
-        options: {
-          width: "fullWidth" | "halfWidth" | null;
-        } | null;
-      }
-  > | null;
-  metadata: {
-    title: string;
-    desc:
-      | Array<{
+          }
+      > | null;
+      metadata: {
+        title: string;
+        desc: Array<{
           children?: Array<{
             marks?: Array<string>;
             text?: string;
@@ -12020,32 +12033,2179 @@ export type PageQueryResult = {
           level?: number;
           _type: "block";
           _key: string;
-        }>
-      | string
-      | null;
-    image: {
-      id: string;
-      altText: null;
-    };
-    tags: Array<string> | null;
-    noIndex: boolean | null;
-  };
-  _translations: Array<
-    | {
-        slug: null;
-        language: string | null;
-      }
-    | {
-        slug: string;
-        language: string | null;
-      }
-    | null
-  >;
-} | null;
+        }> | null;
+        image: null;
+        tags: null;
+        noIndex: null;
+      };
+      _translations: Array<
+        | {
+            slug: null;
+            language: string | null;
+          }
+        | {
+            slug: string;
+            language: string | null;
+          }
+        | null
+      >;
+      title: string;
+      excerpt: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal";
+        listItem?: "bullet" | "check" | "dash" | "number";
+        markDefs?: Array<
+          | {
+              file: DownloadLinkObjectFile;
+              _type: "downloadLinkObject";
+              _key: string;
+            }
+          | {
+              internalLink: InternalLink;
+              _type: "internalLinkObject";
+              _key: string;
+            }
+          | {
+              href: string;
+              _type: "link";
+              _key: string;
+            }
+        >;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
+      media: {
+        mediaType: "image";
+        image: {
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
+          asset: {
+            _id: string;
+            title: string | null;
+            altText: string | null;
+            description: string | null;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                aspectRatio: number;
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+        } | null;
+        videoUrl: null;
+        aspectRatio: string | null;
+      } | null;
+      contactForm: {
+        _id: string;
+        title: string;
+        formId: string;
+      } | null;
+      highlightedClients: Array<{
+        _id: string;
+        name: string;
+        logo: string | null;
+      }> | null;
+      highlightedQuotes: Array<{
+        _id: string;
+        quote: string;
+        source: {
+          name: string;
+          role: string;
+        } | null;
+      }> | null;
+    }
+  | {
+      _id: string;
+      _type: "page";
+      pageBuilder: Array<
+        | {
+            _type: "cards.block";
+            _key: string;
+            heading: string | null;
+            featuredLabel: string | null;
+            seeAllLabel: string | null;
+            noContentFoundLabel: string | null;
+            typeLabels: {
+              knowledgeArticle: string | null;
+              caseStudy: string | null;
+              seminar: string | null;
+              eBook: string | null;
+              newsArticle: string | null;
+              event: string | null;
+            };
+            content: Array<{
+              _key: string;
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: never;
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            contentType: "client" | "knowledge" | "newsEvents" | "services";
+            knowledgeTypes: Array<string> | null;
+            newsEventTypes: Array<string> | null;
+            manualSelection: boolean | null;
+            links: Array<
+              | {
+                  _key: string;
+                  linkType: "internal";
+                  title: string | null;
+                  slug: string | null;
+                  _type:
+                    | "caseStudy"
+                    | "caseStudyArchive"
+                    | "client"
+                    | "clientArchive"
+                    | "conversionPage"
+                    | "eBook"
+                    | "eBookArchive"
+                    | "event"
+                    | "frontPage"
+                    | "knowledgeArticle"
+                    | "knowledgeArticleArchive"
+                    | "knowledgeHub"
+                    | "newsAndEventsArchive"
+                    | "newsArticle"
+                    | "page"
+                    | "seminar"
+                    | "seminarArchive"
+                    | "service"
+                    | "servicesArchive"
+                    | "subService";
+                  description: null;
+                  buttonVariant: "primary" | "secondary" | null;
+                }
+              | {
+                  _key: string;
+                  linkType: "external";
+                  title: string;
+                  url: string;
+                  description: null;
+                  buttonVariant: "primary" | "secondary" | null;
+                }
+            > | null;
+            allIndustries: Array<string | null> | null;
+            items:
+              | Array<{
+                  _id: string;
+                  _type: "client";
+                  title: string;
+                  slug: null;
+                  logo: string | null;
+                  description: string;
+                  industries: Array<string> | null;
+                }>
+              | Array<{
+                  _id: string;
+                  _type: "service";
+                  title: string | null;
+                  slug: string | null;
+                  excerpt: Array<{
+                    children?: Array<{
+                      marks?: Array<string>;
+                      text?: string;
+                      _type: "span";
+                      _key: string;
+                    }>;
+                    style?: "normal";
+                    listItem?: "bullet" | "check" | "dash" | "number";
+                    markDefs?: Array<
+                      | {
+                          file: DownloadLinkObjectFile;
+                          _type: "downloadLinkObject";
+                          _key: string;
+                        }
+                      | {
+                          internalLink: InternalLink;
+                          _type: "internalLinkObject";
+                          _key: string;
+                        }
+                      | {
+                          href: string;
+                          _type: "link";
+                          _key: string;
+                        }
+                    >;
+                    level?: number;
+                    _type: "block";
+                    _key: string;
+                  }> | null;
+                  media: {
+                    mediaType: "illustration" | "image" | null;
+                    image: {
+                      crop: SanityImageCrop | null;
+                      hotspot: SanityImageHotspot | null;
+                      asset: {
+                        _id: string;
+                        title: string | null;
+                        altText: string | null;
+                        description: string | null;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            aspectRatio: number;
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                    } | null;
+                    illustration:
+                      | "arrow-right-rotated"
+                      | "dark-bubbles-01"
+                      | "dark-bubbles-02"
+                      | "dark-choices"
+                      | "dark-collaboration"
+                      | "dark-competition-01"
+                      | "dark-competition-02"
+                      | "dark-confused-team"
+                      | "dark-confused"
+                      | "dark-cooperation"
+                      | "dark-direction"
+                      | "dark-growth"
+                      | "dark-icon-award"
+                      | "dark-icon-chess"
+                      | "dark-icon-chessboard"
+                      | "dark-icon-hourglass"
+                      | "dark-icon-timer"
+                      | "dark-icon-trophy"
+                      | "dark-idea"
+                      | "dark-meeting-01"
+                      | "dark-meeting-02"
+                      | "dark-pie-chart"
+                      | "dark-strategy-card"
+                      | "dark-strategy-chess"
+                      | "dark-victorys"
+                      | "light-area-ai-01"
+                      | "light-area-ai-02"
+                      | "light-area-ai-03"
+                      | "light-area-crm-01"
+                      | "light-area-crm-02"
+                      | "light-area-crm-03"
+                      | "light-area-nocode-01"
+                      | "light-area-nocode-02"
+                      | "light-area-nocode-03"
+                      | "light-area-service-01"
+                      | "light-area-service-02"
+                      | "light-area-service-03"
+                      | "light-area-teknologi-01"
+                      | "light-area-teknologi-02"
+                      | "light-area-teknologi-03"
+                      | "light-area-utvikler-01"
+                      | "light-area-utvikler-02"
+                      | "light-area-utvikler-03"
+                      | "light-bubbles-01"
+                      | "light-bubbles-02"
+                      | "light-choices"
+                      | "light-collaboration"
+                      | "light-competition-01"
+                      | "light-competition-02"
+                      | "light-confused-team"
+                      | "light-confused"
+                      | "light-cooperation"
+                      | "light-direction"
+                      | "light-growth"
+                      | "light-icon-award"
+                      | "light-icon-chess"
+                      | "light-icon-chessboard"
+                      | "light-icon-hourglass"
+                      | "light-icon-light-bulb"
+                      | "light-icon-timer"
+                      | "light-icon-trophy"
+                      | "light-idea"
+                      | "light-meeting-01"
+                      | "light-meeting-02"
+                      | "light-pie-chart"
+                      | "light-strategy-card"
+                      | "light-strategy-chess"
+                      | "light-victorys"
+                      | null;
+                  };
+                  technologies: Array<{
+                    _id: string;
+                    title: string;
+                    logo: string | null;
+                  }> | null;
+                }>
+              | Array<
+                  | {
+                      _id: string;
+                      _type: "caseStudy";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "caseStudyArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "client";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "clientArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "conversionPage";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "eBook";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "eBookArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "event";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "eventType";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "footerSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "frontPage";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "hubspotForm";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "industry";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "isometricIllustration";
+                      title: string | null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "jobOpening";
+                      title: string | null;
+                      slug: null;
+                      image: null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "knowledgeArticle";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "knowledgeArticleArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "knowledgeHub";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "logo";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "media.tag";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "menuSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "metadataSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "newsAndEventsArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "newsArticle";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "organisationSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "page";
+                      title: string;
+                      slug: string;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "person";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "quote";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "sanity.fileAsset";
+                      title: string | null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "sanity.imageAsset";
+                      title: string | null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "seminar";
+                      title: string;
+                      slug: string;
+                      image: null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "seminarArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "service";
+                      title: null;
+                      slug: null;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "servicesArchive";
+                      title: null;
+                      slug: string | null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "siteSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "stringTranslations";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "subService";
+                      title: null;
+                      slug: null;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "technology";
+                      title: string;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "translation.metadata";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "typegenSettings";
+                      title: null;
+                      slug: null;
+                      image: null;
+                      services: null;
+                    }
+                >
+              | Array<
+                  | {
+                      _id: string;
+                      _type: "caseStudy";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "eBook";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "knowledgeArticle";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "seminar";
+                      title: string;
+                      slug: string;
+                      image: null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                >
+              | Array<
+                  | {
+                      _id: string;
+                      _type: "event";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "newsArticle";
+                      title: string;
+                      slug: string;
+                      image: {
+                        crop: SanityImageCrop | null;
+                        hotspot: SanityImageHotspot | null;
+                        asset: {
+                          _id: string;
+                          title: string | null;
+                          altText: string | null;
+                          description: string | null;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              aspectRatio: number;
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                      } | null;
+                      services: Array<{
+                        _id: string;
+                        title: string | null;
+                      }> | null;
+                    }
+                >
+              | Array<
+                  | {
+                      _id: string;
+                      _type: "service";
+                      title: string | null;
+                      slug: string | null;
+                      excerpt: Array<{
+                        children?: Array<{
+                          marks?: Array<string>;
+                          text?: string;
+                          _type: "span";
+                          _key: string;
+                        }>;
+                        style?: "normal";
+                        listItem?: "bullet" | "check" | "dash" | "number";
+                        markDefs?: Array<
+                          | {
+                              file: DownloadLinkObjectFile;
+                              _type: "downloadLinkObject";
+                              _key: string;
+                            }
+                          | {
+                              internalLink: InternalLink;
+                              _type: "internalLinkObject";
+                              _key: string;
+                            }
+                          | {
+                              href: string;
+                              _type: "link";
+                              _key: string;
+                            }
+                        >;
+                        level?: number;
+                        _type: "block";
+                        _key: string;
+                      }> | null;
+                      media: {
+                        mediaType: "illustration" | "image" | null;
+                        image: {
+                          crop: SanityImageCrop | null;
+                          hotspot: SanityImageHotspot | null;
+                          asset: {
+                            _id: string;
+                            title: string | null;
+                            altText: string | null;
+                            description: string | null;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                aspectRatio: number;
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                        } | null;
+                        illustration:
+                          | "arrow-right-rotated"
+                          | "dark-bubbles-01"
+                          | "dark-bubbles-02"
+                          | "dark-choices"
+                          | "dark-collaboration"
+                          | "dark-competition-01"
+                          | "dark-competition-02"
+                          | "dark-confused-team"
+                          | "dark-confused"
+                          | "dark-cooperation"
+                          | "dark-direction"
+                          | "dark-growth"
+                          | "dark-icon-award"
+                          | "dark-icon-chess"
+                          | "dark-icon-chessboard"
+                          | "dark-icon-hourglass"
+                          | "dark-icon-timer"
+                          | "dark-icon-trophy"
+                          | "dark-idea"
+                          | "dark-meeting-01"
+                          | "dark-meeting-02"
+                          | "dark-pie-chart"
+                          | "dark-strategy-card"
+                          | "dark-strategy-chess"
+                          | "dark-victorys"
+                          | "light-area-ai-01"
+                          | "light-area-ai-02"
+                          | "light-area-ai-03"
+                          | "light-area-crm-01"
+                          | "light-area-crm-02"
+                          | "light-area-crm-03"
+                          | "light-area-nocode-01"
+                          | "light-area-nocode-02"
+                          | "light-area-nocode-03"
+                          | "light-area-service-01"
+                          | "light-area-service-02"
+                          | "light-area-service-03"
+                          | "light-area-teknologi-01"
+                          | "light-area-teknologi-02"
+                          | "light-area-teknologi-03"
+                          | "light-area-utvikler-01"
+                          | "light-area-utvikler-02"
+                          | "light-area-utvikler-03"
+                          | "light-bubbles-01"
+                          | "light-bubbles-02"
+                          | "light-choices"
+                          | "light-collaboration"
+                          | "light-competition-01"
+                          | "light-competition-02"
+                          | "light-confused-team"
+                          | "light-confused"
+                          | "light-cooperation"
+                          | "light-direction"
+                          | "light-growth"
+                          | "light-icon-award"
+                          | "light-icon-chess"
+                          | "light-icon-chessboard"
+                          | "light-icon-hourglass"
+                          | "light-icon-light-bulb"
+                          | "light-icon-timer"
+                          | "light-icon-trophy"
+                          | "light-idea"
+                          | "light-meeting-01"
+                          | "light-meeting-02"
+                          | "light-pie-chart"
+                          | "light-strategy-card"
+                          | "light-strategy-chess"
+                          | "light-victorys"
+                          | null;
+                      };
+                      technologies: Array<{
+                        _id: string;
+                        title: string;
+                        logo: string | null;
+                      }> | null;
+                    }
+                  | {
+                      _id: string;
+                      _type: "subService";
+                      title: string | null;
+                      slug: string | null;
+                      excerpt: Array<{
+                        children?: Array<{
+                          marks?: Array<string>;
+                          text?: string;
+                          _type: "span";
+                          _key: string;
+                        }>;
+                        style?: "normal";
+                        listItem?: "bullet" | "check" | "dash" | "number";
+                        markDefs?: Array<
+                          | {
+                              file: DownloadLinkObjectFile;
+                              _type: "downloadLinkObject";
+                              _key: string;
+                            }
+                          | {
+                              internalLink: InternalLink;
+                              _type: "internalLinkObject";
+                              _key: string;
+                            }
+                          | {
+                              href: string;
+                              _type: "link";
+                              _key: string;
+                            }
+                        >;
+                        level?: number;
+                        _type: "block";
+                        _key: string;
+                      }> | null;
+                      media: {
+                        mediaType: "image" | null;
+                        image: {
+                          crop: SanityImageCrop | null;
+                          hotspot: SanityImageHotspot | null;
+                          asset: {
+                            _id: string;
+                            title: string | null;
+                            altText: string | null;
+                            description: string | null;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                aspectRatio: number;
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                        } | null;
+                        illustration: null;
+                      };
+                      technologies: Array<{
+                        _id: string;
+                        title: string;
+                        logo: string | null;
+                      }> | null;
+                    }
+                >
+              | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "content.block";
+            _key: string;
+            content: Array<
+              | {
+                  _key: string;
+                  _ts: "PortableTextInnerQuery";
+                  children?: Array<{
+                    marks?: Array<string>;
+                    text?: string;
+                    _type: "span";
+                    _key: string;
+                  }>;
+                  style?: "h2" | "h3" | "h4" | "normal";
+                  listItem?: "bullet" | "check" | "dash" | "number";
+                  markDefs: Array<
+                    | {
+                        file: DownloadLinkObjectFile;
+                        _type: "downloadLinkObject";
+                        _key: string;
+                        _ts: "DownloadLinkObjectInPortableTextQuery";
+                        url: string | null;
+                      }
+                    | {
+                        internalLink:
+                          | {
+                              _type: "caseStudy";
+                              slug: string;
+                            }
+                          | {
+                              _type: "caseStudyArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "client";
+                              slug: null;
+                            }
+                          | {
+                              _type: "clientArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "conversionPage";
+                              slug: string;
+                            }
+                          | {
+                              _type: "eBook";
+                              slug: string;
+                            }
+                          | {
+                              _type: "eBookArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "event";
+                              slug: string;
+                            }
+                          | {
+                              _type: "frontPage";
+                              slug: null;
+                            }
+                          | {
+                              _type: "knowledgeArticle";
+                              slug: string;
+                            }
+                          | {
+                              _type: "knowledgeArticleArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "knowledgeHub";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "newsAndEventsArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "newsArticle";
+                              slug: string;
+                            }
+                          | {
+                              _type: "page";
+                              slug: string;
+                            }
+                          | {
+                              _type: "seminar";
+                              slug: string;
+                            }
+                          | {
+                              _type: "seminarArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "service";
+                              slug: null;
+                            }
+                          | {
+                              _type: "servicesArchive";
+                              slug: string | null;
+                            }
+                          | {
+                              _type: "subService";
+                              slug: null;
+                            };
+                        _type: "internalLinkObject";
+                        _key: string;
+                        _ts: "InternalLinkObjectInPortableTextQuery";
+                      }
+                    | {
+                        href: string;
+                        _type: "link";
+                        _key: string;
+                        _ts: "LinkInPortableTextQuery";
+                        url: string;
+                      }
+                  > | null;
+                  level?: number;
+                  _type: "block";
+                }
+              | {
+                  _key: string;
+                }
+            > | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "imageGallery.block";
+            _key: string;
+            title: string | null;
+            intro: string | null;
+            images: Array<{
+              _key: string;
+              _type: "media";
+              mediaType: "image" | "video";
+              image: {
+                crop: SanityImageCrop | null;
+                hotspot: SanityImageHotspot | null;
+                asset: {
+                  _id: string;
+                  title: string | null;
+                  altText: string | null;
+                  description: string | null;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      aspectRatio: number;
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+              videoUrl: string | null;
+              aspectRatio: "1:1" | "3:2" | "3:4" | null;
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+              galleryTypeHalf: "carousel" | "grid" | "single" | null;
+              galleryTypeFull:
+                | "carouselFull"
+                | "doubleStickyFull"
+                | "mediaFull"
+                | null;
+            } | null;
+          }
+        | {
+            _type: "imagesAndText.block";
+            _key: string;
+            heading: string | null;
+            content: Array<{
+              _key: string;
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: "bullet" | "check" | "dash" | "number";
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            links: Array<
+              | {
+                  _key: string;
+                  linkType: "internal";
+                  title: string | null;
+                  slug: string | null;
+                  _type:
+                    | "caseStudy"
+                    | "caseStudyArchive"
+                    | "client"
+                    | "clientArchive"
+                    | "conversionPage"
+                    | "eBook"
+                    | "eBookArchive"
+                    | "event"
+                    | "frontPage"
+                    | "knowledgeArticle"
+                    | "knowledgeArticleArchive"
+                    | "knowledgeHub"
+                    | "newsAndEventsArchive"
+                    | "newsArticle"
+                    | "page"
+                    | "seminar"
+                    | "seminarArchive"
+                    | "service"
+                    | "servicesArchive"
+                    | "subService";
+                  description: null;
+                  buttonVariant: null;
+                }
+              | {
+                  _key: string;
+                  linkType: "download";
+                  title: string | null;
+                  url: string | null;
+                  description: null;
+                  buttonVariant: null;
+                }
+              | {
+                  _key: string;
+                  linkType: "external";
+                  title: string;
+                  url: string;
+                  description: null;
+                  buttonVariant: null;
+                }
+            > | null;
+            images: Array<{
+              _key: string;
+              _type: "media";
+              mediaType: "image" | "video";
+              image: {
+                crop: SanityImageCrop | null;
+                hotspot: SanityImageHotspot | null;
+                asset: {
+                  _id: string;
+                  title: string | null;
+                  altText: string | null;
+                  description: string | null;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      aspectRatio: number;
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+              videoUrl: string | null;
+              aspectRatio: "1:1" | "3:2" | "3:4" | null;
+            }>;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "imagesWithBanner.block";
+            _key: string;
+            heading: string;
+            content: Array<{
+              _key: string;
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: "bullet" | "check" | "dash" | "number";
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            ctaType: "form" | "link" | null;
+            link: Array<
+              | {
+                  _key: string;
+                  linkType: "internal";
+                  title: string | null;
+                  slug: string | null;
+                  _type:
+                    | "caseStudy"
+                    | "caseStudyArchive"
+                    | "client"
+                    | "clientArchive"
+                    | "conversionPage"
+                    | "eBook"
+                    | "eBookArchive"
+                    | "event"
+                    | "frontPage"
+                    | "knowledgeArticle"
+                    | "knowledgeArticleArchive"
+                    | "knowledgeHub"
+                    | "newsAndEventsArchive"
+                    | "newsArticle"
+                    | "page"
+                    | "seminar"
+                    | "seminarArchive"
+                    | "service"
+                    | "servicesArchive"
+                    | "subService";
+                  description: null;
+                  buttonVariant: null;
+                }
+              | {
+                  _key: string;
+                  linkType: "download";
+                  title: string | null;
+                  url: string | null;
+                  description: null;
+                  buttonVariant: null;
+                }
+              | {
+                  _key: string;
+                  linkType: "external";
+                  title: string;
+                  url: string;
+                  description: null;
+                  buttonVariant: null;
+                }
+            > | null;
+            images: Array<{
+              _key: string;
+              _type: "media";
+              mediaType: "image" | "video";
+              image: {
+                crop: SanityImageCrop | null;
+                hotspot: SanityImageHotspot | null;
+                asset: {
+                  _id: string;
+                  title: string | null;
+                  altText: string | null;
+                  description: string | null;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      aspectRatio: number;
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+              videoUrl: string | null;
+              aspectRatio: "1:1" | "3:2" | "3:4" | null;
+            }>;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "jobOpenings.block";
+            _key: string;
+            heading: string | null;
+            description: Array<{
+              _key: string;
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: "bullet" | "check" | "dash" | "number";
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "logoCloud.block";
+            _key: string;
+            logos: Array<{
+              _id: string;
+              title: string;
+              url: string | null;
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "people.block";
+            _key: string;
+            title: string | null;
+            excerpt: Array<{
+              _key: string;
+              _ts: "PortableTextInnerQuery";
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: never;
+              markDefs: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                    _ts: "DownloadLinkObjectInPortableTextQuery";
+                    url: string | null;
+                  }
+                | {
+                    internalLink:
+                      | {
+                          _type: "caseStudy";
+                          slug: string;
+                        }
+                      | {
+                          _type: "caseStudyArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "client";
+                          slug: null;
+                        }
+                      | {
+                          _type: "clientArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "conversionPage";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBook";
+                          slug: string;
+                        }
+                      | {
+                          _type: "eBookArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "event";
+                          slug: string;
+                        }
+                      | {
+                          _type: "frontPage";
+                          slug: null;
+                        }
+                      | {
+                          _type: "knowledgeArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "knowledgeArticleArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "knowledgeHub";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsAndEventsArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "newsArticle";
+                          slug: string;
+                        }
+                      | {
+                          _type: "page";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminar";
+                          slug: string;
+                        }
+                      | {
+                          _type: "seminarArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "service";
+                          slug: null;
+                        }
+                      | {
+                          _type: "servicesArchive";
+                          slug: string | null;
+                        }
+                      | {
+                          _type: "subService";
+                          slug: null;
+                        };
+                    _type: "internalLinkObject";
+                    _key: string;
+                    _ts: "InternalLinkObjectInPortableTextQuery";
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                    _ts: "LinkInPortableTextQuery";
+                    url: string;
+                  }
+              > | null;
+              level?: number;
+              _type: "block";
+            }> | null;
+            people: Array<{
+              _id: string;
+              name: string;
+              role_no: string;
+              role_en: string;
+              phone: string | null;
+              email: string | null;
+              company: string | null;
+              externalPerson: boolean | null;
+              image: {
+                crop: SanityImageCrop | null;
+                hotspot: SanityImageHotspot | null;
+                asset: {
+                  _id: string;
+                  title: string | null;
+                  altText: string | null;
+                  description: string | null;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      aspectRatio: number;
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+              } | null;
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+        | {
+            _type: "quotes.block";
+            _key: string;
+            quotes: Array<{
+              _id: string;
+              quote: string;
+              source: {
+                name: string;
+                role: string;
+              } | null;
+            }> | null;
+            options: {
+              width: "fullWidth" | "halfWidth" | null;
+            } | null;
+          }
+      > | null;
+      metadata: {
+        title: string;
+        desc:
+          | Array<{
+              children?: Array<{
+                marks?: Array<string>;
+                text?: string;
+                _type: "span";
+                _key: string;
+              }>;
+              style?: "normal";
+              listItem?: "bullet" | "check" | "dash" | "number";
+              markDefs?: Array<
+                | {
+                    file: DownloadLinkObjectFile;
+                    _type: "downloadLinkObject";
+                    _key: string;
+                  }
+                | {
+                    internalLink: InternalLink;
+                    _type: "internalLinkObject";
+                    _key: string;
+                  }
+                | {
+                    href: string;
+                    _type: "link";
+                    _key: string;
+                  }
+              >;
+              level?: number;
+              _type: "block";
+              _key: string;
+            }>
+          | string
+          | null;
+        image: {
+          id: string;
+          altText: null;
+        };
+        tags: Array<string> | null;
+        noIndex: boolean | null;
+      };
+      _translations: Array<
+        | {
+            slug: null;
+            language: string | null;
+          }
+        | {
+            slug: string;
+            language: string | null;
+          }
+        | null
+      >;
+    }
+  | null;
 
 // Source: src/server/queries/documents/page.query.ts
 // Variable: pageSlugsQuery
-// Query: *[_type == "page"] {    "slug": slug.current,    "locale": language  }
+// Query: *[_type in ["page", "conversionPage"]] {    "slug": slug.current,    "locale": language  }
 export type PageSlugsQueryResult = Array<{
   slug: string;
   locale: string | null;

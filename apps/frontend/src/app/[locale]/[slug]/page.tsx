@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ConversionPage } from "@/app/[locale]/[slug]/(parts)/conversion-page.component";
 import { Page as PageComponent } from "@/app/[locale]/[slug]/(parts)/page.component";
 import { pageQuery, pageSlugsQuery } from "@/server/queries/documents/page.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
@@ -37,6 +38,10 @@ const { Page, generateMetadata, generateStaticParams } = createPage({
   },
 
   component: ({ data }) => {
+    if (data._type === "conversionPage") {
+      return <ConversionPage {...data} />;
+    }
+
     return <PageComponent {...data} />;
   },
 });
