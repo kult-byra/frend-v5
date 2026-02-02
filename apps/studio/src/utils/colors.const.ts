@@ -1,4 +1,4 @@
-type Color = {
+export type Color = {
   name: string;
   hex: `#${string}` | [`#${string}`, `#${string}`];
 };

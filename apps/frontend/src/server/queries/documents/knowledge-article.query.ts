@@ -1,19 +1,13 @@
 import { defineQuery } from "next-sanity";
 import { fullPortableTextQuery } from "../portable-text/portable-text.query";
+import { heroQuery } from "../utils/hero.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
 export const knowledgeArticleQuery = defineQuery(`
   *[_type == "knowledgeArticle" && slug.current == $slug && language == $locale][0] {
     _id,
-    title,
-    subtitle,
-    publishDate,
-    "author": author->{
-      _id,
-      name,
-      "image": image.asset->url
-    },
+    hero { ${heroQuery} },
     summary,
     ${fullPortableTextQuery},
     ${metadataQuery},
@@ -30,13 +24,13 @@ export const knowledgeArticleSlugsQuery = defineQuery(`
 
 export const knowledgeArticleArchiveSettingsQuery = defineQuery(`
   *[_type == "knowledgeArticleArchive"][0] {
-    "title": select(
-      $locale == "no" => title_no,
-      $locale == "en" => title_en
+    "hero": select(
+      $locale == "no" => hero_no { ${heroQuery} },
+      $locale == "en" => hero_en { ${heroQuery} }
     ),
     "metadata": select(
       $locale == "no" => {
-        "title": coalesce(metadata_no.title, title_no),
+        "title": coalesce(metadata_no.title, hero_no.textHero.title, hero_no.mediaHero.title),
         "desc": metadata_no.desc,
         "image": select(
           defined(metadata_no.image.asset._ref) => metadata_no.image {
@@ -48,7 +42,7 @@ export const knowledgeArticleArchiveSettingsQuery = defineQuery(`
         "noIndex": metadata_no.noIndex
       },
       $locale == "en" => {
-        "title": coalesce(metadata_en.title, title_en),
+        "title": coalesce(metadata_en.title, hero_en.textHero.title, hero_en.mediaHero.title),
         "desc": metadata_en.desc,
         "image": select(
           defined(metadata_en.image.asset._ref) => metadata_en.image {
@@ -64,13 +58,13 @@ export const knowledgeArticleArchiveSettingsQuery = defineQuery(`
 `);
 
 export const knowledgeArticleListQuery = defineQuery(`
-  *[_type == "knowledgeArticle" && language == $locale] | order(publishDate desc) {
+  *[_type == "knowledgeArticle" && language == $locale] | order(hero.articleHero.publishDate desc) {
     _id,
     _type,
-    title,
+    "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
     "slug": slug.current,
-    publishDate,
-    "author": author->{
+    "publishDate": hero.articleHero.publishDate,
+    "author": hero.articleHero.author->{
       name
     }
   }

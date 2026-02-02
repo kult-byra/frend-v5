@@ -8,6 +8,7 @@ import { portableTextInnerQuery } from "./portable-text-inner.query";
 export const fullPortableTextQuery = defineQuery(`
   content[] {
     _key,
+    _type,
     ...select(
       _type == "block" => {
         ${portableTextInnerQuery}

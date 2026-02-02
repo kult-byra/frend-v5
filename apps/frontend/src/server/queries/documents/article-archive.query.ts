@@ -41,10 +41,10 @@ export const articleArchiveSettingsQuery = defineQuery(`
 // Query for paginated articles - nested subquery, use ArticleArchivePaginatedResult
 // @sanity-typegen-ignore
 export const articleArchivePaginatedQuery = defineQuery(`{
-  "articles": *[_type == "newsArticle" && publishDate < now() && language == $locale] | order(publishDate desc) [$start...$end] {
+  "articles": *[_type == "newsArticle" && hero.articleHero.publishDate < now() && language == $locale] | order(hero.articleHero.publishDate desc) [$start...$end] {
     ${articleTeaserQuery}
   },
-  "total": count(*[_type == "newsArticle" && publishDate < now() && language == $locale])
+  "total": count(*[_type == "newsArticle" && hero.articleHero.publishDate < now() && language == $locale])
 }`);
 
 // Type derived from ArticleTeaserProps (which is generated via typegen in article-teaser.query.ts)
@@ -60,7 +60,7 @@ export const articleArchiveQuery = defineQuery(`
       $locale == "no" => title_no,
       $locale == "en" => title_en
     ),
-    "articles": *[_type == "newsArticle" && publishDate < now() && language == $locale] | order(publishDate desc) {
+    "articles": *[_type == "newsArticle" && hero.articleHero.publishDate < now() && language == $locale] | order(hero.articleHero.publishDate desc) {
       ${articleTeaserQuery}
     },
     "metadata": select(

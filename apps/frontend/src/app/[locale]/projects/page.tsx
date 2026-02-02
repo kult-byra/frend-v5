@@ -48,9 +48,12 @@ export default async function CaseStudiesPage({ params }: Props) {
     getCaseStudies(locale),
   ]);
 
+  // Extract title from hero
+  const heroTitle = settings?.hero?.textHero?.title ?? settings?.hero?.mediaHero?.title ?? null;
+
   return (
     <Container className="py-lg">
-      <H1 className="mb-4">{settings?.title ?? "Prosjekter"}</H1>
+      <H1 className="mb-4">{heroTitle ?? "Prosjekter"}</H1>
 
       {caseStudies && caseStudies.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">

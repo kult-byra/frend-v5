@@ -1,11 +1,10 @@
-import { Book, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { defineField, defineType } from "sanity";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
-import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
 import { linksField } from "@/schemas/generator-fields/links.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
-import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
+import { slugField } from "@/schemas/generator-fields/slug.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
 
 export const eBookSchema = defineType({
@@ -24,7 +23,13 @@ export const eBookSchema = defineType({
       readOnly: true,
       hidden: true,
     }),
-    ...heroFields(),
+    slugField({ isStatic: false }),
+    defineField({
+      name: "hero",
+      title: "Hero",
+      type: "hero",
+      group: "key",
+    }),
     linksField({
       title: "Upload file",
       name: "uploadFile",
@@ -41,4 +46,42 @@ export const eBookSchema = defineType({
     }),
     metadataField(),
   ],
+  preview: {
+    select: {
+      heroType: "hero.heroType",
+      textTitle: "hero.textHero.title",
+      mediaTitle: "hero.mediaHero.title",
+      articleTitle: "hero.articleHero.title",
+      formTitle: "hero.formHero.title",
+      mediaImage: "hero.mediaHero.media.image.asset",
+      articleImage: "hero.articleHero.coverImages.0.image.asset",
+      formImage: "hero.formHero.media.image.asset",
+    },
+    prepare({
+      heroType,
+      textTitle,
+      mediaTitle,
+      articleTitle,
+      formTitle,
+      mediaImage,
+      articleImage,
+      formImage,
+    }) {
+      const titleMap: Record<string, string | undefined> = {
+        textHero: textTitle,
+        mediaHero: mediaTitle,
+        articleHero: articleTitle,
+        formHero: formTitle,
+      };
+      const mediaMap: Record<string, typeof mediaImage> = {
+        mediaHero: mediaImage,
+        articleHero: articleImage,
+        formHero: formImage,
+      };
+      return {
+        title: titleMap[heroType] || "Untitled",
+        media: mediaMap[heroType],
+      };
+    },
+  },
 });

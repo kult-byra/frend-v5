@@ -1,17 +1,26 @@
-import type { HeroQueryProps } from "@/server/queries/utils/hero.query";
-import { MediaAndFormHero } from "./media-and-form-hero.component";
+import type { HeroData } from "@/server/queries/utils/hero.query";
+import { ArticleHero } from "./article-hero.component";
+import { FormHero } from "./form-hero.component";
+import { MediaHero } from "./media-hero.component";
+import { TextHero } from "./text-hero.component";
 
-export const Hero = (props: HeroQueryProps) => {
-  const { heroType, mediaAndFormHero } = props;
+type HeroProps = {
+  hero: HeroData | null;
+};
 
-  switch (heroType) {
-    case "mediaAndFormHero":
-      return mediaAndFormHero ? (
-        <MediaAndFormHero {...mediaAndFormHero} />
-      ) : (
-        <div>Media and form hero content not found</div>
-      );
+export const Hero = ({ hero }: HeroProps) => {
+  if (!hero) return null;
+
+  switch (hero.heroType) {
+    case "textHero":
+      return hero.textHero ? <TextHero {...hero.textHero} /> : null;
+    case "mediaHero":
+      return hero.mediaHero ? <MediaHero {...hero.mediaHero} /> : null;
+    case "articleHero":
+      return hero.articleHero ? <ArticleHero {...hero.articleHero} /> : null;
+    case "formHero":
+      return hero.formHero ? <FormHero {...hero.formHero} /> : null;
     default:
-      return <div>Hero type not found</div>;
+      return null;
   }
 };

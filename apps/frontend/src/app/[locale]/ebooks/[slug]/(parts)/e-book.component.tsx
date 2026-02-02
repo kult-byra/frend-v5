@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
+import type { EBookQueryResult } from "@/sanity-types";
 
-type Props = {
-  title?: string | null;
-  subtitle?: string | null;
-};
+type Props = NonNullable<EBookQueryResult>;
 
-export function EBook({ title, subtitle }: Props) {
+export function EBook({ hero }: Props) {
+  // Extract title from hero
+  const heroData = hero?.textHero ?? hero?.mediaHero ?? hero?.articleHero;
+  const title = heroData?.title ?? null;
+
   return (
     <Container className="py-lg">
       <Link
@@ -17,8 +19,7 @@ export function EBook({ title, subtitle }: Props) {
         ← Tilbake til e-bøker
       </Link>
 
-      <H1 className="mb-4">{title}</H1>
-      {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
+      {title && <H1 className="mb-4">{title}</H1>}
     </Container>
   );
 }

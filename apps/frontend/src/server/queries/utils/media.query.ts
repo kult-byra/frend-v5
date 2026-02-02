@@ -10,6 +10,7 @@ export const mediaQuery = defineQuery(`
   mediaType,
   "image": image { ${imageQuery} },
   videoUrl,
+  illustration,
   aspectRatio
 `);
 

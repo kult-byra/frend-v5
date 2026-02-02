@@ -1,18 +1,18 @@
 import { defineQuery } from "next-sanity";
 import { pageBuilderQuery } from "@/server/queries/page-builder/page-builder-full.query";
-import { nestedMediaQuery } from "../utils/media.query";
+import { heroQuery } from "../utils/hero.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
 export const caseStudyArchiveSettingsQuery = defineQuery(`
   *[_type == "caseStudyArchive"][0] {
-    "title": select(
-      $locale == "no" => title_no,
-      $locale == "en" => title_en
+    "hero": select(
+      $locale == "no" => hero_no { ${heroQuery} },
+      $locale == "en" => hero_en { ${heroQuery} }
     ),
     "metadata": select(
       $locale == "no" => {
-        "title": coalesce(metadata_no.title, title_no),
+        "title": coalesce(metadata_no.title, hero_no.textHero.title, hero_no.mediaHero.title),
         "desc": metadata_no.desc,
         "image": select(
           defined(metadata_no.image.asset._ref) => metadata_no.image {
@@ -24,7 +24,7 @@ export const caseStudyArchiveSettingsQuery = defineQuery(`
         "noIndex": metadata_no.noIndex
       },
       $locale == "en" => {
-        "title": coalesce(metadata_en.title, title_en),
+        "title": coalesce(metadata_en.title, hero_en.textHero.title, hero_en.mediaHero.title),
         "desc": metadata_en.desc,
         "image": select(
           defined(metadata_en.image.asset._ref) => metadata_en.image {
@@ -43,7 +43,7 @@ export const caseStudyListQuery = defineQuery(`
   *[_type == "caseStudy" && language == $locale] | order(_createdAt desc) {
     _id,
     _type,
-    title,
+    "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
     "slug": slug.current,
     "client": client->{
       name,
@@ -56,8 +56,7 @@ export const caseStudyListQuery = defineQuery(`
 export const caseStudyQuery = defineQuery(`
   *[_type == "caseStudy" && slug.current == $slug && language == $locale][0] {
     _id,
-    title,
-    subtitle,
+    hero { ${heroQuery} },
     "slug": slug.current,
     "client": client->{
       _id,
@@ -65,9 +64,6 @@ export const caseStudyQuery = defineQuery(`
       "logo": logo->logo.asset->url
     },
     color,
-    "media": {
-      ${nestedMediaQuery("media")}
-    },
     summary,
     ${pageBuilderQuery},
     ${metadataQuery},

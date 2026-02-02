@@ -49,13 +49,12 @@ export default async function ClientsPage({ params }: Props) {
     ...new Set(clients.flatMap((client) => client.industries ?? []).filter(Boolean)),
   ];
 
+  // Extract title from hero
+  const heroTitle = settings?.hero?.textHero?.title ?? settings?.hero?.mediaHero?.title ?? null;
+
   return (
     <Container className="min-h-screen py-lg">
-      <ClientCards
-        items={clients}
-        heading={settings?.title ?? "Kunder"}
-        allIndustries={allIndustries}
-      />
+      <ClientCards items={clients} heading={heroTitle ?? "Kunder"} allIndustries={allIndustries} />
     </Container>
   );
 }

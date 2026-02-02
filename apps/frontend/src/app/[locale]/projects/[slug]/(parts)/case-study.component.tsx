@@ -32,9 +32,14 @@ const headerThemeMap: Record<string, HeaderTheme> = {
   white: "light",
 };
 
-export const CaseStudy = ({ title, client, color, media, summary, pageBuilder }: Props) => {
+export const CaseStudy = ({ hero, client, color, summary, pageBuilder }: Props) => {
   const scheme = colorStyles[color ?? "white"];
   const isColoredHero = color === "navy" || color === "orange";
+
+  // Extract data from hero
+  const heroData = hero?.mediaHero ?? hero?.textHero;
+  const title = heroData?.title ?? null;
+  const media = hero?.mediaHero?.media ?? null;
 
   return (
     <>

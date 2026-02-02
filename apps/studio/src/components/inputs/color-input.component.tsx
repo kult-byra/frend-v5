@@ -2,7 +2,7 @@ import { Box, Inline } from "@sanity/ui";
 import { useCallback } from "react";
 import type { StringInputProps } from "sanity";
 import { set, unset } from "sanity";
-import { COLORS, type ColorName } from "@/utils/colors.const";
+import { COLORS, type Color, type ColorName } from "@/utils/colors.const";
 
 export type ColorInputProps = {
   colors: ColorName[];
@@ -16,7 +16,7 @@ export const ColorInput = (props: StringInputProps & ColorInputProps) => {
     [onChange, value],
   );
 
-  const selectableColors = COLORS.filter((color) => colors.includes(color.name));
+  const selectableColors = COLORS.filter((color) => colors.includes(color.name)) as Color[];
 
   return (
     <Inline space={2}>
@@ -30,7 +30,7 @@ export const ColorInput = (props: StringInputProps & ColorInputProps) => {
             flex={1}
             display="flex"
             onClick={() => {
-              handleChange(color.name);
+              handleChange(color.name as ColorName);
             }}
             style={{
               border: `1px solid ${

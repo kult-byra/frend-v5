@@ -46,9 +46,12 @@ export default async function SeminarsPage({ params }: Props) {
   const { locale } = await params;
   const [settings, seminars] = await Promise.all([getArchiveSettings(locale), getSeminars(locale)]);
 
+  // Extract title from hero
+  const heroTitle = settings?.hero?.textHero?.title ?? settings?.hero?.mediaHero?.title ?? null;
+
   return (
     <Container className="py-lg">
-      <H1 className="mb-4">{settings?.title ?? "Seminarer"}</H1>
+      <H1 className="mb-4">{heroTitle ?? "Seminarer"}</H1>
 
       {seminars && seminars.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">

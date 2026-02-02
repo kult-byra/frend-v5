@@ -1,32 +1,17 @@
 import { defineQuery } from "next-sanity";
+import { heroQuery } from "../utils/hero.query";
 import { imageQuery } from "../utils/image.query";
 
 export const servicesArchiveSettingsQuery = defineQuery(`
   *[_type == "servicesArchive"][0] {
-    "title": select(
-      $locale == "no" => title_no,
-      $locale == "en" => title_en
-    ),
-    "excerpt": select(
-      $locale == "no" => excerpt_no,
-      $locale == "en" => excerpt_en
-    ),
-    "media": select(
-      $locale == "no" => {
-        "mediaType": media_no.mediaType,
-        "image": media_no.image { ${imageQuery} },
-        "videoUrl": media_no.videoUrl
-      },
-      $locale == "en" => {
-        "mediaType": media_en.mediaType,
-        "image": media_en.image { ${imageQuery} },
-        "videoUrl": media_en.videoUrl
-      }
+    "hero": select(
+      $locale == "no" => hero_no { ${heroQuery} },
+      $locale == "en" => hero_en { ${heroQuery} }
     ),
     "metadata": select(
       $locale == "no" => {
-        "title": coalesce(metadata_no.title, title_no),
-        "desc": coalesce(metadata_no.desc, excerpt_no),
+        "title": coalesce(metadata_no.title, hero_no.textHero.title, hero_no.mediaHero.title),
+        "desc": metadata_no.desc,
         "image": select(
           defined(metadata_no.image.asset._ref) => metadata_no.image {
             "id": asset._ref,
@@ -37,8 +22,8 @@ export const servicesArchiveSettingsQuery = defineQuery(`
         "noIndex": metadata_no.noIndex
       },
       $locale == "en" => {
-        "title": coalesce(metadata_en.title, title_en),
-        "desc": coalesce(metadata_en.desc, excerpt_en),
+        "title": coalesce(metadata_en.title, hero_en.textHero.title, hero_en.mediaHero.title),
+        "desc": metadata_en.desc,
         "image": select(
           defined(metadata_en.image.asset._ref) => metadata_en.image {
             "id": asset._ref,

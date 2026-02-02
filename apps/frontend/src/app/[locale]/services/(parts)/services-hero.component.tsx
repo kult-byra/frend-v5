@@ -2,18 +2,19 @@ import { toPlainText } from "next-sanity";
 import type { ReactNode } from "react";
 import { ContentLayout } from "@/components/layout/content-layout.component";
 import { Img } from "@/components/utils/img.component";
-import type { ServicesArchiveSettingsQueryResult } from "@/sanity-types";
-
-type ArchiveSettings = NonNullable<ServicesArchiveSettingsQueryResult>;
+import type { HeroData } from "@/server/queries/utils/hero.query";
 
 type ServicesHeroProps = {
-  title: string | null;
-  excerpt: ArchiveSettings["excerpt"] | null;
-  media: ArchiveSettings["media"] | null;
+  hero: HeroData | null;
   mobileAnchorNav?: ReactNode;
 };
 
-export function ServicesHero({ title, excerpt, media, mobileAnchorNav }: ServicesHeroProps) {
+export function ServicesHero({ hero, mobileAnchorNav }: ServicesHeroProps) {
+  // Extract data from hero based on hero type
+  const heroData = hero?.mediaHero ?? hero?.textHero;
+  const title = heroData?.title ?? null;
+  const excerpt = hero?.mediaHero?.excerpt ?? hero?.textHero?.excerpt ?? null;
+  const media = hero?.mediaHero?.media ?? null;
   const excerptText = excerpt ? toPlainText(excerpt) : null;
 
   return (

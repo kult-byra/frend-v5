@@ -1,6 +1,5 @@
 import { Bot, LayoutPanelTop } from "lucide-react";
-import { defineType } from "sanity";
-import { heroFields } from "@/schemas/generator-fields/hero-fields.field";
+import { defineField, defineType } from "sanity";
 import { infoField } from "@/schemas/generator-fields/info.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
@@ -24,11 +23,21 @@ export const knowledgeArticleArchiveSchema = defineType({
     slugField({ isStatic: true, group: false }),
 
     // Norwegian
-    ...heroFields({ isStatic: true, includeCoverImage: false, suffix: "_no", group: "no" }),
+    defineField({
+      name: "hero_no",
+      title: "Hero (Norwegian)",
+      type: "hero",
+      group: "no",
+    }),
     metadataField({ suffix: "_no", group: "no" }),
 
     // English
-    ...heroFields({ isStatic: true, includeCoverImage: false, suffix: "_en", group: "en" }),
+    defineField({
+      name: "hero_en",
+      title: "Hero (English)",
+      type: "hero",
+      group: "en",
+    }),
     metadataField({ suffix: "_en", group: "en" }),
 
     infoField({
@@ -39,9 +48,16 @@ export const knowledgeArticleArchiveSchema = defineType({
     }),
   ],
   preview: {
-    prepare() {
+    select: {
+      titleNo: "hero_no.mediaHero.title",
+      titleNoText: "hero_no.textHero.title",
+      titleEn: "hero_en.mediaHero.title",
+      titleEnText: "hero_en.textHero.title",
+    },
+    prepare({ titleNo, titleNoText, titleEn, titleEnText }) {
+      const title = titleNo || titleNoText || titleEn || titleEnText;
       return {
-        title: "Knowledge articles overview",
+        title: title || "Knowledge articles overview",
       };
     },
   },

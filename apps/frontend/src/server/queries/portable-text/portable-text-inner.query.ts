@@ -43,6 +43,7 @@ export const portableTextInnerQuery = defineQuery(`
 export const portableTextQuery = defineQuery(`
   content[] {
     _key,
+    _type,
     _type == "block" => {
       ${portableTextInnerQuery}
     }

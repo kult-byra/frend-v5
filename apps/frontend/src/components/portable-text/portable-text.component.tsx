@@ -248,8 +248,12 @@ export const PortableText = (props: {
 
   return (
     <div className={cn(className)}>
-      {/* biome-ignore lint/suspicious/noExplicitAny: content type matches portable text structure but generated types may lack _type */}
-      <PortableTextComponent components={components(options)} value={content as any} />
+      <PortableTextComponent
+        components={components(options)}
+        // biome-ignore lint/suspicious/noExplicitAny: content type matches portable text structure but generated types may lack _type
+        value={content as any}
+        onMissingComponent={false}
+      />
     </div>
   );
 };

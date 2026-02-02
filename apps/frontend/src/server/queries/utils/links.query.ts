@@ -44,9 +44,12 @@ const downloadLinkQuery = defineQuery(`
 const knowledgeHighlightTeaserQuery = defineQuery(`
   _id,
   _type,
-  title,
+  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
   "slug": slug.current,
-  "image": media.image {
+  "image": coalesce(
+    hero.mediaHero.media.image,
+    hero.articleHero.coverImages[0].image
+  ) {
     ${imageInnerQuery}
   }
 `);
@@ -56,10 +59,13 @@ const knowledgeHighlightTeaserQuery = defineQuery(`
 const newsArticleTeaserQuery = defineQuery(`
   _id,
   _type,
-  title,
+  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
   "slug": slug.current,
-  publishDate,
-  "image": media.image {
+  "publishDate": hero.articleHero.publishDate,
+  "image": coalesce(
+    hero.mediaHero.media.image,
+    hero.articleHero.coverImages[0].image
+  ) {
     ${imageInnerQuery}
   }
 `);
@@ -69,11 +75,14 @@ const newsArticleTeaserQuery = defineQuery(`
 const eventTeaserQuery = defineQuery(`
   _id,
   _type,
-  title,
+  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
   "slug": slug.current,
   "startTime": timeAndDate.startTime,
   "excerpt": pt::text(description),
-  "image": media.image {
+  "image": coalesce(
+    hero.mediaHero.media.image,
+    hero.articleHero.coverImages[0].image
+  ) {
     ${imageInnerQuery}
   }
 `);
@@ -137,7 +146,7 @@ const linkGroupQuery = defineQuery(`
       _type == "newsArticle"
       && language == $locale
       && !(_id in path("drafts.**"))
-    ] | order(publishDate desc)[0...2] {
+    ] | order(hero.articleHero.publishDate desc)[0...2] {
       ${newsArticleTeaserQuery}
     }
   ),

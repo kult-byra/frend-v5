@@ -6,7 +6,12 @@ import type { SeminarQueryResult } from "@/sanity-types";
 
 type Props = NonNullable<SeminarQueryResult>;
 
-export function Seminar({ title, subtitle, excerpt, client }: Props) {
+export function Seminar({ hero, client }: Props) {
+  // Extract data from hero
+  const heroData = hero?.textHero ?? hero?.mediaHero;
+  const title = heroData?.title ?? null;
+  const excerpt = hero?.textHero?.excerpt ?? hero?.mediaHero?.excerpt ?? null;
+
   return (
     <Container className="py-lg">
       <Link
@@ -16,8 +21,7 @@ export function Seminar({ title, subtitle, excerpt, client }: Props) {
         ← Tilbake til seminarer
       </Link>
 
-      <H1 className="mb-4">{title}</H1>
-      {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
+      {title && <H1 className="mb-4">{title}</H1>}
       {excerpt && <p className="text-lg mb-8">{toPlainText(excerpt)}</p>}
 
       {client?.name && (

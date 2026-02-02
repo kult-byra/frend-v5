@@ -11,8 +11,16 @@ type ConversionPageData = NonNullable<PageQueryResult> & {
 };
 
 export const ConversionPage = (props: Omit<ConversionPageData, "metadata">) => {
-  const { title, excerpt, media, contactForm, highlightedClients, highlightedQuotes, pageBuilder } =
-    props;
+  const { hero, highlightedClients, highlightedQuotes, pageBuilder } = props;
+
+  // Extract data from hero based on hero type
+  const heroData = hero?.formHero ?? hero?.mediaHero ?? hero?.textHero;
+  const title = heroData?.title ?? null;
+  const excerpt = hero?.formHero
+    ? null
+    : (hero?.mediaHero?.excerpt ?? hero?.textHero?.excerpt ?? null);
+  const media = hero?.formHero?.media ?? hero?.mediaHero?.media ?? null;
+  const contactForm = hero?.formHero?.form ?? null;
 
   return (
     <>

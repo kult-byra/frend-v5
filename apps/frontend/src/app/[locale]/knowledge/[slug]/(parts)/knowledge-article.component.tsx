@@ -1,11 +1,17 @@
-import Image from "next/image";
-import Link from "next/link";
+import { SanityImage } from "sanity-image";
 import { PortableText } from "@/components/portable-text/portable-text.component";
+import { env } from "@/env";
 import type { KnowledgeArticleQueryResult } from "@/sanity-types";
 
 type Props = NonNullable<KnowledgeArticleQueryResult>;
 
-export function KnowledgeArticle({ title, publishDate, author, summary, content }: Props) {
+export function KnowledgeArticle({ hero, summary, content }: Props) {
+  // Extract data from hero
+  const heroData = hero?.articleHero ?? hero?.textHero ?? hero?.mediaHero;
+  const title = heroData?.title ?? null;
+  const publishDate = hero?.articleHero?.publishDate ?? null;
+  const author = hero?.articleHero?.author ?? null;
+
   const formattedDate = publishDate
     ? new Date(publishDate).toLocaleDateString("no-NO", {
         year: "numeric",
@@ -26,9 +32,11 @@ export function KnowledgeArticle({ title, publishDate, author, summary, content 
               <div className="mt-auto hidden flex-col gap-xs lg:flex">
                 {author?.name && (
                   <div className="flex items-center gap-2xs">
-                    {author.image && (
-                      <Image
-                        src={author.image}
+                    {author.image?.asset?._id && (
+                      <SanityImage
+                        id={author.image.asset._id}
+                        projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+                        dataset={env.NEXT_PUBLIC_SANITY_DATASET}
                         alt={author.name}
                         width={40}
                         height={40}
@@ -57,9 +65,11 @@ export function KnowledgeArticle({ title, publishDate, author, summary, content 
               <div className="flex items-center gap-xs text-body-small text-text-secondary lg:hidden">
                 {author?.name && (
                   <div className="flex items-center gap-2xs">
-                    {author.image && (
-                      <Image
-                        src={author.image}
+                    {author.image?.asset?._id && (
+                      <SanityImage
+                        id={author.image.asset._id}
+                        projectId={env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+                        dataset={env.NEXT_PUBLIC_SANITY_DATASET}
                         alt={author.name}
                         width={32}
                         height={32}

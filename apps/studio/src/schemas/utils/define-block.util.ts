@@ -23,7 +23,8 @@ export type BlockDefinition = Omit<ObjectDefinition, "type" | "icon"> & BlockExt
 export type BlockSchemaType = Omit<ObjectSchemaType, "icon"> & BlockExtras;
 
 export const defineBlock = (props: BlockDefinition) => {
-  const { name, title, fields: originalFields, optionFields, components, icon, preview } = props;
+  const { name, title, fields: originalFields, optionFields, components, icon, preview, scope } =
+    props;
 
   const fields = originalFields ?? [];
 
@@ -65,7 +66,7 @@ export const defineBlock = (props: BlockDefinition) => {
         }),
       };
 
-  return defineField(
+  const fieldDefinition = defineField(
     {
       ...props,
       name: `${name}.block`,
@@ -82,4 +83,9 @@ export const defineBlock = (props: BlockDefinition) => {
       strict: false,
     },
   );
+
+  return {
+    ...fieldDefinition,
+    scope,
+  };
 };

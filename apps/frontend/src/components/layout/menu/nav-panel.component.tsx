@@ -126,7 +126,7 @@ const HighlightedDocument = ({
       <MenuDocumentTeaser
         image={image}
         topTitle={typeLabel}
-        title={title}
+        title={title ?? ""}
         href={href}
         onClose={onClose}
       />
@@ -165,13 +165,13 @@ const PanelLink = ({
 // Manual types due to typegen inference issues with select statements
 type MenuDocumentItem = {
   _id: string;
-  title: string;
+  title: string | null;
   slug: string;
   image: ImageQueryProps | null;
 };
 
 type NewsAndEventsContentProps = {
-  latestNews: (MenuDocumentItem & { publishDate: string })[] | null;
+  latestNews: (MenuDocumentItem & { publishDate: string | null })[] | null;
   upcomingEvents:
     | (MenuDocumentItem & { startTime: string | null; excerpt: string | null })[]
     | null;
@@ -203,7 +203,7 @@ const NewsAndEventsContent = ({
                 key={item._id}
                 image={item.image}
                 topTitle={formatDate(item.publishDate, locale)}
-                title={item.title}
+                title={item.title ?? ""}
                 href={resolvePath("newsArticle", { slug: item.slug })}
                 onClose={onClose}
               />
@@ -224,7 +224,7 @@ const NewsAndEventsContent = ({
                 key={item._id}
                 image={item.image}
                 topTitle={formatDate(item.startTime, locale, { weekday: true })}
-                title={item.title}
+                title={item.title ?? ""}
                 description={item.excerpt}
                 href={resolvePath("event", { slug: item.slug })}
                 onClose={onClose}

@@ -42,9 +42,12 @@ export default async function EBooksPage({ params }: Props) {
   const { locale } = await params;
   const [settings, eBooks] = await Promise.all([getArchiveSettings(locale), getEBooks(locale)]);
 
+  // Extract title from hero
+  const heroTitle = settings?.hero?.textHero?.title ?? settings?.hero?.mediaHero?.title ?? null;
+
   return (
     <Container className="py-lg">
-      <H1 className="mb-4">{settings?.title ?? "E-bøker"}</H1>
+      <H1 className="mb-4">{heroTitle ?? "E-bøker"}</H1>
 
       {eBooks && eBooks.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">
@@ -57,9 +60,6 @@ export default async function EBooksPage({ params }: Props) {
               <h2 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                 {eBook.title}
               </h2>
-              {eBook.subtitle && (
-                <p className="text-muted-foreground line-clamp-3">{eBook.subtitle}</p>
-              )}
             </Link>
           ))}
         </div>

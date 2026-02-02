@@ -55,7 +55,6 @@ export const ImageGalleryBlock = (props: ImageGalleryBlockProps) => {
       return <SingleMediaGallery images={images} />;
     case "carousel":
       return <CarouselGallery images={images} />;
-    case "grid":
     default:
       return <GridGallery images={images} title={title} intro={intro} />;
   }

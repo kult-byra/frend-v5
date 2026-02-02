@@ -25,7 +25,7 @@ const { Page, metadata } = createPage({
 
     return (
       <>
-        {data.hero && <Hero {...data.hero} />}
+        {data.hero && <Hero hero={data.hero} />}
         <PageComponent {...data} />
       </>
     );

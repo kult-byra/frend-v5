@@ -1,12 +1,8 @@
-import { Bookmark, Bot, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { defineField, defineType } from "sanity";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
-import { stringField } from "@/schemas/generator-fields/string.field";
+import { slugField } from "@/schemas/generator-fields/slug.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
-import { heroFields } from "../generator-fields/hero-fields.field";
-import { infoField } from "../generator-fields/info.field";
-import { linksField } from "../generator-fields/links.field";
-import { portableTextField } from "../generator-fields/portable-text/portable-text.field";
 import { referenceField } from "../generator-fields/reference.field";
 
 export const conversionPageSchema = defineType({
@@ -25,12 +21,12 @@ export const conversionPageSchema = defineType({
       readOnly: true,
       hidden: true,
     }),
-    ...heroFields({
-      includeExcerpt: true,
-      mediaOptions: {
-        forcedAspectRatio: "3:4",
-        video: false,
-      },
+    slugField({ isStatic: false }),
+    defineField({
+      name: "hero",
+      title: "Hero",
+      type: "hero",
+      group: "key",
     }),
     referenceField({
       title: "Contact form",
@@ -57,4 +53,42 @@ export const conversionPageSchema = defineType({
       group: "content",
     }),
   ],
+  preview: {
+    select: {
+      heroType: "hero.heroType",
+      textTitle: "hero.textHero.title",
+      mediaTitle: "hero.mediaHero.title",
+      articleTitle: "hero.articleHero.title",
+      formTitle: "hero.formHero.title",
+      mediaImage: "hero.mediaHero.media.image.asset",
+      articleImage: "hero.articleHero.coverImages.0.image.asset",
+      formImage: "hero.formHero.media.image.asset",
+    },
+    prepare({
+      heroType,
+      textTitle,
+      mediaTitle,
+      articleTitle,
+      formTitle,
+      mediaImage,
+      articleImage,
+      formImage,
+    }) {
+      const titleMap: Record<string, string | undefined> = {
+        textHero: textTitle,
+        mediaHero: mediaTitle,
+        articleHero: articleTitle,
+        formHero: formTitle,
+      };
+      const mediaMap: Record<string, typeof mediaImage> = {
+        mediaHero: mediaImage,
+        articleHero: articleImage,
+        formHero: formImage,
+      };
+      return {
+        title: titleMap[heroType] || "Untitled",
+        media: mediaMap[heroType],
+      };
+    },
+  },
 });
