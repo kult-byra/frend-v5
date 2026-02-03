@@ -16,6 +16,7 @@ export const peopleBlockQuery = defineQuery(`
   people[]-> {
     _id,
     name,
+    "slug": slug.current,
     role_no,
     role_en,
     phone,

@@ -55,7 +55,7 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
             <p className="flex-1 text-body-small text-text-secondary">{toPlainText(excerpt)}</p>
           )}
           <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white">
-            <Icon name="arrow-right" className="size-[10px] text-text-primary" />
+            <Icon name="sm-arrow-right" className="size-[10px] text-text-primary" />
           </div>
         </div>
 
@@ -90,7 +90,7 @@ export function ServiceCard({ title, slug, excerpt, media, technologies }: Servi
           {/* Arrow button - left aligned, orange background */}
           <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-container-brand-2 transition-colors group-hover:bg-button-primary-hover">
             <Icon
-              name="arrow-right"
+              name="sm-arrow-right"
               className="size-[10px] text-text-primary transition-colors group-hover:text-button-primary-inverted-text"
             />
           </div>

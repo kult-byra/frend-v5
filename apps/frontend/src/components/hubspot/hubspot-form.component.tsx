@@ -87,9 +87,7 @@ export function HubspotForm({ formId }: HubspotFormProps) {
   if (isLoading || isPending) {
     return (
       <div className="flex flex-col gap-2xs" aria-busy="true">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="h-[60px] w-full animate-pulse rounded-sm bg-container-primary" />
-        ))}
+        <div className="h-[60px] w-full animate-pulse rounded-sm bg-container-primary" />
         <output className="sr-only">Laster skjema...</output>
       </div>
     );
@@ -159,12 +157,24 @@ export function HubspotForm({ formId }: HubspotFormProps) {
           onStatusChange={setTurnstileStatus}
         />
 
+        <output
+          className={`text-xs transition-opacity ${
+            turnstileStatus === "verifying"
+              ? "text-text-tertiary opacity-100"
+              : turnstileStatus === "error"
+                ? "text-stroke-error opacity-100"
+                : "opacity-0"
+          }`}
+        >
+          {turnstileStatus === "error" ? "Verifisering feilet. Prøv igjen." : "Verifiserer..."}
+        </output>
+
         <Button type="submit" disabled={isSubmitDisabled} className="self-start">
           {isSubmitting ? "Sender..." : "Send inn"}
         </Button>
 
         {submitStatus === "error" && (
-          <output id={statusId} className="text-body-small text-stroke-error">
+          <output id={statusId} className="text-xs text-stroke-error">
             Kunne ikke sende skjemaet. Vennligst prøv igjen.
           </output>
         )}

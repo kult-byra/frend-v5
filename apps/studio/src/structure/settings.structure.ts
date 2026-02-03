@@ -8,6 +8,7 @@ import { logoSchema } from "@/schemas/documents/logo.schema";
 import {
   menuSettingsSchema,
   metadataSettingsSchema,
+  newsletterSettingsSchema,
   siteSettingsSchema,
   stringTranslationsSchema,
 } from "@/schemas/settings";
@@ -26,6 +27,7 @@ export const settingsStructure = (S: StructureBuilder) => {
           S.divider(),
           singletonListItem(S, menuSettingsSchema),
           singletonListItem(S, footerSettingsSchema),
+          singletonListItem(S, newsletterSettingsSchema),
           S.divider(),
           singletonListItem(S, metadataSettingsSchema),
           singletonListItem(S, stringTranslationsSchema),

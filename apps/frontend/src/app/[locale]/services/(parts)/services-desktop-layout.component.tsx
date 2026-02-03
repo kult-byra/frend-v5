@@ -117,7 +117,7 @@ export function ServicesDesktopLayout({ services }: ServicesDesktopLayoutProps) 
                     content={service.excerpt}
                     options={{
                       pSize: "text-body-large",
-                      checklistIcon: <Icon name="checkmark" className="size-[10px]" />,
+                      checklistIcon: <Icon name="sm-checkmark" className="size-[10px]" />,
                     }}
                   />
                 </div>
@@ -131,7 +131,7 @@ export function ServicesDesktopLayout({ services }: ServicesDesktopLayoutProps) 
               aria-label={`Read more about ${service.title}`}
             >
               <Icon
-                name="arrow-right"
+                name="sm-arrow-right"
                 className="size-[10px] text-text-primary transition-colors group-hover:text-white"
               />
             </Link>

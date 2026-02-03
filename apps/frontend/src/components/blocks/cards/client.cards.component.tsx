@@ -71,7 +71,7 @@ const ClientCardExpandedContent = ({ item }: { item: ClientCardItem }) => {
         )}
       </div>
       <div className="flex size-8 items-center justify-center rounded-full bg-buttons-primary-fill-hover">
-        <Icon name="arrow-right" className="size-[10px] text-text-primary" />
+        <Icon name="sm-arrow-right" className="size-[10px] text-text-primary" />
       </div>
     </div>
   );
@@ -101,7 +101,7 @@ const DesktopClientCard = ({ item }: { item: ClientCardItem }) => {
           )}
         </div>
         <div className="flex items-center justify-center mt-auto w-8 h-8 rounded-full bg-buttons-primary-fill-hover">
-          <Icon name="arrow-right" className="w-2.5 h-2.5 text-text-primary" />
+          <Icon name="sm-arrow-right" className="w-2.5 h-2.5 text-text-primary" />
         </div>
       </div>
     </div>
@@ -233,7 +233,7 @@ export const ClientCards = ({
                 </div>
                 <div className="flex size-8 items-center justify-center">
                   <Icon
-                    name={isExpanded ? "collapse" : "expand"}
+                    name={isExpanded ? "lg-collapse" : "lg-expand"}
                     className="size-4 text-text-primary transition-transform duration-200"
                   />
                 </div>

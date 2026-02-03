@@ -1,4 +1,12 @@
-import { Columns2, GalleryHorizontalEnd, Grid2x2, Image, PanelLeft, Square } from "lucide-react";
+import {
+  Columns2,
+  GalleryHorizontalEnd,
+  Grid2x2,
+  Image,
+  LayoutGrid,
+  PanelLeft,
+  Square,
+} from "lucide-react";
 import { defineField } from "sanity";
 import { defineBlock } from "@/schemas/utils/define-block.util";
 import { gridOptionsField } from "../generator-fields/grid-options.field";
@@ -10,6 +18,7 @@ const IMAGE_LIMITS = {
   grid: { min: 1, max: 6 },
   carousel: { min: 2, max: 99 },
   mediaFull: { min: 1, max: 3 },
+  dynamic: { min: 1, max: 3 },
   doubleStickyFull: { min: 2, max: 2 },
   carouselFull: { min: 3, max: 99 },
 };
@@ -117,6 +126,12 @@ export const imageGalleryBlockSchema = defineBlock({
           icon: Columns2,
         },
         {
+          value: "dynamic",
+          title: "Dynamic",
+          description: "Up to 3 images in staggered floating layout",
+          icon: LayoutGrid,
+        },
+        {
           value: "doubleStickyFull",
           title: "Double Sticky",
           description: "One 3:2 and one 3:4 media, 3:2 is sticky (order follows array)",
@@ -148,6 +163,7 @@ export const imageGalleryBlockSchema = defineBlock({
         grid: "Grid",
         carousel: "Carousel",
         mediaFull: "Media Full",
+        dynamic: "Dynamic",
         doubleStickyFull: "Double Sticky",
         carouselFull: "Carousel",
       };

@@ -31,9 +31,11 @@ export const PeopleBlock = (props: PeopleBlockProps) => {
                   <PersonTeaser
                     _id={person._id}
                     name={person.name}
+                    slug={person.slug}
                     role={person.role_no}
                     phone={person.phone ?? null}
                     email={person.email ?? null}
+                    externalPerson={person.externalPerson}
                     image={person.image}
                   />
                 </li>

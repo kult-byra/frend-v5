@@ -170,7 +170,7 @@ export const CollapsedMenu = (props: CollapsedMenuProps) => {
               aria-label="Lukk meny"
               className="size-8 flex items-center justify-center"
             >
-              <Icon name="close" className="size-5" />
+              <Icon name="sm-close-thin" className="size-5" />
             </button>
           </div>
         </div>

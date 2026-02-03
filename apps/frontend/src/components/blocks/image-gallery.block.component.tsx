@@ -11,7 +11,7 @@ import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 type ImageGalleryBlockProps = PageBuilderBlockProps<"imageGallery.block">;
 
 type GalleryTypeHalf = "single" | "grid" | "carousel";
-type GalleryTypeFull = "mediaFull" | "doubleStickyFull" | "carouselFull";
+type GalleryTypeFull = "mediaFull" | "dynamic" | "doubleStickyFull" | "carouselFull";
 
 type GalleryOptions = {
   width?: "halfWidth" | "fullWidth";
@@ -40,6 +40,8 @@ export const ImageGalleryBlock = (props: ImageGalleryBlockProps) => {
     switch (galleryTypeFull) {
       case "mediaFull":
         return <MediaFullGallery images={images} />;
+      case "dynamic":
+        return <DynamicFullGallery images={images} />;
       case "doubleStickyFull":
         return <DoubleStickyFullGallery images={images} />;
       case "carouselFull":
@@ -176,7 +178,7 @@ const CarouselGallery = ({ images }: { images: MediaItem[] }) => {
                 className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
                 aria-label="Previous image"
               >
-                <Icon name="chevron-left" className="size-2" />
+                <Icon name="lg-chevron-left" className="size-2" />
               </button>
               <button
                 type="button"
@@ -184,7 +186,7 @@ const CarouselGallery = ({ images }: { images: MediaItem[] }) => {
                 className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
                 aria-label="Next image"
               >
-                <Icon name="chevron-right" className="size-2" />
+                <Icon name="lg-chevron-right" className="size-2" />
               </button>
             </div>
           </div>
@@ -243,7 +245,7 @@ const MediaFullGallery = ({ images }: { images: MediaItem[] }) => {
                 <div className="flex items-start justify-between">
                   <p className="font-semibold">Widget placeholder</p>
                   <button type="button" className="text-text-white-primary" aria-label="Close">
-                    <Icon name="close" size="sm" />
+                    <Icon name="sm-close-thin" size="sm" />
                   </button>
                 </div>
                 <p className="mt-2xs text-sm text-text-white-secondary">
@@ -254,6 +256,53 @@ const MediaFullGallery = ({ images }: { images: MediaItem[] }) => {
           </div>
         </div>
       )}
+    </section>
+  );
+};
+
+// =============================================================================
+// Dynamic Full Gallery (full width)
+// Exactly 3 images in a floating/staggered layout
+// =============================================================================
+
+const DynamicFullGallery = ({ images }: { images: MediaItem[] }) => {
+  const [first, second, third] = images.slice(0, 3);
+
+  if (!first || !second || !third) return null;
+
+  // Very specific layout due to original design requirements from Figma
+  return (
+    <section className="grid md:grid-cols-3 gap-xs bg-gray-300 pb-xl">
+      <div className="grid grid-cols-4 ">
+        <Media
+          mediaType={first.mediaType as "image" | "video"}
+          image={first.image as ImgProps | null}
+          videoUrl={first.videoUrl}
+          aspectRatio={first.aspectRatio as AspectRatio}
+          className="col-span-2 col-start-2 w-full"
+          sizes={{ md: "full" }}
+        />
+      </div>
+      <div className="w-full h-full flex ">
+        <Media
+          mediaType={second.mediaType as "image" | "video"}
+          image={second.image as ImgProps | null}
+          videoUrl={second.videoUrl}
+          aspectRatio={second.aspectRatio as AspectRatio}
+          sizes={{ md: "third" }}
+          className="w-full mt-auto"
+        />
+      </div>
+      <div className="grid grid-cols-4 pb-xl">
+        <Media
+          mediaType={third.mediaType as "image" | "video"}
+          image={third.image as ImgProps | null}
+          videoUrl={third.videoUrl}
+          aspectRatio={third.aspectRatio as AspectRatio}
+          sizes={{ md: "third" }}
+          className="col-span-3 col-start-2 w-full"
+        />
+      </div>
     </section>
   );
 };
@@ -403,7 +452,7 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
                 )}
                 aria-label="Previous images"
               >
-                <Icon name="chevron-left" className="size-2" />
+                <Icon name="lg-chevron-left" className="size-2" />
               </button>
               <button
                 type="button"
@@ -415,7 +464,7 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
                 )}
                 aria-label="Next images"
               >
-                <Icon name="chevron-right" className="size-2" />
+                <Icon name="lg-chevron-right" className="size-2" />
               </button>
             </div>
           </div>
@@ -449,7 +498,7 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
                 className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
                 aria-label="Previous images"
               >
-                <Icon name="chevron-left" className="size-2" />
+                <Icon name="lg-chevron-left" className="size-2" />
               </button>
               <button
                 type="button"
@@ -457,7 +506,7 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
                 className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
                 aria-label="Next images"
               >
-                <Icon name="chevron-right" className="size-2" />
+                <Icon name="lg-chevron-right" className="size-2" />
               </button>
             </div>
           </div>

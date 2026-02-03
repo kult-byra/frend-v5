@@ -1,59 +1,69 @@
-import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
-import { H1 } from "@/components/layout/heading.component";
+import { PortableText } from "@/components/portable-text/portable-text.component";
+import type { EventQueryResult } from "@/sanity-types";
+import { cn } from "@/utils/cn.util";
+import { EventHero } from "./event-hero.component";
+import { EventInfoBox } from "./event-info-box.component";
 
-type Props = {
-  title?: string | null;
-  subtitle?: string | null;
-  timeAndDate?: {
-    startTime?: string | null;
-    endTime?: string | null;
-  } | null;
-  location?: string | null;
-  price?: string | null;
-};
+type Props = NonNullable<EventQueryResult>;
 
-export function Event({ title, subtitle, timeAndDate, location, price }: Props) {
+export function Event(props: Props) {
+  const { layout, color, hero, timeAndDate, location, price, description, content, signupForm } =
+    props;
+
+  const isSubmersive = layout === "submersive";
+  const bgColor =
+    isSubmersive && color === "yellow"
+      ? "bg-container-overlay-secondary-3"
+      : "bg-container-primary";
+
   return (
-    <Container className="py-lg">
-      <Link
-        href="/articles"
-        className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"
-      >
-        ← Tilbake til artikler
-      </Link>
+    <div className={bgColor}>
+      {/* Hero */}
+      <EventHero
+        layout={layout}
+        hero={hero}
+        timeAndDate={timeAndDate}
+        location={location}
+        price={price}
+        description={description}
+      />
 
-      <H1 className="mb-4">{title}</H1>
-      {subtitle && <p className="text-xl text-muted-foreground mb-4">{subtitle}</p>}
+      {/* Main content */}
+      <section className={cn("bg-container-primary", isSubmersive && bgColor)}>
+        <Container className="pb-xl">
+          {/* Mobile: Stacked */}
+          <div className="flex flex-col gap-xl lg:hidden">
+            {content && (
+              <PortableText
+                content={content}
+                className="text-body text-text-primary"
+                options={{ topHLevel: 2 }}
+              />
+            )}
+            <EventInfoBox signupForm={signupForm} className="w-full" />
+          </div>
 
-      <div className="flex flex-wrap gap-xs text-sm text-muted-foreground mb-8">
-        {timeAndDate?.startTime && (
-          <div>
-            <span className="font-medium">Tid: </span>
-            <time dateTime={timeAndDate.startTime}>
-              {new Date(timeAndDate.startTime).toLocaleDateString("no-NO", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </time>
+          {/* Desktop: Sidebar overlays content, doesn't affect layout */}
+          <div className="relative hidden lg:block">
+            {/* Sidebar - absolutely positioned, overlays left side */}
+            <div className="pointer-events-none absolute left-0 top-0 z-10 w-[420px]">
+              <div className="pointer-events-auto sticky top-xl">
+                <EventInfoBox signupForm={signupForm} className="w-full" />
+              </div>
+            </div>
+
+            {/* Content - full width, text right-aligned, blocks can span full width */}
+            {content && (
+              <PortableText
+                content={content}
+                className="text-body text-text-primary"
+                options={{ topHLevel: 2, layoutMode: "pageBuilder" }}
+              />
+            )}
           </div>
-        )}
-        {location && (
-          <div>
-            <span className="font-medium">Sted: </span>
-            {location}
-          </div>
-        )}
-        {price && (
-          <div>
-            <span className="font-medium">Pris: </span>
-            {price}
-          </div>
-        )}
-      </div>
-    </Container>
+        </Container>
+      </section>
+    </div>
   );
 }

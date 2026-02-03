@@ -83,7 +83,7 @@ export function AnchorNavigation({ items, label }: AnchorNavigationProps) {
       >
         <span className="pt-3xs text-body-title text-text-primary">{label}</span>
         <Icon
-          name={isExpanded ? "collapse" : "expand"}
+          name={isExpanded ? "lg-collapse" : "lg-expand"}
           className="size-8"
           label={isExpanded ? "Collapse" : "Expand"}
         />

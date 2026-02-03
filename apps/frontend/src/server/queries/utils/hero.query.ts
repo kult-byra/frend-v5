@@ -24,11 +24,70 @@ const textHeroQuery = defineQuery(`
 `);
 
 // @sanity-typegen-ignore
+const eventWidgetDataQuery = defineQuery(`
+  _id,
+  "title": hero.articleHero.title,
+  "excerpt": hero.articleHero.excerpt[] {
+    _key,
+    _type,
+    _type == "block" => {
+      ${portableTextInnerQuery}
+    }
+  },
+  "slug": slug.current,
+  timeAndDate {
+    startTime,
+    endTime
+  }
+`);
+
+// @sanity-typegen-ignore
+const widgetQuery = defineQuery(`
+  useWidget,
+  widgetType,
+  defaultTitle,
+  defaultContent[] {
+    _key,
+    _type,
+    _type == "block" => {
+      ${portableTextInnerQuery}
+    }
+  },
+  defaultLinks[] { ${linksQuery} },
+  eventSelectionMode,
+  "eventReference": select(
+    eventSelectionMode == "manual" => eventReference-> { ${eventWidgetDataQuery} },
+    *[
+      _type == "event"
+      && language == $locale
+      && timeAndDate.startTime >= now()
+    ] | order(timeAndDate.startTime asc)[0] { ${eventWidgetDataQuery} }
+  ),
+  formTitle,
+  formReference-> {
+    _id,
+    title,
+    formId
+  },
+  "newsletterForm": *[_id == "newsletterSettings"][0] {
+    "form": select(
+      $locale == "no" => newsletterSignup_no,
+      $locale == "en" => newsletterSignup_en
+    )->{
+      _id,
+      title,
+      formId
+    }
+  }.form
+`);
+
+// @sanity-typegen-ignore
 const mediaHeroQuery = defineQuery(`
   title,
   media { ${mediaQuery} },
   ${excerptQuery},
-  links[] { ${linksQuery} }
+  links[] { ${linksQuery} },
+  widget { ${widgetQuery} }
 `);
 
 // @sanity-typegen-ignore
@@ -94,7 +153,75 @@ const _heroTypegenQuery = defineQuery(`
           ${portableTextInnerQuery}
         }
       },
-      links[] { ${linksQuery} }
+      links[] { ${linksQuery} },
+      widget {
+        useWidget,
+        widgetType,
+        defaultTitle,
+        defaultContent[] {
+          _key,
+          _type,
+          _type == "block" => {
+            ${portableTextInnerQuery}
+          }
+        },
+        defaultLinks[] { ${linksQuery} },
+        eventSelectionMode,
+        "eventReference": select(
+          eventSelectionMode == "manual" => eventReference-> {
+            _id,
+            "title": hero.articleHero.title,
+            "excerpt": hero.articleHero.excerpt[] {
+              _key,
+              _type,
+              _type == "block" => {
+                ${portableTextInnerQuery}
+              }
+            },
+            "slug": slug.current,
+            timeAndDate {
+              startTime,
+              endTime
+            }
+          },
+          *[
+            _type == "event"
+            && language == $locale
+            && timeAndDate.startTime >= now()
+          ] | order(timeAndDate.startTime asc)[0] {
+            _id,
+            "title": hero.articleHero.title,
+            "excerpt": hero.articleHero.excerpt[] {
+              _key,
+              _type,
+              _type == "block" => {
+                ${portableTextInnerQuery}
+              }
+            },
+            "slug": slug.current,
+            timeAndDate {
+              startTime,
+              endTime
+            }
+          }
+        ),
+        formTitle,
+        formReference-> {
+          _id,
+          title,
+          formId
+        },
+        "newsletterForm": *[_id == "newsletterSettings"][0] {
+          "form": select(
+            $locale == "no" => newsletterSignup_no,
+            $locale == "en" => newsletterSignup_en
+          )->{
+            _id,
+            title,
+            formId
+          }
+        }.form
+      }
     },
     articleHero {
       title,
@@ -132,6 +259,7 @@ export type TextHeroData = NonNullable<HeroData["textHero"]>;
 export type MediaHeroData = NonNullable<HeroData["mediaHero"]>;
 export type ArticleHeroData = NonNullable<HeroData["articleHero"]>;
 export type FormHeroData = NonNullable<HeroData["formHero"]>;
+export type WidgetData = NonNullable<MediaHeroData["widget"]>;
 
 // Backward compatibility aliases (deprecated)
 export type HeroQueryProps = HeroData;

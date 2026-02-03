@@ -17,17 +17,21 @@ export const LogoCloudBlock = (props: LogoCloudBlockProps) => {
 
   return (
     <BlockContainer>
-      <div className="flex flex-wrap items-center justify-center gap-lg">
+      <div className="grid grid-cols-3 gap-3xs lg:grid-cols-5">
         {validLogos.map((logo) => (
-          <div key={logo._id} className="flex items-center justify-center">
-            <Image
-              src={logo.url}
-              alt={logo.title ?? ""}
-              width={120}
-              height={48}
-              unoptimized
-              className="h-12 w-auto object-contain grayscale"
-            />
+          <div
+            key={logo._id}
+            className="flex items-center justify-center rounded-3xs bg-container-shade px-sm py-xs"
+          >
+            <div className="relative aspect-3/2 w-full">
+              <Image
+                src={logo.url}
+                alt={logo.title ?? ""}
+                fill
+                unoptimized
+                className="object-contain"
+              />
+            </div>
           </div>
         ))}
       </div>

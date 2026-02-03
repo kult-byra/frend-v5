@@ -3,6 +3,7 @@ import { defineField, defineType } from "sanity";
 import { colorField } from "@/schemas/generator-fields/color.field";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
 import { datetimeField } from "@/schemas/generator-fields/datetime.field";
+import { heroField } from "@/schemas/generator-fields/hero.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
@@ -29,10 +30,9 @@ export const eventSchema = defineType({
     }),
     //KEY
     slugField({ isStatic: false }),
-    defineField({
+    heroField({
       name: "hero",
-      title: "Hero",
-      type: "hero",
+      types: ["articleHero"],
       group: "key",
     }),
     defineField({
@@ -114,39 +114,13 @@ export const eventSchema = defineType({
   ],
   preview: {
     select: {
-      heroType: "hero.heroType",
-      textTitle: "hero.textHero.title",
-      mediaTitle: "hero.mediaHero.title",
-      articleTitle: "hero.articleHero.title",
-      formTitle: "hero.formHero.title",
-      mediaImage: "hero.mediaHero.media.image.asset",
-      articleImage: "hero.articleHero.coverImages.0.image.asset",
-      formImage: "hero.formHero.media.image.asset",
+      title: "hero.articleHero.title",
+      media: "hero.articleHero.media.image.asset",
     },
-    prepare({
-      heroType,
-      textTitle,
-      mediaTitle,
-      articleTitle,
-      formTitle,
-      mediaImage,
-      articleImage,
-      formImage,
-    }) {
-      const titleMap: Record<string, string | undefined> = {
-        textHero: textTitle,
-        mediaHero: mediaTitle,
-        articleHero: articleTitle,
-        formHero: formTitle,
-      };
-      const mediaMap: Record<string, typeof mediaImage> = {
-        mediaHero: mediaImage,
-        articleHero: articleImage,
-        formHero: formImage,
-      };
+    prepare({ title, media }) {
       return {
-        title: titleMap[heroType] || "Untitled",
-        media: mediaMap[heroType],
+        title: title || "Untitled",
+        media,
       };
     },
   },

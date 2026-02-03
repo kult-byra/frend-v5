@@ -65,31 +65,18 @@ export const seminarSchema = defineType({
       textTitle: "hero.textHero.title",
       mediaTitle: "hero.mediaHero.title",
       articleTitle: "hero.articleHero.title",
-      formTitle: "hero.formHero.title",
       mediaImage: "hero.mediaHero.media.image.asset",
       articleImage: "hero.articleHero.coverImages.0.image.asset",
-      formImage: "hero.formHero.media.image.asset",
     },
-    prepare({
-      heroType,
-      textTitle,
-      mediaTitle,
-      articleTitle,
-      formTitle,
-      mediaImage,
-      articleImage,
-      formImage,
-    }) {
+    prepare({ heroType, textTitle, mediaTitle, articleTitle, mediaImage, articleImage }) {
       const titleMap: Record<string, string | undefined> = {
         textHero: textTitle,
         mediaHero: mediaTitle,
         articleHero: articleTitle,
-        formHero: formTitle,
       };
       const mediaMap: Record<string, typeof mediaImage> = {
         mediaHero: mediaImage,
         articleHero: articleImage,
-        formHero: formImage,
       };
       return {
         title: titleMap[heroType] || "Untitled",

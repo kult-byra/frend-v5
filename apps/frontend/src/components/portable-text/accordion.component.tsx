@@ -28,7 +28,7 @@ function AccordionItem({ heading, content, defaultOpen = false, options }: Accor
         </span>
         <span className="flex size-8 shrink-0 items-center justify-center">
           <Icon
-            name="chevron-down"
+            name="lg-chevron-down"
             className={cn(
               "size-3 text-text-primary transition-transform duration-300",
               isOpen && "rotate-180",

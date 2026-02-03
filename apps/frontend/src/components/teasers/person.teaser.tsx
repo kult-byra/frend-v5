@@ -1,12 +1,15 @@
 import { SanityImage } from "sanity-image";
+import { LinkResolver } from "@/components/utils/link-resolver.component";
 import { env } from "@/env";
 
 export type PersonTeaserProps = {
   _id: string;
   name: string | null;
+  slug: string | null;
   role: string | null;
   phone: string | null;
   email: string | null;
+  externalPerson?: boolean | null;
   image: {
     asset?: { _id: string } | null;
     crop?: { top: number; bottom: number; left: number; right: number } | null;
@@ -16,7 +19,8 @@ export type PersonTeaserProps = {
 };
 
 export const PersonTeaser = (props: PersonTeaserProps) => {
-  const { name, role, phone, email, image } = props;
+  const { name, slug, role, phone, email, externalPerson, image } = props;
+  const hasPage = !externalPerson && slug;
 
   return (
     <article className="flex flex-col gap-xs">
@@ -39,7 +43,22 @@ export const PersonTeaser = (props: PersonTeaserProps) => {
       <div className="flex flex-col gap-2xs">
         {/* Name and role */}
         <div className="flex flex-col text-base leading-[1.45]">
-          {name && <p className="text-text-primary">{name}</p>}
+          {name && (
+            <p className="text-text-primary">
+              {hasPage ? (
+                <LinkResolver
+                  linkType="internal"
+                  _type="person"
+                  slug={slug}
+                  className="hover:underline"
+                >
+                  {name}
+                </LinkResolver>
+              ) : (
+                name
+              )}
+            </p>
+          )}
           {role && <p className="text-text-secondary">{role}</p>}
         </div>
 

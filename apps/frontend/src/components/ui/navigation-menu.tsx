@@ -85,7 +85,7 @@ function NavigationMenuTrigger({
     >
       {children}{" "}
       <Icon
-        name="chevron-down"
+        name="lg-chevron-down"
         className="relative top-[0.05em] ml-[0.2em] transition-transform duration-200 group-data-[state=open]:rotate-180"
       />
     </NavigationMenuPrimitive.Trigger>

@@ -1,17 +1,24 @@
 import { PortableText as PortableTextComponent } from "@portabletext/react";
 import type { PropsWithChildren } from "react";
 import { CallToActionBlock } from "@/components/blocks/call-to-action.block.component";
+import { ImageAndTextBlock } from "@/components/blocks/image-and-text.block.component";
+import { ImageGalleryBlock } from "@/components/blocks/image-gallery.block.component";
+import { ImagesAndTextBlock } from "@/components/blocks/images-and-text.block.component";
+import { ImagesWithBannerBlock } from "@/components/blocks/images-with-banner.block.component";
+import { LogoCloudBlock } from "@/components/blocks/logo-cloud.block.component";
+import { PeopleBlock } from "@/components/blocks/people.block.component";
+import { QuotesBlock } from "@/components/blocks/quotes.block.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import {
   Heading,
   type HeadingLevel,
   type HeadingSize,
 } from "@/components/layout/heading.component";
+import { HalfWidthWrapper } from "@/components/page-builder/half-width-wrapper.component";
 import { Img } from "@/components/utils/img.component";
 import { LinkResolver } from "@/components/utils/link-resolver.component";
 import type { FullPortableTextQueryTypeResult } from "@/sanity-types";
 import { cn } from "@/utils/cn.util";
-import { ImageAndTextBlock } from "../blocks/image-and-text.block.component";
 import { AccordionsBlock } from "./accordion.component";
 import type {
   BlockMarkRendererMap,
@@ -27,43 +34,58 @@ export type PortableTextOptions = {
   topHSize?: HeadingSize;
   disableStrong?: boolean;
   checklistIcon?: string | React.ReactNode;
+  /**
+   * Layout mode for PortableText:
+   * - "pageBuilder": Full-width container with half-width text content (for ContentBlock)
+   * - "inline": Text takes full width of parent (for heroes, block columns, etc.)
+   * @default "inline"
+   */
+  layoutMode?: "pageBuilder" | "inline";
 };
 
 const block = (options: PortableTextOptions): BlockStylesRendererMap => {
-  const { pSize, topHLevel = 2, topHSize } = options ?? {};
+  const { pSize, topHLevel = 2, topHSize, layoutMode = "inline" } = options ?? {};
 
   const headingStyle = "mb-[0.5em] mt-[2em] first:mt-0 last:mb-0 scroll-mt-24";
+  const isPageBuilder = layoutMode === "pageBuilder";
+
+  // Conditionally wrap with HalfWidthWrapper based on layoutMode
+  const maybeWrap = (content: React.ReactNode) =>
+    isPageBuilder ? <HalfWidthWrapper>{content}</HalfWidthWrapper> : content;
 
   return {
-    h2: ({ children, value }) => (
-      <Heading
-        level={topHLevel}
-        size={topHSize ?? topHLevel}
-        className={headingStyle}
-        id={value?._key ? `chapter-${value._key}` : undefined}
-      >
-        {children}
-      </Heading>
-    ),
-    h3: ({ children, value }) => (
-      <Heading
-        level={(topHLevel + 1) as HeadingLevel}
-        size={topHSize ? ((topHSize + 1) as HeadingSize) : ((topHLevel + 1) as HeadingSize)}
-        className={headingStyle}
-        id={value?._key ? `chapter-${value._key}` : undefined}
-      >
-        {children}
-      </Heading>
-    ),
-    h4: ({ children }) => (
-      <Heading
-        level={(topHLevel + 2) as HeadingLevel}
-        size={topHSize ? ((topHSize + 2) as HeadingSize) : ((topHLevel + 2) as HeadingSize)}
-        className={headingStyle}
-      >
-        {children}
-      </Heading>
-    ),
+    h2: ({ children, value }) =>
+      maybeWrap(
+        <Heading
+          level={topHLevel}
+          size={topHSize ?? topHLevel}
+          className={headingStyle}
+          id={value?._key ? `chapter-${value._key}` : undefined}
+        >
+          {children}
+        </Heading>,
+      ),
+    h3: ({ children, value }) =>
+      maybeWrap(
+        <Heading
+          level={(topHLevel + 1) as HeadingLevel}
+          size={topHSize ? ((topHSize + 1) as HeadingSize) : ((topHLevel + 1) as HeadingSize)}
+          className={headingStyle}
+          id={value?._key ? `chapter-${value._key}` : undefined}
+        >
+          {children}
+        </Heading>,
+      ),
+    h4: ({ children }) =>
+      maybeWrap(
+        <Heading
+          level={(topHLevel + 2) as HeadingLevel}
+          size={topHSize ? ((topHSize + 2) as HeadingSize) : ((topHLevel + 2) as HeadingSize)}
+          className={headingStyle}
+        >
+          {children}
+        </Heading>,
+      ),
     normal: ({ children }) => {
       // biome-ignore lint/suspicious/noExplicitAny: too many possible types
       if (!children || !(children as any).some((c: any) => c.props?.text || c.length > 0))
@@ -73,7 +95,9 @@ const block = (options: PortableTextOptions): BlockStylesRendererMap => {
       const firstChild = (children as any)[0];
       const isLink = typeof firstChild === "string" && firstChild?.startsWith("http");
 
-      return <p className={cn(pSize, "mb-[1em] last:mb-0", isLink && "break-all")}>{children}</p>;
+      return maybeWrap(
+        <p className={cn(pSize, "mb-[1em] last:mb-0", isLink && "break-all")}>{children}</p>,
+      );
     },
   };
 };
@@ -143,24 +167,25 @@ const marks = (options: PortableTextOptions): BlockMarkRendererMap<"strong" | "i
 };
 
 const list = (options: PortableTextOptions): ListStyleRendererMap => {
-  const { pSize } = options ?? {};
+  const { pSize, layoutMode = "inline" } = options ?? {};
 
   const listStyle = "w-full mb-[2em] mt-[1em] space-y-[0.35em] first:mt-0 last:mb-0 pl-[1.75em]";
   const checkListStyle = "w-full mb-[2em] mt-[1em] space-y-3xs first:mt-0 last:mb-0";
+  const isPageBuilder = layoutMode === "pageBuilder";
+
+  // Conditionally wrap with HalfWidthWrapper based on layoutMode
+  const maybeWrap = (content: React.ReactNode) =>
+    isPageBuilder ? <HalfWidthWrapper>{content}</HalfWidthWrapper> : content;
 
   return {
-    bullet: ({ children }: PropsWithChildren) => (
-      <ul className={cn(pSize, listStyle, "list-disc")}>{children}</ul>
-    ),
-    number: ({ children }: PropsWithChildren) => (
-      <ol className={cn(pSize, listStyle, "list-decimal")}>{children}</ol>
-    ),
-    dash: ({ children }: PropsWithChildren) => (
-      <ul className={cn(pSize, listStyle, "list-none")}>{children}</ul>
-    ),
-    check: ({ children }: PropsWithChildren) => (
-      <ul className={cn(pSize, checkListStyle, "list-none")}>{children}</ul>
-    ),
+    bullet: ({ children }: PropsWithChildren) =>
+      maybeWrap(<ul className={cn(pSize, listStyle, "list-disc")}>{children}</ul>),
+    number: ({ children }: PropsWithChildren) =>
+      maybeWrap(<ol className={cn(pSize, listStyle, "list-decimal")}>{children}</ol>),
+    dash: ({ children }: PropsWithChildren) =>
+      maybeWrap(<ul className={cn(pSize, listStyle, "list-none")}>{children}</ul>),
+    check: ({ children }: PropsWithChildren) =>
+      maybeWrap(<ul className={cn(pSize, checkListStyle, "list-none")}>{children}</ul>),
   } as ListStyleRendererMap;
 };
 
@@ -195,34 +220,102 @@ const listItem = (options: PortableTextOptions): ListLevelRenderMap => {
   } as ListLevelRenderMap;
 };
 
-const types = (): BlockTypeRendererMap => {
+const types = (options: PortableTextOptions): BlockTypeRendererMap => {
+  const { layoutMode = "inline" } = options ?? {};
+  const isPageBuilder = layoutMode === "pageBuilder";
+
+  // Helper to check if a block is fullWidth
+  const isFullWidth = (value: { options?: { width?: string } }) =>
+    value?.options?.width === "fullWidth";
+
+  // Helper to wrap halfWidth blocks with HalfWidthWrapper (only in pageBuilder mode)
+  // In pageBuilder mode: FullWidth blocks render without wrapper (span full PT container width)
+  // In inline mode: All blocks render without wrapper (take parent width)
+  const maybeWrapHalfWidth = (
+    value: { options?: { width?: string } },
+    component: React.ReactNode,
+  ) => {
+    if (!isPageBuilder) return component; // Inline mode: no wrapping
+    return isFullWidth(value) ? component : <HalfWidthWrapper>{component}</HalfWidthWrapper>;
+  };
+
+  // Wrapper for figure blocks (always half-width in pageBuilder mode)
+  const wrapFigure = (content: React.ReactNode) =>
+    isPageBuilder ? <HalfWidthWrapper>{content}</HalfWidthWrapper> : content;
+
   return {
     "callToAction.block": ({ value }) => {
-      return <CallToActionBlock {...value} />;
+      return maybeWrapHalfWidth(value, <CallToActionBlock {...value} />);
     },
     figure: ({ value }) => {
       const { mediaType, image, illustration } = value ?? {};
 
       if (mediaType === "illustration" && illustration) {
-        return (
+        return wrapFigure(
           <div className="aspect-3/2 rounded bg-container-secondary flex items-end justify-center">
             <Illustration name={illustration as IllustrationName} className="w-1/3 h-auto" />
-          </div>
+          </div>,
         );
       }
 
       // Default to image (includes mediaType === "image" and legacy data without mediaType)
       if (image) {
-        return <Img {...image} sizes={{ md: "full" }} showCaption />;
+        return wrapFigure(<Img {...image} sizes={{ md: "full" }} showCaption />);
       }
 
       return null;
     },
     "accordions.block": ({ value }) => {
-      return <AccordionsBlock accordions={value?.accordions} />;
+      return maybeWrapHalfWidth(value, <AccordionsBlock accordions={value?.accordions} />);
     },
     "imageAndText.block": ({ value }) => {
-      return <ImageAndTextBlock {...value} />;
+      return maybeWrapHalfWidth(value, <ImageAndTextBlock {...value} />);
+    },
+    "imageGallery.block": ({ value }) => {
+      return maybeWrapHalfWidth(value, <ImageGalleryBlock {...value} />);
+    },
+    "imagesAndText.block": ({ value }) => {
+      return maybeWrapHalfWidth(value, <ImagesAndTextBlock {...value} />);
+    },
+    "imagesWithBanner.block": ({ value }) => {
+      return maybeWrapHalfWidth(value, <ImagesWithBannerBlock {...value} />);
+    },
+    "logoCloud.block": ({ value }) => {
+      return maybeWrapHalfWidth(value, <LogoCloudBlock {...value} />);
+    },
+    "people.block": ({ value }) => {
+      return maybeWrapHalfWidth(value, <PeopleBlock {...value} />);
+    },
+    "quotes.block": ({ value }) => {
+      return maybeWrapHalfWidth(value, <QuotesBlock {...value} />);
+    },
+    "button.block": () => {
+      return (
+        <div className="my-4">
+          <div className="rounded border border-dashed border-stroke-soft p-4 text-center text-text-tertiary">
+            [Button Block - Not yet implemented]
+          </div>
+        </div>
+      );
+    },
+    "video.block": ({ value }) => {
+      return (
+        <div className="my-4">
+          <div className="rounded border border-dashed border-stroke-soft p-4 text-center text-text-tertiary">
+            [Video Block - Not yet implemented]
+            {value?.url && <div className="mt-2 text-sm">URL: {value.url}</div>}
+          </div>
+        </div>
+      );
+    },
+    "form.block": () => {
+      return (
+        <div className="my-4">
+          <div className="rounded border border-dashed border-stroke-soft p-4 text-center text-text-tertiary">
+            [Form Block - Not yet implemented]
+          </div>
+        </div>
+      );
     },
   };
 };
@@ -233,7 +326,7 @@ const components = (options: PortableTextOptions) => {
     block: block(options),
     list: list(options),
     listItem: listItem(options),
-    types: types(),
+    types: types(options),
   };
 };
 
@@ -247,12 +340,14 @@ export const PortableText = (props: {
   if (!content) return null;
 
   return (
-    <div className={cn(className)}>
+    <div className={cn("w-full", className)}>
       <PortableTextComponent
         components={components(options)}
         // biome-ignore lint/suspicious/noExplicitAny: content type matches portable text structure but generated types may lack _type
         value={content as any}
-        onMissingComponent={false}
+        onMissingComponent={(_message, options) =>
+          console.warn(`missing component: ${options.type} ${options.nodeType}`)
+        }
       />
     </div>
   );

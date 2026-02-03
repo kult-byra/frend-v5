@@ -47,7 +47,7 @@ export const MenuDocumentTeaser = ({
           {/* Arrow button - bottom right */}
           <div className="flex justify-end">
             <div className="flex size-8 items-center justify-center rounded-full bg-white transition-colors group-hover:bg-orange">
-              <Icon name="arrow-right" className="size-[10px] text-text-primary" />
+              <Icon name="sm-arrow-right" className="size-[10px] text-text-primary" />
             </div>
           </div>
         </div>

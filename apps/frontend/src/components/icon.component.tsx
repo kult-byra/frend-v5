@@ -48,7 +48,7 @@ type IconProps = Omit<SVGProps<SVGSVGElement>, "aria-label" | "aria-hidden" | "r
  *
  * @example
  * // Decorative icon (hidden from screen readers)
- * <Icon name="arrow-right" />
+ * <Icon name="sm-arrow-right" />
  *
  * // Meaningful icon with Norwegian label
  * <Icon name="search" label="Søk" />

@@ -3,6 +3,7 @@ import { defineField, defineType } from "sanity";
 import { mediaField } from "@/schemas/generator-fields/media.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
+import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
 import { slugField } from "@/schemas/generator-fields/slug.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
@@ -19,6 +20,13 @@ export const personSchema = defineType({
     { name: "no", title: "Norsk 🇧🇻", default: true },
     { name: "en", title: "English 🇬🇧" },
     { name: "seo", title: "SEO" },
+  ],
+  fieldsets: [
+    {
+      name: "contactInfo",
+      title: "Contact Info",
+      options: { collapsible: true, collapsed: false },
+    },
   ],
   fields: [
     sharedDocumentInfoField(),
@@ -87,10 +95,58 @@ export const personSchema = defineType({
     stringField({
       name: "phone",
       title: "Phone",
+      fieldset: "contactInfo",
     }),
     stringField({
       name: "email",
       title: "Email",
+      fieldset: "contactInfo",
+    }),
+    defineField({
+      name: "profileLinks",
+      title: "Profile Links",
+      description: "External profile links (LinkedIn, GitHub, etc.)",
+      type: "array",
+      fieldset: "contactInfo",
+      of: [
+        {
+          type: "object",
+          name: "profileLink",
+          title: "Profile Link",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "url",
+              title: "URL",
+              type: "url",
+              validation: (Rule) =>
+                Rule.required().uri({
+                  scheme: ["https", "http"],
+                }),
+            }),
+          ],
+          preview: {
+            select: {
+              title: "title",
+              subtitle: "url",
+            },
+          },
+        },
+      ],
+    }),
+
+    // Expertise - references to services, subservices, and technologies
+    referenceField({
+      name: "expertise",
+      title: "Expertise",
+      description: "Areas of expertise (services, subservices, or technologies)",
+      to: [{ type: "service" }, { type: "subService" }, { type: "technology" }],
+      allowMultiple: true,
     }),
 
     defineField({

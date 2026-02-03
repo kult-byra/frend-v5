@@ -50,7 +50,7 @@ export const QuotesBlock = (props: QuotesBlockProps) => {
         className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
         aria-label="Previous quote"
       >
-        <Icon name="chevron-left" className="size-2" />
+        <Icon name="lg-chevron-left" className="size-2" />
       </button>
       <button
         type="button"
@@ -58,7 +58,7 @@ export const QuotesBlock = (props: QuotesBlockProps) => {
         className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
         aria-label="Next quote"
       >
-        <Icon name="chevron-right" className="size-2" />
+        <Icon name="lg-chevron-right" className="size-2" />
       </button>
     </div>
   );

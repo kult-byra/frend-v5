@@ -298,6 +298,10 @@ a.skip-main:active {
   --color-container-shade: var(--container-shade);
   --color-container-overlay-primary-1: var(--color-light-purple);
   --color-container-overlay-primary-2: var(--color-light-orange);
+  --color-container-overlay-secondary-1: var(--container-overlay-secondary-1);
+  --color-container-overlay-secondary-2: var(--container-overlay-secondary-2);
+  --color-container-overlay-secondary-3: var(--container-overlay-secondary-3);
+  --color-container-overlay-secondary-4: var(--container-overlay-secondary-4);
   --color-container-overlay-tint: var(--container-overlay-tint);
 
   /* Button colors */

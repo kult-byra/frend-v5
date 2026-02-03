@@ -71,7 +71,7 @@ export function Select({
         </label>
 
         <Icon
-          name="chevron-down"
+          name="lg-chevron-down"
           className={cn(
             "pointer-events-none absolute right-2xs top-1/2 size-4 -translate-y-1/2 text-text-secondary transition-transform duration-200",
             isOpen && "rotate-180",

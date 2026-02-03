@@ -73,7 +73,7 @@ export function ServiceSection({
                 content={excerpt}
                 options={{
                   pSize: "text-body-large",
-                  checklistIcon: <Icon name="checkmark" className="size-[10px]" />,
+                  checklistIcon: <Icon name="sm-checkmark" className="size-[10px]" />,
                 }}
               />
             )}
@@ -85,7 +85,10 @@ export function ServiceSection({
             className="group flex size-8 items-center justify-center rounded-full bg-button-primary-hover transition-colors"
             aria-label={`Read more about ${title}`}
           >
-            <Icon name="arrow-right" className="size-[10px] text-text-primary transition-colors" />
+            <Icon
+              name="sm-arrow-right"
+              className="size-[10px] text-text-primary transition-colors"
+            />
           </Link>
 
           {/* Technology pills */}

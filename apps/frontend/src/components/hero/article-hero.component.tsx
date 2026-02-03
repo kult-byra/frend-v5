@@ -137,6 +137,7 @@ export const ArticleHero = ({ title, topTitle, subHeading, byline, media }: Arti
       {media?.mediaType && (
         <Container className="pb-xl">
           <Media
+            constrainHeight
             mediaType={media.mediaType}
             image={media.image}
             videoUrl={media.videoUrl}

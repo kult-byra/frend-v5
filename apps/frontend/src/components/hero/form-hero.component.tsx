@@ -21,6 +21,7 @@ export const FormHero = ({ title, media, form }: FormHeroProps) => {
       {media && (
         <Container>
           <Media
+            constrainHeight
             mediaType={media.mediaType ?? "image"}
             image={media.image}
             videoUrl={media.videoUrl}

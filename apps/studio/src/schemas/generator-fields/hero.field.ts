@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { defineField, type FieldDefinition, type ObjectDefinition } from "sanity";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 
-export type HeroType = "textHero" | "mediaHero" | "articleHero" | "formHero";
+export type HeroType = "textHero" | "mediaHero" | "articleHero";
 
 export type HeroFieldOptions = Omit<FieldDef<ObjectDefinition>, "fields"> & {
   /** Hero types to allow (required) */
@@ -13,7 +13,6 @@ const HERO_TYPE_LABELS: Record<HeroType, string> = {
   textHero: "Text",
   mediaHero: "Media",
   articleHero: "Article",
-  formHero: "Form",
 };
 
 type HeroTypeOption = {
@@ -144,17 +143,6 @@ export const heroField = (props: HeroFieldOptions) => {
     );
   }
 
-  if (types.includes("formHero")) {
-    fields.push(
-      defineField({
-        name: "formHero",
-        title: "Form Hero",
-        type: "formHero",
-        hidden: isDefaultType("formHero"),
-      }),
-    );
-  }
-
   // Build preview select and prepare based on allowed types
   const previewSelect: Record<string, string> = {
     heroType: "heroType",
@@ -170,10 +158,6 @@ export const heroField = (props: HeroFieldOptions) => {
   if (types.includes("articleHero")) {
     previewSelect.articleHeroTitle = "articleHero.title";
     previewSelect.articleHeroMedia = "articleHero.media.image.asset";
-  }
-  if (types.includes("formHero")) {
-    previewSelect.formHeroTitle = "formHero.title";
-    previewSelect.formHeroMedia = "formHero.media.image.asset";
   }
 
   return defineField({
@@ -196,7 +180,6 @@ export const heroField = (props: HeroFieldOptions) => {
           textHero: selection.textHeroTitle,
           mediaHero: selection.mediaHeroTitle,
           articleHero: selection.articleHeroTitle,
-          formHero: selection.formHeroTitle,
         };
 
         const heroTitle = heroType ? titleMap[heroType] : undefined;
@@ -208,8 +191,6 @@ export const heroField = (props: HeroFieldOptions) => {
           heroMedia = selection.mediaHeroMedia;
         } else if (heroType === "articleHero") {
           heroMedia = selection.articleHeroMedia;
-        } else if (heroType === "formHero") {
-          heroMedia = selection.formHeroMedia;
         }
 
         return {

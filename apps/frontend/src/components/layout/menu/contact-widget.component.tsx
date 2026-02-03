@@ -93,7 +93,7 @@ export const ContactWidget = ({ isOpen, onClose, linkGroup }: ContactWidgetProps
           aria-label="Lukk kontaktskjema"
           className="flex size-8 items-center justify-center"
         >
-          <Icon name="close" className="size-5" />
+          <Icon name="sm-close-thin" className="size-5" />
         </button>
       </div>
 

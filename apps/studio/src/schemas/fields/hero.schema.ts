@@ -1,4 +1,4 @@
-import { FileText, Image, LayoutTemplate, Newspaper } from "lucide-react";
+import { FileText, Image, Newspaper } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
 import { datetimeField } from "@/schemas/generator-fields/datetime.field";
@@ -91,6 +91,12 @@ export const mediaHeroSchema = defineType({
       includeDownload: true,
       max: 2,
     }),
+    defineField({
+      name: "widget",
+      title: "Widget",
+      type: "widget",
+      description: "Optional widget displayed alongside the hero content",
+    }),
   ],
   preview: {
     select: {
@@ -167,51 +173,6 @@ export const articleHeroSchema = defineType({
 });
 
 /**
- * Form Hero
- * For lead generation pages with media and a form reference
- */
-export const formHeroSchema = defineType({
-  name: "formHero",
-  title: "Form Hero",
-  type: "object",
-  icon: LayoutTemplate,
-  fields: [
-    stringField({
-      name: "title",
-      title: "Title",
-      description: "The main heading displayed in the hero section",
-      required: true,
-    }),
-    mediaField({
-      name: "media",
-      title: "Media",
-      description: "Hero image or video",
-      required: true,
-      video: true,
-    }),
-    referenceField({
-      name: "form",
-      title: "Form",
-      description: "Select a HubSpot form to display in the hero",
-      to: [{ type: "hubspotForm" }],
-    }),
-  ],
-  preview: {
-    select: {
-      title: "title",
-      media: "media.image.asset",
-    },
-    prepare({ title, media }) {
-      return {
-        title: title || "Form Hero",
-        subtitle: "Form Hero",
-        media,
-      };
-    },
-  },
-});
-
-/**
  * Hero wrapper schema with type selector
  * Allows editors to choose between different hero presentations
  */
@@ -230,7 +191,6 @@ export const heroSchema = defineType({
           { title: "Text", value: "textHero" },
           { title: "Media", value: "mediaHero" },
           { title: "Article", value: "articleHero" },
-          { title: "Form", value: "formHero" },
         ],
         layout: "radio",
       },
@@ -255,12 +215,6 @@ export const heroSchema = defineType({
       type: "articleHero",
       hidden: ({ parent }) => parent?.heroType !== "articleHero",
     }),
-    defineField({
-      name: "formHero",
-      title: "Form Hero",
-      type: "formHero",
-      hidden: ({ parent }) => parent?.heroType !== "formHero",
-    }),
   ],
   preview: {
     select: {
@@ -268,33 +222,27 @@ export const heroSchema = defineType({
       textHeroTitle: "textHero.title",
       mediaHeroTitle: "mediaHero.title",
       articleHeroTitle: "articleHero.title",
-      formHeroTitle: "formHero.title",
       mediaHeroMedia: "mediaHero.media.image.asset",
       articleHeroMedia: "articleHero.media.image.asset",
-      formHeroMedia: "formHero.media.image.asset",
     },
     prepare({
       heroType,
       textHeroTitle,
       mediaHeroTitle,
       articleHeroTitle,
-      formHeroTitle,
       mediaHeroMedia,
       articleHeroMedia,
-      formHeroMedia,
     }) {
       const typeLabels: Record<string, string> = {
         textHero: "Text",
         mediaHero: "Media",
         articleHero: "Article",
-        formHero: "Form",
       };
 
       const titleMap: Record<string, string | undefined> = {
         textHero: textHeroTitle,
         mediaHero: mediaHeroTitle,
         articleHero: articleHeroTitle,
-        formHero: formHeroTitle,
       };
 
       // Get the appropriate media based on hero type
@@ -303,9 +251,7 @@ export const heroSchema = defineType({
           ? mediaHeroMedia
           : heroType === "articleHero"
             ? articleHeroMedia
-            : heroType === "formHero"
-              ? formHeroMedia
-              : undefined;
+            : undefined;
 
       return {
         title: titleMap[heroType] || "Hero",

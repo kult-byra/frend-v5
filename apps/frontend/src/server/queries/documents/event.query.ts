@@ -15,6 +15,11 @@ export const eventQuery = defineQuery(`
     layout,
     color,
     description,
+    signupForm-> {
+      _id,
+      title,
+      formId
+    },
     ${fullPortableTextQuery},
     ${metadataQuery},
     ${translationsQuery}

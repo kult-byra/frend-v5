@@ -34,6 +34,20 @@ export const personQuery = defineQuery(`
     },
     phone,
     email,
+    profileLinks[] {
+      _key,
+      title,
+      url
+    },
+    "expertise": expertise[]-> {
+      _id,
+      _type,
+      "title": select(
+        _type == "technology" => title,
+        $locale == "en" => title_en,
+        title_no
+      )
+    },
     ${metadataQuery}
   }
 `);

@@ -30,7 +30,7 @@ export function VideoPlayPauseButton({
         className,
       )}
     >
-      <Icon name={isPlaying ? "pause" : "play"} className="size-2.5" />
+      <Icon name={isPlaying ? "sm-pause" : "sm-play"} className="size-2.5" />
     </button>
   );
 }

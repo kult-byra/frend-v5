@@ -72,7 +72,7 @@ export const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
                     <p className="flex-1 text-body-small text-text-secondary">{excerptText}</p>
                   )}
                   <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-container-primary">
-                    <Icon name="arrow-right" className="size-[10px] text-text-primary" />
+                    <Icon name="sm-arrow-right" className="size-[10px] text-text-primary" />
                   </div>
                 </div>
 
@@ -111,7 +111,7 @@ export const ServicesCards = ({ items }: { items: ServiceCardItem[] }) => (
                   {/* Arrow button - primary variant */}
                   <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-buttons-primary-fill transition-colors group-hover:bg-buttons-primary-fill-hover">
                     <Icon
-                      name="arrow-right"
+                      name="sm-arrow-right"
                       className="size-[10px] text-buttons-primary-text transition-colors group-hover:text-text-primary"
                     />
                   </div>

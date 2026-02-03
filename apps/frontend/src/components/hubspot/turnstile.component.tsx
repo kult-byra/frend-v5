@@ -3,7 +3,6 @@
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { env } from "@/env";
-import { cn } from "@/lib/utils";
 
 export type TurnstileStatus = "idle" | "verifying" | "verified" | "error" | "expired";
 
@@ -77,16 +76,7 @@ export const TurnstileWidget = forwardRef<TurnstileRef, TurnstileWidgetProps>(
             turnstileRef.current?.reset();
           }}
         />
-        <output
-          aria-live="polite"
-          className={cn(
-            "text-body-small transition-opacity",
-            status === "idle" && "sr-only",
-            status === "verified" && "text-text-secondary",
-            status === "error" && "text-stroke-error",
-            (status === "verifying" || status === "expired") && "text-text-secondary",
-          )}
-        >
+        <output aria-live="polite" className="sr-only">
           {statusText[status]}
         </output>
       </div>

@@ -113,7 +113,7 @@ export function KnowledgeFilterDialog({
             {hasActiveFilters ? (
               <span className="size-2 rounded-full bg-container-brand-2" />
             ) : (
-              <Icon name="expand" size="sm" />
+              <Icon name="lg-expand" size="sm" />
             )}
           </span>
         </button>
@@ -126,7 +126,7 @@ export function KnowledgeFilterDialog({
             {translations.filters ?? "Filters"}
           </DialogTitle>
           <DialogClose className="flex size-8 items-center justify-center rounded transition-opacity hover:opacity-70">
-            <Icon name="close" size="sm" />
+            <Icon name="sm-close-thin" size="sm" />
             <span className="sr-only">Close</span>
           </DialogClose>
         </div>
@@ -276,7 +276,7 @@ function SortDropdown({
         className="flex h-8 items-center gap-3xs rounded bg-container-primary pl-xs pr-2xs text-body-small leading-[1.45] text-text-primary"
       >
         <span>{value === "newest" ? newestLabel : oldestLabel}</span>
-        <Icon name="chevron-down" size="sm" className={cn(isOpen && "rotate-180")} />
+        <Icon name="lg-chevron-down" size="sm" className={cn(isOpen && "rotate-180")} />
       </button>
 
       {isOpen && (

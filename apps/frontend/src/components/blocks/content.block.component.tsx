@@ -7,7 +7,7 @@ export const ContentBlock = (props: PageBuilderBlockProps<"content.block">) => {
 
   return (
     <BlockContainer>
-      <PortableText content={content} />
+      <PortableText content={content} options={{ layoutMode: "pageBuilder" }} />
     </BlockContainer>
   );
 };

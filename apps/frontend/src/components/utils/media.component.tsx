@@ -16,6 +16,8 @@ type MediaProps = {
   className?: string;
   priority?: boolean;
   sizes?: ImgProps["sizes"];
+  /** When true, caps height for 3:4 and 1:1 media (e.g. heroes). Default false. */
+  constrainHeight?: boolean;
 };
 
 const aspectRatioClasses: Record<AspectRatio, string> = {
@@ -41,24 +43,16 @@ export const Media = ({
   className,
   priority = false,
   sizes = { md: "full" },
+  constrainHeight = false,
 }: MediaProps) => {
-  const aspectClass = aspectRatio ? aspectRatioClasses[aspectRatio] : "";
-  // Constrain height to 3:2 ratio max (66.67%) for non-horizontal media
-  const needsMaxHeight = aspectRatio !== "3:2" && (mediaType === "video" || mediaType === "image");
-  const isVideo = mediaType === "video";
-
-  // Videos need explicit width since iframes don't have intrinsic dimensions
-  const getConstrainedClasses = () => {
-    if (!needsMaxHeight) return "w-full";
-    if (isVideo && aspectRatio) {
-      return cn("mx-auto max-h-[66.67cqi]", constrainedVideoWidthClasses[aspectRatio]);
-    }
-    return "mx-auto w-fit max-h-[66.67cqi]";
-  };
-
   return (
     <div className={cn("@container", className)}>
-      <div className={cn("overflow-hidden rounded", aspectClass, getConstrainedClasses())}>
+      <div
+        className={cn(
+          "overflow-hidden rounded",
+          getMediaLayoutClasses({ constrainHeight, mediaType, aspectRatio }),
+        )}
+      >
         {mediaType === "image" && image && (
           <Img {...image} sizes={sizes} eager={priority} className="size-full object-cover" cover />
         )}
@@ -74,3 +68,23 @@ export const Media = ({
     </div>
   );
 };
+
+function getMediaLayoutClasses(opts: {
+  constrainHeight: boolean;
+  mediaType: MediaProps["mediaType"];
+  aspectRatio: AspectRatio | null | undefined;
+}): string {
+  const { constrainHeight, mediaType, aspectRatio } = opts;
+  const aspectClass = aspectRatio ? aspectRatioClasses[aspectRatio] : "";
+  const needsMaxHeight =
+    constrainHeight && aspectRatio !== "3:2" && (mediaType === "video" || mediaType === "image");
+  const isVideo = mediaType === "video";
+
+  if (!needsMaxHeight) {
+    return cn(aspectClass, "w-full");
+  }
+  if (isVideo && aspectRatio) {
+    return cn(aspectClass, "mx-auto max-h-[66.67cqi]", constrainedVideoWidthClasses[aspectRatio]);
+  }
+  return cn(aspectClass, "mx-auto w-fit max-h-[66.67cqi]");
+}
