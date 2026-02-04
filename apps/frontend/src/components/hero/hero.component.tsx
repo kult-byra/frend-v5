@@ -1,6 +1,5 @@
 import type { HeroData } from "@/server/queries/utils/hero.query";
 import { ArticleHero } from "./article-hero.component";
-import { FormHero } from "./form-hero.component";
 import { MediaHero } from "./media-hero.component";
 import { TextHero } from "./text-hero.component";
 
@@ -18,8 +17,6 @@ export const Hero = ({ hero }: HeroProps) => {
       return hero.mediaHero ? <MediaHero {...hero.mediaHero} /> : null;
     case "articleHero":
       return hero.articleHero ? <ArticleHero {...hero.articleHero} /> : null;
-    case "formHero":
-      return hero.formHero ? <FormHero {...hero.formHero} /> : null;
     default:
       return null;
   }

@@ -14,6 +14,11 @@ export const pageQuery = defineQuery(`
     ${translationsQuery},
     // Conversion page specific fields
     _type == "conversionPage" => {
+      "contactForm": contactForm-> {
+        _id,
+        title,
+        formId
+      },
       "highlightedClients": highlightedClients[]-> {
         _id,
         name,

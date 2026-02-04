@@ -2,6 +2,12 @@ import { defineQuery } from "next-sanity";
 import { callToActionBlockQuery } from "../blocks/call-to-action.block.query";
 import { figureBlockQuery } from "../blocks/figure.block.query";
 import { imageAndTextBlockQuery } from "../blocks/image-and-text.block.query";
+import { imageGalleryBlockQuery } from "../blocks/image-gallery.block.query";
+import { imagesAndTextBlockQuery } from "../blocks/images-and-text.block.query";
+import { imagesWithBannerBlockQuery } from "../blocks/images-with-banner.block.query";
+import { logoCloudBlockQuery } from "../blocks/logo-cloud.block.query";
+import { peopleBlockQuery } from "../blocks/people.block.query";
+import { quotesBlockQuery } from "../blocks/quotes.block.query";
 import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
 import { imageQuery } from "../utils/image.query";
 
@@ -53,6 +59,48 @@ const serviceContentQuery = (lang: string) => `
               ${portableTextInnerQuery}
             }
           }
+        }
+      },
+      _type == "imageGallery.block" => {
+        ${imageGalleryBlockQuery}
+      },
+      _type == "imagesAndText.block" => {
+        ${imagesAndTextBlockQuery}
+      },
+      _type == "imagesWithBanner.block" => {
+        ${imagesWithBannerBlockQuery}
+      },
+      _type == "logoCloud.block" => {
+        ${logoCloudBlockQuery}
+      },
+      _type == "people.block" => {
+        ${peopleBlockQuery}
+      },
+      _type == "quotes.block" => {
+        ${quotesBlockQuery}
+      },
+      _type == "button.block" => {
+        "_type": "button.block",
+        button[] {
+          _key,
+          _type,
+          linkType,
+          url,
+          internalLink,
+          text,
+          variant
+        }
+      },
+      _type == "video.block" => {
+        "_type": "video.block",
+        url
+      },
+      _type == "form.block" => {
+        "_type": "form.block",
+        form-> {
+          _id,
+          title,
+          formId
         }
       }
     )

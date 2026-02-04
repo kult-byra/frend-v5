@@ -109,23 +109,11 @@ const articleHeroQuery = defineQuery(`
 `);
 
 // @sanity-typegen-ignore
-const formHeroQuery = defineQuery(`
-  title,
-  media { ${mediaQuery} },
-  form-> {
-    _id,
-    title,
-    formId
-  }
-`);
-
-// @sanity-typegen-ignore
 export const heroQuery = defineQuery(`
   heroType,
   textHero { ${textHeroQuery} },
   mediaHero { ${mediaHeroQuery} },
-  articleHero { ${articleHeroQuery} },
-  formHero { ${formHeroQuery} }
+  articleHero { ${articleHeroQuery} }
 `);
 
 // For typegen only
@@ -241,15 +229,6 @@ const _heroTypegenQuery = defineQuery(`
           ${portableTextInnerQuery}
         }
       }
-    },
-    formHero {
-      title,
-      media { ${mediaQuery} },
-      form-> {
-        _id,
-        title,
-        formId
-      }
     }
   }
 `);
@@ -258,9 +237,7 @@ export type HeroData = NonNullable<HeroTypegenQueryResult>;
 export type TextHeroData = NonNullable<HeroData["textHero"]>;
 export type MediaHeroData = NonNullable<HeroData["mediaHero"]>;
 export type ArticleHeroData = NonNullable<HeroData["articleHero"]>;
-export type FormHeroData = NonNullable<HeroData["formHero"]>;
 export type WidgetData = NonNullable<MediaHeroData["widget"]>;
 
 // Backward compatibility aliases (deprecated)
 export type HeroQueryProps = HeroData;
-export type MediaAndFormHeroQueryProps = FormHeroData;

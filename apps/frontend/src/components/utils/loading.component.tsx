@@ -1,4 +1,3 @@
-import { Icon } from "@/components/icon.component";
 import { StatusMessage } from "@/components/utils/status-message.component";
 
 export const Loading = (props: { text?: string }) => {
@@ -6,7 +5,7 @@ export const Loading = (props: { text?: string }) => {
 
   return (
     <StatusMessage type="busy">
-      <Icon name="loader-pinwheel" className="animate-spin" />
+      <span className="inline-block size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
       <span>{text ?? "Laster"}…</span>
     </StatusMessage>
   );
