@@ -141,12 +141,15 @@ export const articleHeroField = (options: ArticleHeroFieldOptions = {}) => {
       select: {
         title: "title",
         media: "media.0.image.asset",
-        authorName: "byline.author.name",
+        author0Name: "byline.authors.0.name",
+        author1Name: "byline.authors.1.name",
+        author2Name: "byline.authors.2.name",
       },
-      prepare({ title, media, authorName }) {
+      prepare({ title, media, author0Name, author1Name, author2Name }) {
+        const names = [author0Name, author1Name, author2Name].filter(Boolean);
         return {
           title: title || "Article Hero",
-          subtitle: authorName ? `Article Hero · ${authorName}` : "Article Hero",
+          subtitle: names.length > 0 ? `Article Hero · ${names.join(", ")}` : "Article Hero",
           media,
         };
       },

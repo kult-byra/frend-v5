@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { TechnologyPills } from "@/components/technology-pill.component";
 import { Img } from "@/components/utils/img.component";
+import { Link } from "@/components/utils/link.component";
 import type { ServicesListQueryResult } from "@/sanity-types";
 
 type ServiceItem = ServicesListQueryResult[number];

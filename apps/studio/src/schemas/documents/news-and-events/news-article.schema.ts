@@ -42,12 +42,15 @@ export const newsArticleSchema = defineType({
     select: {
       title: "hero.title",
       media: "hero.media.0.image.asset",
-      authorName: "hero.byline.author.name",
+      author0Name: "hero.byline.authors.0.name",
+      author1Name: "hero.byline.authors.1.name",
+      author2Name: "hero.byline.authors.2.name",
     },
-    prepare({ title, media, authorName }) {
+    prepare({ title, media, author0Name, author1Name, author2Name }) {
+      const names = [author0Name, author1Name, author2Name].filter(Boolean);
       return {
         title: title || "Untitled",
-        subtitle: authorName,
+        subtitle: names.length > 0 ? names.join(", ") : undefined,
         media,
       };
     },

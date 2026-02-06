@@ -6,7 +6,9 @@ import { mediaGalleryBlockSchema } from "@/schemas/blocks/media-gallery.block.sc
 import { videoBlockSchema } from "@/schemas/blocks/video.block.schema";
 import { buttonBlockSchema } from "./button.block.schema";
 import { cardsBlockSchema } from "./cards.block.schema";
+import { codeBlockSchema } from "./code.block.schema";
 import { contentBlockSchema } from "./content.block.schema";
+import { contentTeaserBlockSchema } from "./content-teaser.block.schema";
 import { formBlockSchema } from "./form.block.schema";
 import { jobOpeningsBlockSchema } from "./job-openings.block.schema";
 import { peopleBlockSchema } from "./people.block.schema";
@@ -16,6 +18,7 @@ export const allBlockSchemas = {
   accordionsBlockSchema,
   figureBlockSchema,
   callToActionBlockSchema,
+  codeBlockSchema,
   logoCloudBlockSchema,
   videoBlockSchema,
   mediaGalleryBlockSchema,
@@ -26,4 +29,5 @@ export const allBlockSchemas = {
   cardsBlockSchema,
   jobOpeningsBlockSchema,
   contentBlockSchema,
+  contentTeaserBlockSchema,
 };

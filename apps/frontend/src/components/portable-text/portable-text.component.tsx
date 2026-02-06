@@ -1,5 +1,7 @@
 import { PortableText as PortableTextComponent } from "@portabletext/react";
 import type { PropsWithChildren } from "react";
+import { CodeBlock } from "@/components/blocks/code.block.component";
+import { ContentTeaserBlock } from "@/components/blocks/content-teaser.block.component";
 import { LogoCloudBlock } from "@/components/blocks/logo-cloud.block.component";
 import { MediaGalleryBlock } from "@/components/blocks/media-gallery.block.component";
 import { PeopleBlock } from "@/components/blocks/people.block.component";
@@ -300,6 +302,17 @@ const types = (options: PortableTextOptions): BlockTypeRendererMap => {
           </div>
         </div>
       );
+    },
+    "code.block": ({ value }) => {
+      return maybeWrapHalfWidth(
+        value,
+        <div className="my-[1em]">
+          <CodeBlock code={value?.code} language={value?.language} codeOnly />
+        </div>,
+      );
+    },
+    "contentTeaser.block": ({ value }) => {
+      return maybeWrapHalfWidth(value, <ContentTeaserBlock {...value} />);
     },
   };
 };

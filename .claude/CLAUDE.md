@@ -123,15 +123,28 @@ Routes use **English as the internal/code base** while Norwegian remains the def
 - `apps/frontend/src/i18n/routing.ts` - next-intl routing setup
 - `apps/frontend/middleware.ts` - Handles URL translation
 
-**Using routes in components:**
+**Locale-aware Link component:**
+
+**NEVER use `import Link from "next/link"` directly.** Always use the locale-aware wrapper:
 
 ```tsx
-// Always use English paths in code - middleware handles translation
+import { Link } from "@/components/utils/link.component";
+
+// Paths use English (internal) route segments — the Link component
+// automatically translates them to the correct locale URL in the HTML.
 <Link href="/services">Services</Link>
 <Link href={`/projects/${slug}`}>Project</Link>
 
-// For programmatic navigation with locale awareness, use resolvePath:
-import { resolvePath } from "@workspace/routing";
+// Norwegian HTML output: <a href="/tjenester">  <a href="/prosjekter/slug">
+// English HTML output:   <a href="/en/services"> <a href="/en/projects/slug">
+```
+
+The wrapper (`apps/frontend/src/components/utils/link.component.tsx`) uses `useLocale()` from next-intl and `localizePath()` from the routing package to translate route segments for Norwegian and add the `/en` prefix for English. This ensures crawlers and users see correct locale URLs without relying on middleware redirects.
+
+**For programmatic URL generation** (outside of JSX, e.g. metadata), use `resolvePath` with locale:
+
+```tsx
+import { resolvePath } from "@workspace/routing/src/resolve-path";
 const url = resolvePath("service", { slug: "consulting" }, "no"); // → "/tjenester/consulting"
 ```
 

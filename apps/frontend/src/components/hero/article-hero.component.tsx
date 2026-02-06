@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { SanityImage } from "sanity-image";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
+import { Link } from "@/components/utils/link.component";
 import { type AspectRatio, Media } from "@/components/utils/media.component";
 import type { VideoDisplayMode } from "@/components/utils/video.component";
 import { env } from "@/env";
@@ -26,18 +26,20 @@ type FlexibleMediaItem = {
   aspectRatio?: AspectRatio | null;
 };
 
-type ArticleHeroByline = {
-  author?: {
-    _id: string;
-    name: string | null;
-    slug?: string | null;
-    role?: string | null;
-    image?: {
-      asset?: { _id: string } | null;
-      crop?: { top: number; bottom: number; left: number; right: number } | null;
-      hotspot?: { x: number; y: number; height: number; width: number } | null;
-    } | null;
+type ArticleHeroAuthor = {
+  _id: string;
+  name: string | null;
+  slug?: string | null;
+  role?: string | null;
+  image?: {
+    asset?: { _id: string } | null;
+    crop?: { top: number; bottom: number; left: number; right: number } | null;
+    hotspot?: { x: number; y: number; height: number; width: number } | null;
   } | null;
+};
+
+type ArticleHeroByline = {
+  authors?: ArticleHeroAuthor[] | null;
   date?: string | null;
 };
 
@@ -82,7 +84,7 @@ type ArticleHeroProps = {
 /**
  * Author byline component showing avatar, name, role
  */
-function AuthorByline({ author }: { author: NonNullable<ArticleHeroByline["author"]> }) {
+function AuthorByline({ author }: { author: ArticleHeroAuthor }) {
   const authorUrl = author.slug ? `/people/${author.slug}` : null;
 
   return (
@@ -141,7 +143,8 @@ export const ArticleHero = ({
       })
     : null;
 
-  const hasByline = byline?.author || formattedDate;
+  const authors = byline?.authors?.filter((a): a is ArticleHeroAuthor => !!a) ?? [];
+  const hasByline = authors.length > 0 || formattedDate;
   const colors = colorStyles[colorScheme];
 
   return (
@@ -188,17 +191,22 @@ export const ArticleHero = ({
               )}
             </div>
 
-            {/* Byline: author and date */}
+            {/* Byline: authors and date */}
             {hasByline && (
-              <div className="flex w-full flex-wrap items-start justify-between gap-xs lg:gap-sm">
-                {/* Author */}
-                {byline?.author && (
-                  <div className="flex flex-wrap items-start gap-xs lg:gap-lg">
-                    <AuthorByline author={byline.author} />
+              <div
+                className={cn(
+                  "flex w-full flex-col gap-sm",
+                  authors.length === 1 && "lg:flex-row lg:items-start lg:justify-between",
+                )}
+              >
+                {authors.length > 0 && (
+                  <div className="flex flex-wrap items-start gap-xs gap-x-lg">
+                    {authors.map((author) => (
+                      <AuthorByline key={author._id} author={author} />
+                    ))}
                   </div>
                 )}
 
-                {/* Date */}
                 {formattedDate && (
                   <span className={cn("shrink-0 text-base leading-[145%]", colors.title)}>
                     {formattedDate}
@@ -210,27 +218,41 @@ export const ArticleHero = ({
         </div>
       </Container>
 
-      {/* Media - renders up to 2 items in a column */}
+      {/* Media - 2 items side by side in 2:3 container, single item full width */}
       {media && media.length > 0 && media[0]?.mediaType && (
         <Container className="pb-xl">
-          <div className="flex flex-col gap-md">
-            {media.map((item, index) =>
-              item.mediaType ? (
-                <Media
-                  key={item._key}
-                  constrainHeight
-                  mediaType={item.mediaType}
-                  image={item.image}
-                  videoUrl={item.videoUrl}
-                  videoDisplayMode={item.videoDisplayMode}
-                  videoPlaceholder={item.videoPlaceholder}
-                  aspectRatio={item.aspectRatio}
-                  sizes={{ md: "full", xl: "full" }}
-                  priority={index === 0}
-                />
-              ) : null,
-            )}
-          </div>
+          {media.length === 2 ? (
+            <div className="grid grid-cols-1 gap-xs md:aspect-3/2 md:grid-cols-2">
+              {media.map((item, index) =>
+                item.mediaType ? (
+                  <Media
+                    key={item._key}
+                    mediaType={item.mediaType}
+                    image={item.image}
+                    videoUrl={item.videoUrl}
+                    videoDisplayMode={item.videoDisplayMode}
+                    videoPlaceholder={item.videoPlaceholder}
+                    aspectRatio={null}
+                    className="size-full [&>div]:h-full"
+                    sizes={{ md: "half" }}
+                    priority={index === 0}
+                  />
+                ) : null,
+              )}
+            </div>
+          ) : (
+            <Media
+              constrainHeight
+              mediaType={media[0].mediaType}
+              image={media[0].image}
+              videoUrl={media[0].videoUrl}
+              videoDisplayMode={media[0].videoDisplayMode}
+              videoPlaceholder={media[0].videoPlaceholder}
+              aspectRatio={media[0].aspectRatio}
+              sizes={{ md: "full", xl: "full" }}
+              priority
+            />
+          )}
         </Container>
       )}
     </section>

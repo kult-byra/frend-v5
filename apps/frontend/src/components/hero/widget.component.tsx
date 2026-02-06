@@ -1,13 +1,13 @@
 "use client";
 
 import { resolvePath } from "@workspace/routing/src/resolve-path";
-import Link from "next/link";
 import { useState } from "react";
 import { HubspotForm } from "@/components/hubspot/hubspot-form.component";
 import { Icon } from "@/components/icon.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/parts/button-group.component";
+import { Link } from "@/components/utils/link.component";
 import type { WidgetData } from "@/server/queries/utils/hero.query";
 import { cn } from "@/utils/cn.util";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Link } from "@/components/utils/link.component";
 import { cn } from "@/utils/cn.util";
 import type { LinkResolverProps } from "./link-resolver.component";
 

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Img, type ImgProps } from "@/components/utils/img.component";
+import { Link } from "@/components/utils/link.component";
 
 export type NewsArticleCardItem = {
   _id: string;

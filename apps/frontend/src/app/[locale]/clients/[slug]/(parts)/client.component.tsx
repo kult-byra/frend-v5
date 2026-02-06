@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
 import { H1, H2 } from "@/components/layout/heading.component";
+import { Link } from "@/components/utils/link.component";
 import type { ClientQueryResult } from "@/sanity-types";
 
 type Props = NonNullable<ClientQueryResult>;

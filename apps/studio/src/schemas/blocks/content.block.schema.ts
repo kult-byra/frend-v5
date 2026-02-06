@@ -13,6 +13,7 @@ export const contentBlockSchema = defineBlock({
       includeLists: true,
       includeBlocks: [
         "accordions.block",
+        "code.block",
         "figure",
         "callToAction.block",
         "logoCloud.block",

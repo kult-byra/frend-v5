@@ -32,6 +32,21 @@ const translatePath = (path: string, locale: Locale): string => {
   return translatedSegments.join("/");
 };
 
+/**
+ * Localizes an already-resolved path for the given locale.
+ * - Norwegian (default): translates route segments (e.g., /news/slug → /nyheter/slug)
+ * - English: adds /en prefix (e.g., /news/slug → /en/news/slug)
+ */
+export function localizePath(path: string, locale: Locale): string {
+  if (path.startsWith("/en/") || path === "/en") return path;
+
+  if (locale === "en") {
+    return path === "/" ? "/en" : `/en${path}`;
+  }
+
+  return translatePath(path, locale);
+}
+
 // Overloaded resolvePath function for type safety
 export function resolvePath<T extends LinkableType>(
   type: T,

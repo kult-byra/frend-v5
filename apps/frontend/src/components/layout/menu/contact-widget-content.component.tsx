@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { HubspotForm } from "@/components/hubspot/hubspot-form.component";
 import { Img } from "@/components/utils/img.component";
+import { Link } from "@/components/utils/link.component";
 import { cn } from "@/utils/cn.util";
 import { getLinkHref } from "./link-href.util";
 import type { LinkGroupProps } from "./menu.types";

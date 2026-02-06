@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { toPlainText } from "next-sanity";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
+import { Link } from "@/components/utils/link.component";
 import type { SeminarArchiveSettingsQueryResult, SeminarListQueryResult } from "@/sanity-types";
 import {
   seminarArchiveSettingsQuery,

@@ -1,5 +1,5 @@
 import { resolvePath } from "@workspace/routing/src/resolve-path";
-import Link from "next/link";
+import { Link } from "@/components/utils/link.component";
 import type { NewsTeaserProps } from "@/server/queries/teasers/news-teaser.query";
 import { Img } from "../utils/img.component";
 

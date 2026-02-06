@@ -1,5 +1,5 @@
 import { resolvePath } from "@workspace/routing/src/resolve-path";
-import Link from "next/link";
+import { Link } from "@/components/utils/link.component";
 import type {
   KnowledgeContentType,
   KnowledgeTeaserProps,

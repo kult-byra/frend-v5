@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useRef } from "react";
 import { Banner } from "@/components/layout/banner.component";
 import { Menu } from "@/components/layout/menu/menu.component";
 import { Logo } from "@/components/logo.component";
+import { Link } from "@/components/utils/link.component";
 import { useHeaderTheme } from "@/context/header-theme.context";
 import { env } from "@/env";
 import { useResizeObserver } from "@/hooks/use-resize-observer.hook";

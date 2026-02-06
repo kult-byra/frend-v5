@@ -1,8 +1,8 @@
 "use client";
 
 import { resolvePath } from "@workspace/routing/src/resolve-path";
-import Link from "next/link";
 import { useLocale } from "next-intl";
+import { Link } from "@/components/utils/link.component";
 import type { SettingsQueryResult } from "@/sanity-types";
 import type { ImageQueryProps } from "@/server/queries/utils/image.query";
 import { cn } from "@/utils/cn.util";

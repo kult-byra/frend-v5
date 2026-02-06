@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Icon } from "@/components/icon.component";
 import { H2 } from "@/components/layout/heading.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import { ButtonGroup } from "@/components/ui/parts/button-group.component";
+import { Link } from "@/components/utils/link.component";
 import { cn } from "@/utils/cn.util";
 
 export type ClientCardItem = {

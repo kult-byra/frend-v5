@@ -1,12 +1,23 @@
+import { DetailedBylineList } from "@/components/detailed-byline.component";
 import { ArticleHero } from "@/components/hero/article-hero.component";
 import { Container } from "@/components/layout/container.component";
 import { ContentLayout } from "@/components/layout/content-layout.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
 import type { KnowledgeArticleQueryResult } from "@/sanity-types";
 
-type Props = NonNullable<KnowledgeArticleQueryResult>;
+type Props = NonNullable<KnowledgeArticleQueryResult> & {
+  showMoreLabel: string;
+  showLessLabel: string;
+};
 
-export function KnowledgeArticle({ hero, summary, content }: Props) {
+export function KnowledgeArticle({
+  hero,
+  summary,
+  content,
+  detailedAuthors,
+  showMoreLabel,
+  showLessLabel,
+}: Props) {
   return (
     <>
       {hero && (
@@ -39,6 +50,12 @@ export function KnowledgeArticle({ hero, summary, content }: Props) {
           </Container>
         </section>
       )}
+
+      <DetailedBylineList
+        authors={detailedAuthors}
+        showMoreLabel={showMoreLabel}
+        showLessLabel={showLessLabel}
+      />
     </>
   );
 }

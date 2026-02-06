@@ -1,5 +1,7 @@
 import { defineQuery } from "next-sanity";
 import { callToActionBlockQuery } from "../blocks/call-to-action.block.query";
+import { codeBlockQuery } from "../blocks/code.block.query";
+import { contentTeaserBlockQuery } from "../blocks/content-teaser.block.query";
 import { figureBlockQuery } from "../blocks/figure.block.query";
 import { imageAndTextBlockQuery } from "../blocks/image-and-text.block.query";
 import { logoCloudBlockQuery } from "../blocks/logo-cloud.block.query";
@@ -77,6 +79,12 @@ export const fullPortableTextQuery = defineQuery(`
           title,
           formId
         }
+      },
+      _type == "code.block" => {
+        ${codeBlockQuery}
+      },
+      _type == "contentTeaser.block" => {
+        ${contentTeaserBlockQuery}
       }
     )
   }

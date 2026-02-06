@@ -131,10 +131,12 @@ export const bylineSchema = defineType({
   type: "object",
   fields: [
     referenceField({
-      name: "author",
-      title: "Author",
-      description: "The article author",
+      name: "authors",
+      title: "Authors",
+      description: "Article authors (max 3)",
       to: [{ type: "person" }],
+      allowMultiple: true,
+      max: 3,
     }),
     datetimeField({
       name: "date",
@@ -146,13 +148,16 @@ export const bylineSchema = defineType({
   ],
   preview: {
     select: {
-      authorName: "author.name",
+      author0Name: "authors.0.name",
+      author1Name: "authors.1.name",
+      author2Name: "authors.2.name",
       date: "date",
     },
-    prepare({ authorName, date }) {
+    prepare({ author0Name, author1Name, author2Name, date }) {
+      const names = [author0Name, author1Name, author2Name].filter(Boolean);
       const dateStr = date ? new Date(date).toLocaleDateString("no") : "";
       return {
-        title: authorName || "No author",
+        title: names.length > 0 ? names.join(", ") : "No authors",
         subtitle: dateStr,
       };
     },
@@ -216,12 +221,15 @@ export const articleHeroSchema = defineType({
     select: {
       title: "title",
       media: "media.0.image.asset",
-      authorName: "byline.author.name",
+      author0Name: "byline.authors.0.name",
+      author1Name: "byline.authors.1.name",
+      author2Name: "byline.authors.2.name",
     },
-    prepare({ title, media, authorName }) {
+    prepare({ title, media, author0Name, author1Name, author2Name }) {
+      const names = [author0Name, author1Name, author2Name].filter(Boolean);
       return {
         title: title || "Article Hero",
-        subtitle: authorName ? `Article Hero · ${authorName}` : "Article Hero",
+        subtitle: names.length > 0 ? `Article Hero · ${names.join(", ")}` : "Article Hero",
         media,
       };
     },

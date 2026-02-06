@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "@/components/icon.component";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Link } from "@/components/utils/link.component";
 import { cn } from "@/utils/cn.util";
 import { ContactWidgetContent } from "./contact-widget-content.component";
 import { getLinkHref } from "./link-href.util";

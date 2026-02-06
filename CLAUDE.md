@@ -121,16 +121,29 @@ pnpm remove-all && pnpm install -r   # Clean reinstall if stuff breaks
 | `/knowledge`      | `/kunnskap`          | `/en/knowledge`      |
 | `/articles`       | `/artikler`          | `/en/articles`       |
 
-**Generating URLs programmatically**:
+**Locale-aware Link component:**
+
+**NEVER use `import Link from "next/link"` directly.** Always use the locale-aware wrapper:
+
+```tsx
+import { Link } from "@/components/utils/link.component";
+
+// Paths use English (internal) route segments — the Link component
+// auto-translates them to the correct locale URL in the HTML.
+<Link href="/services">Services</Link>
+<Link href={`/projects/${slug}`}>Project</Link>
+
+// Norwegian output: <a href="/tjenester">  <a href="/prosjekter/slug">
+// English output:   <a href="/en/services"> <a href="/en/projects/slug">
+```
+
+**Generating URLs programmatically** (outside JSX):
 
 ```typescript
-import { resolvePath } from "@workspace/routing";
+import { resolvePath } from "@workspace/routing/src/resolve-path";
 
-// Returns "/tjenester/konsulenter" for Norwegian
 const url = resolvePath("service", { slug: "konsulenter" }, "no");
-
-// Returns "/en/services/consultants" for English
-const url = resolvePath("service", { slug: "consultants" }, "en");
+// → "/tjenester/konsulenter"
 ```
 
 **UI string translations** are managed in Sanity (NOT static JSON files):

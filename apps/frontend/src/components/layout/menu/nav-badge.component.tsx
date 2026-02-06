@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/components/utils/link.component";
 import { cn } from "@/utils/cn.util";
 import { getLinkHref } from "./link-href.util";
 import type { MenuItemProps } from "./menu.types";

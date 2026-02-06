@@ -1,6 +1,7 @@
 import { defineQuery } from "next-sanity";
 import { fullPortableTextQuery } from "../portable-text/portable-text.query";
 import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
+import { detailedAuthorsQuery } from "../utils/detailed-author.query";
 import { directArticleHeroQuery, heroQuery } from "../utils/hero.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
@@ -9,6 +10,7 @@ export const knowledgeArticleQuery = defineQuery(`
   *[_type == "knowledgeArticle" && slug.current == $slug && language == $locale][0] {
     _id,
     hero { ${directArticleHeroQuery} },
+    "detailedAuthors": hero.byline.authors[]-> { ${detailedAuthorsQuery} },
     summary[] {
       _key,
       _type,
@@ -71,7 +73,7 @@ export const knowledgeArticleListQuery = defineQuery(`
     "title": hero.title,
     "slug": slug.current,
     "publishDate": hero.byline.date,
-    "author": hero.byline.author->{
+    "authors": hero.byline.authors[]->{
       name
     }
   }

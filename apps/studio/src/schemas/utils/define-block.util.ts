@@ -16,6 +16,7 @@ type BlockExtras = {
   icon: LucideIcon;
   scope: BlockScope[];
   optionFields?: FieldDefinition[];
+  skipWidth?: boolean;
 };
 
 export type BlockDefinition = Omit<ObjectDefinition, "type" | "icon"> & BlockExtras;
@@ -32,21 +33,24 @@ export const defineBlock = (props: BlockDefinition) => {
     icon,
     preview,
     scope,
+    skipWidth,
   } = props;
 
   const fields = originalFields ?? [];
 
-  // Always add options with width field (and any additional optionFields)
-  const allOptionFields = [widthField(), ...(optionFields ?? [])];
+  // Add options with width field (unless skipped) and any additional optionFields
+  const allOptionFields = [...(skipWidth ? [] : [widthField()]), ...(optionFields ?? [])];
 
-  fields.push(
-    defineField({
-      name: "options",
-      title: "Options",
-      type: "object",
-      fields: allOptionFields,
-    }),
-  );
+  if (allOptionFields.length > 0) {
+    fields.push(
+      defineField({
+        name: "options",
+        title: "Options",
+        type: "object",
+        fields: allOptionFields,
+      }),
+    );
+  }
 
   // Enhance preview to include the icon as media
   const enhancedPreview = preview

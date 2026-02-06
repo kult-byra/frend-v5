@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
+import { Link } from "@/components/utils/link.component";
 import type { EBookArchiveSettingsQueryResult, EBookListQueryResult } from "@/sanity-types";
 import { eBookArchiveSettingsQuery, eBookListQuery } from "@/server/queries/documents/e-book.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";

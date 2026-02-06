@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/utils/link.component";
 import { cn } from "@/lib/utils";
 
 type Props = {

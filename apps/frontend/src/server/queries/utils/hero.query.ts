@@ -97,7 +97,7 @@ const articleHeroQuery = defineQuery(`
   subheading,
   "media": media[] { _key, ${mediaQuery} },
   byline {
-    author-> {
+    authors[]-> {
       _id,
       name,
       "slug": slug.current,
@@ -228,7 +228,7 @@ const _heroTypegenQuery = defineQuery(`
       subheading,
       "media": media[] { _key, ${mediaQuery} },
       byline {
-        author-> {
+        authors[]-> {
           _id,
           name,
           "slug": slug.current,

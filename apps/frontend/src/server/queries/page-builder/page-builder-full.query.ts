@@ -1,7 +1,9 @@
 import { defineQuery } from "next-sanity";
 import { callToActionBlockQuery } from "@/server/queries/blocks/call-to-action.block.query";
 import { cardsBlockQuery } from "@/server/queries/blocks/cards.block.query";
+import { codeBlockQuery } from "@/server/queries/blocks/code.block.query";
 import { contentBlockQuery } from "@/server/queries/blocks/content.block.query";
+import { contentTeaserBlockQuery } from "@/server/queries/blocks/content-teaser.block.query";
 import { imageAndTextBlockQuery } from "@/server/queries/blocks/image-and-text.block.query";
 import { jobOpeningsBlockQuery } from "@/server/queries/blocks/job-openings.block.query";
 import { logoCloudBlockQuery } from "@/server/queries/blocks/logo-cloud.block.query";
@@ -23,7 +25,9 @@ export const pageBuilderInnerQuery = defineQuery(`
     _type == "people.block" => {${peopleBlockQuery}},
     _type == "logoCloud.block" => {${logoCloudBlockQuery}},
     _type == "jobOpenings.block" => {${jobOpeningsBlockQuery}},
-    _type == "mediaGallery.block" => {${mediaGalleryBlockQuery}}
+    _type == "mediaGallery.block" => {${mediaGalleryBlockQuery}},
+    _type == "contentTeaser.block" => {${contentTeaserBlockQuery}},
+    _type == "code.block" => {${codeBlockQuery}}
   )
 `);
 

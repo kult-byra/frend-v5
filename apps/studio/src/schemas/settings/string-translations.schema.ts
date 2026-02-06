@@ -247,6 +247,20 @@ export const stringTranslationsSchema = defineType({
       type: "internationalizedArrayString",
     }),
 
+    // Detailed byline
+    defineField({
+      name: "showMore",
+      title: "Show more",
+      description: "Toggle label to expand detailed byline card",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "showLess",
+      title: "Show less",
+      description: "Toggle label to collapse detailed byline card",
+      type: "internationalizedArrayString",
+    }),
+
     // Menu translations
     defineField({
       name: "latestNews",

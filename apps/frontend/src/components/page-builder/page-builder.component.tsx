@@ -1,5 +1,7 @@
 import { CardsBlock } from "../blocks/cards.block.component";
+import { CodeBlock } from "../blocks/code.block.component";
 import { ContentBlock } from "../blocks/content.block.component";
+import { ContentTeaserBlock } from "../blocks/content-teaser.block.component";
 import { JobOpeningsBlock } from "../blocks/job-openings.block.component";
 import { LogoCloudBlock } from "../blocks/logo-cloud.block.component";
 import { MediaGalleryBlock } from "../blocks/media-gallery.block.component";
@@ -16,12 +18,14 @@ type PageBuilderProps = {
 // biome-ignore lint/suspicious/noExplicitAny: block components have varying props
 const pageBuilderBlocks: Record<string, React.ComponentType<any>> = {
   "content.block": ContentBlock,
+  "code.block": CodeBlock,
   "cards.block": CardsBlock,
   "quotes.block": QuotesBlock,
   "people.block": PeopleBlock,
   "logoCloud.block": LogoCloudBlock,
   "jobOpenings.block": JobOpeningsBlock,
   "mediaGallery.block": MediaGalleryBlock,
+  "contentTeaser.block": ContentTeaserBlock,
 };
 
 export const PageBuilder = (props: PageBuilderProps) => {

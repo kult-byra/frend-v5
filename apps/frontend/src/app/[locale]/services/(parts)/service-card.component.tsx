@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { toPlainText } from "next-sanity";
 import { Icon } from "@/components/icon.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
 import { TechnologyPills } from "@/components/technology-pill.component";
 import { Img, type ImgProps } from "@/components/utils/img.component";
+import { Link } from "@/components/utils/link.component";
 import type { ServicesListQueryResult } from "@/sanity-types";
 
 type ServiceItem = ServicesListQueryResult[number];

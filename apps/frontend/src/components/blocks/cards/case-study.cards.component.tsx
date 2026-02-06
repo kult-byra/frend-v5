@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Img } from "@/components/utils/img.component";
+import { Link } from "@/components/utils/link.component";
 import type { ImageQueryProps } from "@/server/queries/utils/image.query";
 
 export type CaseStudyCardItem = {
