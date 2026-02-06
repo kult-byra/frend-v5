@@ -8,6 +8,9 @@ export const env = createEnv({
     HUBSPOT_ACCESS_TOKEN: z.string().min(1),
     HUBSPOT_PORTAL_ID: z.string().min(1),
     TURNSTILE_SECRET_KEY: z.string().min(1),
+    STORYBLOK_MANAGEMENT_TOKEN: z.string().optional(),
+    STORYBLOK_SPACE_ID: z.string().optional(),
+    SANITY_API_WRITE_TOKEN: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_SANITY_API_VERSION: z.string().min(1),

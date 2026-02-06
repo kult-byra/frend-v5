@@ -38,3 +38,6 @@ npm-debug.log*
 
 # Playwright MCP
 .playwright-mcp/
+
+# Migration data
+migration-data/

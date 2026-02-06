@@ -1,0 +1,427 @@
+"use client";
+
+import { useEffect, useState, useTransition } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  checkSanityWriteConfig,
+  getPersonImportStatus,
+  type ImportMode,
+  type ImportResult,
+  importPersonsToSanity,
+  type PersonImportStatus,
+  type PreviewResult,
+  previewPersonImport,
+} from "@/server/actions/sanity-migration.action";
+
+type Phase = "idle" | "previewing" | "previewed" | "importing" | "done";
+
+export function SanityTab() {
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [configError, setConfigError] = useState<string | null>(null);
+  const [preview, setPreview] = useState<PreviewResult | null>(null);
+  const [importResult, setImportResult] = useState<ImportResult | null>(null);
+  const [importStatus, setImportStatus] = useState<PersonImportStatus | null>(null);
+  const [importMode, setImportMode] = useState<ImportMode>("full");
+  const [isPending, startTransition] = useTransition();
+
+  // Load previous import status on mount
+  useEffect(() => {
+    getPersonImportStatus().then(setImportStatus);
+  }, []);
+
+  const handlePreview = () => {
+    setPhase("previewing");
+    setConfigError(null);
+    startTransition(async () => {
+      const configCheck = await checkSanityWriteConfig();
+      if (!configCheck.configured) {
+        setConfigError(configCheck.message);
+        setPhase("idle");
+        return;
+      }
+      const result = await previewPersonImport();
+      setPreview(result);
+      setPhase("previewed");
+    });
+  };
+
+  const handleImport = (mode: ImportMode) => {
+    setImportMode(mode);
+    setPhase("importing");
+    startTransition(async () => {
+      const result = await importPersonsToSanity(mode);
+      setImportResult(result);
+      // Refresh import status after import
+      const status = await getPersonImportStatus();
+      setImportStatus(status);
+      setPhase("done");
+    });
+  };
+
+  const handleReset = () => {
+    setPhase("idle");
+    setPreview(null);
+    setImportResult(null);
+    setConfigError(null);
+  };
+
+  const hasPreviousImport = !!importStatus;
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Config error */}
+      {configError && (
+        <div className="rounded-md border border-red-200 bg-red-50 p-4">
+          <p className="font-medium text-red-800">Configuration Missing</p>
+          <p className="mt-1 text-sm text-red-700">{configError}</p>
+          <p className="mt-2 text-xs text-red-600">
+            Add <code className="rounded bg-red-100 px-1 py-0.5">SANITY_API_WRITE_TOKEN</code> to
+            your <code className="rounded bg-red-100 px-1 py-0.5">.env.local</code> file. Create a
+            write token at sanity.io/manage → API → Tokens.
+          </p>
+        </div>
+      )}
+
+      {/* Document type selector */}
+      <div className="rounded-md border border-neutral-200 bg-white p-5">
+        <h3 className="font-semibold text-neutral-900">Document Type</h3>
+        <p className="mt-1 text-sm text-neutral-500">
+          Select the Storyblok content type to import into Sanity.
+        </p>
+        <div className="mt-3">
+          <select
+            className="rounded border border-neutral-300 bg-white px-3 py-2 text-sm"
+            defaultValue="person"
+          >
+            <option value="person">Person (88 stories → person)</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Previous import status */}
+      {hasPreviousImport && phase === "idle" && (
+        <div className="rounded-md border border-blue-200 bg-blue-50 p-4">
+          <p className="text-sm font-medium text-blue-800">Previous Import</p>
+          <p className="mt-1 text-sm text-blue-700">
+            Last imported {formatRelativeTime(importStatus.lastImportCompleted)} —{" "}
+            {importStatus.importedSlugs.length} persons
+          </p>
+          <p className="mt-0.5 text-xs text-blue-600">{importStatus.lastImportCompleted}</p>
+        </div>
+      )}
+
+      {/* Preview button */}
+      {phase === "idle" && (
+        <Button onClick={handlePreview} disabled={isPending}>
+          Preview Transform
+        </Button>
+      )}
+
+      {/* Loading state */}
+      {phase === "previewing" && (
+        <div className="rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700">
+          Loading preview…
+        </div>
+      )}
+
+      {/* Preview results */}
+      {phase === "previewed" && preview && (
+        <>
+          {/* Summary cards */}
+          <div className="grid grid-cols-3 gap-4 sm:grid-cols-6">
+            <SummaryCard label="Total" value={preview.total} />
+            <SummaryCard
+              label="Internal"
+              value={
+                preview.items.filter((i) => !i.externalPerson && i.changeType !== "deleted").length
+              }
+              variant="success"
+            />
+            <SummaryCard
+              label="External"
+              value={
+                preview.items.filter((i) => i.externalPerson && i.changeType !== "deleted").length
+              }
+            />
+            <SummaryCard
+              label="Changed"
+              value={preview.changed}
+              variant={preview.changed > 0 ? "warn" : "default"}
+            />
+            <SummaryCard label="Unchanged" value={preview.unchanged} />
+            <SummaryCard
+              label="Deleted"
+              value={preview.deleted}
+              variant={preview.deleted > 0 ? "error" : "default"}
+            />
+          </div>
+
+          {/* Preview table */}
+          <div className="overflow-x-auto rounded-md border border-neutral-200">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-neutral-100">
+                <tr>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Status</th>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Name</th>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Type</th>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Role (NO)</th>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Role (EN)</th>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Email</th>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Company</th>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Img</th>
+                  <th className="px-3 py-2.5 font-medium text-neutral-600">Warnings</th>
+                </tr>
+              </thead>
+              <tbody>
+                {preview.items.map((item) => (
+                  <tr
+                    key={item.slug}
+                    className={`border-t border-neutral-200 ${
+                      item.changeType === "unchanged" ? "opacity-50" : ""
+                    } ${item.changeType === "deleted" ? "bg-red-50" : ""}`}
+                  >
+                    <td className="px-3 py-2">
+                      <ChangeTypePill changeType={item.changeType} />
+                    </td>
+                    <td className="px-3 py-2 font-medium text-neutral-900">{item.name}</td>
+                    <td className="px-3 py-2">
+                      <span
+                        className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
+                          item.externalPerson
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-emerald-100 text-emerald-700"
+                        }`}
+                      >
+                        {item.externalPerson ? "External" : "Internal"}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2 text-neutral-600">{item.roleNo || "—"}</td>
+                    <td className="px-3 py-2 text-neutral-600">{item.roleEn || "—"}</td>
+                    <td className="px-3 py-2 text-neutral-500">{item.email ?? "—"}</td>
+                    <td className="px-3 py-2 text-neutral-500">{item.company ?? "—"}</td>
+                    <td className="px-3 py-2">
+                      <span
+                        className={`inline-block h-2.5 w-2.5 rounded-full ${item.hasImage ? "bg-emerald-500" : "bg-neutral-300"}`}
+                      />
+                    </td>
+                    <td className="max-w-xs px-3 py-2">
+                      {item.warnings.length > 0 && (
+                        <ul className="text-xs text-amber-700">
+                          {item.warnings.map((w) => (
+                            <li key={w}>{w}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Import actions */}
+          <div className="flex gap-3">
+            {hasPreviousImport && preview.changed > 0 && (
+              <Button
+                onClick={() => handleImport("incremental")}
+                disabled={isPending}
+                className="flex-1"
+              >
+                Sync {preview.changed} Changed
+              </Button>
+            )}
+            <Button
+              onClick={() => handleImport("full")}
+              disabled={isPending}
+              className="flex-1"
+              variant={hasPreviousImport && preview.changed > 0 ? "secondary" : undefined}
+            >
+              {hasPreviousImport ? "Full Re-import" : "Import"} {preview.total - preview.deleted}{" "}
+              Persons
+            </Button>
+            <Button onClick={handleReset} variant="secondary">
+              Cancel
+            </Button>
+          </div>
+        </>
+      )}
+
+      {/* Importing state */}
+      {phase === "importing" && (
+        <div className="rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700">
+          {importMode === "incremental"
+            ? "Syncing changes to Sanity… Only processing updated items."
+            : "Importing to Sanity… This may take a few minutes (downloading and uploading images)."}
+        </div>
+      )}
+
+      {/* Import results */}
+      {phase === "done" && importResult && (
+        <>
+          {importResult.success ? (
+            <div className="flex flex-col gap-4">
+              {/* Mode indicator */}
+              <div className="flex items-center gap-2">
+                <span
+                  className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                    importResult.mode === "incremental"
+                      ? "bg-blue-100 text-blue-700"
+                      : "bg-neutral-100 text-neutral-700"
+                  }`}
+                >
+                  {importResult.mode === "incremental" ? "Incremental Sync" : "Full Import"}
+                </span>
+              </div>
+
+              {/* Result summary */}
+              <div className="grid grid-cols-3 gap-4 sm:grid-cols-6">
+                <SummaryCard label="Total" value={importResult.total} />
+                <SummaryCard label="Created" value={importResult.created} variant="success" />
+                <SummaryCard label="Replaced" value={importResult.replaced} />
+                <SummaryCard label="Skipped" value={importResult.skipped} />
+                <SummaryCard label="Deleted" value={importResult.deleted} variant="warn" />
+                <SummaryCard label="Errors" value={importResult.errors} variant="error" />
+              </div>
+
+              {/* Results table */}
+              <div className="overflow-x-auto rounded-md border border-neutral-200">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-neutral-100">
+                    <tr>
+                      <th className="px-3 py-2.5 font-medium text-neutral-600">Slug</th>
+                      <th className="px-3 py-2.5 font-medium text-neutral-600">Status</th>
+                      <th className="px-3 py-2.5 font-medium text-neutral-600">Image</th>
+                      <th className="px-3 py-2.5 font-medium text-neutral-600">Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {importResult.results.map((r) => (
+                      <tr
+                        key={r.slug}
+                        className={`border-t border-neutral-200 ${
+                          r.status === "skipped" ? "opacity-50" : ""
+                        }`}
+                      >
+                        <td className="px-3 py-2 font-medium text-neutral-900">{r.slug}</td>
+                        <td className="px-3 py-2">
+                          <StatusPill status={r.status} />
+                        </td>
+                        <td className="px-3 py-2">
+                          <span
+                            className={`inline-block h-2.5 w-2.5 rounded-full ${r.imageUploaded ? "bg-emerald-500" : "bg-neutral-300"}`}
+                          />
+                        </td>
+                        <td className="max-w-xs px-3 py-2">
+                          {r.error && <p className="text-xs text-red-600">{r.error}</p>}
+                          {r.warnings.length > 0 && (
+                            <ul className="text-xs text-amber-700">
+                              {r.warnings.map((w) => (
+                                <li key={w}>{w}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              Import failed: {importResult.error}
+            </div>
+          )}
+
+          <Button onClick={handleReset} variant="secondary" className="w-full">
+            Start Over
+          </Button>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ---------- Helper Components ----------
+
+function SummaryCard({
+  label,
+  value,
+  variant = "default",
+}: {
+  label: string;
+  value: number;
+  variant?: "default" | "warn" | "success" | "error";
+}) {
+  const borderColor = {
+    default: "border-neutral-200",
+    warn: "border-amber-200",
+    success: "border-emerald-200",
+    error: "border-red-200",
+  }[variant];
+
+  const valueColor = {
+    default: "text-neutral-900",
+    warn: "text-amber-700",
+    success: "text-emerald-700",
+    error: "text-red-700",
+  }[variant];
+
+  return (
+    <div className={`rounded-md border bg-white p-4 ${borderColor}`}>
+      <p className="text-xs font-medium text-neutral-500">{label}</p>
+      <p className={`mt-1 text-2xl font-semibold ${valueColor}`}>{value}</p>
+    </div>
+  );
+}
+
+function ChangeTypePill({
+  changeType,
+}: {
+  changeType: "new" | "updated" | "unchanged" | "deleted";
+}) {
+  const styles = {
+    new: "bg-emerald-100 text-emerald-700",
+    updated: "bg-blue-100 text-blue-700",
+    unchanged: "bg-neutral-100 text-neutral-500",
+    deleted: "bg-red-100 text-red-700",
+  }[changeType];
+
+  return (
+    <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${styles}`}>
+      {changeType}
+    </span>
+  );
+}
+
+function StatusPill({
+  status,
+}: {
+  status: "created" | "replaced" | "skipped" | "deleted" | "error";
+}) {
+  const styles = {
+    created: "bg-emerald-100 text-emerald-700",
+    replaced: "bg-blue-100 text-blue-700",
+    skipped: "bg-neutral-100 text-neutral-500",
+    deleted: "bg-red-100 text-red-700",
+    error: "bg-red-100 text-red-700",
+  }[status];
+
+  return (
+    <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${styles}`}>
+      {status}
+    </span>
+  );
+}
+
+function formatRelativeTime(isoDate: string): string {
+  const diff = Date.now() - new Date(isoDate).getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
