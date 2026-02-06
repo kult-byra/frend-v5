@@ -36,6 +36,11 @@ export const stringTranslationsQuery = defineQuery(`
     "labelEBook": labelEBook[_key == $locale][0].value,
     "labelNews": labelNews[_key == $locale][0].value,
     "labelEvent": labelEvent[_key == $locale][0].value,
+    "eventAbout": eventAbout[_key == $locale][0].value,
+    "eventPracticalInfo": eventPracticalInfo[_key == $locale][0].value,
+    "eventTimeAndDate": eventTimeAndDate[_key == $locale][0].value,
+    "eventLocation": eventLocation[_key == $locale][0].value,
+    "eventSignUp": eventSignUp[_key == $locale][0].value,
     "latestNews": latestNews[_key == $locale][0].value,
     "upcomingEvents": upcomingEvents[_key == $locale][0].value,
     "allNewsAndEvents": allNewsAndEvents[_key == $locale][0].value

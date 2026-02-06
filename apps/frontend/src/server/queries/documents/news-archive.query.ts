@@ -6,12 +6,12 @@ import { newsTeaserQuery } from "../teasers/news-teaser.query";
 // @sanity-typegen-ignore
 export const newsArchiveQuery = defineQuery(`*[
   _type == "newsArticle"
-  && publishDate < now()
+  && hero.publishDate < now()
   && language == $locale
   && (!defined($service) || $service in services[]->slug.current)
   && (!defined($technologies) || count((technologies[]._ref)[@ in $technologies]) > 0)
   && (!defined($industries) || count((industries[]._ref)[@ in $industries]) > 0)
-] | order(publishDate desc) {
+] | order(hero.publishDate desc) {
   ${newsTeaserQuery}
 }`);
 

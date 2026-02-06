@@ -42,6 +42,8 @@ export const MediaHero = ({ title, media, excerpt, links, widget }: MediaHeroPro
                 mediaType={media.mediaType ?? "image"}
                 image={media.image}
                 videoUrl={media.videoUrl}
+                videoDisplayMode={media.videoDisplayMode}
+                videoPlaceholder={media.videoPlaceholder}
                 illustration={media.illustration}
                 aspectRatio={media.aspectRatio}
                 priority

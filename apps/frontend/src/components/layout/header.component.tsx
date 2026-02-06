@@ -14,7 +14,7 @@ export const Header = (props: SettingsQueryResult) => {
   const { siteSettings, menuSettings, newsEventsCount, stringTranslations } = props;
   const navAreaRef = useRef<HTMLDivElement>(null);
   const { theme } = useHeaderTheme();
-  const headerInverted = theme === "dark" || theme === "orange";
+  const headerInverted = theme === "navy";
 
   // Update CSS variable for nav panel width when nav area size changes
   const updateNavWidth = useCallback((entry: ResizeObserverEntry) => {
@@ -37,7 +37,7 @@ export const Header = (props: SettingsQueryResult) => {
             className="relative z-40 shrink-0"
             aria-label={`Til forsiden - ${env.NEXT_PUBLIC_SITE_TITLE}`}
           >
-            <Logo color={headerInverted ? "light" : "dark"} width={80} height={27} priority />
+            <Logo color={headerInverted ? "navy" : "white"} width={80} height={27} priority />
           </Link>
 
           {menuSettings && (

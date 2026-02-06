@@ -1,4 +1,4 @@
-import { FileText, Image, Newspaper } from "lucide-react";
+import { Image, Newspaper, PanelLeftDashed } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
 import { datetimeField } from "@/schemas/generator-fields/datetime.field";
@@ -9,20 +9,26 @@ import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 
 /**
- * Text Hero
- * A minimal hero with title, excerpt, and optional links (no media)
+ * Sticky Hero
+ * A two-column hero where media stays sticky while content scrolls
  */
-export const textHeroSchema = defineType({
-  name: "textHero",
-  title: "Text Hero",
+export const stickyHeroSchema = defineType({
+  name: "stickyHero",
+  title: "Sticky Hero",
   type: "object",
-  icon: FileText,
+  icon: PanelLeftDashed,
   fields: [
     stringField({
       name: "title",
       title: "Title",
       description: "The main heading displayed in the hero section",
       required: true,
+    }),
+    mediaField({
+      name: "media",
+      title: "Media",
+      description: "Hero image or video (stays sticky on desktop)",
+      video: true,
     }),
     portableTextField({
       name: "excerpt",
@@ -43,11 +49,13 @@ export const textHeroSchema = defineType({
   preview: {
     select: {
       title: "title",
+      media: "media.image.asset",
     },
-    prepare({ title }) {
+    prepare({ title, media }) {
       return {
-        title: title || "Text Hero",
-        subtitle: "Text Hero",
+        title: title || "Sticky Hero",
+        subtitle: "Sticky Hero",
+        media,
       };
     },
   },
@@ -114,8 +122,56 @@ export const mediaHeroSchema = defineType({
 });
 
 /**
- * Article Hero
+ * Byline schema for article attribution
+ * Groups author reference and publish date together
+ */
+export const bylineSchema = defineType({
+  name: "byline",
+  title: "Byline",
+  type: "object",
+  fields: [
+    referenceField({
+      name: "author",
+      title: "Author",
+      description: "The article author",
+      to: [{ type: "person" }],
+    }),
+    datetimeField({
+      name: "date",
+      title: "Date",
+      description: "Publication date",
+      required: true,
+      initialValue: () => new Date().toISOString(),
+    }),
+  ],
+  preview: {
+    select: {
+      authorName: "author.name",
+      date: "date",
+    },
+    prepare({ authorName, date }) {
+      const dateStr = date ? new Date(date).toLocaleDateString("no") : "";
+      return {
+        title: authorName || "No author",
+        subtitle: dateStr,
+      };
+    },
+  },
+});
+
+/**
+ * Article Hero (legacy type for heroField selector)
  * For editorial content with byline support (author, publish date, cover media)
+ *
+ * Note: For document-specific article heroes, use articleHeroField() generator instead.
+ * Labels are resolved in frontend from document _type via string translations.
+ *
+ * Fields (all optional except title):
+ * - title: Main headline (required)
+ * - subheading: Text below title
+ * - excerpt: Brief summary (portable text)
+ * - byline: Author + date attribution
+ * - media: Cover image or video
  */
 export const articleHeroSchema = defineType({
   name: "articleHero",
@@ -129,24 +185,10 @@ export const articleHeroSchema = defineType({
       description: "The article headline",
       required: true,
     }),
-    mediaField({
-      name: "media",
-      title: "Cover media",
-      description: "Cover image or video",
-      video: true,
-    }),
-    referenceField({
-      name: "author",
-      title: "Author",
-      description: "The article author",
-      to: [{ type: "person" }],
-    }),
-    datetimeField({
-      name: "publishDate",
-      title: "Publish date",
-      description: "When the article was published",
-      required: true,
-      initialValue: () => new Date().toISOString(),
+    stringField({
+      name: "subheading",
+      title: "Subheading",
+      description: "Text displayed below the title",
     }),
     portableTextField({
       name: "excerpt",
@@ -155,12 +197,26 @@ export const articleHeroSchema = defineType({
       noContent: true,
       includeLists: true,
     }),
+    defineField({
+      name: "byline",
+      title: "Byline",
+      description: "Author and publication date",
+      type: "byline",
+    }),
+    defineField({
+      name: "media",
+      title: "Cover media",
+      description: "Cover images or video (max 2)",
+      type: "array",
+      of: [mediaField({ name: "mediaItem", video: true, aspectRatio: false })],
+      validation: (Rule) => Rule.max(2),
+    }),
   ],
   preview: {
     select: {
       title: "title",
-      media: "media.image.asset",
-      authorName: "author.name",
+      media: "media.0.image.asset",
+      authorName: "byline.author.name",
     },
     prepare({ title, media, authorName }) {
       return {
@@ -188,20 +244,14 @@ export const heroSchema = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Text", value: "textHero" },
           { title: "Media", value: "mediaHero" },
           { title: "Article", value: "articleHero" },
+          { title: "Sticky", value: "stickyHero" },
         ],
-        layout: "radio",
+        layout: "dropdown",
       },
       initialValue: "mediaHero",
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "textHero",
-      title: "Text Hero",
-      type: "textHero",
-      hidden: ({ parent }) => parent?.heroType !== "textHero",
     }),
     defineField({
       name: "mediaHero",
@@ -215,34 +265,42 @@ export const heroSchema = defineType({
       type: "articleHero",
       hidden: ({ parent }) => parent?.heroType !== "articleHero",
     }),
+    defineField({
+      name: "stickyHero",
+      title: "Sticky Hero",
+      type: "stickyHero",
+      hidden: ({ parent }) => parent?.heroType !== "stickyHero",
+    }),
   ],
   preview: {
     select: {
       heroType: "heroType",
-      textHeroTitle: "textHero.title",
       mediaHeroTitle: "mediaHero.title",
       articleHeroTitle: "articleHero.title",
+      stickyHeroTitle: "stickyHero.title",
       mediaHeroMedia: "mediaHero.media.image.asset",
       articleHeroMedia: "articleHero.media.image.asset",
+      stickyHeroMedia: "stickyHero.media.image.asset",
     },
     prepare({
       heroType,
-      textHeroTitle,
       mediaHeroTitle,
       articleHeroTitle,
+      stickyHeroTitle,
       mediaHeroMedia,
       articleHeroMedia,
+      stickyHeroMedia,
     }) {
       const typeLabels: Record<string, string> = {
-        textHero: "Text",
         mediaHero: "Media",
         articleHero: "Article",
+        stickyHero: "Sticky",
       };
 
       const titleMap: Record<string, string | undefined> = {
-        textHero: textHeroTitle,
         mediaHero: mediaHeroTitle,
         articleHero: articleHeroTitle,
+        stickyHero: stickyHeroTitle,
       };
 
       // Get the appropriate media based on hero type
@@ -251,7 +309,9 @@ export const heroSchema = defineType({
           ? mediaHeroMedia
           : heroType === "articleHero"
             ? articleHeroMedia
-            : undefined;
+            : heroType === "stickyHero"
+              ? stickyHeroMedia
+              : undefined;
 
       return {
         title: titleMap[heroType] || "Hero",

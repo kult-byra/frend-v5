@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { ConversionPage } from "@/app/[locale]/[slug]/(parts)/conversion-page.component";
 import { Page as PageComponent } from "@/app/[locale]/[slug]/(parts)/page.component";
+import { Hero } from "@/components/hero/hero.component";
 import { pageQuery, pageSlugsQuery } from "@/server/queries/documents/page.query";
 import { sanityFetch } from "@/server/sanity/sanity-live";
 import { createPage } from "@/utils/create-page.util";
@@ -42,7 +43,12 @@ const { Page, generateMetadata, generateStaticParams } = createPage({
       return <ConversionPage {...data} />;
     }
 
-    return <PageComponent {...data} />;
+    return (
+      <>
+        {data.hero && <Hero hero={data.hero} />}
+        <PageComponent {...data} />
+      </>
+    );
   },
 });
 

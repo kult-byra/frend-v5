@@ -3,7 +3,7 @@ import { defineField, defineType } from "sanity";
 import { colorField } from "@/schemas/generator-fields/color.field";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
 import { datetimeField } from "@/schemas/generator-fields/datetime.field";
-import { heroField } from "@/schemas/generator-fields/hero.field";
+import { mediaField } from "@/schemas/generator-fields/media.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
@@ -30,9 +30,17 @@ export const eventSchema = defineType({
     }),
     //KEY
     slugField({ isStatic: false }),
-    heroField({
-      name: "hero",
-      types: ["articleHero"],
+    stringField({
+      name: "title",
+      title: "Title",
+      group: "key",
+      required: true,
+    }),
+    mediaField({
+      name: "media",
+      title: "Media",
+      description: "Cover image or video for the event",
+      video: true,
       group: "key",
     }),
     defineField({
@@ -114,8 +122,8 @@ export const eventSchema = defineType({
   ],
   preview: {
     select: {
-      title: "hero.articleHero.title",
-      media: "hero.articleHero.media.image.asset",
+      title: "title",
+      media: "media.image.asset",
     },
     prepare({ title, media }) {
       return {

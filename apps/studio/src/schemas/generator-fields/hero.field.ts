@@ -1,8 +1,158 @@
 import type { ReactNode } from "react";
 import { defineField, type FieldDefinition, type ObjectDefinition } from "sanity";
+import { mediaField } from "@/schemas/generator-fields/media.field";
+import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
+import { stringField } from "@/schemas/generator-fields/string.field";
 import type { FieldDef } from "@/schemas/generator-fields/types/field.types";
 
-export type HeroType = "textHero" | "mediaHero" | "articleHero";
+export type HeroType = "mediaHero" | "articleHero" | "stickyHero";
+
+/**
+ * Options for articleHeroField generator
+ */
+export type ArticleHeroFieldOptions = {
+  name?: string;
+  title?: string;
+  group?: string;
+  /** Include subheading field (default: false) */
+  useSubheading?: boolean;
+  /** Include excerpt field (default: false) */
+  useExcerpt?: boolean;
+  /** Include byline (author + date) fields (default: false) */
+  useByline?: boolean;
+  /** Include media field. Number sets max items (default: false, set to 1 or 2 to enable) */
+  useMedia?: number | false;
+};
+
+/**
+ * Creates an article hero field with configurable optional fields.
+ * Only title is always included. All other fields must be explicitly enabled.
+ *
+ * Labels are handled in the frontend by resolving from document _type via string translations.
+ * Pass showLabel prop to ArticleHero component to enable.
+ *
+ * @example Minimal (title only)
+ * ```ts
+ * articleHeroField({ group: "key" })
+ * ```
+ *
+ * @example News article (with byline, excerpt, and 2 images)
+ * ```ts
+ * articleHeroField({
+ *   group: "key",
+ *   useByline: true,
+ *   useExcerpt: true,
+ *   useMedia: 2,
+ * })
+ * ```
+ *
+ * @example Case study (with media only)
+ * ```ts
+ * articleHeroField({
+ *   group: "key",
+ *   useMedia: 1,
+ * })
+ * ```
+ */
+export const articleHeroField = (options: ArticleHeroFieldOptions = {}) => {
+  const {
+    name = "hero",
+    title = "Hero",
+    group,
+    useSubheading = false,
+    useExcerpt = false,
+    useByline = false,
+    useMedia = false,
+  } = options;
+
+  const fields: FieldDefinition[] = [
+    // Title is always required
+    stringField({
+      name: "title",
+      title: "Title",
+      description: "The article headline",
+      required: true,
+    }),
+  ];
+
+  // Subheading
+  if (useSubheading) {
+    fields.push(
+      stringField({
+        name: "subheading",
+        title: "Subheading",
+        description: "Text displayed below the title",
+      }),
+    );
+  }
+
+  // Excerpt
+  if (useExcerpt) {
+    fields.push(
+      portableTextField({
+        name: "excerpt",
+        title: "Excerpt",
+        description: "A brief summary of the article",
+        noContent: true,
+        includeLists: true,
+      }),
+    );
+  }
+
+  // Byline (author + date)
+  if (useByline) {
+    fields.push(
+      defineField({
+        name: "byline",
+        title: "Byline",
+        description: "Author and publication date",
+        type: "byline",
+      }),
+    );
+  }
+
+  // Media
+  if (useMedia) {
+    const maxItems = typeof useMedia === "number" ? useMedia : 1;
+    fields.push(
+      defineField({
+        name: "media",
+        title: "Cover media",
+        description:
+          maxItems > 1 ? `Cover images or video (max ${maxItems})` : "Cover image or video",
+        type: "array",
+        of: [mediaField({ name: "mediaItem", video: true, aspectRatio: false })],
+        validation: (Rule) => Rule.max(maxItems),
+      }),
+    );
+  }
+
+  return defineField({
+    name,
+    title,
+    type: "object",
+    group,
+    fields,
+    options: {
+      collapsible: true,
+      collapsed: false,
+    },
+    preview: {
+      select: {
+        title: "title",
+        media: "media.0.image.asset",
+        authorName: "byline.author.name",
+      },
+      prepare({ title, media, authorName }) {
+        return {
+          title: title || "Article Hero",
+          subtitle: authorName ? `Article Hero · ${authorName}` : "Article Hero",
+          media,
+        };
+      },
+    },
+  });
+};
 
 export type HeroFieldOptions = Omit<FieldDef<ObjectDefinition>, "fields"> & {
   /** Hero types to allow (required) */
@@ -10,9 +160,9 @@ export type HeroFieldOptions = Omit<FieldDef<ObjectDefinition>, "fields"> & {
 };
 
 const HERO_TYPE_LABELS: Record<HeroType, string> = {
-  textHero: "Text",
   mediaHero: "Media",
   articleHero: "Article",
+  stickyHero: "Sticky",
 };
 
 type HeroTypeOption = {
@@ -93,7 +243,7 @@ export const heroField = (props: HeroFieldOptions) => {
       type: "string",
       options: {
         list: heroTypeOptions,
-        layout: "radio",
+        layout: "dropdown",
       },
       initialValue: initialHeroType,
       hidden: !hasMultipleTypes,
@@ -109,17 +259,6 @@ export const heroField = (props: HeroFieldOptions) => {
       ? ({ parent }: { parent?: { heroType?: string } }) =>
           parent?.heroType != null && parent?.heroType !== type
       : ({ parent }: { parent?: { heroType?: string } }) => parent?.heroType !== type;
-
-  if (types.includes("textHero")) {
-    fields.push(
-      defineField({
-        name: "textHero",
-        title: "Text Hero",
-        type: "textHero",
-        hidden: isDefaultType("textHero"),
-      }),
-    );
-  }
 
   if (types.includes("mediaHero")) {
     fields.push(
@@ -143,21 +282,33 @@ export const heroField = (props: HeroFieldOptions) => {
     );
   }
 
+  if (types.includes("stickyHero")) {
+    fields.push(
+      defineField({
+        name: "stickyHero",
+        title: "Sticky Hero",
+        type: "stickyHero",
+        hidden: isDefaultType("stickyHero"),
+      }),
+    );
+  }
+
   // Build preview select and prepare based on allowed types
   const previewSelect: Record<string, string> = {
     heroType: "heroType",
   };
 
-  if (types.includes("textHero")) {
-    previewSelect.textHeroTitle = "textHero.title";
-  }
   if (types.includes("mediaHero")) {
     previewSelect.mediaHeroTitle = "mediaHero.title";
     previewSelect.mediaHeroMedia = "mediaHero.media.image.asset";
   }
   if (types.includes("articleHero")) {
     previewSelect.articleHeroTitle = "articleHero.title";
-    previewSelect.articleHeroMedia = "articleHero.media.image.asset";
+    previewSelect.articleHeroMedia = "articleHero.media.0.image.asset";
+  }
+  if (types.includes("stickyHero")) {
+    previewSelect.stickyHeroTitle = "stickyHero.title";
+    previewSelect.stickyHeroMedia = "stickyHero.media.image.asset";
   }
 
   return defineField({
@@ -177,9 +328,9 @@ export const heroField = (props: HeroFieldOptions) => {
         const heroType = selection.heroType as HeroType | undefined;
 
         const titleMap: Record<HeroType, string | undefined> = {
-          textHero: selection.textHeroTitle,
           mediaHero: selection.mediaHeroTitle,
           articleHero: selection.articleHeroTitle,
+          stickyHero: selection.stickyHeroTitle,
         };
 
         const heroTitle = heroType ? titleMap[heroType] : undefined;
@@ -191,6 +342,8 @@ export const heroField = (props: HeroFieldOptions) => {
           heroMedia = selection.mediaHeroMedia;
         } else if (heroType === "articleHero") {
           heroMedia = selection.articleHeroMedia;
+        } else if (heroType === "stickyHero") {
+          heroMedia = selection.stickyHeroMedia;
         }
 
         return {

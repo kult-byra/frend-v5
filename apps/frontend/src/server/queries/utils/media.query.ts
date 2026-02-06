@@ -10,6 +10,11 @@ export const mediaQuery = defineQuery(`
   mediaType,
   "image": image { ${imageQuery} },
   videoUrl,
+  videoDisplayMode,
+  "videoPlaceholder": select(
+    defined(videoPlaceholder.asset) => videoPlaceholder { ${imageQuery} },
+    defined(*[_id == "siteSettings"][0].videoPlaceholder.asset) => *[_id == "siteSettings"][0].videoPlaceholder { ${imageQuery} }
+  ),
   illustration,
   aspectRatio
 `);
@@ -23,5 +28,10 @@ export const nestedMediaQuery = (prefix = "media") => `
   "mediaType": ${prefix}.mediaType,
   "image": ${prefix}.image { ${imageQuery} },
   "videoUrl": ${prefix}.videoUrl,
+  "videoDisplayMode": ${prefix}.videoDisplayMode,
+  "videoPlaceholder": select(
+    defined(${prefix}.videoPlaceholder.asset) => ${prefix}.videoPlaceholder { ${imageQuery} },
+    defined(*[_id == "siteSettings"][0].videoPlaceholder.asset) => *[_id == "siteSettings"][0].videoPlaceholder { ${imageQuery} }
+  ),
   "aspectRatio": ${prefix}.aspectRatio
 `;

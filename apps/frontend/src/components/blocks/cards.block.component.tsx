@@ -67,7 +67,7 @@ export const CardsBlock = (props: CardsBlockProps) => {
   const hasHeader = shouldRenderHeader && (heading || content || links?.length);
 
   return (
-    <BlockContainer>
+    <BlockContainer paddingX={false}>
       {hasHeader && (
         <div className="mb-6 flex flex-col gap-xs lg:flex-row lg:items-start">
           <div className="flex flex-1 flex-col gap-2xs lg:pr-md">

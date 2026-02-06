@@ -1,4 +1,11 @@
-import { Image, RectangleHorizontal, RectangleVertical, Square } from "lucide-react";
+import {
+  Image,
+  Play,
+  RectangleHorizontal,
+  RectangleVertical,
+  RefreshCw,
+  Square,
+} from "lucide-react";
 import { defineField, type FieldDefinition, type ObjectDefinition } from "sanity";
 import { env } from "@/env";
 import { gridOptionsField } from "@/schemas/generator-fields/grid-options.field";
@@ -12,6 +19,8 @@ import type { IllustrationMode, IllustrationType } from "@/utils/illustrations.c
 export type MediaType = "image" | "video" | "illustration";
 
 export type AspectRatioValue = "3:2" | "3:4" | "1:1";
+
+export type VideoDisplayMode = "ambient" | "featured";
 
 export type MediaFieldOptions = Omit<FieldDef<ObjectDefinition>, "fields"> & {
   scope?: BlockDefinition["scope"];
@@ -170,6 +179,34 @@ export const mediaField = (props: MediaFieldOptions) => {
         hidden: ({ parent }) => parent?.mediaType !== "video",
       }),
     );
+
+    // Video display mode selector
+    fields.push(
+      gridOptionsField({
+        name: "videoDisplayMode",
+        title: "Display mode",
+        description:
+          "Ambient: autoplays muted in a loop. Featured: starts paused with full controls.",
+        hidden: ({ parent }) => parent?.mediaType !== "video",
+        options: [
+          { title: "Ambient", value: "ambient", icon: RefreshCw },
+          { title: "Featured", value: "featured", icon: Play },
+        ],
+        columns: 2,
+        initialValue: "ambient",
+      }),
+    );
+
+    // Video placeholder image (optional override)
+    fields.push(
+      imageField({
+        name: "videoPlaceholder",
+        title: "Video placeholder",
+        description:
+          "Shown while video loads. Leave empty to use site-wide default from global settings.",
+        hidden: ({ parent }) => parent?.mediaType !== "video",
+      }),
+    );
   }
 
   if ((image || video) && (aspectRatio || forcedAspectRatio)) {
@@ -238,8 +275,9 @@ export const mediaField = (props: MediaFieldOptions) => {
         illustration: "illustration",
         videoUrl: "videoUrl",
         aspectRatio: "aspectRatio",
+        videoDisplayMode: "videoDisplayMode",
       },
-      prepare({ mediaType, image, illustration, videoUrl, aspectRatio }) {
+      prepare({ mediaType, image, illustration, videoUrl, aspectRatio, videoDisplayMode }) {
         if (mediaType === "illustration" && illustration) {
           return {
             title: illustration,
@@ -257,6 +295,8 @@ export const mediaField = (props: MediaFieldOptions) => {
         if (mediaType === "video" && videoUrl) {
           const subtitleParts = ["Video"];
           if (aspectRatio) subtitleParts.push(aspectRatio);
+          const displayModeLabel = videoDisplayMode === "featured" ? "Featured" : "Ambient";
+          subtitleParts.push(displayModeLabel);
           return {
             title: "Video",
             subtitle: subtitleParts.join(" · "),

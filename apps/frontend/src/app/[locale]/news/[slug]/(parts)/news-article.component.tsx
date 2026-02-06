@@ -12,12 +12,9 @@ export function NewsArticle({ hero, content }: Props) {
       {hero && (
         <ArticleHero
           title={hero.title}
-          topTitle="Nyhet"
           media={hero.media}
-          byline={{
-            author: hero.author,
-            date: hero.publishDate,
-          }}
+          byline={hero.byline}
+          excerpt={hero.excerpt}
         />
       )}
 

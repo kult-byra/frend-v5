@@ -118,11 +118,11 @@ export const Footer = (props: FooterProps) => {
             <div className="py-xs">
               {/* Mobile logo */}
               <div className="lg:hidden">
-                <Logo color="orange" variant="angled2" width={118} height={157} />
+                <Logo color="yellow" variant="angled2" width={118} height={157} />
               </div>
               {/* Desktop logo */}
               <div className="hidden lg:block">
-                <Logo color="orange" variant="angled2" width={244} height={325} />
+                <Logo color="yellow" variant="angled2" width={244} height={325} />
               </div>
             </div>
           </div>

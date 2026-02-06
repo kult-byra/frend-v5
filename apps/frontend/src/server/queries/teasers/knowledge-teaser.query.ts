@@ -3,15 +3,13 @@ import type { KnowledgeTeaserTypegenQueryResult } from "@/sanity-types";
 import { imageQuery } from "../utils/image.query";
 
 // @sanity-typegen-ignore
+// Knowledge types: knowledgeArticle, caseStudy, eBook, seminar
 export const knowledgeTeaserQuery = defineQuery(`
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  "title": hero.title,
   "slug": slug.current,
-  "image": coalesce(
-    hero.mediaHero.media.image,
-    hero.articleHero.coverImages[0].image
-  ) {
+  "image": hero.media[0].image {
     ${imageQuery}
   },
   "services": services[]-> {

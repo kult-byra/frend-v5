@@ -1,11 +1,7 @@
 import { PortableText as PortableTextComponent } from "@portabletext/react";
 import type { PropsWithChildren } from "react";
-import { CallToActionBlock } from "@/components/blocks/call-to-action.block.component";
-import { ImageAndTextBlock } from "@/components/blocks/image-and-text.block.component";
-import { ImageGalleryBlock } from "@/components/blocks/image-gallery.block.component";
-import { ImagesAndTextBlock } from "@/components/blocks/images-and-text.block.component";
-import { ImagesWithBannerBlock } from "@/components/blocks/images-with-banner.block.component";
 import { LogoCloudBlock } from "@/components/blocks/logo-cloud.block.component";
+import { MediaGalleryBlock } from "@/components/blocks/media-gallery.block.component";
 import { PeopleBlock } from "@/components/blocks/people.block.component";
 import { QuotesBlock } from "@/components/blocks/quotes.block.component";
 import { Illustration, type IllustrationName } from "@/components/illustration.component";
@@ -244,9 +240,6 @@ const types = (options: PortableTextOptions): BlockTypeRendererMap => {
     isPageBuilder ? <HalfWidthWrapper>{content}</HalfWidthWrapper> : content;
 
   return {
-    "callToAction.block": ({ value }) => {
-      return maybeWrapHalfWidth(value, <CallToActionBlock {...value} />);
-    },
     figure: ({ value }) => {
       const { mediaType, image, illustration } = value ?? {};
 
@@ -268,17 +261,8 @@ const types = (options: PortableTextOptions): BlockTypeRendererMap => {
     "accordions.block": ({ value }) => {
       return maybeWrapHalfWidth(value, <AccordionsBlock accordions={value?.accordions} />);
     },
-    "imageAndText.block": ({ value }) => {
-      return maybeWrapHalfWidth(value, <ImageAndTextBlock {...value} />);
-    },
-    "imageGallery.block": ({ value }) => {
-      return maybeWrapHalfWidth(value, <ImageGalleryBlock {...value} />);
-    },
-    "imagesAndText.block": ({ value }) => {
-      return maybeWrapHalfWidth(value, <ImagesAndTextBlock {...value} />);
-    },
-    "imagesWithBanner.block": ({ value }) => {
-      return maybeWrapHalfWidth(value, <ImagesWithBannerBlock {...value} />);
+    "mediaGallery.block": ({ value }) => {
+      return maybeWrapHalfWidth(value, <MediaGalleryBlock {...value} />);
     },
     "logoCloud.block": ({ value }) => {
       return maybeWrapHalfWidth(value, <LogoCloudBlock {...value} />);

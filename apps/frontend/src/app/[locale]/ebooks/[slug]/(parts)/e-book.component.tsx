@@ -1,25 +1,25 @@
-import Link from "next/link";
+import { ArticleHero } from "@/components/hero/article-hero.component";
 import { Container } from "@/components/layout/container.component";
-import { H1 } from "@/components/layout/heading.component";
+import { ContentLayout } from "@/components/layout/content-layout.component";
+import { PortableText } from "@/components/portable-text/portable-text.component";
 import type { EBookQueryResult } from "@/sanity-types";
 
 type Props = NonNullable<EBookQueryResult>;
 
-export function EBook({ hero }: Props) {
-  // Extract title from hero
-  const heroData = hero?.textHero ?? hero?.mediaHero ?? hero?.articleHero;
-  const title = heroData?.title ?? null;
-
+export function EBook({ hero, content }: Props) {
   return (
-    <Container className="py-lg">
-      <Link
-        href="/ebooks"
-        className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block"
-      >
-        ← Tilbake til e-bøker
-      </Link>
+    <>
+      {hero && <ArticleHero title={hero.title} media={hero.media} excerpt={hero.excerpt} />}
 
-      {title && <H1 className="mb-4">{title}</H1>}
-    </Container>
+      {content && content.length > 0 && (
+        <section className="bg-container-primary pb-xl">
+          <Container>
+            <ContentLayout>
+              <PortableText content={content} />
+            </ContentLayout>
+          </Container>
+        </section>
+      )}
+    </>
   );
 }

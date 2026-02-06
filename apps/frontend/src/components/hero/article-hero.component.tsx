@@ -2,12 +2,29 @@ import Link from "next/link";
 import { SanityImage } from "sanity-image";
 import { Container } from "@/components/layout/container.component";
 import { H1 } from "@/components/layout/heading.component";
-import { Media } from "@/components/utils/media.component";
+import { PortableText } from "@/components/portable-text/portable-text.component";
+import { type AspectRatio, Media } from "@/components/utils/media.component";
+import type { VideoDisplayMode } from "@/components/utils/video.component";
 import { env } from "@/env";
 import type { ArticleQueryResult } from "@/sanity-types";
+import type { ArticleHeroData } from "@/server/queries/utils/hero.query";
+import { cn } from "@/utils/cn.util";
 
-// Extract media type from ArticleQueryResult
-type ArticleMedia = NonNullable<NonNullable<ArticleQueryResult>["hero"]>["media"];
+// Extract media array type from ArticleQueryResult (flat hero structure)
+type ArticleMediaItem = NonNullable<
+  NonNullable<NonNullable<ArticleQueryResult>["hero"]>["media"]
+>[number];
+
+// More flexible media type for use by other components (e.g., case studies)
+type FlexibleMediaItem = {
+  _key: string;
+  mediaType?: "image" | "video" | "illustration" | null;
+  image?: ArticleMediaItem["image"];
+  videoUrl?: string | null;
+  videoDisplayMode?: VideoDisplayMode | null;
+  videoPlaceholder?: ArticleMediaItem["videoPlaceholder"];
+  aspectRatio?: AspectRatio | null;
+};
 
 type ArticleHeroByline = {
   author?: {
@@ -24,17 +41,42 @@ type ArticleHeroByline = {
   date?: string | null;
 };
 
+export type ArticleHeroColorScheme = "white" | "navy" | "yellow";
+
+const colorStyles: Record<ArticleHeroColorScheme, { title: string; subtitle: string }> = {
+  white: {
+    title: "text-text-primary",
+    subtitle: "text-text-secondary",
+  },
+  navy: {
+    title: "text-text-white-primary",
+    subtitle: "text-text-white-secondary",
+  },
+  yellow: {
+    title: "text-text-primary",
+    subtitle: "text-text-secondary",
+  },
+};
+
 type ArticleHeroProps = {
   /** Required title */
   title: string;
-  /** Type label displayed above the title (e.g., "News", "Article") */
-  topTitle?: string;
-  /** Sub-heading/excerpt displayed below the title */
-  subHeading?: string;
+  /** Label displayed above the title (e.g., "News", "Case Study") */
+  label?: string | null;
+  /** Subheading displayed below the title */
+  subheading?: string | null;
+  /** Excerpt/description as PortableText (from hero queries) */
+  excerpt?: ArticleHeroData["excerpt"];
   /** Author and date information */
-  byline?: ArticleHeroByline;
-  /** Optional media (image/video) */
-  media?: ArticleMedia;
+  byline?: ArticleHeroByline | null;
+  /** Optional cover media (single image/video). Accepts flexible media types. */
+  media?: (ArticleMediaItem | FlexibleMediaItem)[] | null;
+  /** Color scheme - affects text colors. Defaults to "white" */
+  colorScheme?: ArticleHeroColorScheme;
+  /** Whether to use transparent background (for scroll-fade effect) */
+  transparentBg?: boolean;
+  /** Whether to extend hero behind header (adds negative margin and padding) */
+  extendBehindHeader?: boolean;
 };
 
 /**
@@ -61,11 +103,16 @@ function AuthorByline({ author }: { author: NonNullable<ArticleHeroByline["autho
       <div className="flex flex-col gap-3xs">
         {author.name &&
           (authorUrl ? (
-            <Link href={authorUrl} className="text-base leading-[145%] text-primary underline">
+            <Link
+              href={authorUrl}
+              className="border-b border-stroke-soft text-base leading-[145%] text-primary hover:text-button-secondary-text-hover"
+            >
               {author.name}
             </Link>
           ) : (
-            <span className="text-base leading-[145%] text-primary">{author.name}</span>
+            <span className="border-b border-stroke-soft text-base leading-[145%] text-primary">
+              {author.name}
+            </span>
           ))}
         {author.role && (
           <span className="text-base leading-[145%] text-secondary">{author.role}</span>
@@ -75,7 +122,17 @@ function AuthorByline({ author }: { author: NonNullable<ArticleHeroByline["autho
   );
 }
 
-export const ArticleHero = ({ title, topTitle, subHeading, byline, media }: ArticleHeroProps) => {
+export const ArticleHero = ({
+  title,
+  label,
+  subheading,
+  excerpt,
+  byline,
+  media,
+  colorScheme = "white",
+  transparentBg = false,
+  extendBehindHeader = false,
+}: ArticleHeroProps) => {
   const formattedDate = byline?.date
     ? new Date(byline.date).toLocaleDateString("nb-NO", {
         day: "numeric",
@@ -85,9 +142,15 @@ export const ArticleHero = ({ title, topTitle, subHeading, byline, media }: Arti
     : null;
 
   const hasByline = byline?.author || formattedDate;
+  const colors = colorStyles[colorScheme];
 
   return (
-    <section className="bg-container-primary">
+    <section
+      className={cn(
+        transparentBg ? "bg-transparent" : "bg-container-primary",
+        extendBehindHeader && "-mt-14 pt-14",
+      )}
+    >
       {/* Hero content */}
       <Container>
         <div className="flex gap-xs py-xl">
@@ -97,18 +160,32 @@ export const ArticleHero = ({ title, topTitle, subHeading, byline, media }: Arti
           {/* Text cell - full width on mobile, right half on desktop */}
           <div className="flex w-full flex-1 flex-col gap-md pr-0 lg:pr-md">
             <div className="flex max-w-[720px] flex-col gap-sm">
-              {/* Top title and main title */}
+              {/* Label and main title */}
               <div className="flex flex-col gap-xs">
-                {topTitle && (
-                  <span className="text-lg leading-[150%] text-secondary">{topTitle}</span>
+                {label && (
+                  <span className={cn("text-lg leading-[150%]", colors.subtitle)}>{label}</span>
                 )}
-                <H1 className="text-[30px] font-semibold leading-[110%] text-primary lg:text-[42px]">
+                <H1
+                  className={cn(
+                    "text-[30px] font-semibold leading-[110%] lg:text-[42px]",
+                    colors.title,
+                  )}
+                >
                   {title}
                 </H1>
+                {subheading && (
+                  <span className={cn("text-lg leading-[150%]", colors.subtitle)}>
+                    {subheading}
+                  </span>
+                )}
               </div>
 
-              {/* Sub-heading */}
-              {subHeading && <p className="text-lg leading-[150%] text-secondary">{subHeading}</p>}
+              {/* Excerpt (PortableText) */}
+              {excerpt && (
+                <div className={cn("text-lg leading-[150%]", colors.title)}>
+                  <PortableText content={excerpt} />
+                </div>
+              )}
             </div>
 
             {/* Byline: author and date */}
@@ -123,7 +200,7 @@ export const ArticleHero = ({ title, topTitle, subHeading, byline, media }: Arti
 
                 {/* Date */}
                 {formattedDate && (
-                  <span className="shrink-0 text-base leading-[145%] text-primary">
+                  <span className={cn("shrink-0 text-base leading-[145%]", colors.title)}>
                     {formattedDate}
                   </span>
                 )}
@@ -133,18 +210,27 @@ export const ArticleHero = ({ title, topTitle, subHeading, byline, media }: Arti
         </div>
       </Container>
 
-      {/* Media */}
-      {media?.mediaType && (
+      {/* Media - renders up to 2 items in a column */}
+      {media && media.length > 0 && media[0]?.mediaType && (
         <Container className="pb-xl">
-          <Media
-            constrainHeight
-            mediaType={media.mediaType}
-            image={media.image}
-            videoUrl={media.videoUrl}
-            aspectRatio={media.aspectRatio}
-            sizes={{ md: "full", xl: "full" }}
-            priority
-          />
+          <div className="flex flex-col gap-md">
+            {media.map((item, index) =>
+              item.mediaType ? (
+                <Media
+                  key={item._key}
+                  constrainHeight
+                  mediaType={item.mediaType}
+                  image={item.image}
+                  videoUrl={item.videoUrl}
+                  videoDisplayMode={item.videoDisplayMode}
+                  videoPlaceholder={item.videoPlaceholder}
+                  aspectRatio={item.aspectRatio}
+                  sizes={{ md: "full", xl: "full" }}
+                  priority={index === 0}
+                />
+              ) : null,
+            )}
+          </div>
         </Container>
       )}
     </section>

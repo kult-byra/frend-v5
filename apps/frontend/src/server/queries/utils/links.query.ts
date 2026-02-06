@@ -40,49 +40,43 @@ const downloadLinkQuery = defineQuery(`
 `);
 
 // Inline query for knowledge teaser data in menu highlights
+// Supports both flat structure (type: "articleHero") and composite structure (heroField())
 // @sanity-typegen-ignore
 const knowledgeHighlightTeaserQuery = defineQuery(`
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  "title": coalesce(hero.articleHero.title, hero.title),
   "slug": slug.current,
-  "image": coalesce(
-    hero.mediaHero.media.image,
-    hero.articleHero.coverImages[0].image
-  ) {
+  "image": coalesce(hero.articleHero.media[0].image, hero.media[0].image) {
     ${imageInnerQuery}
   }
 `);
 
 // Inline query for news article teaser in menu
+// Supports both flat structure (type: "articleHero") and composite structure (heroField())
 // @sanity-typegen-ignore
 const newsArticleTeaserQuery = defineQuery(`
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  "title": coalesce(hero.articleHero.title, hero.title),
   "slug": slug.current,
-  "publishDate": hero.articleHero.publishDate,
-  "image": coalesce(
-    hero.mediaHero.media.image,
-    hero.articleHero.coverImages[0].image
-  ) {
+  "publishDate": coalesce(hero.articleHero.publishDate, hero.publishDate),
+  "image": coalesce(hero.articleHero.media[0].image, hero.media[0].image) {
     ${imageInnerQuery}
   }
 `);
 
 // Inline query for event teaser in menu
+// Events use direct fields, not hero structure
 // @sanity-typegen-ignore
 const eventTeaserQuery = defineQuery(`
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  title,
   "slug": slug.current,
   "startTime": timeAndDate.startTime,
   "excerpt": pt::text(description),
-  "image": coalesce(
-    hero.mediaHero.media.image,
-    hero.articleHero.coverImages[0].image
-  ) {
+  "image": media.image {
     ${imageInnerQuery}
   }
 `);

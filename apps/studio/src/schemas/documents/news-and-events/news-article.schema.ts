@@ -1,7 +1,7 @@
 import { Newspaper } from "lucide-react";
 import { defineField, defineType } from "sanity";
 import { connectionsFields } from "@/schemas/generator-fields/connections-fields.field";
-import { heroField } from "@/schemas/generator-fields/hero.field";
+import { articleHeroField } from "@/schemas/generator-fields/hero.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { portableTextWithBlocksField } from "@/schemas/generator-fields/portable-text/portable-text-with-blocks.field";
 import { slugField } from "@/schemas/generator-fields/slug.field";
@@ -24,11 +24,11 @@ export const newsArticleSchema = defineType({
       hidden: true,
     }),
     slugField({ isStatic: false }),
-    heroField({
-      name: "hero",
-      title: "Hero",
-      types: ["articleHero"],
+    articleHeroField({
       group: "key",
+      useByline: true,
+      useExcerpt: true,
+      useMedia: 2,
     }),
     ...connectionsFields(),
     portableTextWithBlocksField({
@@ -40,9 +40,9 @@ export const newsArticleSchema = defineType({
   ],
   preview: {
     select: {
-      title: "hero.articleHero.title",
-      media: "hero.articleHero.media.image.asset",
-      authorName: "hero.articleHero.author.name",
+      title: "hero.title",
+      media: "hero.media.0.image.asset",
+      authorName: "hero.byline.author.name",
     },
     prepare({ title, media, authorName }) {
       return {

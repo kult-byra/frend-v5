@@ -254,6 +254,75 @@ import { Illustration, type IllustrationName } from "@/components/illustration.c
 - `figureField()` → use `imageField()` instead
 - `figureOrVideoField()` → use `mediaField({ video: true })` instead
 
+### Hero Fields
+
+The hero system provides configurable page headers with different presentation styles.
+
+**Hero Types (3 available):**
+
+| Type | Purpose | Key Fields |
+|------|---------|------------|
+| `articleHero` | Editorial content with byline | title, media[] (max 2), author, publishDate, excerpt |
+| `mediaHero` | General purpose with widget | title, media, excerpt, links, widget |
+| `stickyHero` | Two-column with sticky media | title, media, excerpt, links |
+
+**Schema usage** (`apps/studio/src/schemas/generator-fields/hero.field.ts`):
+
+```typescript
+import { heroField } from "@/schemas/generator-fields/hero.field";
+
+// Single type (selector hidden)
+heroField({ name: "hero", types: ["articleHero"], group: "key" })
+
+// Multiple types (dropdown selector shown)
+heroField({ name: "hero", types: ["mediaHero", "stickyHero"], group: "key" })
+
+// All types available
+heroField({ name: "hero", types: ["articleHero", "mediaHero", "stickyHero"], group: "key" })
+```
+
+**Document type configuration:**
+
+| Document | Hero Types | Notes |
+|----------|------------|-------|
+| `page` | articleHero, mediaHero, stickyHero | Full flexibility with dropdown |
+| `frontPage` | mediaHero, stickyHero | Dropdown selector |
+| `newsArticle` | articleHero | Fixed (no selector) |
+| `event` | articleHero | Fixed |
+| `caseStudy` | articleHero | Fixed |
+| `knowledgeArticle` | articleHero | Fixed |
+| `seminar` | articleHero | Fixed |
+| `eBook` | articleHero | Fixed |
+
+**Frontend rendering** (`apps/frontend/src/components/hero/`):
+
+```tsx
+import { Hero } from "@/components/hero/hero.component";
+
+// Generic hero - routes to correct component based on heroType
+<Hero hero={data.hero} />
+
+// Or use specific components directly
+import { ArticleHero } from "@/components/hero/article-hero.component";
+<ArticleHero title={title} media={media} byline={{ author, date }} />
+```
+
+**Query pattern** (GROQ):
+
+```groq
+hero {
+  heroType,
+  mediaHero { title, media, excerpt, links, widget },
+  articleHero { title, media, author, publishDate, excerpt },
+  stickyHero { title, media, excerpt, links }
+}
+```
+
+**Sticky Hero behavior:**
+- Desktop: Media stays fixed (`sticky top-[60px]`) while content scrolls
+- Mobile: Stacked layout (no sticky)
+- Based on `DoubleStickyFullGallery` pattern in image gallery block
+
 **Settings** are per-language singletons queried together via `fetchSettings(locale)`:
 
 - `siteSettings`, `menuSettings`, `footerSettings`, `metadataSettings`, `stringTranslations`

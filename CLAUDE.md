@@ -250,6 +250,71 @@ import { Illustration, type IllustrationName } from "@/components/illustration.c
 - `figureField()` → use `imageField()` instead
 - `figureOrVideoField()` → use `mediaField({ video: true })` instead
 
+### Hero Fields
+
+The hero system uses `heroField()` generator for documents that need multiple hero type options, with a dropdown selector.
+
+**Hero Types:**
+
+| Type | Purpose | Key Fields |
+|------|---------|------------|
+| `articleHero` | Editorial content with byline | title, media[] (max 2), author, publishDate, excerpt |
+| `mediaHero` | General purpose with widget support | title, media, excerpt, links, widget |
+| `stickyHero` | Two-column with sticky media | title, media (sticky on desktop), excerpt, links |
+
+**Schema usage** (`apps/studio/src/schemas/generator-fields/hero.field.ts`):
+
+```typescript
+import { heroField } from "@/schemas/generator-fields/hero.field";
+
+// Multiple hero types with dropdown selector
+heroField({ name: "hero", types: ["mediaHero", "stickyHero"] })
+
+// All hero types available
+heroField({ name: "hero", types: ["articleHero", "mediaHero", "stickyHero"] })
+
+// Single fixed hero type (no selector shown)
+heroField({ name: "hero", types: ["articleHero"] })
+```
+
+**Document configurations:**
+
+| Document | Hero Types | Notes |
+|----------|-----------|-------|
+| `page` | articleHero, mediaHero, stickyHero | Full dropdown selector |
+| `frontPage` | mediaHero, stickyHero | Dropdown selector |
+| `newsArticle` | articleHero | Fixed, no selector |
+| `caseStudy` | articleHero | Fixed, no selector |
+| `knowledgeArticle` | articleHero | Fixed, no selector |
+| `seminar` | articleHero | Fixed, no selector |
+| `eBook` | articleHero | Fixed, no selector |
+| `event` | articleHero | Fixed, event data on document |
+| `service` | Inline fields | No heroField, uses own title/media/excerpt |
+
+**Frontend rendering** (`apps/frontend/src/components/hero/hero.component.tsx`):
+
+```tsx
+import { Hero } from "@/components/hero/hero.component";
+
+// Renders correct hero component based on heroType
+<Hero hero={data.hero} />
+```
+
+**Query pattern** (GROQ via `apps/frontend/src/server/queries/utils/hero.query.ts`):
+
+```groq
+hero {
+  heroType,
+  heroType == "mediaHero" => { mediaHero { ...mediaHeroFields } },
+  heroType == "articleHero" => { articleHero { ...articleHeroFields } },
+  heroType == "stickyHero" => { stickyHero { ...stickyHeroFields } }
+}
+```
+
+**Sticky Hero behavior:**
+- Desktop: Media column uses `sticky top-[60px] self-start`, stays fixed while content scrolls
+- Mobile: Stacked layout, no sticky behavior
+
 **Settings** are per-language singletons queried together via `fetchSettings(locale)`:
 
 - `siteSettings`, `menuSettings`, `footerSettings`, `metadataSettings`, `stringTranslations`

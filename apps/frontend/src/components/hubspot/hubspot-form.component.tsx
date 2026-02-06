@@ -150,7 +150,7 @@ export function HubspotForm({ formId }: HubspotFormProps) {
       </div>
 
       {/* Fixed bottom area */}
-      <div className="flex flex-col gap-sm border-t border-stroke-soft pt-sm">
+      <div className="flex flex-col gap-2xs border-t border-stroke-soft pt-2xs">
         <TurnstileWidget
           ref={turnstileRef}
           onTokenChange={setTurnstileToken}

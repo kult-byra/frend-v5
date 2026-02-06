@@ -6,15 +6,12 @@ import { imageQuery } from "../utils/image.query";
 export const newsTeaserQuery = defineQuery(`
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  "title": hero.title,
   "slug": slug.current,
-  "image": coalesce(
-    hero.mediaHero.media.image,
-    hero.articleHero.media.image
-  ) {
+  "image": hero.media[0].image {
     ${imageQuery}
   },
-  "publishDate": hero.articleHero.publishDate,
+  "publishDate": hero.byline.date,
   "services": services[]->{
     _id,
     "title": coalesce(title_no, title_en)

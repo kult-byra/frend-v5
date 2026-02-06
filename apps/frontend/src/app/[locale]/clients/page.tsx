@@ -50,7 +50,7 @@ export default async function ClientsPage({ params }: Props) {
   ];
 
   // Extract title from hero
-  const heroTitle = settings?.hero?.textHero?.title ?? settings?.hero?.mediaHero?.title ?? null;
+  const heroTitle = settings?.hero?.mediaHero?.title ?? settings?.hero?.stickyHero?.title ?? null;
 
   return (
     <Container className="min-h-screen py-lg">

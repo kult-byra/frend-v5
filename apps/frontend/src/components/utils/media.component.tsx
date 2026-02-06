@@ -3,7 +3,7 @@ import type { ImageQueryProps } from "@/server/queries/utils/image.query";
 import { cn } from "@/utils/cn.util";
 
 import { Img, type ImgProps } from "./img.component";
-import { Video } from "./video.component";
+import { Video, type VideoDisplayMode } from "./video.component";
 
 export type AspectRatio = "3:2" | "3:4" | "1:1";
 
@@ -11,6 +11,10 @@ type MediaProps = {
   mediaType: "image" | "video" | "illustration";
   image?: ImageQueryProps | null;
   videoUrl?: string | null;
+  /** Video display mode: "ambient" autoplays muted, "featured" starts paused with controls */
+  videoDisplayMode?: VideoDisplayMode | null;
+  /** Placeholder image shown while video loads */
+  videoPlaceholder?: ImageQueryProps | null;
   illustration?: string | null;
   aspectRatio?: AspectRatio | null;
   className?: string;
@@ -38,6 +42,8 @@ export const Media = ({
   mediaType,
   image,
   videoUrl,
+  videoDisplayMode,
+  videoPlaceholder,
   illustration,
   aspectRatio = "3:2",
   className,
@@ -57,7 +63,13 @@ export const Media = ({
           <Img {...image} sizes={sizes} eager={priority} className="size-full object-cover" cover />
         )}
         {mediaType === "video" && videoUrl && (
-          <Video url={videoUrl} priority={priority} className="size-full object-cover" />
+          <Video
+            url={videoUrl}
+            displayMode={videoDisplayMode ?? "ambient"}
+            priority={priority}
+            placeholder={videoPlaceholder}
+            className="size-full object-cover"
+          />
         )}
         {mediaType === "illustration" && illustration && (
           <div className="flex size-full items-center justify-center">

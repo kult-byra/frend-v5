@@ -5,8 +5,8 @@ type PageProps = {
   pageBuilder: NonNullable<PageQueryResult>["pageBuilder"];
 };
 
-export const Page = (props: PageProps) => {
-  const { pageBuilder } = props;
+export const Page = ({ pageBuilder }: PageProps) => {
+  if (!pageBuilder) return null;
 
-  return <>{pageBuilder && <PageBuilder pageBuilder={pageBuilder} />}</>;
+  return <PageBuilder pageBuilder={pageBuilder} />;
 };

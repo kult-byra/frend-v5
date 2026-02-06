@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Icon } from "@/components/icon.component";
-import { BlockContainer } from "@/components/layout/block-container.component";
 import { cn } from "@/utils/cn.util";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
@@ -86,19 +85,17 @@ export const QuotesBlock = (props: QuotesBlockProps) => {
   );
 
   return (
-    <BlockContainer>
-      <div className="flex flex-col gap-xs rounded-3xs bg-container-tertiary-1 p-xs">
-        {/* Quote text */}
-        <blockquote className="flex w-full items-center justify-center px-xl py-md">
-          {quoteContent}
-        </blockquote>
+    <div className="my-xl flex flex-col gap-xs rounded-3xs bg-container-tertiary-1 p-xs">
+      {/* Quote text */}
+      <blockquote className="flex w-full items-center justify-center px-xl py-md">
+        {quoteContent}
+      </blockquote>
 
-        {/* Source and navigation in a row */}
-        <div className="flex w-full items-end justify-between">
-          {sourceAttribution}
-          {navigationButtons}
-        </div>
+      {/* Source and navigation in a row */}
+      <div className="flex w-full items-end justify-between">
+        {sourceAttribution}
+        {navigationButtons}
       </div>
-    </BlockContainer>
+    </div>
   );
 };

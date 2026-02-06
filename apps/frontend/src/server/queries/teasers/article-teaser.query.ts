@@ -5,7 +5,7 @@ import type { ArticleTeaserTypegenQueryResult } from "@/sanity-types";
 export const articleTeaserQuery = defineQuery(`
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  "title": hero.title,
   "slug": slug.current,
 `);
 
@@ -14,7 +14,7 @@ const _articleTeaserTypegenQuery = defineQuery(`
     *[_type == "newsArticle"][0]{
       _id,
       _type,
-      "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+      "title": hero.title,
       "slug": slug.current
     }
   `);

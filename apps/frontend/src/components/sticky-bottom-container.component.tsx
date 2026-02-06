@@ -8,11 +8,13 @@ type StickyBottomContainerProps = {
   children: ReactNode;
   stickyContent: ReactNode;
   className?: string;
+  /** Vertical position of sticky content. Default: "bottom" */
+  position?: "bottom" | "center";
 };
 
 /**
- * A container that keeps content fixed to the bottom-left of the viewport
- * while scrolling, then sticks to the container bottom when reaching the end.
+ * A container that keeps content fixed to the left of the viewport
+ * while scrolling, then sticks to the container when reaching the end.
  *
  * Uses IntersectionObserver for performant scroll detection.
  */
@@ -20,6 +22,7 @@ export function StickyBottomContainer({
   children,
   stickyContent,
   className,
+  position = "bottom",
 }: StickyBottomContainerProps) {
   const sentinelRef = useRef<HTMLDivElement>(null);
   const [isStuck, setIsStuck] = useState(false);
@@ -46,19 +49,25 @@ export function StickyBottomContainer({
     return () => observer.disconnect();
   }, []);
 
-  return (
-    <div className={cn("relative", className)}>
-      {/* Sticky content - desktop only */}
-      <div
-        className={cn(
-          "bottom-4 z-10 hidden w-[443px] lg:block",
+  const positionClasses =
+    position === "center"
+      ? cn(
+          "top-1/2 -translate-y-1/2",
           isStuck
             ? "absolute left-(--margin)"
             : "fixed left-[max(var(--margin),calc(50vw-960px+var(--margin)))]",
-        )}
-      >
-        {stickyContent}
-      </div>
+        )
+      : cn(
+          "bottom-4",
+          isStuck
+            ? "absolute left-(--margin)"
+            : "fixed left-[max(var(--margin),calc(50vw-960px+var(--margin)))]",
+        );
+
+  return (
+    <div className={cn("relative", className)}>
+      {/* Sticky content - desktop only */}
+      <div className={cn("z-10 hidden w-[443px] lg:block", positionClasses)}>{stickyContent}</div>
 
       {/* Main content */}
       <div>{children}</div>

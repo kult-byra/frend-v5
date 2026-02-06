@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export type LogoColor = "dark" | "orange" | "light";
+export type LogoColor = "white" | "navy" | "yellow";
 export type LogoVariant = "standard" | "angled1" | "angled2";
 
 interface LogoProps {
@@ -12,18 +12,24 @@ interface LogoProps {
   priority?: boolean;
 }
 
+/**
+ * Maps semantic color names to logo file names.
+ * - white: Dark logo for white/light backgrounds
+ * - navy: Light logo for navy/dark backgrounds
+ * - yellow: Yellow/orange accent logo
+ */
 const LOGO_PATHS: Record<LogoColor, Record<LogoVariant, string>> = {
-  dark: {
+  white: {
     standard: "/logos/logo-dark.svg",
     angled1: "/logos/logo-dark-angled1.svg",
     angled2: "/logos/logo-dark-angled2.svg",
   },
-  orange: {
+  yellow: {
     standard: "/logos/logo-orange.svg",
     angled1: "/logos/logo-orange-angled1.svg",
     angled2: "/logos/logo-orange-angled2.svg",
   },
-  light: {
+  navy: {
     standard: "/logos/logo-light.svg",
     angled1: "/logos/logo-light-angled1.svg",
     angled2: "/logos/logo-light-angled2.svg",
@@ -31,7 +37,7 @@ const LOGO_PATHS: Record<LogoColor, Record<LogoVariant, string>> = {
 };
 
 export function Logo({
-  color = "dark",
+  color = "white",
   variant = "standard",
   className,
   width = 150,

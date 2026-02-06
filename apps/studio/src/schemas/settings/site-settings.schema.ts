@@ -1,5 +1,6 @@
 import { Globe } from "lucide-react";
 import { defineField, defineType } from "sanity";
+import { imageField } from "@/schemas/generator-fields/image.field";
 import { portableTextField } from "@/schemas/generator-fields/portable-text/portable-text.field";
 import { referenceField } from "@/schemas/generator-fields/reference.field";
 import { sharedDocumentInfoField } from "@/schemas/generator-fields/shared-document-info.field";
@@ -18,6 +19,14 @@ export const siteSettingsSchema = defineType({
   ],
   fields: [
     sharedDocumentInfoField(),
+
+    // Global (not language-specific)
+    imageField({
+      name: "videoPlaceholder",
+      title: "Video placeholder",
+      description:
+        "Shown while videos are loading. Use a branded image or abstract visual that works across the site.",
+    }),
 
     // Norwegian
     referenceField({

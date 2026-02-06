@@ -43,7 +43,7 @@ export default async function EBooksPage({ params }: Props) {
   const [settings, eBooks] = await Promise.all([getArchiveSettings(locale), getEBooks(locale)]);
 
   // Extract title from hero
-  const heroTitle = settings?.hero?.textHero?.title ?? settings?.hero?.mediaHero?.title ?? null;
+  const heroTitle = settings?.hero?.mediaHero?.title ?? settings?.hero?.stickyHero?.title ?? null;
 
   return (
     <Container className="py-lg">

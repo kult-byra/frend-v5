@@ -11,10 +11,10 @@ type ServicesHeroProps = {
 
 export function ServicesHero({ hero, mobileAnchorNav }: ServicesHeroProps) {
   // Extract data from hero based on hero type
-  const heroData = hero?.mediaHero ?? hero?.textHero;
+  const heroData = hero?.mediaHero ?? hero?.stickyHero;
   const title = heroData?.title ?? null;
-  const excerpt = hero?.mediaHero?.excerpt ?? hero?.textHero?.excerpt ?? null;
-  const media = hero?.mediaHero?.media ?? null;
+  const excerpt = hero?.mediaHero?.excerpt ?? hero?.stickyHero?.excerpt ?? null;
+  const media = hero?.mediaHero?.media ?? hero?.stickyHero?.media ?? null;
   const excerptText = excerpt ? toPlainText(excerpt) : null;
 
   return (

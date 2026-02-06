@@ -1,12 +1,8 @@
-import { CallToActionBlock } from "../blocks/call-to-action.block.component";
 import { CardsBlock } from "../blocks/cards.block.component";
 import { ContentBlock } from "../blocks/content.block.component";
-import { ImageAndTextBlock } from "../blocks/image-and-text.block.component";
-import { ImageGalleryBlock } from "../blocks/image-gallery.block.component";
-import { ImagesAndTextBlock } from "../blocks/images-and-text.block.component";
-import { ImagesWithBannerBlock } from "../blocks/images-with-banner.block.component";
 import { JobOpeningsBlock } from "../blocks/job-openings.block.component";
 import { LogoCloudBlock } from "../blocks/logo-cloud.block.component";
+import { MediaGalleryBlock } from "../blocks/media-gallery.block.component";
 import { PeopleBlock } from "../blocks/people.block.component";
 import { QuotesBlock } from "../blocks/quotes.block.component";
 import { BlockWrapper } from "./block-wrapper.component";
@@ -19,17 +15,13 @@ type PageBuilderProps = {
 // Using Record<string, any> since not all block types may be present in the generated types
 // biome-ignore lint/suspicious/noExplicitAny: block components have varying props
 const pageBuilderBlocks: Record<string, React.ComponentType<any>> = {
-  "callToAction.block": CallToActionBlock,
-  "imageAndText.block": ImageAndTextBlock,
-  "imagesAndText.block": ImagesAndTextBlock,
   "content.block": ContentBlock,
   "cards.block": CardsBlock,
-  "imagesWithBanner.block": ImagesWithBannerBlock,
   "quotes.block": QuotesBlock,
   "people.block": PeopleBlock,
   "logoCloud.block": LogoCloudBlock,
   "jobOpenings.block": JobOpeningsBlock,
-  "imageGallery.block": ImageGalleryBlock,
+  "mediaGallery.block": MediaGalleryBlock,
 };
 
 export const PageBuilder = (props: PageBuilderProps) => {

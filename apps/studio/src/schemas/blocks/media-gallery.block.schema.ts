@@ -12,8 +12,8 @@ import { defineBlock } from "@/schemas/utils/define-block.util";
 import { gridOptionsField } from "../generator-fields/grid-options.field";
 import { mediaField } from "../generator-fields/media.field";
 
-// Image limits: { min, max }
-const IMAGE_LIMITS = {
+// Media limits per layout type: { min, max }
+const MEDIA_LIMITS = {
   single: { min: 1, max: 1 },
   grid: { min: 1, max: 6 },
   carousel: { min: 2, max: 99 },
@@ -35,9 +35,9 @@ const isGridType = ({
   return !isFullWidth && galleryType === "grid";
 };
 
-export const imageGalleryBlockSchema = defineBlock({
-  name: "imageGallery",
-  title: "Image gallery",
+export const mediaGalleryBlockSchema = defineBlock({
+  name: "mediaGallery",
+  title: "Media Gallery",
   icon: Image,
   scope: ["pageBuilder", "portableText"],
   fields: [
@@ -46,7 +46,7 @@ export const imageGalleryBlockSchema = defineBlock({
       name: "title",
       title: "Title",
       type: "string",
-      description: "Optional headline above the image grid",
+      description: "Optional headline above the media grid",
       hidden: ({ parent }) => !isGridType({ parent }),
     }),
     // Intro field - only visible for grid type
@@ -59,12 +59,12 @@ export const imageGalleryBlockSchema = defineBlock({
       hidden: ({ parent }) => !isGridType({ parent }),
     }),
     defineField({
-      title: "Images",
-      name: "images",
+      title: "Media",
+      name: "media",
       type: "array",
       of: [mediaField({ name: "media", title: "Image/video", video: true })],
       validation: (Rule) =>
-        Rule.custom((images, context) => {
+        Rule.custom((media, context) => {
           const parent = context.parent as { options?: Record<string, string> } | undefined;
           const options = parent?.options;
           const isFullWidth = options?.width === "fullWidth";
@@ -72,14 +72,14 @@ export const imageGalleryBlockSchema = defineBlock({
             ? options?.galleryTypeFull || "mediaFull"
             : options?.galleryTypeHalf || "grid";
 
-          const { min, max } = IMAGE_LIMITS[type as keyof typeof IMAGE_LIMITS] || {
+          const { min, max } = MEDIA_LIMITS[type as keyof typeof MEDIA_LIMITS] || {
             min: 1,
             max: 99,
           };
 
-          if (!images || images.length === 0) return "At least one image/video is required";
-          if (images.length < min) return `This layout requires at least ${min} image(s)`;
-          if (images.length > max) return `This layout allows at most ${max} image(s)`;
+          if (!media || media.length === 0) return "At least one media item is required";
+          if (media.length < min) return `This layout requires at least ${min} media item(s)`;
+          if (media.length > max) return `This layout allows at most ${max} media item(s)`;
           return true;
         }),
     }),
@@ -89,7 +89,7 @@ export const imageGalleryBlockSchema = defineBlock({
     gridOptionsField({
       name: "galleryTypeHalf",
       title: "Gallery Type",
-      description: "Choose how images are displayed. More options available in full width.",
+      description: "Choose how media is displayed. More options available in full width.",
       columns: 3,
       initialValue: "grid",
       hidden: ({ parent }) => parent?.width === "fullWidth",
@@ -98,13 +98,13 @@ export const imageGalleryBlockSchema = defineBlock({
         {
           value: "grid",
           title: "Grid",
-          description: "Uniform grid layout (up to 6 images)",
+          description: "Uniform grid layout (up to 6 items)",
           icon: Grid2x2,
         },
         {
           value: "carousel",
           title: "Carousel",
-          description: "Scrollable carousel (2+ images)",
+          description: "Scrollable carousel (2+ items)",
           icon: GalleryHorizontalEnd,
         },
       ],
@@ -114,7 +114,7 @@ export const imageGalleryBlockSchema = defineBlock({
     gridOptionsField({
       name: "galleryTypeFull",
       title: "Gallery Type",
-      description: "Choose how images are displayed. More options available in half width.",
+      description: "Choose how media is displayed. More options available in half width.",
       columns: 3,
       initialValue: "mediaFull",
       hidden: ({ parent }) => parent?.width !== "fullWidth",
@@ -122,13 +122,13 @@ export const imageGalleryBlockSchema = defineBlock({
         {
           value: "mediaFull",
           title: "Media Full",
-          description: "Up to 3 images in equal width columns",
+          description: "Up to 3 items in equal width columns",
           icon: Columns2,
         },
         {
           value: "dynamic",
           title: "Dynamic",
-          description: "Up to 3 images in staggered floating layout",
+          description: "Up to 3 items in staggered floating layout",
           icon: LayoutGrid,
         },
         {
@@ -140,7 +140,7 @@ export const imageGalleryBlockSchema = defineBlock({
         {
           value: "carouselFull",
           title: "Carousel",
-          description: "Looping carousel with swipe (3+ images)",
+          description: "Looping carousel with swipe (3+ items)",
           icon: GalleryHorizontalEnd,
         },
       ],
@@ -148,13 +148,13 @@ export const imageGalleryBlockSchema = defineBlock({
   ],
   preview: {
     select: {
-      images: "images",
+      media: "media",
       width: "options.width",
       galleryTypeHalf: "options.galleryTypeHalf",
       galleryTypeFull: "options.galleryTypeFull",
     },
-    prepare: ({ images, width, galleryTypeHalf, galleryTypeFull }) => {
-      const imageCount = images?.length ?? 0;
+    prepare: ({ media, width, galleryTypeHalf, galleryTypeFull }) => {
+      const mediaCount = media?.length ?? 0;
       const isFullWidth = width === "fullWidth";
       const galleryType = isFullWidth ? galleryTypeFull || "mediaFull" : galleryTypeHalf || "grid";
 
@@ -169,10 +169,10 @@ export const imageGalleryBlockSchema = defineBlock({
       };
 
       const widthLabel = isFullWidth ? "Full width" : "Default";
-      const subtitle = `${widthLabel} · ${typeLabels[galleryType] || galleryType} · ${imageCount} ${imageCount === 1 ? "image" : "images"}`;
+      const subtitle = `${widthLabel} · ${typeLabels[galleryType] || galleryType} · ${mediaCount} ${mediaCount === 1 ? "item" : "items"}`;
 
       return {
-        title: "Image gallery",
+        title: "Media Gallery",
         subtitle,
       };
     },

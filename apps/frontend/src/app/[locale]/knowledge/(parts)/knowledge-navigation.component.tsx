@@ -30,9 +30,32 @@ const NAV_ITEMS = [
   { href: "/knowledge/ebooks", labelKey: "ebooks", segments: ["ebooks", "e-boker"] },
 ] as const;
 
+// All known archive segments (both EN and NO translations)
+const ARCHIVE_SEGMENTS = new Set([
+  "knowledge",
+  "kunnskap",
+  "case-studies",
+  "prosjekter",
+  "articles",
+  "artikler",
+  "seminars",
+  "seminarer",
+  "ebooks",
+  "e-boker",
+]);
+
 export function KnowledgeNavigation({ translations }: KnowledgeNavigationProps) {
   const pathname = usePathname();
   const pathSegments = pathname.split("/").filter(Boolean);
+
+  // Hide navigation on detail pages (when the last segment is a slug, not an archive segment)
+  // Path structure: /[locale]/knowledge/[optional-category]/[slug]
+  const lastSegment = pathSegments[pathSegments.length - 1];
+  const isDetailPage = lastSegment && !ARCHIVE_SEGMENTS.has(lastSegment);
+
+  if (isDetailPage) {
+    return null;
+  }
 
   const isActive = (item: (typeof NAV_ITEMS)[number]) => {
     // For "All" tab, match exact /knowledge or /kunnskap (with or without locale prefix)

@@ -1,8 +1,8 @@
 import { defineQuery } from "next-sanity";
 
-import { pageBuilderQuery } from "@/server/queries/page-builder/page-builder-full.query";
+import { fullPortableTextQuery } from "../portable-text/portable-text.query";
 import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
-import { heroQuery } from "../utils/hero.query";
+import { directArticleHeroQuery, heroQuery } from "../utils/hero.query";
 import { imageQuery } from "../utils/image.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
@@ -46,12 +46,9 @@ export const caseStudyListQuery = defineQuery(`
   *[_type == "caseStudy" && language == $locale] | order(_createdAt desc) {
     _id,
     _type,
-    "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+    "title": hero.title,
     "slug": slug.current,
-    "image": coalesce(
-      hero.mediaHero.media.image,
-      hero.articleHero.media.image
-    ) {
+    "image": hero.media[0].image {
       ${imageQuery}
     },
     "client": client->{
@@ -65,7 +62,7 @@ export const caseStudyListQuery = defineQuery(`
 export const caseStudyQuery = defineQuery(`
   *[_type == "caseStudy" && slug.current == $slug && language == $locale][0] {
     _id,
-    hero { ${heroQuery} },
+    hero { ${directArticleHeroQuery} },
     "slug": slug.current,
     "client": client->{
       _id,
@@ -80,7 +77,7 @@ export const caseStudyQuery = defineQuery(`
         ${portableTextInnerQuery}
       }
     },
-    ${pageBuilderQuery},
+    ${fullPortableTextQuery},
     ${metadataQuery},
     ${translationsQuery}
   }

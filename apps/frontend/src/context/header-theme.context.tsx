@@ -2,7 +2,7 @@
 
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 
-export type HeaderTheme = "dark" | "orange" | "light";
+export type HeaderTheme = "white" | "navy" | "yellow";
 
 type HeaderThemeContextValue = {
   theme: HeaderTheme;
@@ -10,12 +10,12 @@ type HeaderThemeContextValue = {
 };
 
 const HeaderThemeContext = createContext<HeaderThemeContextValue>({
-  theme: "light",
+  theme: "white",
   setTheme: () => {},
 });
 
 export const HeaderThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<HeaderTheme>("light");
+  const [theme, setTheme] = useState<HeaderTheme>("white");
 
   return (
     <HeaderThemeContext.Provider value={{ theme, setTheme }}>
@@ -28,14 +28,14 @@ export const useHeaderTheme = () => useContext(HeaderThemeContext);
 
 /**
  * Drop this component into any page to signal the header theme.
- * Resets to "light" on unmount (page navigation).
+ * Resets to "white" on unmount (page navigation).
  */
 export const SetHeaderTheme = ({ theme }: { theme: HeaderTheme }) => {
   const { setTheme } = useHeaderTheme();
 
   useEffect(() => {
     setTheme(theme);
-    return () => setTheme("light");
+    return () => setTheme("white");
   }, [theme, setTheme]);
 
   return null;

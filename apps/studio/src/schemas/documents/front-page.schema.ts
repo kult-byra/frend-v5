@@ -1,5 +1,6 @@
 import { Bookmark } from "lucide-react";
 import { defineField, defineType } from "sanity";
+import { heroField } from "@/schemas/generator-fields/hero.field";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
 import { stringField } from "@/schemas/generator-fields/string.field";
 import { defaultGroups } from "@/schemas/utils/default-groups.util";
@@ -33,10 +34,9 @@ export const frontPageSchema = defineType({
         },
       },
     }),
-    defineField({
+    heroField({
       name: "hero",
-      title: "Hero",
-      type: "hero",
+      types: ["mediaHero", "stickyHero"],
       group: "key",
     }),
     pageBuilderField({

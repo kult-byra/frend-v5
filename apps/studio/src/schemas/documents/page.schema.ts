@@ -1,6 +1,7 @@
 import { LayoutPanelTop } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
+import { heroField } from "@/schemas/generator-fields/hero.field";
 import { metadataField } from "@/schemas/generator-fields/metadata.field";
 import { pageBuilderField } from "@/schemas/generator-fields/page-builder.field";
 import { slugField } from "@/schemas/generator-fields/slug.field";
@@ -23,10 +24,9 @@ export const pageSchema = defineType({
       hidden: true,
     }),
     slugField({ isStatic: false }),
-    defineField({
+    heroField({
       name: "hero",
-      title: "Hero",
-      type: "hero",
+      types: ["articleHero", "mediaHero", "stickyHero"],
       group: "key",
     }),
     pageBuilderField({
@@ -37,21 +37,31 @@ export const pageSchema = defineType({
   preview: {
     select: {
       heroType: "hero.heroType",
-      textTitle: "hero.textHero.title",
       mediaTitle: "hero.mediaHero.title",
       articleTitle: "hero.articleHero.title",
+      stickyTitle: "hero.stickyHero.title",
       mediaImage: "hero.mediaHero.media.image.asset",
       articleImage: "hero.articleHero.coverImages.0.image.asset",
+      stickyImage: "hero.stickyHero.media.image.asset",
     },
-    prepare({ heroType, textTitle, mediaTitle, articleTitle, mediaImage, articleImage }) {
+    prepare({
+      heroType,
+      mediaTitle,
+      articleTitle,
+      stickyTitle,
+      mediaImage,
+      articleImage,
+      stickyImage,
+    }) {
       const titleMap: Record<string, string | undefined> = {
-        textHero: textTitle,
         mediaHero: mediaTitle,
         articleHero: articleTitle,
+        stickyHero: stickyTitle,
       };
       const mediaMap: Record<string, typeof mediaImage> = {
         mediaHero: mediaImage,
         articleHero: articleImage,
+        stickyHero: stickyImage,
       };
       return {
         title: titleMap[heroType] || "Untitled",

@@ -42,15 +42,17 @@ const serviceFieldsQuery = `
 `;
 
 // Helper for knowledge items (knowledgeArticle, caseStudy, seminar, eBook)
+// Note: caseStudy uses flat hero (articleHero type directly), others use nested heroField wrapper
 // @sanity-typegen-ignore
 const knowledgeFieldsQuery = `
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  "title": coalesce(hero.title, hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
   "slug": slug.current,
   "image": coalesce(
+    hero.media[0].image,
     hero.mediaHero.media.image,
-    hero.articleHero.coverImages[0].image
+    hero.articleHero.media[0].image
   ) { ${imageQuery} },
   "services": services[]-> {
     _id,
@@ -62,15 +64,16 @@ const knowledgeFieldsQuery = `
 `;
 
 // Helper for news & events items (newsArticle, event) - uses same teaser structure as knowledge
+// Note: event uses flat title/media, newsArticle uses flattened hero (articleHero type directly)
 // @sanity-typegen-ignore
 const newsEventFieldsQuery = `
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  "title": coalesce(title, hero.title),
   "slug": slug.current,
   "image": coalesce(
-    hero.mediaHero.media.image,
-    hero.articleHero.coverImages[0].image
+    media.image,
+    hero.media[0].image
   ) { ${imageQuery} },
   "services": services[]-> {
     _id,

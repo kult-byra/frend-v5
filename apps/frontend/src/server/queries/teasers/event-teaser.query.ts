@@ -7,9 +7,9 @@ import { imageQuery } from "../utils/image.query";
 export const eventTeaserQuery = defineQuery(`
   _id,
   _type,
-  "title": hero.articleHero.title,
+  title,
   "slug": slug.current,
-  "image": hero.articleHero.media.image {
+  "image": media.image {
     ${imageQuery}
   },
   timeAndDate {

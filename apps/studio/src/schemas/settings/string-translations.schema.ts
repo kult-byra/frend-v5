@@ -215,6 +215,38 @@ export const stringTranslationsSchema = defineType({
       type: "internationalizedArrayString",
     }),
 
+    // Event hero translations
+    defineField({
+      name: "eventAbout",
+      title: "About the event",
+      description: "Heading for the event description section",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "eventPracticalInfo",
+      title: "Practical info",
+      description: "Heading for event practical information section",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "eventTimeAndDate",
+      title: "Time and date",
+      description: "Label for event time and date",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "eventLocation",
+      title: "Location",
+      description: "Label for event location",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
+      name: "eventSignUp",
+      title: "Event sign up",
+      description: "Heading for the event sign up form box",
+      type: "internationalizedArrayString",
+    }),
+
     // Menu translations
     defineField({
       name: "latestNews",

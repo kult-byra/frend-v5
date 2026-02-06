@@ -17,8 +17,9 @@ const excerptQuery = defineQuery(`
 `);
 
 // @sanity-typegen-ignore
-const textHeroQuery = defineQuery(`
+const stickyHeroQuery = defineQuery(`
   title,
+  media { ${mediaQuery} },
   ${excerptQuery},
   links[] { ${linksQuery} }
 `);
@@ -26,8 +27,8 @@ const textHeroQuery = defineQuery(`
 // @sanity-typegen-ignore
 const eventWidgetDataQuery = defineQuery(`
   _id,
-  "title": hero.articleHero.title,
-  "excerpt": hero.articleHero.excerpt[] {
+  title,
+  "excerpt": description[] {
     _key,
     _type,
     _type == "block" => {
@@ -69,7 +70,7 @@ const widgetQuery = defineQuery(`
     title,
     formId
   },
-  "newsletterForm": *[_id == "newsletterSettings"][0] {
+  "newsletterForm": *[_type == "newsletterSettings"][0] {
     "form": select(
       $locale == "no" => newsletterSignup_no,
       $locale == "en" => newsletterSignup_en
@@ -93,44 +94,55 @@ const mediaHeroQuery = defineQuery(`
 // @sanity-typegen-ignore
 const articleHeroQuery = defineQuery(`
   title,
-  media { ${mediaQuery} },
-  author-> {
-    _id,
-    name,
-    "slug": slug.current,
-    "role": select(
-      $locale == "en" => role_en,
-      role_no
-    ),
-    "image": media.image { ${imageInnerQuery} }
+  subheading,
+  "media": media[] { _key, ${mediaQuery} },
+  byline {
+    author-> {
+      _id,
+      name,
+      "slug": slug.current,
+      "role": select(
+        $locale == "en" => role_en,
+        role_no
+      ),
+      "image": media.image { ${imageInnerQuery} }
+    },
+    date
   },
-  publishDate,
   ${excerptQuery}
 `);
 
+// Article hero query WITHOUT byline (for caseStudy, seminar, eBook)
+// @sanity-typegen-ignore
+const articleHeroQueryNoByline = defineQuery(`
+  title,
+  subheading,
+  "media": media[] { _key, ${mediaQuery} },
+  ${excerptQuery}
+`);
+
+// Direct articleHero query for documents using flat hero structure (not nested heroField)
+// WITH byline - use for newsArticle, knowledgeArticle
+// @sanity-typegen-ignore
+export const directArticleHeroQuery = articleHeroQuery;
+
+// Direct articleHero query WITHOUT byline - use for caseStudy, seminar, eBook
+// @sanity-typegen-ignore
+export const directArticleHeroQueryNoByline = articleHeroQueryNoByline;
+
+// Nested hero query for documents using heroField (page, frontPage)
 // @sanity-typegen-ignore
 export const heroQuery = defineQuery(`
   heroType,
-  textHero { ${textHeroQuery} },
   mediaHero { ${mediaHeroQuery} },
-  articleHero { ${articleHeroQuery} }
+  articleHero { ${articleHeroQuery} },
+  stickyHero { ${stickyHeroQuery} }
 `);
 
-// For typegen only
+// For typegen only - uses "page" which has all hero types available
 const _heroTypegenQuery = defineQuery(`
-  *[_type == "frontPage"][0].hero {
+  *[_type == "page"][0].hero {
     heroType,
-    textHero {
-      title,
-      excerpt[] {
-        _key,
-        _type,
-        _type == "block" => {
-          ${portableTextInnerQuery}
-        }
-      },
-      links[] { ${linksQuery} }
-    },
     mediaHero {
       title,
       media { ${mediaQuery} },
@@ -158,8 +170,8 @@ const _heroTypegenQuery = defineQuery(`
         "eventReference": select(
           eventSelectionMode == "manual" => eventReference-> {
             _id,
-            "title": hero.articleHero.title,
-            "excerpt": hero.articleHero.excerpt[] {
+            title,
+            "excerpt": description[] {
               _key,
               _type,
               _type == "block" => {
@@ -178,8 +190,8 @@ const _heroTypegenQuery = defineQuery(`
             && timeAndDate.startTime >= now()
           ] | order(timeAndDate.startTime asc)[0] {
             _id,
-            "title": hero.articleHero.title,
-            "excerpt": hero.articleHero.excerpt[] {
+            title,
+            "excerpt": description[] {
               _key,
               _type,
               _type == "block" => {
@@ -199,7 +211,7 @@ const _heroTypegenQuery = defineQuery(`
           title,
           formId
         },
-        "newsletterForm": *[_id == "newsletterSettings"][0] {
+        "newsletterForm": *[_type == "newsletterSettings"][0] {
           "form": select(
             $locale == "no" => newsletterSignup_no,
             $locale == "en" => newsletterSignup_en
@@ -213,15 +225,18 @@ const _heroTypegenQuery = defineQuery(`
     },
     articleHero {
       title,
-      media { ${mediaQuery} },
-      author-> {
-        _id,
-        name,
-        "slug": slug.current,
-        "role": role_no,
-        "image": media.image { ${imageInnerQuery} }
+      subheading,
+      "media": media[] { _key, ${mediaQuery} },
+      byline {
+        author-> {
+          _id,
+          name,
+          "slug": slug.current,
+          "role": role_no,
+          "image": media.image { ${imageInnerQuery} }
+        },
+        date
       },
-      publishDate,
       excerpt[] {
         _key,
         _type,
@@ -229,14 +244,26 @@ const _heroTypegenQuery = defineQuery(`
           ${portableTextInnerQuery}
         }
       }
+    },
+    stickyHero {
+      title,
+      media { ${mediaQuery} },
+      excerpt[] {
+        _key,
+        _type,
+        _type == "block" => {
+          ${portableTextInnerQuery}
+        }
+      },
+      links[] { ${linksQuery} }
     }
   }
 `);
 
 export type HeroData = NonNullable<HeroTypegenQueryResult>;
-export type TextHeroData = NonNullable<HeroData["textHero"]>;
 export type MediaHeroData = NonNullable<HeroData["mediaHero"]>;
 export type ArticleHeroData = NonNullable<HeroData["articleHero"]>;
+export type StickyHeroData = NonNullable<HeroData["stickyHero"]>;
 export type WidgetData = NonNullable<MediaHeroData["widget"]>;
 
 // Backward compatibility aliases (deprecated)

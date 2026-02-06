@@ -1,9 +1,13 @@
 import { defineQuery } from "next-sanity";
 import { portableTextInnerQuery } from "../portable-text/portable-text-inner.query";
+import { imageInnerQuery } from "../utils/image.query";
 
 // Field-level i18n: selects locale-specific fields and aliases them
 export const siteSettingsQuery = defineQuery(`
   *[_type == "siteSettings"][0] {
+    "videoPlaceholder": videoPlaceholder {
+      ${imageInnerQuery}
+    },
     "privacyPolicyPage": select(
       $locale == "no" => privacyPolicyPage_no,
       $locale == "en" => privacyPolicyPage_en

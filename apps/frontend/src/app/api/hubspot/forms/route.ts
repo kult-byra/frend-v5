@@ -8,6 +8,7 @@ const hubspotFieldSchema = z.object({
   label: z.string().optional(),
   fieldType: z.string(),
   required: z.boolean(),
+  hidden: z.boolean().optional(),
 });
 
 const hubspotFieldGroupSchema = z.object({

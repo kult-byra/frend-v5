@@ -1,26 +1,38 @@
 "use client";
 
-import { Autocomplete, Button, Card, Flex, Spinner, Stack, Text } from "@sanity/ui";
-import { AlertCircle, CheckCircle2, ExternalLink, RefreshCw, Search } from "lucide-react";
+import { Autocomplete, Badge, Button, Card, Flex, Spinner, Stack, Text } from "@sanity/ui";
+import {
+  AlertCircle,
+  CheckCircle2,
+  ExternalLink,
+  Eye,
+  EyeOff,
+  RefreshCw,
+  Search,
+} from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { type StringInputProps, set, unset } from "sanity";
 import { env } from "@/env";
 import { HubspotSecrets, useHubspotSecrets } from "@/tools/hubspot/hubspot-secrets.component";
+
+type HubspotFormField = {
+  name: string;
+  label: string;
+  fieldType: string;
+  required: boolean;
+  hidden?: boolean;
+};
 
 type HubspotForm = {
   id: string;
   name: string;
   createdAt: string;
   updatedAt: string;
+  archived?: boolean;
   fieldGroups?: Array<{
     groupType: string;
     richTextType: string;
-    fields: Array<{
-      name: string;
-      label: string;
-      fieldType: string;
-      required: boolean;
-    }>;
+    fields: HubspotFormField[];
   }>;
 };
 
@@ -62,7 +74,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
       const data: HubspotFormsApiResponse = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || `Feil ved henting av skjemaer (${response.status})`);
+        throw new Error(data.error || `Error fetching forms (${response.status})`);
       }
 
       setForms(data.results || []);
@@ -74,7 +86,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
         setSelectedForm(form || null);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Ukjent feil");
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
@@ -124,7 +136,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
             {form.name}
           </Text>
           <Text size={0} muted>
-            {fieldCount} {fieldCount === 1 ? "felt" : "felter"} • ID: {form.id}
+            {fieldCount} {fieldCount === 1 ? "field" : "fields"} • ID: {form.id}
           </Text>
         </Stack>
       </Card>
@@ -161,15 +173,15 @@ export const HubspotFormInput = (props: StringInputProps) => {
             <AlertCircle size={20} />
             <Stack space={2}>
               <Text size={1} weight="semibold">
-                HubSpot er ikke konfigurert
+                HubSpot is not configured
               </Text>
               <Text size={1} muted>
-                Du må legge inn HubSpot API-hemmelighet før du kan velge skjema.
+                You must configure the HubSpot API secret before selecting a form.
               </Text>
             </Stack>
           </Flex>
         </Card>
-        <Button text="Konfigurer HubSpot" tone="primary" onClick={() => setShowSettings(true)} />
+        <Button text="Configure HubSpot" tone="primary" onClick={() => setShowSettings(true)} />
         {showSettings && <HubspotSecrets onClose={() => setShowSettings(false)} />}
       </Stack>
     );
@@ -182,7 +194,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
         <Flex align="center" gap={3}>
           <Spinner muted />
           <Text size={1} muted>
-            Henter skjemaer fra HubSpot...
+            Fetching forms from HubSpot...
           </Text>
         </Flex>
       </Card>
@@ -198,7 +210,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
             <AlertCircle size={20} />
             <Stack space={2}>
               <Text size={1} weight="semibold">
-                Feil ved henting av skjemaer
+                Error fetching forms
               </Text>
               <Text size={1} muted>
                 {error}
@@ -207,8 +219,8 @@ export const HubspotFormInput = (props: StringInputProps) => {
           </Flex>
         </Card>
         <Flex gap={2}>
-          <Button text="Prøv igjen" icon={RefreshCw} tone="primary" onClick={fetchForms} />
-          <Button text="Endre innstillinger" mode="ghost" onClick={() => setShowSettings(true)} />
+          <Button text="Try again" icon={RefreshCw} tone="primary" onClick={fetchForms} />
+          <Button text="Change settings" mode="ghost" onClick={() => setShowSettings(true)} />
         </Flex>
         {showSettings && <HubspotSecrets onClose={() => setShowSettings(false)} />}
       </Stack>
@@ -227,7 +239,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
             filterOption={filterOption}
             renderOption={renderOption}
             renderValue={renderValue}
-            placeholder="Søk etter skjema..."
+            placeholder="Search for form..."
             icon={Search}
             openButton
             loading={loading}
@@ -236,7 +248,7 @@ export const HubspotFormInput = (props: StringInputProps) => {
         <Button
           icon={RefreshCw}
           mode="ghost"
-          title="Oppdater listen"
+          title="Refresh list"
           onClick={fetchForms}
           disabled={loading}
         />
@@ -244,77 +256,127 @@ export const HubspotFormInput = (props: StringInputProps) => {
 
       {/* Form preview */}
       {selectedForm && (
-        <Card padding={4} radius={2} tone="positive" border>
-          <Stack space={3}>
-            <Flex align="center" justify="space-between">
-              <Flex align="center" gap={2}>
-                <CheckCircle2 size={16} />
-                <Text size={1} weight="semibold">
-                  {selectedForm.name}
-                </Text>
-              </Flex>
-              <Button
-                text="Fjern"
-                mode="ghost"
-                tone="critical"
-                fontSize={1}
-                padding={2}
-                onClick={handleClear}
-              />
-            </Flex>
-
-            {selectedForm.fieldGroups && selectedForm.fieldGroups.length > 0 && (
-              <>
-                <Text size={1} muted>
-                  Felter i skjemaet:
-                </Text>
-
-                <Stack space={2}>
-                  {selectedForm.fieldGroups.flatMap((group) =>
-                    group.fields?.map((field) => (
-                      <Flex key={field.name} align="center" gap={2}>
-                        <Text size={1}>
-                          • {field.label || field.name}
-                          {field.required && (
-                            <Text as="span" size={1} style={{ color: "red" }}>
-                              {" "}
-                              *
-                            </Text>
-                          )}
-                        </Text>
-                        <Text size={0} muted>
-                          ({field.fieldType})
-                        </Text>
-                      </Flex>
-                    )),
-                  )}
-                </Stack>
-              </>
-            )}
-
-            <Flex gap={2} marginTop={2}>
-              <Text size={0} muted>
-                ID: {selectedForm.id}
-              </Text>
-              {portalId && (
-                <a
-                  href={`https://app.hubspot.com/forms/${portalId}/editor/${selectedForm.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ display: "flex", alignItems: "center", gap: 4 }}
-                >
-                  <Text size={0} style={{ color: "#0070f3" }}>
-                    Åpne i HubSpot
-                  </Text>
-                  <ExternalLink size={12} style={{ color: "#0070f3" }} />
-                </a>
-              )}
-            </Flex>
-          </Stack>
-        </Card>
+        <FormPreview form={selectedForm} portalId={portalId} onClear={handleClear} />
       )}
 
       {showSettings && <HubspotSecrets onClose={() => setShowSettings(false)} />}
     </Stack>
   );
 };
+
+type FormPreviewProps = {
+  form: HubspotForm;
+  portalId: string | null;
+  onClear: () => void;
+};
+
+function FormPreview({ form, portalId, onClear }: FormPreviewProps) {
+  const allFields = form.fieldGroups?.flatMap((group) => group.fields || []) || [];
+  const visibleFields = allFields.filter((f) => !f.hidden);
+  const hiddenFields = allFields.filter((f) => f.hidden);
+
+  return (
+    <Card padding={4} radius={2} tone="positive" border>
+      <Stack space={4}>
+        {/* Header */}
+        <Flex align="center" justify="space-between">
+          <Flex align="center" gap={2}>
+            <CheckCircle2 size={16} />
+            <Text size={1} weight="semibold">
+              {form.name}
+            </Text>
+            {form.archived && (
+              <Badge tone="caution" fontSize={0}>
+                Archived
+              </Badge>
+            )}
+          </Flex>
+          <Button
+            text="Remove"
+            mode="ghost"
+            tone="critical"
+            fontSize={1}
+            padding={2}
+            onClick={onClear}
+          />
+        </Flex>
+
+        {/* Visible fields */}
+        {visibleFields.length > 0 && (
+          <Stack space={2}>
+            <Flex align="center" gap={2}>
+              <Eye size={14} style={{ opacity: 0.6 }} />
+              <Text size={1} muted>
+                Visible fields ({visibleFields.length})
+              </Text>
+            </Flex>
+            <Card padding={3} radius={2} tone="transparent">
+              <Stack space={2}>
+                {visibleFields.map((field) => (
+                  <FieldRow key={field.name} field={field} />
+                ))}
+              </Stack>
+            </Card>
+          </Stack>
+        )}
+
+        {/* Hidden fields */}
+        {hiddenFields.length > 0 && (
+          <Stack space={2}>
+            <Flex align="center" gap={2}>
+              <EyeOff size={14} style={{ opacity: 0.6 }} />
+              <Text size={1} muted>
+                Hidden fields ({hiddenFields.length})
+              </Text>
+            </Flex>
+            <Card padding={3} radius={2} tone="transparent" style={{ opacity: 0.7 }}>
+              <Stack space={2}>
+                {hiddenFields.map((field) => (
+                  <FieldRow key={field.name} field={field} />
+                ))}
+              </Stack>
+            </Card>
+          </Stack>
+        )}
+
+        {/* Footer with ID and link */}
+        <Flex
+          gap={3}
+          align="center"
+          style={{ borderTop: "1px solid var(--card-border-color)", paddingTop: 12 }}
+        >
+          <Text size={0} muted>
+            ID: {form.id}
+          </Text>
+          {portalId && (
+            <a
+              href={`https://app.hubspot.com/forms/${portalId}/editor/${form.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "flex", alignItems: "center", gap: 4 }}
+            >
+              <Text size={0} style={{ color: "#0070f3" }}>
+                Open in HubSpot
+              </Text>
+              <ExternalLink size={12} style={{ color: "#0070f3" }} />
+            </a>
+          )}
+        </Flex>
+      </Stack>
+    </Card>
+  );
+}
+
+function FieldRow({ field }: { field: HubspotFormField }) {
+  return (
+    <Flex align="center" gap={2}>
+      <Text size={1}>
+        • {field.label || field.name}
+        {field.required && <span style={{ color: "#f03e3e", marginLeft: 2 }}>*</span>}
+      </Text>
+      <Text size={0} muted>
+        ({field.fieldType})
+      </Text>
+    </Flex>
+  );
+}

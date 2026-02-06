@@ -1,103 +1,80 @@
+import { ArticleHero, type ArticleHeroColorScheme } from "@/components/hero/article-hero.component";
+import { Container } from "@/components/layout/container.component";
 import { ContentLayout } from "@/components/layout/content-layout.component";
-import { PageBuilder } from "@/components/page-builder/page-builder.component";
-import { Img } from "@/components/utils/img.component";
-import { Video } from "@/components/utils/video.component";
+import { PortableText } from "@/components/portable-text/portable-text.component";
+import { ScrollFadeBackground } from "@/components/utils/scroll-fade-background.component";
 import { type HeaderTheme, SetHeaderTheme } from "@/context/header-theme.context";
 import type { CaseStudyQueryResult } from "@/sanity-types";
-import { cn } from "@/utils/cn.util";
 import { Summary } from "./summary.component";
-
-const aspectRatioClasses: Record<string, string> = {
-  "3:2": "aspect-3/2",
-  "3:4": "aspect-3/4",
-  "1:1": "aspect-square",
-};
 
 type Props = NonNullable<CaseStudyQueryResult>;
 
-const colorStyles = {
-  navy: {
-    bg: "bg-container-brand-1",
-    title: "text-text-white-primary",
-    subtitle: "text-text-white-secondary",
-  },
-  orange: {
-    bg: "bg-container-brand-2",
-    title: "text-text-white-primary",
-    subtitle: "text-text-white-secondary",
-  },
-  white: {
-    bg: "bg-container-primary",
-    title: "text-text-primary",
-    subtitle: "text-text-secondary",
-  },
-} as const;
-
-const headerThemeMap: Record<string, HeaderTheme> = {
-  navy: "dark",
-  orange: "orange",
-  white: "light",
+const colorToBgClass: Record<string, string> = {
+  navy: "bg-container-brand-1",
+  yellow: "bg-container-overlay-secondary-3",
+  white: "bg-container-primary",
 };
 
-export const CaseStudy = ({ hero, client, color, summary, pageBuilder }: Props) => {
-  const scheme = colorStyles[color ?? "white"];
-  const isColoredHero = color === "navy" || color === "orange";
+const headerThemeMap: Record<string, HeaderTheme> = {
+  navy: "navy",
+  yellow: "yellow",
+  white: "white",
+};
 
-  // Extract data from hero
-  const heroData = hero?.mediaHero ?? hero?.textHero;
-  const title = heroData?.title ?? null;
-  const media = hero?.mediaHero?.media ?? null;
+export const CaseStudy = ({ hero, client, color, summary, content }: Props) => {
+  const colorKey = (color && color in colorToBgClass ? color : "white") as ArticleHeroColorScheme;
+  const bgClass = colorToBgClass[colorKey] ?? "bg-container-primary";
+  const isColoredHero = colorKey === "navy" || colorKey === "yellow";
 
-  return (
+  // Extract title from hero
+  const title = hero?.title ?? "";
+
+  // Get media array from hero, filter to only image/video types (exclude illustrations)
+  const media =
+    hero?.media?.filter((m) => m.mediaType === "image" || m.mediaType === "video") ?? null;
+
+  const pageContent = (
     <>
-      <SetHeaderTheme theme={headerThemeMap[color ?? "white"] ?? "light"} />
+      <SetHeaderTheme theme={headerThemeMap[colorKey] ?? "white"} />
 
-      {/* Hero - full-bleed background */}
-      <section
-        className={cn(
-          scheme.bg,
-          "ml-[calc(-50vw+50%)] w-screen",
-          isColoredHero ? "-mt-14 pt-[calc(var(--spacing-xl)+3.5rem)] pb-xl mb-xl" : "py-xl",
-        )}
-      >
-        <div className="mx-auto max-w-[1920px] px-(--margin)">
-          <ContentLayout>
-            <div className="flex max-w-[720px] flex-col gap-xs lg:pr-md">
-              {client?.name && (
-                <p className={cn(scheme.subtitle, "text-body-large")}>{client.name}</p>
-              )}
-              {title && <h1 className={cn(scheme.title, "text-headline-1")}>{title}</h1>}
-            </div>
-          </ContentLayout>
-
-          {/* Hero media */}
-          {media && (media.mediaType === "image" || media.mediaType === "video") && (
-            <div
-              className={cn(
-                "mt-md w-full overflow-hidden rounded-3xs",
-                aspectRatioClasses[media.aspectRatio ?? "3:2"] ?? "aspect-3/2",
-              )}
-            >
-              {media.mediaType === "image" && media.image && (
-                <Img {...media.image} sizes={{ md: "full" }} cover className="size-full" />
-              )}
-              {media.mediaType === "video" && media.videoUrl && (
-                <Video url={media.videoUrl} priority />
-              )}
-            </div>
-          )}
-        </div>
-      </section>
+      <ArticleHero
+        title={title}
+        label={client?.name ?? undefined}
+        media={media}
+        excerpt={hero?.excerpt}
+        colorScheme={colorKey}
+        transparentBg={isColoredHero}
+        extendBehindHeader={isColoredHero}
+      />
 
       {/* Summary */}
-      <section className="bg-container-primary pb-xl">
-        <div className="mx-auto max-w-[1920px] px-(--margin)">
-          <ContentLayout>
-            <Summary summary={summary} />
-            {pageBuilder && <PageBuilder pageBuilder={pageBuilder} />}
-          </ContentLayout>
-        </div>
-      </section>
+      {summary && (
+        <section className="pb-xl">
+          <div className="mx-auto max-w-[1920px] px-(--margin)">
+            <ContentLayout>
+              <Summary summary={summary} />
+            </ContentLayout>
+          </div>
+        </section>
+      )}
+
+      {/* Content */}
+      {content && content.length > 0 && (
+        <section className="bg-container-primary pb-xl">
+          <Container>
+            <ContentLayout>
+              <PortableText content={content} />
+            </ContentLayout>
+          </Container>
+        </section>
+      )}
     </>
   );
+
+  // For colored heroes, wrap with scroll-fading background
+  if (isColoredHero) {
+    return <ScrollFadeBackground bgClass={bgClass}>{pageContent}</ScrollFadeBackground>;
+  }
+
+  return pageContent;
 };

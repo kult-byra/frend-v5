@@ -9,7 +9,7 @@ export const JobOpeningsBlock = (props: JobOpeningsBlockProps) => {
   const { heading, description } = props;
 
   return (
-    <BlockContainer>
+    <BlockContainer paddingX={false}>
       {heading && <H2>{heading}</H2>}
       {description && <PortableText content={description} />}
 

@@ -38,17 +38,15 @@ export const knowledgeHubSettingsQuery = defineQuery(`
 `);
 
 // Shared knowledge teaser fields for all content types
+// All knowledge documents use articleHeroField directly (flat hero structure)
 // @sanity-typegen-ignore
 const knowledgeTeaserFields = `
   _id,
   _type,
-  "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+  "title": hero.title,
   "slug": slug.current,
-  "publishDate": coalesce(hero.articleHero.publishDate, _createdAt),
-  "image": coalesce(
-    hero.mediaHero.media.image,
-    hero.articleHero.coverImages[0].image
-  ) {
+  "publishDate": coalesce(hero.byline.date, _createdAt),
+  "image": hero.media[0].image {
     ${imageQuery}
   },
   "services": services[]-> {

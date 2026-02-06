@@ -1,15 +1,40 @@
-import { Container } from "@/components/layout/container.component";
 import { PortableText } from "@/components/portable-text/portable-text.component";
+import { StickyBottomContainer } from "@/components/sticky-bottom-container.component";
+import type { Locale } from "@/i18n/routing";
 import type { EventQueryResult } from "@/sanity-types";
 import { cn } from "@/utils/cn.util";
 import { EventHero } from "./event-hero.component";
 import { EventInfoBox } from "./event-info-box.component";
 
-type Props = NonNullable<EventQueryResult>;
+type EventTranslations = {
+  eventLabel: string;
+  aboutEvent: string;
+  practicalInfo: string;
+  timeAndDate: string;
+  location: string;
+  eventSignUp: string;
+};
+
+type Props = NonNullable<EventQueryResult> & {
+  locale: Locale;
+  translations: EventTranslations;
+};
 
 export function Event(props: Props) {
-  const { layout, color, hero, timeAndDate, location, price, description, content, signupForm } =
-    props;
+  const {
+    layout,
+    color,
+    title,
+    media,
+    timeAndDate,
+    location,
+    price,
+    description,
+    content,
+    signupForm,
+    locale,
+    translations,
+  } = props;
 
   const isSubmersive = layout === "submersive";
   const bgColor =
@@ -22,48 +47,44 @@ export function Event(props: Props) {
       {/* Hero */}
       <EventHero
         layout={layout}
-        hero={hero}
+        title={title}
+        media={media}
         timeAndDate={timeAndDate}
         location={location}
         price={price}
         description={description}
+        signupForm={signupForm}
+        locale={locale}
+        translations={translations}
       />
 
       {/* Main content */}
-      <section className={cn("bg-container-primary", isSubmersive && bgColor)}>
-        <Container className="pb-xl">
-          {/* Mobile: Stacked */}
-          <div className="flex flex-col gap-xl lg:hidden">
-            {content && (
-              <PortableText
-                content={content}
-                className="text-body text-text-primary"
-                options={{ topHLevel: 2 }}
+      <StickyBottomContainer
+        stickyContent={<EventInfoBox signupForm={signupForm} title={translations.eventSignUp} />}
+        position="center"
+        className={cn("bg-container-primary", isSubmersive && bgColor)}
+      >
+        <div className="mx-auto max-w-[1920px] px-(--margin) pb-2xl pt-md">
+          {/* Mobile: Show info box inline (only for submersive layout - default has it in hero) */}
+          {isSubmersive && (
+            <div className="mb-xl lg:hidden">
+              <EventInfoBox
+                signupForm={signupForm}
+                title={translations.eventSignUp}
+                className="w-full"
               />
-            )}
-            <EventInfoBox signupForm={signupForm} className="w-full" />
-          </div>
-
-          {/* Desktop: Sidebar overlays content, doesn't affect layout */}
-          <div className="relative hidden lg:block">
-            {/* Sidebar - absolutely positioned, overlays left side */}
-            <div className="pointer-events-none absolute left-0 top-0 z-10 w-[420px]">
-              <div className="pointer-events-auto sticky top-xl">
-                <EventInfoBox signupForm={signupForm} className="w-full" />
-              </div>
             </div>
+          )}
 
-            {/* Content - full width, text right-aligned, blocks can span full width */}
-            {content && (
-              <PortableText
-                content={content}
-                className="text-body text-text-primary"
-                options={{ topHLevel: 2, layoutMode: "pageBuilder" }}
-              />
-            )}
-          </div>
-        </Container>
-      </section>
+          {content && (
+            <PortableText
+              content={content}
+              className="text-body text-text-primary"
+              options={{ topHLevel: 2, layoutMode: "pageBuilder" }}
+            />
+          )}
+        </div>
+      </StickyBottomContainer>
     </div>
   );
 }

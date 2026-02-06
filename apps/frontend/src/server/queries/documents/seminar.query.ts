@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { fullPortableTextQuery } from "../portable-text/portable-text.query";
-import { heroQuery } from "../utils/hero.query";
+import { directArticleHeroQuery, heroQuery } from "../utils/hero.query";
 import { metadataQuery } from "../utils/metadata.query";
 import { translationsQuery } from "../utils/translations.query";
 
@@ -43,16 +43,16 @@ export const seminarListQuery = defineQuery(`
   *[_type == "seminar" && language == $locale] | order(_createdAt desc) {
     _id,
     _type,
-    "title": coalesce(hero.textHero.title, hero.mediaHero.title, hero.articleHero.title),
+    "title": hero.title,
     "slug": slug.current,
-    "excerpt": hero.textHero.excerpt
+    "excerpt": hero.excerpt
   }
 `);
 
 export const seminarQuery = defineQuery(`
   *[_type == "seminar" && slug.current == $slug && language == $locale][0] {
     _id,
-    hero { ${heroQuery} },
+    hero { ${directArticleHeroQuery} },
     "slug": slug.current,
     "client": client->{
       _id,

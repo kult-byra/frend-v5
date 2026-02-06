@@ -27,7 +27,7 @@ export function Person({
 
   return (
     <>
-      <ArticleHero title={name} topTitle={role ?? undefined} subHeading={excerpt ?? undefined} />
+      <ArticleHero title={name} label={role ?? undefined} subheading={excerpt ?? undefined} />
 
       <section className="bg-container-primary">
         <Container className="pb-xl">

@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Icon } from "@/components/icon.component";
-import { BlockContainer } from "@/components/layout/block-container.component";
 import type { ImgProps } from "@/components/utils/img.component";
 import { type AspectRatio, Media } from "@/components/utils/media.component";
+import type { VideoDisplayMode } from "@/components/utils/video.component";
 import { cn } from "@/utils/cn.util";
 import type { PageBuilderBlockProps } from "../page-builder/page-builder.types";
 
-type ImageGalleryBlockProps = PageBuilderBlockProps<"imageGallery.block">;
+type MediaGalleryBlockProps = PageBuilderBlockProps<"mediaGallery.block">;
 
 type GalleryTypeHalf = "single" | "grid" | "carousel";
 type GalleryTypeFull = "mediaFull" | "dynamic" | "doubleStickyFull" | "carouselFull";
@@ -19,17 +19,17 @@ type GalleryOptions = {
   galleryTypeFull?: GalleryTypeFull;
 };
 
-// Use the generated type directly - imageFormat is the field name in current schema
-type MediaItem = NonNullable<ImageGalleryBlockProps["images"]>[number];
+// Use the generated type directly
+type MediaItem = NonNullable<MediaGalleryBlockProps["media"]>[number];
 
-export const ImageGalleryBlock = (props: ImageGalleryBlockProps) => {
-  const { images } = props;
+export const MediaGalleryBlock = (props: MediaGalleryBlockProps) => {
+  const { media } = props;
   // Options and text fields come from query but types may not be generated yet
   const options = (props as unknown as { options?: GalleryOptions }).options;
   const title = (props as unknown as { title?: string }).title;
   const intro = (props as unknown as { intro?: string }).intro;
 
-  if (!images || images.length === 0) return null;
+  if (!media || media.length === 0) return null;
 
   const isFullWidth = options?.width === "fullWidth";
   const galleryTypeHalf = options?.galleryTypeHalf || "grid";
@@ -39,26 +39,26 @@ export const ImageGalleryBlock = (props: ImageGalleryBlockProps) => {
   if (isFullWidth) {
     switch (galleryTypeFull) {
       case "mediaFull":
-        return <MediaFullGallery images={images} />;
+        return <MediaFullGallery media={media} />;
       case "dynamic":
-        return <DynamicFullGallery images={images} />;
+        return <DynamicFullGallery media={media} />;
       case "doubleStickyFull":
-        return <DoubleStickyFullGallery images={images} />;
+        return <DoubleStickyFullGallery media={media} />;
       case "carouselFull":
-        return <CarouselFullGallery images={images} />;
+        return <CarouselFullGallery media={media} />;
       default:
-        return <MediaFullGallery images={images} />;
+        return <MediaFullGallery media={media} />;
     }
   }
 
   // Half width gallery types
   switch (galleryTypeHalf) {
     case "single":
-      return <SingleMediaGallery images={images} />;
+      return <SingleMediaGallery media={media} />;
     case "carousel":
-      return <CarouselGallery images={images} />;
+      return <CarouselGallery media={media} />;
     default:
-      return <GridGallery images={images} title={title} intro={intro} />;
+      return <GridGallery media={media} title={title} intro={intro} />;
   }
 };
 
@@ -66,27 +66,27 @@ export const ImageGalleryBlock = (props: ImageGalleryBlockProps) => {
 // Single Media Gallery (half width)
 // =============================================================================
 
-const SingleMediaGallery = ({ images }: { images: MediaItem[] }) => {
-  const item = images[0];
+const SingleMediaGallery = ({ media }: { media: MediaItem[] }) => {
+  const item = media[0];
   if (!item) return null;
 
   // Caption may come from asset description or a dedicated caption field
   const caption = item.image?.asset?.description;
 
   return (
-    <BlockContainer>
-      <div className="flex flex-col gap-2xs">
-        <Media
-          mediaType={item.mediaType as "image" | "video"}
-          image={item.image as ImgProps | null}
-          videoUrl={item.videoUrl}
-          aspectRatio={item.aspectRatio as AspectRatio}
-          sizes={{ md: "half" }}
-          className="rounded"
-        />
-        {caption && <p className="text-xs leading-[145%] text-text-secondary">{caption}</p>}
-      </div>
-    </BlockContainer>
+    <div className="my-xl flex flex-col gap-2xs">
+      <Media
+        mediaType={item.mediaType as "image" | "video"}
+        image={item.image as ImgProps | null}
+        videoUrl={item.videoUrl}
+        videoDisplayMode={item.videoDisplayMode as VideoDisplayMode}
+        videoPlaceholder={item.videoPlaceholder}
+        aspectRatio={item.aspectRatio as AspectRatio}
+        sizes={{ md: "half" }}
+        className="rounded"
+      />
+      {caption && <p className="text-xs leading-[145%] text-text-secondary">{caption}</p>}
+    </div>
   );
 };
 
@@ -94,14 +94,14 @@ const SingleMediaGallery = ({ images }: { images: MediaItem[] }) => {
 // Carousel Gallery (half width)
 // =============================================================================
 
-const CarouselGallery = ({ images }: { images: MediaItem[] }) => {
+const CarouselGallery = ({ media }: { media: MediaItem[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  if (images.length === 0) return null;
+  if (media.length === 0) return null;
 
-  const currentItem = images[currentIndex];
-  const hasMultipleItems = images.length > 1;
+  const currentItem = media[currentIndex];
+  const hasMultipleItems = media.length > 1;
 
   const changeSlide = (newIndex: number) => {
     if (isAnimating) return;
@@ -113,12 +113,12 @@ const CarouselGallery = ({ images }: { images: MediaItem[] }) => {
   };
 
   const goToPrevious = () => {
-    const newIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+    const newIndex = currentIndex === 0 ? media.length - 1 : currentIndex - 1;
     changeSlide(newIndex);
   };
 
   const goToNext = () => {
-    const newIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
+    const newIndex = currentIndex === media.length - 1 ? 0 : currentIndex + 1;
     changeSlide(newIndex);
   };
 
@@ -131,68 +131,70 @@ const CarouselGallery = ({ images }: { images: MediaItem[] }) => {
   if (!currentItem) return null;
 
   return (
-    <BlockContainer>
-      <div className="relative">
-        {/* Clickable media area - click to go to next */}
-        {hasMultipleItems ? (
-          <button
-            type="button"
-            onClick={handleMediaClick}
-            className="block w-full text-left"
-            aria-label="Next image"
+    <div className="relative my-xl">
+      {/* Clickable media area - click to go to next */}
+      {hasMultipleItems ? (
+        <button
+          type="button"
+          onClick={handleMediaClick}
+          className="block w-full text-left"
+          aria-label="Next item"
+        >
+          <div
+            className={cn(
+              "transition-opacity duration-200",
+              isAnimating ? "opacity-0" : "opacity-100",
+            )}
           >
-            <div
-              className={cn(
-                "transition-opacity duration-200",
-                isAnimating ? "opacity-0" : "opacity-100",
-              )}
-            >
-              <Media
-                mediaType={currentItem.mediaType as "image" | "video"}
-                image={currentItem.image as ImgProps | null}
-                videoUrl={currentItem.videoUrl}
-                aspectRatio={currentItem.aspectRatio as AspectRatio}
-                sizes={{ md: "half" }}
-                className="rounded"
-              />
-            </div>
-          </button>
-        ) : (
-          <Media
-            mediaType={currentItem.mediaType as "image" | "video"}
-            image={currentItem.image as ImgProps | null}
-            videoUrl={currentItem.videoUrl}
-            aspectRatio={currentItem.aspectRatio as AspectRatio}
-            sizes={{ md: "half" }}
-            className="rounded"
-          />
-        )}
-
-        {/* Navigation arrows */}
-        {hasMultipleItems && (
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex justify-end p-2xs lg:p-xs">
-            <div className="pointer-events-auto flex gap-2xs">
-              <button
-                type="button"
-                onClick={goToPrevious}
-                className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
-                aria-label="Previous image"
-              >
-                <Icon name="lg-chevron-left" className="size-2" />
-              </button>
-              <button
-                type="button"
-                onClick={goToNext}
-                className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
-                aria-label="Next image"
-              >
-                <Icon name="lg-chevron-right" className="size-2" />
-              </button>
-            </div>
+            <Media
+              mediaType={currentItem.mediaType as "image" | "video"}
+              image={currentItem.image as ImgProps | null}
+              videoUrl={currentItem.videoUrl}
+              videoDisplayMode={currentItem.videoDisplayMode as VideoDisplayMode}
+              videoPlaceholder={currentItem.videoPlaceholder}
+              aspectRatio={currentItem.aspectRatio as AspectRatio}
+              sizes={{ md: "half" }}
+              className="rounded"
+            />
           </div>
-        )}
-      </div>
-    </BlockContainer>
+        </button>
+      ) : (
+        <Media
+          mediaType={currentItem.mediaType as "image" | "video"}
+          image={currentItem.image as ImgProps | null}
+          videoUrl={currentItem.videoUrl}
+          videoDisplayMode={currentItem.videoDisplayMode as VideoDisplayMode}
+          videoPlaceholder={currentItem.videoPlaceholder}
+          aspectRatio={currentItem.aspectRatio as AspectRatio}
+          sizes={{ md: "half" }}
+          className="rounded"
+        />
+      )}
+
+      {/* Navigation arrows */}
+      {hasMultipleItems && (
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex justify-end p-2xs lg:p-xs">
+          <div className="pointer-events-auto flex gap-2xs">
+            <button
+              type="button"
+              onClick={goToPrevious}
+              className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
+              aria-label="Previous item"
+            >
+              <Icon name="lg-chevron-left" className="size-2" />
+            </button>
+            <button
+              type="button"
+              onClick={goToNext}
+              className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
+              aria-label="Next item"
+            >
+              <Icon name="lg-chevron-right" className="size-2" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -200,23 +202,23 @@ const CarouselGallery = ({ images }: { images: MediaItem[] }) => {
 // Media Full Gallery (full width)
 // =============================================================================
 
-const MediaFullGallery = ({ images }: { images: MediaItem[] }) => {
-  // Limit to 3 images max
-  const displayImages = images.slice(0, 3);
+const MediaFullGallery = ({ media }: { media: MediaItem[] }) => {
+  // Limit to 3 items max
+  const displayMedia = media.slice(0, 3);
 
-  // Determine grid columns based on image count
+  // Determine grid columns based on item count
   const gridCols =
-    displayImages.length === 1
+    displayMedia.length === 1
       ? "grid-cols-1"
-      : displayImages.length === 2
+      : displayMedia.length === 2
         ? "grid-cols-1 lg:grid-cols-2"
         : "grid-cols-1 lg:grid-cols-3";
 
   return (
     <section className="relative my-xl lg:my-xl">
-      {/* Full-width image grid */}
+      {/* Full-width media grid */}
       <div className={cn("grid gap-xs", gridCols)}>
-        {displayImages.map((item) => {
+        {displayMedia.map((item) => {
           const caption = item.image?.asset?.description;
           return (
             <div key={item._key} className="relative">
@@ -224,8 +226,10 @@ const MediaFullGallery = ({ images }: { images: MediaItem[] }) => {
                 mediaType={item.mediaType as "image" | "video"}
                 image={item.image as ImgProps | null}
                 videoUrl={item.videoUrl}
+                videoDisplayMode={item.videoDisplayMode as VideoDisplayMode}
+                videoPlaceholder={item.videoPlaceholder}
                 aspectRatio={item.aspectRatio as AspectRatio}
-                sizes={{ md: displayImages.length === 1 ? "full" : "half" }}
+                sizes={{ md: displayMedia.length === 1 ? "full" : "half" }}
                 className="w-full"
               />
               {caption && (
@@ -237,7 +241,7 @@ const MediaFullGallery = ({ images }: { images: MediaItem[] }) => {
       </div>
 
       {/* Widget placeholder - TODO: Implement actual widget */}
-      {displayImages.length === 1 && (
+      {displayMedia.length === 1 && (
         <div className="pointer-events-none absolute inset-0">
           <div className="mx-auto h-full max-w-[1920px] px-xs">
             <div className="flex h-full items-start justify-end pt-xs">
@@ -262,22 +266,24 @@ const MediaFullGallery = ({ images }: { images: MediaItem[] }) => {
 
 // =============================================================================
 // Dynamic Full Gallery (full width)
-// Exactly 3 images in a floating/staggered layout
+// Exactly 3 items in a floating/staggered layout
 // =============================================================================
 
-const DynamicFullGallery = ({ images }: { images: MediaItem[] }) => {
-  const [first, second, third] = images.slice(0, 3);
+const DynamicFullGallery = ({ media }: { media: MediaItem[] }) => {
+  const [first, second, third] = media.slice(0, 3);
 
   if (!first || !second || !third) return null;
 
   // Very specific layout due to original design requirements from Figma
   return (
-    <section className="grid md:grid-cols-3 gap-xs bg-gray-300 pb-xl">
+    <section className="grid md:grid-cols-3 gap-xs pb-xl">
       <div className="grid grid-cols-4 ">
         <Media
           mediaType={first.mediaType as "image" | "video"}
           image={first.image as ImgProps | null}
           videoUrl={first.videoUrl}
+          videoDisplayMode={first.videoDisplayMode as VideoDisplayMode}
+          videoPlaceholder={first.videoPlaceholder}
           aspectRatio={first.aspectRatio as AspectRatio}
           className="col-span-2 col-start-2 w-full"
           sizes={{ md: "full" }}
@@ -288,6 +294,8 @@ const DynamicFullGallery = ({ images }: { images: MediaItem[] }) => {
           mediaType={second.mediaType as "image" | "video"}
           image={second.image as ImgProps | null}
           videoUrl={second.videoUrl}
+          videoDisplayMode={second.videoDisplayMode as VideoDisplayMode}
+          videoPlaceholder={second.videoPlaceholder}
           aspectRatio={second.aspectRatio as AspectRatio}
           sizes={{ md: "third" }}
           className="w-full mt-auto"
@@ -298,6 +306,8 @@ const DynamicFullGallery = ({ images }: { images: MediaItem[] }) => {
           mediaType={third.mediaType as "image" | "video"}
           image={third.image as ImgProps | null}
           videoUrl={third.videoUrl}
+          videoDisplayMode={third.videoDisplayMode as VideoDisplayMode}
+          videoPlaceholder={third.videoPlaceholder}
           aspectRatio={third.aspectRatio as AspectRatio}
           sizes={{ md: "third" }}
           className="col-span-3 col-start-2 w-full"
@@ -311,10 +321,10 @@ const DynamicFullGallery = ({ images }: { images: MediaItem[] }) => {
 // Double Sticky Full Gallery (full width)
 // =============================================================================
 
-const DoubleStickyFullGallery = ({ images }: { images: MediaItem[] }) => {
-  // Requires exactly 2 images: first is 3:2 (sticky), second is 3:4
-  const firstItem = images[0];
-  const secondItem = images[1];
+const DoubleStickyFullGallery = ({ media }: { media: MediaItem[] }) => {
+  // Requires exactly 2 items: first is 3:2 (sticky), second is 3:4
+  const firstItem = media[0];
+  const secondItem = media[1];
 
   if (!firstItem || !secondItem) return null;
 
@@ -331,6 +341,8 @@ const DoubleStickyFullGallery = ({ images }: { images: MediaItem[] }) => {
             mediaType={firstItem.mediaType as "image" | "video"}
             image={firstItem.image as ImgProps | null}
             videoUrl={firstItem.videoUrl}
+            videoDisplayMode={firstItem.videoDisplayMode as VideoDisplayMode}
+            videoPlaceholder={firstItem.videoPlaceholder}
             aspectRatio="3:2"
             sizes={{ md: "half" }}
             className="rounded"
@@ -346,6 +358,8 @@ const DoubleStickyFullGallery = ({ images }: { images: MediaItem[] }) => {
             mediaType={secondItem.mediaType as "image" | "video"}
             image={secondItem.image as ImgProps | null}
             videoUrl={secondItem.videoUrl}
+            videoDisplayMode={secondItem.videoDisplayMode as VideoDisplayMode}
+            videoPlaceholder={secondItem.videoPlaceholder}
             aspectRatio="3:4"
             sizes={{ md: "half" }}
             className="rounded"
@@ -364,6 +378,8 @@ const DoubleStickyFullGallery = ({ images }: { images: MediaItem[] }) => {
             mediaType={firstItem.mediaType as "image" | "video"}
             image={firstItem.image as ImgProps | null}
             videoUrl={firstItem.videoUrl}
+            videoDisplayMode={firstItem.videoDisplayMode as VideoDisplayMode}
+            videoPlaceholder={firstItem.videoPlaceholder}
             aspectRatio="3:2"
             sizes={{ md: "full" }}
             className="rounded"
@@ -379,6 +395,8 @@ const DoubleStickyFullGallery = ({ images }: { images: MediaItem[] }) => {
             mediaType={secondItem.mediaType as "image" | "video"}
             image={secondItem.image as ImgProps | null}
             videoUrl={secondItem.videoUrl}
+            videoDisplayMode={secondItem.videoDisplayMode as VideoDisplayMode}
+            videoPlaceholder={secondItem.videoPlaceholder}
             aspectRatio="3:4"
             sizes={{ md: "full" }}
             className="rounded"
@@ -396,13 +414,13 @@ const DoubleStickyFullGallery = ({ images }: { images: MediaItem[] }) => {
 // Carousel Full Gallery (full width)
 // =============================================================================
 
-const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
+const CarouselFullGallery = ({ media }: { media: MediaItem[] }) => {
   const [startIndex, setStartIndex] = useState(0);
-  const visibleCount = 3; // Show 3 images at a time on desktop
+  const visibleCount = 3; // Show 3 items at a time on desktop
 
-  if (images.length < 3) return null; // Requires at least 3 images
+  if (media.length < 3) return null; // Requires at least 3 items
 
-  const canGoNext = startIndex + visibleCount < images.length;
+  const canGoNext = startIndex + visibleCount < media.length;
   const canGoPrev = startIndex > 0;
 
   const goToNext = () => {
@@ -417,8 +435,8 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
     }
   };
 
-  // Get visible images for desktop (sliding window)
-  const visibleImages = images.slice(startIndex, startIndex + visibleCount);
+  // Get visible items for desktop (sliding window)
+  const visibleMedia = media.slice(startIndex, startIndex + visibleCount);
 
   return (
     <section className="relative my-xl lg:my-xl">
@@ -426,12 +444,14 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
       <div className="hidden lg:block">
         <div className="relative">
           <div className="grid grid-cols-3 gap-xs">
-            {visibleImages.map((item) => (
+            {visibleMedia.map((item) => (
               <Media
                 key={item._key}
                 mediaType={item.mediaType as "image" | "video"}
                 image={item.image as ImgProps | null}
                 videoUrl={item.videoUrl}
+                videoDisplayMode={item.videoDisplayMode as VideoDisplayMode}
+                videoPlaceholder={item.videoPlaceholder}
                 aspectRatio="3:4"
                 sizes={{ md: "third" }}
                 className="rounded"
@@ -450,7 +470,7 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
                   "flex size-8 items-center justify-center rounded-full bg-white transition-colors",
                   canGoPrev ? "hover:bg-white/80" : "opacity-50",
                 )}
-                aria-label="Previous images"
+                aria-label="Previous items"
               >
                 <Icon name="lg-chevron-left" className="size-2" />
               </button>
@@ -462,7 +482,7 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
                   "flex size-8 items-center justify-center rounded-full bg-white transition-colors",
                   canGoNext ? "hover:bg-white/80" : "opacity-50",
                 )}
-                aria-label="Next images"
+                aria-label="Next items"
               >
                 <Icon name="lg-chevron-right" className="size-2" />
               </button>
@@ -475,12 +495,14 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
       <div className="lg:hidden">
         <div className="relative">
           <div className="-mx-xs flex gap-xs overflow-x-auto px-xs pb-2xs scrollbar-hide">
-            {images.map((item) => (
+            {media.map((item) => (
               <div key={item._key} className="w-[296px] shrink-0">
                 <Media
                   mediaType={item.mediaType as "image" | "video"}
                   image={item.image as ImgProps | null}
                   videoUrl={item.videoUrl}
+                  videoDisplayMode={item.videoDisplayMode as VideoDisplayMode}
+                  videoPlaceholder={item.videoPlaceholder}
                   aspectRatio="3:4"
                   sizes={{ md: "half" }}
                   className="rounded"
@@ -496,7 +518,7 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
                 type="button"
                 onClick={goToPrev}
                 className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
-                aria-label="Previous images"
+                aria-label="Previous items"
               >
                 <Icon name="lg-chevron-left" className="size-2" />
               </button>
@@ -504,7 +526,7 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
                 type="button"
                 onClick={goToNext}
                 className="flex size-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-white/80"
-                aria-label="Next images"
+                aria-label="Next items"
               >
                 <Icon name="lg-chevron-right" className="size-2" />
               </button>
@@ -521,53 +543,53 @@ const CarouselFullGallery = ({ images }: { images: MediaItem[] }) => {
 // =============================================================================
 
 type GridGalleryProps = {
-  images: MediaItem[];
+  media: MediaItem[];
   title?: string;
   intro?: string;
 };
 
-const GridGallery = ({ images, title, intro }: GridGalleryProps) => {
+const GridGallery = ({ media, title, intro }: GridGalleryProps) => {
   const hasHeader = title || intro;
 
   return (
-    <BlockContainer>
-      <div className="flex flex-col gap-xs">
-        {/* Header with title and intro */}
-        {hasHeader && (
-          <div className="flex flex-col gap-2xs">
-            {title && (
-              <h3 className="max-w-[720px] text-[20px] font-semibold leading-[130%] text-text-primary">
-                {title}
-              </h3>
-            )}
-            {intro && (
-              <p className="max-w-[720px] text-base leading-[145%] text-text-primary">{intro}</p>
-            )}
-          </div>
-        )}
-
-        {/* Image grid - 2 columns on mobile, 3 on desktop */}
-        <div className="grid grid-cols-2 gap-2xs lg:grid-cols-3 lg:gap-xs">
-          {images.map((item) => {
-            const caption = item.image?.asset?.description;
-            return (
-              <div key={item._key} className="flex flex-col gap-2xs">
-                <Media
-                  mediaType={item.mediaType as "image" | "video"}
-                  image={item.image as ImgProps | null}
-                  videoUrl={item.videoUrl}
-                  aspectRatio="3:4"
-                  sizes={{ md: "third" }}
-                  className="rounded"
-                />
-                {caption && (
-                  <p className="pb-xs text-xs leading-[145%] text-text-secondary">{caption}</p>
-                )}
-              </div>
-            );
-          })}
+    <div className="my-xl flex flex-col gap-xs">
+      {/* Header with title and intro */}
+      {hasHeader && (
+        <div className="flex flex-col gap-2xs">
+          {title && (
+            <h3 className="max-w-[720px] text-[20px] font-semibold leading-[130%] text-text-primary">
+              {title}
+            </h3>
+          )}
+          {intro && (
+            <p className="max-w-[720px] text-base leading-[145%] text-text-primary">{intro}</p>
+          )}
         </div>
+      )}
+
+      {/* Media grid - 2 columns on mobile, 3 on desktop */}
+      <div className="grid grid-cols-2 gap-2xs lg:grid-cols-3 lg:gap-xs">
+        {media.map((item) => {
+          const caption = item.image?.asset?.description;
+          return (
+            <div key={item._key} className="flex flex-col gap-2xs">
+              <Media
+                mediaType={item.mediaType as "image" | "video"}
+                image={item.image as ImgProps | null}
+                videoUrl={item.videoUrl}
+                videoDisplayMode={item.videoDisplayMode as VideoDisplayMode}
+                videoPlaceholder={item.videoPlaceholder}
+                aspectRatio="3:4"
+                sizes={{ md: "third" }}
+                className="rounded"
+              />
+              {caption && (
+                <p className="pb-xs text-xs leading-[145%] text-text-secondary">{caption}</p>
+              )}
+            </div>
+          );
+        })}
       </div>
-    </BlockContainer>
+    </div>
   );
 };

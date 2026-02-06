@@ -18,7 +18,12 @@ type BlockWrapperProps = {
  */
 export const BlockWrapper = ({ children, width = "halfWidth" }: BlockWrapperProps) => {
   return (
-    <div className={cn("flex w-full", width === "halfWidth" && "justify-end")}>
+    <div
+      className={cn(
+        "mx-auto flex w-full max-w-[1920px] px-xs",
+        width === "halfWidth" && "justify-end",
+      )}
+    >
       <div className={cn("w-full", width === "halfWidth" && "lg:w-1/2")}>{children}</div>
     </div>
   );
